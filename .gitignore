@@ -6,6 +6,9 @@ __pycache__/
 .DS_Store
 Desktop.ini
 
+# Distribution / packaging
+*.egg-info/
+
 # Thumbnail cache files
 ._*
 Thumbs.db

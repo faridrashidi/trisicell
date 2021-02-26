@@ -1,0 +1,30 @@
+# Compiled Python files
+*.pyc
+__pycache__/
+
+# Folder view configuration files
+.DS_Store
+Desktop.ini
+
+# Thumbnail cache files
+._*
+Thumbs.db
+
+# Files that might appear on external disks
+.Spotlight-V100
+.Trashes
+
+# iPython Notebook
+.ipynb_checkpoints
+
+# Visual Studio Code
+.vscode/
+
+# Docs build
+docs/build
+docs/source/trisicell*
+docs/source/gen_modules
+docs/source/*.ipynb
+
+# Temporary
+trisicell

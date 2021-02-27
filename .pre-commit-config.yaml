@@ -16,4 +16,4 @@ repos:
     hooks:
     -   id: isort
         additional_dependencies: [toml]
-        args: [--order-by-type]
+        args: [--order-by-type, --profile, 'black', --skip, 'trisicell/__init__.py']

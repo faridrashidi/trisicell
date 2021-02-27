@@ -27,7 +27,7 @@ Thumbs.db
 docs/build
 docs/source/trisicell*
 docs/source/gen_modules
-docs/source/*.ipynb
+# docs/source/*.ipynb
 
 # Temporary
 trisicell

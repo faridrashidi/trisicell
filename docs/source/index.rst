@@ -15,3 +15,4 @@
    :maxdepth: 1
    :hidden:
 
+   Example

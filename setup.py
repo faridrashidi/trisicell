@@ -13,6 +13,13 @@ except ImportError:
 if __name__ == "__main__":
     setup(
         name="trisicell",
+        entry_points="""
+            [console_scripts]
+            trisicell=trisicell.commands.trisicell:cli
+        """,
+        # ext_modules=extensions,
+        # include_dirs=[np.get_include()],
+        # package_data=package_data,
         use_scm_version=True,
         setup_requires=["setuptools_scm"],
         python_requires=">=3.6",

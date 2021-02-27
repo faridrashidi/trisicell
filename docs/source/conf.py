@@ -14,20 +14,13 @@ from datetime import datetime
 from glob import glob
 from shutil import copyfile
 
-import trisicell
-
-# import sys
-# import os
-# from pathlib import Path
-# HERE = Path(__file__).parent
-# sys.path.insert(0, f"{HERE.parent.parent}")
-# sys.path.insert(0, os.path.abspath("_ext"))
+# import trisicell
 
 
 # -- Retrieve notebooks ------------------------------------------------
 # for nb in glob(os.path.join(".", "*.ipynb")):
 #     os.remove(nb)
-# notebooks_url = "/data/frashidi/LCBG/trisicell_notebooks/"
+# notebooks_url = "../../trisicell_notebooks/"
 # notebooks = [
 #     "Mel.Subline.ipynb",
 #     "Mel.Treated.ipynb",
@@ -41,11 +34,12 @@ nitpicky = True  # Warn about broken links. This is here for a reason: Do not ch
 needs_sphinx = "2.0"  # Nicer param docs
 suppress_warnings = ["ref.citation"]
 project = "Trisicell"
-author = trisicell.__author__
+author = "Sahinalp Lab"  # trisicell.__author__
 title = "Scalable tumor phylogeny reconstruction and validation"
 copyright = f"{datetime.now():%Y}, {author}"
 release = "master"
-version = f"master ({trisicell.__version__})"
+# version = f"master ({trisicell.__version__})"
+version = f"master (0.0.0)"
 
 
 # -- General configuration ---------------------------------------------------

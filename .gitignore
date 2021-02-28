@@ -29,5 +29,8 @@ docs/source/trisicell*
 docs/source/gen_modules
 # docs/source/*.ipynb
 
+# GUROBI
+gurobi.log
+
 # Temporary
 trisicell

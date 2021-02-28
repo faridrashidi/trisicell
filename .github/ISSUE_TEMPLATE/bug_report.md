@@ -24,5 +24,5 @@ assignees: ''
 </details>
 
 ### Version
-<!-- Output of squidpy.__version__ -->
+<!-- Output of trisicell.__version__ -->
 ...

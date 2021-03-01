@@ -32,8 +32,8 @@ Your help to improve Trisicell is highly appreciated.
     :target: https://pepy.tech/project/trisicell
     :alt: PyPIDownloads
 
-.. |Build Status| image:: https://travis-ci.com/psf/black.svg?branch=master&style=flat-square
-    :target: https://travis-ci.com/faridrashidi/trisicell
+.. |Build Status| image:: https://img.shields.io/github/workflow/status/faridrashidi/trisicell/CI/master?style=flat-square
+    :target: https://github.com/faridrashidi/trisicell/actions?query=workflow%3ACI
     :alt: Build Status
 
 .. |Docs Status| image:: https://readthedocs.org/projects/trisicell/badge/?version=latest&style=flat-square

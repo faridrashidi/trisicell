@@ -1,33 +1,31 @@
-# Compiled Python files
-*.pyc
+# Python / Byte-compiled / optimized / DLL
+*.py[cod]
 __pycache__/
+*.so
+.cache
+*.egg-info/
+/build/
+/dist/
+.coverage
+.eggs
 
-# Folder view configuration files
+# OS or Editor files and folders
+._*
 .DS_Store
 Desktop.ini
-
-# Distribution / packaging
-*.egg-info/
-
-# Thumbnail cache files
-._*
 Thumbs.db
-
-# Files that might appear on external disks
+.ipynb_checkpoints/
+.directory
+/.idea/
+.vscode/
+=19
 .Spotlight-V100
 .Trashes
-
-# iPython Notebook
-.ipynb_checkpoints
-
-# Visual Studio Code
-.vscode/
 
 # Docs build
 docs/build
 docs/source/trisicell*
 docs/source/gen_modules
-# docs/source/*.ipynb
 
 # GUROBI
 gurobi.log

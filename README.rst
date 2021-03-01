@@ -1,4 +1,4 @@
-|Docs Status| |Code Style|
+|Build Status| |Docs Status| |Code Style|
 
 
 Trisicell - Scalable tumor phylogeny reconstruction and validation

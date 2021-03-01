@@ -57,6 +57,9 @@ extensions = [
     "sphinx.ext.githubpages",
     "sphinx_autodoc_typehints",
     "nbsphinx",
+    "sphinx_copybutton",
+    # "sphinx_gallery.gen_gallery",
+    # "sphinx_last_updated_by_git",
 ]
 
 # Generate the API documentation when building

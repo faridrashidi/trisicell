@@ -61,7 +61,10 @@ table.longtable td {
 }
 /* Parameters contain <strong> parts and don’t need bold font */
 .rst-content dl.field-list dl > dt {
-	font-weight: unset 
+	font-weight: unset!important;
+}
+div.highlight > pre {
+    background: #F5F5F5;
 }
 /* Add colon between return tuple element name and type */
 .rst-content dl:not(.docutils) dl > dt .classifier::before {
@@ -100,9 +103,10 @@ div.sphx-glr-download a {
 div.sphx-glr-download a[href$=".py"] {
 	display: none !important;
 }
-div.sphx-glr-example-title div[class="highlight"] {
-	background-color: #F5F5F5;
-	border: none;
+div.sphx-glr-example-title div[class="highlight"],
+div.nbinput.container div.input_area > div[class^="highlight"] {
+    background-color: #F5F5F5!important;
+    border: none!important;
 }
 .sphx-glr-script-out .highlight pre {
 	background: #FCFCFC !important;

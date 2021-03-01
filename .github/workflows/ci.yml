@@ -62,4 +62,5 @@ jobs:
                 pip install -e .
                 pip install pytest pytest-cov
         -   name: Unit tests
-                run: python -m pytest --cov=trisicell
+            run: |
+                python -m pytest --cov=trisicell

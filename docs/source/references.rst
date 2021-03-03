@@ -5,6 +5,10 @@ References
    *Trisicell: Scalable Tumor Phylogeny Reconstruction and Validation Reveals Developmental Origin and Therapeutic Impact of Intratumoral Heterogeneity*,
    `Who knows <https://doi.org/>`__.
 
+.. [MiniReview] Malikic *et al.* (2020),
+   *Studying the history of tumor evolution from single-cell sequencing data by exploring the space of binary matrices*,
+   `bioRxiv <https://doi.org/10.1101/2020.07.15.204081>`__.
+
 .. [PhISCS-BnB] Sadeqi Azer *et al.* (2020),
    *PhISCS-BnB: a fast branch and bound algorithm for the perfect tumor phylogeny reconstruction problem*,
    `Bioinformatics <https://doi.org/10.1093/bioinformatics/btaa464>`__.

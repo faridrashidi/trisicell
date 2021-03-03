@@ -1,7 +1,7 @@
 Installation
 ------------
 
-Trisicell requires Python 3.6 or later.
+Trisicell requires Python 3.7 or later.
 
 PyPI
 ^^^^

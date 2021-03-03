@@ -15,4 +15,5 @@
    :maxdepth: 1
    :hidden:
 
-   Example
+   caller
+   example

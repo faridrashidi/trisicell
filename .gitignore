@@ -31,6 +31,4 @@ docs/source/gen_modules
 gurobi.log
 
 # Temporary
-trisicell
-tests
 docs/source/api.rst

@@ -2,8 +2,7 @@ References
 ----------
 
 .. [Trisicell] Mehrabadi *et al.* (2021),
-   *Trisicell: Scalable Tumor Phylogeny Reconstruction and Validation Reveals Developmental Origin and Therapeutic Impact of Intratumoral Heterogeneity*,
-   `Who knows <https://doi.org/>`__.
+   *Trisicell: Scalable Tumor Phylogeny Reconstruction and Validation Reveals Developmental Origin and Therapeutic Impact of Intratumoral Heterogeneity*
 
 .. [ReviewBinary] Malikic *et al.* (2020),
    *Studying the history of tumor evolution from single-cell sequencing data by exploring the space of binary matrices*,

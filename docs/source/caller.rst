@@ -1,7 +1,7 @@
 Mutation Calling
 ----------------
 
-Our mutation calling procedures has the following steps:
+The overview of the mutation calling pipeline that was used in Trisicell is provided below.
 
 .. raw:: html
     
@@ -10,7 +10,10 @@ Our mutation calling procedures has the following steps:
     <br>
     <br>
 
-In the first step:
+We provide a more detailed description of each of these steps.
+
+Step 1:
+~~~~~~~
 
 .. code-block:: bash
     

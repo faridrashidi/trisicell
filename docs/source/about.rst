@@ -1,6 +1,6 @@
 About Trisicell
 ---------------
-Trisicell is a computational toolkit for scalable tumor phylogeny reconstruction and validation from full-length transcriptome profiling of single-cell data (e.g. Smart-seq2) as well as single cell genome or exome sequencing data. Trisicell allows identifying and validating robust portions of a tumor phylogeny, offering the ability to focus on the most important (sub)clones and the genomic alterations that seed the associated clonal expansion. It mostly relies on `PhISCS <http://doi.org/10.1101/gr.234435.118>`_, `PhISCS-BnB <https://doi.org/10.1093/bioinformatics/btaa464>`_, `ScisTree  <https://doi.org/10.1093/bioinformatics/btz676>`_ and `SCITE <https://doi.org/10.1186/s13059-016-0936-x>`_.
+Trisicell is a computational toolkit for scalable tumor phylogeny reconstruction and validation from full-length transcriptome profiling of single-cell data (e.g. Smart-seq2) as well as single cell genome or exome sequencing data. Trisicell allows identifying and validating robust portions of a tumor phylogeny, offering the ability to focus on the most important (sub)clones and the genomic alterations that seed the associated clonal expansion. Trisicell mostly relies on `PhISCS <http://doi.org/10.1101/gr.234435.118>`_, `PhISCS-BnB <https://doi.org/10.1093/bioinformatics/btaa464>`_, `ScisTree  <https://doi.org/10.1093/bioinformatics/btz676>`_ and `SCITE <https://doi.org/10.1186/s13059-016-0936-x>`_.
 
 
 Tumor Phylogeny Reconstruction Models

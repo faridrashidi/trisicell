@@ -23,3 +23,7 @@ References
 .. [SCITE] Jahn *et al.* (2016),
    *Tree inference for single-cell data*,
    `Genome Biology <https://doi.org/10.1186/s13059-016-0936-x>`__.
+
+.. [OncoNEM] Ross *et al.* (2016),
+   *OncoNEM: inferring tumor evolution from single-cell sequencing data*,
+   `Genome Biology <https://doi.org/10.1186/s13059-016-0929-9>`__.

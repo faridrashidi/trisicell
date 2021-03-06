@@ -1,7 +1,7 @@
 .. include:: ../../README.rst
 
 .. toctree::
-   :caption: Main
+   :caption: General
    :maxdepth: 1
    :hidden:
 

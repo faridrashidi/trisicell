@@ -29,6 +29,9 @@ docs/source/gen_modules
 
 # GUROBI
 gurobi.log
+# trisicell/datasets/test/*
+# !trisicell/datasets/test/test.SC
+# !trisicell/datasets/test/simNo*.ground.CFMatrix
+# !trisicell/datasets/test/simNo*.bnb.CFMatrix
 
 # Temporary
-docs/source/api.rst

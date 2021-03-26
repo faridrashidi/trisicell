@@ -8,7 +8,16 @@
    about
    installation
    release_notes
+   citing
    references
+
+.. toctree::
+   :caption: Docs
+   :maxdepth: 1
+   :hidden:
+
+   api
+   cli
 
 .. toctree::
    :caption: Tutorial

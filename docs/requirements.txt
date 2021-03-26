@@ -11,3 +11,5 @@ sphinx_rtd_theme
 sphinxcontrib-bibtex>=2.1.0
 sphinxcontrib-spelling
 sphinx_copybutton
+sphinx-click
+sphinx-paramlinks

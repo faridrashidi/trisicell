@@ -14,8 +14,7 @@ from datetime import datetime
 from glob import glob
 from shutil import copyfile
 
-# import trisicell
-
+import trisicell
 
 # -- Retrieve notebooks ------------------------------------------------
 # for nb in glob(os.path.join(".", "*.ipynb")):
@@ -38,8 +37,7 @@ author = "National Cancer Institute"  # trisicell.__author__
 title = "Scalable tumor phylogeny reconstruction and validation"
 copyright = f"{datetime.now():%Y}, {author}"
 release = "master"
-# version = f"master ({trisicell.__version__})"
-version = f"master (0.0.0)"
+version = f"master ({trisicell.__version__})"
 
 
 # -- General configuration ---------------------------------------------------
@@ -52,12 +50,15 @@ extensions = [
     "sphinx.ext.doctest",
     "sphinx.ext.coverage",
     "sphinx.ext.mathjax",
-    "sphinx.ext.napoleon",
     "sphinx.ext.autosummary",
     "sphinx.ext.githubpages",
     "sphinx_autodoc_typehints",
     "nbsphinx",
+    "sphinx_paramlinks",
     "sphinx_copybutton",
+    "sphinx_click.ext",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.napoleon",
     # "sphinx_gallery.gen_gallery",
     # "sphinx_last_updated_by_git",
 ]
@@ -103,7 +104,7 @@ html_logo = "_static/images/logo.svg"
 html_theme_options = {
     "logo_only": True,
     "display_version": True,
-    "navigation_depth": 1,
+    "navigation_depth": 2,
 }
 html_context = {
     "display_github": True,

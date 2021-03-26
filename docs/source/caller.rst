@@ -1,3 +1,7 @@
+:tocdepth: 1
+
+.. _caller:
+
 Mutation Calling
 ----------------
 

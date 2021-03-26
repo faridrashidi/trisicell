@@ -8,7 +8,7 @@ except ImportError:
     __author__ = ", ".join(["Farid Rashidi"])
     __maintainer__ = ", ".join(["Farid Rashidi"])
     __email__ = ", ".join(["farid.rsh@gmail.com"])
-    __version__ = "0.0.1"
+    __version__ = "0.0.0"
 
 if __name__ == "__main__":
     setup(
@@ -26,8 +26,14 @@ if __name__ == "__main__":
         install_requires=[
             l.strip() for l in Path("requirements.txt").read_text("utf-8").splitlines()
         ],
+        dependency_links=["https://pypi.gurobi.com"],
         extras_require=dict(
-            dev=["pre-commit>=2.9.0"],
+            dev=[
+                "black==20.8b1",
+                "pre-commit==2.9.3",
+                "isort>=5.7.0",
+                "pytest-cov",
+            ],
             docs=[
                 l.strip()
                 for l in (Path("docs") / "requirements.txt")

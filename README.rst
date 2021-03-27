@@ -1,4 +1,4 @@
-|DOI| |PyPI| |PyPIDownloads| |Stars| |Build Status| |Docs Status| |Code Style|
+|DOI| |Stars| |PyPI| |PyPIDownloads| |Contributions Welcome| |Build Status| |Docs Status| |Pre-commit| |Code Style|
 
 
 Trisicell - Scalable tumor phylogeny reconstruction and validation
@@ -42,8 +42,15 @@ Trisicell was developed in collaboration between the `Cancer Data Science Labora
     :target: https://pepy.tech/project/trisicell
     :alt: PyPIDownloads
 
-.. |Build Status| image:: https://img.shields.io/github/workflow/status/faridrashidi/trisicell/CI/master?
-    style=flat-square
+.. |Stars| image:: https://img.shields.io/github/stars/faridrashidi/trisicell?logo=GitHub&color=yellow&style=flat-square
+    :target: https://github.com/faridrashidi/trisicell
+    :alt: Stars
+
+.. |Contributions Welcome| image:: https://img.shields.io/static/v1.svg?label=Contributions&message=Welcome&color=0059b3&style=flat-square
+    :target: https://github.com/faridrashidi/trisicell/blob/master/CONTRIBUTING.rst
+    :alt: Contributions Welcome
+
+.. |Build Status| image:: https://img.shields.io/github/workflow/status/faridrashidi/trisicell/CI/master?label=CI&logo=github&style=flat-square
     :target: https://github.com/faridrashidi/trisicell/actions?query=workflow%3ACI
     :alt: Build Status
 
@@ -51,10 +58,9 @@ Trisicell was developed in collaboration between the `Cancer Data Science Labora
     :target: https://trisicell.readthedocs.io
     :alt: Docs Status
 
-.. |Stars| image:: https://img.shields.io/github/stars/faridrashidi/trisicell?logo=GitHub&color=yellow&
-    style=flat-square
-    :target: https://github.com/faridrashidi/trisicell
-    :alt: Stars
+.. |Pre-commit| image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white&style=flat-square
+    :target: https://github.com/pre-commit/pre-commit
+    :alt: Pre-commit
 
 .. |Code Style| image:: https://img.shields.io/badge/code%20style-black-000000.svg?style=flat-square
     :target: https://github.com/python/black

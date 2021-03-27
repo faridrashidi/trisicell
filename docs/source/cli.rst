@@ -11,28 +11,32 @@ typing ``trisicell --help``. You will get the following output:
     
     Usage: trisicell [OPTIONS] COMMAND [ARGS]...
 
-        Scalable tumor phylogeny reconstruction and validation
+      Scalable tumor phylogeny reconstruction and validation
 
-        Options:
-            --version  Show the version and exit.
-            --help     Show this message and exit.
+    Options:
+      --version  Show the version and exit.
+      --help     Show this message and exit.
 
-        Commands:
-            score     Caculate scores.
-            scistree  Run ScisTree.
-            scite     Run SCITE.
-            booster   Run Booster.
-            phiscsb   Run PhISCS (CSP version).
-            phiscsi   Run PhISCS (ILP version).
-            bnb       Run PhISCS-BnB.
-            huntress  Run HUNTRESS.
+    Commands:
+      mcalling   Mutation calling.
+      score      Caculate scores.
+      scistree   Run ScisTree.
+      scite      Run SCITE.
+      booster    Run Booster.
+      phiscsb    Run PhISCS (CSP version).
+      phiscsi    Run PhISCS (ILP version).
+      bnb        Run PhISCS-BnB.
+      huntress   Run HUNTRESS.
+      cf2newick  Convert conflict-free to newick file.
+      cf2tree    Convert conflict-free to clonal tree.
 
-``scistree`` - Run ScisTree
----------------------------
+
+``mcalling`` - Run Mutation Calling
+-----------------------------------
 
 .. click:: trisicell.commands.trisicell:cli
     :prog: trisicell
-    :commands: scistree
+    :commands: mcalling
     :nested: full
 
 

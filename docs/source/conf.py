@@ -59,6 +59,7 @@ extensions = [
     "sphinx_click.ext",
     "sphinx.ext.viewcode",
     "sphinx.ext.napoleon",
+    "sphinxcontrib.bibtex",
     # "sphinx_gallery.gen_gallery",
     # "sphinx_last_updated_by_git",
 ]
@@ -73,6 +74,25 @@ napoleon_use_rtype = True
 napoleon_use_param = True
 napoleon_custom_sections = [("Params", "Parameters")]
 todo_include_todos = False
+
+# bibliography
+bibtex_bibfiles = ["references.bib"]
+bibtex_reference_style = "author_year"
+bibtex_default_style = "alpha"
+
+# spelling
+spelling_lang = "en_US"
+spelling_warning = True
+spelling_add_pypi_package_names = True
+spelling_show_suggestions = True
+spelling_exclude_patterns = ["references.rst"]
+# see: https://pyenchant.github.io/pyenchant/api/enchant.tokenize.html
+spelling_filters = [
+    "enchant.tokenize.URLFilter",
+    "enchant.tokenize.EmailFilter",
+    "docs.source.utils.ModnameFilter",
+    "docs.source.utils.SignatureFilter",
+]
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]

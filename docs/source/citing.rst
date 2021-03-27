@@ -4,7 +4,9 @@ Citing
 ------
 To cite Trisicell please use the following publication:
 
-Salem Malikic, Farid Rashidi Mehrabadi, Simone Ciccolella, Md. Khaledur Rahman, Camir Ricketts, Ehsan Haghshenas, Daniel Seidman, Faraz Hach, Iman Hajirasouliha, and S. Cenk Sahinalp. PhISCS: a combinato- rial approach for subperfect tumor phylogeny reconstruction via integrative use of single-cell and bulk sequenc- ing data. Genome Research, 29(11):1860–1877, October 2019b. doi: 10.1101/gr.234435.118.
+Epigenomic tumor evolution modeling with single-cell methylation data profiling
+Xuan Cindy Li, Yuelin Liu, Farid Rashidi Mehrabadi, Salem Malikić, Stephen M. Mount, Eytan Ruppin, Kenneth Aldape, S. Cenk Sahinalp
+bioRxiv 2021.03.22.436475; doi: 10.1101/2021.03.22.436475
 
 BibTeX
 ~~~~~~

@@ -13,6 +13,8 @@ assignees: ''
 - [ ] New function in `trisicell.pp`?
 - [ ] New function in `trisicell.tl`?
 - [ ] New function in `trisicell.ul`?
+- [ ] New function in `trisicell.commands`?
+- [ ] New function in `trisicell.datasets`?
 - [ ] Change an existing functionality, such as default behavior?
 - [ ] Other?
 

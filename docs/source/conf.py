@@ -14,6 +14,10 @@ from datetime import datetime
 from glob import glob
 from shutil import copyfile
 
+from pybtex.plugin import register_plugin
+from pybtex.style.formatting.unsrt import Style as UnsrtStyle
+from pybtex.style.labels import BaseLabelStyle
+
 import trisicell
 
 # -- Retrieve notebooks ------------------------------------------------
@@ -77,8 +81,7 @@ todo_include_todos = False
 
 # bibliography
 bibtex_bibfiles = ["references.bib"]
-bibtex_reference_style = "author_year"
-bibtex_default_style = "alpha"
+bibtex_default_style = "mystyle"
 
 # spelling
 spelling_lang = "en_US"
@@ -147,3 +150,18 @@ man_pages = [(master_doc, project, title_doc, [author], 1)]
 texinfo_documents = [
     (master_doc, project, title_doc, author, project, title, "Miscellaneous")
 ]
+
+
+# a simple label style which uses the bibtex keys for labels
+class MyLabelStyle(BaseLabelStyle):
+    def format_labels(self, sorted_entries):
+        for entry in sorted_entries:
+            yield entry.key
+
+
+class MyStyle(UnsrtStyle):
+
+    default_label_style = MyLabelStyle
+
+
+register_plugin("pybtex.style.formatting", "mystyle", MyStyle)

@@ -1,0 +1,52 @@
+﻿Marker,type,subtype
+ENSMUSG00000045394.9_Epcam,epithelial,
+ENSMUSG00000020122.16_Egfr,epithelial,
+ENSMUSG00000000303.12_Cdh1,epithelial,
+ENSMUSG00000045545.8_Krt14,epithelial,basal epithelial
+ENSMUSG00000027111.16_Itga6,epithelial,basal epithelial
+ENSMUSG00000061527.7_Krt5,epithelial,basal epithelial
+ENSMUSG00000022510.14_Trp63,epithelial,basal epithelial
+ENSMUSG00000035557.9_Krt17,epithelial,basal epithelial
+ENSMUSG00000027820.12_Mme,epithelial,basal epithelial
+ENSMUSG00000049382.10_Krt8,epithelial,luminal epithelial
+ENSMUSG00000023043.7_Krt18,epithelial,luminal epithelial
+ENSMUSG00000020911.14_Krt19,epithelial,luminal epithelial
+ENSMUSG00000035451.7_Foxa1,epithelial,luminal epithelial
+ENSMUSG00000015619.10_Gata3,epithelial,luminal epithelial
+ENSMUSG00000042784.9_Muc1,epithelial,luminal epithelial
+ENSMUSG00000047139.9_Cd24a,epithelial,luminal epithelial
+ENSMUSG00000005672.12_Kit,epithelial,luminal progenitor
+ENSMUSG00000020159.8_Gabrp,epithelial,luminal progenitor
+ENSMUSG00000000392.17_Fap,stroma,
+ENSMUSG00000001506.10_Col1a1,stroma,
+ENSMUSG00000026043.18_Col3a1,stroma,
+ENSMUSG00000026837.16_Col5a1,stroma,
+ENSMUSG00000035783.9_Acta2,stroma,
+ENSMUSG00000032085.5_Tagln,stroma,
+ENSMUSG00000036446.5_Lum,stroma,
+ENSMUSG00000006369.14_Fbln1,stroma,
+ENSMUSG00000048126.16_Col6a3,stroma,
+ENSMUSG00000029661.16_Col1a2,stroma,
+ENSMUSG00000001119.7_Col6a1,stroma,
+ENSMUSG00000020241.13_Col6a2,stroma,
+ENSMUSG00000020717.19_Pecam1,endothelial,
+ENSMUSG00000001930.17_Vwf,endothelial,
+ENSMUSG00000031871.9_Cdh5,endothelial,
+ENSMUSG00000026582.6_Sele,endothelial,
+ENSMUSG00000026395.16_Ptprc,immune,
+ENSMUSG00000027863.8_Cd2,immune,T cell
+ENSMUSG00000032094.8_Cd3d,immune,T cell
+ENSMUSG00000032093.7_Cd3e,immune,T cell
+ENSMUSG00000002033.14_Cd3g,immune,T cell
+ENSMUSG00000053977.13_Cd8a,immune,T cell
+ENSMUSG00000053044.8_Cd8b1,immune,T cell
+ENSMUSG00000024673.9_Ms4a1,immune,B cell
+ENSMUSG00000003379.7_Cd79a,immune,B cell
+ENSMUSG00000040592.11_Cd79b,immune,B cell
+ENSMUSG00000061132.13_Blnk,immune,B cell
+ENSMUSG00000051439.7_Cd14,immune,macrophage
+ENSMUSG00000018774.13_Cd68,immune,macrophage
+ENSMUSG00000008845.9_Cd163,immune,macrophage
+ENSMUSG00000024621.16_Csf1r,immune,macrophage
+ENSMUSG00000000392.17_Fap,fibroblast,
+ENSMUSG00000035783.9_Acta2,fibroblast,

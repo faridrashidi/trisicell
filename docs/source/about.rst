@@ -43,5 +43,5 @@ methods for finding the trees that best match the observed data.
 There are several techniques and methods to remove the noise/conflicts from the input genotype matrix. They
 are mostly based on Integer Linear Programming (ILP), Constraint Satisfaction Prgramming (CSP), Markov
 chain Monte Carlo (MCMC) sampling and Neighbor Joining (NJ). For more details, we highly recommend to read
-our `Trisicell <https://doi.org/>`_ and `review <https://doi.org/10.1101/2020.07.15.204081>`_ papers about
+our `Trisicell <https://doi.org/10.1101/2021.03.26.437185>`_ and `review <https://doi.org/10.1101/2020.07.15.204081>`_ papers about
 building tumor evolution by exploring the space of binary matrices.

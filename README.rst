@@ -1,8 +1,8 @@
 |DOI| |Stars| |PyPI| |PyPIDownloads| |Contributions Welcome| |Build Status| |Docs Status| |Pre-commit| |Code Style|
 
 
-Trisicell - Scalable tumor phylogeny reconstruction and validation
-==================================================================
+Trisicell - Scalable tumor phylogeny reconstruction and validation from single-cell data
+========================================================================================
 
 .. image:: https://raw.githubusercontent.com/faridrashidi/trisicell/master/docs/source/_static/images/overview.png
    :alt: overview

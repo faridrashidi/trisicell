@@ -30,8 +30,8 @@ Your help to improve Trisicell is highly appreciated.
 Trisicell was developed in collaboration between the `Cancer Data Science Laboratory (CDSL) <https://ccr.cancer.gov/cancer-data-science-laboratory>`_ and the `Laboratory of Cancer Biology and Genetics (LCBG) <https://ccr.cancer.gov/laboratory-of-cancer-biology-and-genetics>`_ at the `National Cancer Institute (NCI) <https://www.cancer.gov>`_.
 
 
-.. |DOI| image:: https://img.shields.io/badge/DOI-10.1101/gr.234435.118-orange?style=flat-square
-    :target: https://doi.org/10.1101/gr.234435.118
+.. |DOI| image:: https://img.shields.io/badge/DOI-10.1101/2021.03.26.437185-orange?style=flat-square
+    :target: https://doi.org/10.1101/2021.03.26.437185
     :alt: DOI
 
 .. |PyPI| image:: https://img.shields.io/pypi/v/trisicell?style=flat-square&color=blue
@@ -66,4 +66,4 @@ Trisicell was developed in collaboration between the `Cancer Data Science Labora
     :target: https://github.com/python/black
     :alt: Code Style
 
-.. _preprint: https://doi.org/10.1101/gr.234435.118
+.. _preprint: https://doi.org/10.1101/2021.03.26.437185

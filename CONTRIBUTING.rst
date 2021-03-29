@@ -1,6 +1,8 @@
 Contributing guidelines
 ~~~~~~~~~~~~~~~~~~~~~~~
 
+Welcome to `Trisicell <https://github.com/TheAlgorithms/Python>`_! Before sending your pull requests, make sure that you **read the whole guidelines**. If you have any doubt on the contributing guide, please feel free to `state it clearly in an issue <https://github.com/faridrashidi/trisicell/issues/new/choose>`_.
+
 Table of Contents
 =================
 - `Contributing to Trisicell`_

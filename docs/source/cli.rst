@@ -11,7 +11,7 @@ typing ``trisicell --help``. You will get the following output:
     
     Usage: trisicell [OPTIONS] COMMAND [ARGS]...
 
-      Scalable tumor phylogeny reconstruction and validation
+      Scalable tumor phylogeny reconstruction and validation from single-cell data
 
     Options:
       --version  Show the version and exit.

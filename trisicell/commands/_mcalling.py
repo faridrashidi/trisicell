@@ -214,7 +214,7 @@ def mcalling(config_file, test, status, build, clean):
 
                 out04 = None
                 if config["steps"]["s04mapping"]:
-                    cmd04 = run04(config, out03)
+                    cmd04 = run04(config, out02)
                     if not test:
                         out04 = subprocess.getoutput(cmd04)
 

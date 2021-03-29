@@ -8,7 +8,7 @@ except ImportError:
     __author__ = ", ".join(["Farid Rashidi"])
     __maintainer__ = ", ".join(["Farid Rashidi"])
     __email__ = ", ".join(["farid.rsh@gmail.com"])
-    __version__ = "0.0.1"
+    __version__ = "0.0.2"
 
 if __name__ == "__main__":
     setup(

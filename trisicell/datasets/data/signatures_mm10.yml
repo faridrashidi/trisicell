@@ -521,6 +521,12 @@ tirosh_axl_program:
   - ENSMUSG00000013698.12_Pea15a
   - ENSMUSG00000062300.14_Nectin2
   - ENSMUSG00000035248.9_Tut7
+rambow_immune:
+  - TODO
+rambow_mitf:
+  - TODO
+rambow_proliferative:
+  - TODO
 rambow_pigmented:
   - ENSMUSG00000002985.16_Apoe
   - ENSMUSG00000022122.15_Ednrb
@@ -538,6 +544,8 @@ rambow_pigmented:
   - ENSMUSG00000004651.6_Tyr
   - ENSMUSG00000005994.14_Tyrp1
 rambow_smc:
+  - TOOD
+rambow_hypometabolic:
   - ENSMUSG00000040280.10_Ndufa4l2
   - ENSMUSG00000025791.18_Pgm1
   - ENSMUSG00000051650.11_B3gnt2
@@ -565,7 +573,7 @@ rambow_smc:
   - ENSMUSG00000027642.15_Rpn2
   - ENSMUSG00000053279.8_Aldh1a1
   - ENSMUSG00000030246.12_Ldhb
-rambow_invasion:
+rambow_invasive:
   - ENSMUSG00000030790.15_Adm
   - ENSMUSG00000002289.16_Angptl4
   - ENSMUSG00000002602.16_Axl

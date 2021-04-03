@@ -12,7 +12,7 @@ class TestConsensus:
         )
         sc1 = tsc.io.read(f1)
         sc2 = tsc.io.read(f2)
-        cnt_tree1, cnt_tree2 = tsc.tl.consensus.run(sc1, sc2)
+        cnt_tree1, cnt_tree2 = tsc.tl.consensus_run(sc1, sc2)
         ii = nx.is_isomorphic(cnt_tree1, cnt_tree2)  # result in biorxiv.figs18b
         assert ii == True
 
@@ -21,7 +21,7 @@ class TestConsensus:
         f2 = tsc.ul.get_file("trisicell.datasets/test/consensus/recomb.fig1b.CFMatrix")
         sc1 = tsc.io.read(f1)
         sc2 = tsc.io.read(f2)
-        cnt_tree1, cnt_tree2 = tsc.tl.consensus.run(sc1, sc2)
+        cnt_tree1, cnt_tree2 = tsc.tl.consensus_run(sc1, sc2)
         ii = nx.is_isomorphic(cnt_tree1, cnt_tree2)  # result in recomb.fig1c
         assert ii == True
 
@@ -30,7 +30,7 @@ class TestConsensus:
         f2 = tsc.ul.get_file("trisicell.datasets/test/consensus/biorxiv.fig4c.CFMatrix")
         sc1 = tsc.io.read(f1)
         sc2 = tsc.io.read(f2)
-        cnt_tree1, cnt_tree2 = tsc.tl.consensus.run(sc1, sc2)
+        cnt_tree1, cnt_tree2 = tsc.tl.consensus_run(sc1, sc2)
         ii = nx.is_isomorphic(cnt_tree1, cnt_tree2)  # result in biorxiv.fig4d
         assert ii == True
 
@@ -39,6 +39,6 @@ class TestConsensus:
         f2 = tsc.ul.get_file("trisicell.datasets/test/consensus/biorxiv.fig3c.CFMatrix")
         sc1 = tsc.io.read(f1)
         sc2 = tsc.io.read(f2)
-        cnt_tree1, cnt_tree2 = tsc.tl.consensus.run(sc1, sc2)
+        cnt_tree1, cnt_tree2 = tsc.tl.consensus_run(sc1, sc2)
         ii = nx.is_isomorphic(cnt_tree1, cnt_tree2)  # result in biorxiv.fig3f
         assert ii == True

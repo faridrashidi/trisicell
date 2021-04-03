@@ -95,6 +95,11 @@ Partition function calculation (Trisicell-PartF)
 Consensus tree building (Trisicell-Cons)
 ########################################
 
+.. autosummary::
+    :toctree: gen_modules
+
+    tl.consensus_run
+
 For comparing two phylogenetic trees
 ########################################
 

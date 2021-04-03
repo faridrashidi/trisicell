@@ -14,6 +14,21 @@ def combine_replicates_in_cfmatrix(df):
 
 
 def consensus_of_cfmatrices(df1, df2):
+    """Building the consensus tree between to phylogenetic trees.
+
+    Parameters
+    ----------
+    df1 : First conflict-free matrix.
+        :class:`pandas.DataFrame`
+    df2 : Second conflict-free matrix.
+        :class:`pandas.DataFrame`
+
+    Returns
+    -------
+    Two trees derived by building the consensus procedure.
+        :class:`networkx.DiGraph`
+    """
+
     df1_temp = df1.loc[df1.index]
     df2_temp = df2.loc[df1.index]
     mut1 = pd.DataFrame(df1.columns, columns=["muts"])
@@ -106,6 +121,24 @@ def run(sc1, sc2):
             tree = nx.contracted_nodes(tree, n1, p, self_loops=False)
         return tree, nodes, costs
 
+    def _get_labels(cnt_tree):
+        labels = {}
+        [y for y in cnt_tree.nodes if "––" in cnt_tree.nodes[y]["label"]]
+        for x in cnt_tree.nodes:
+            if "root" not in cnt_tree.nodes[x]["label"]:
+                lbs = []
+                sub = nx.subgraph(
+                    cnt_tree,
+                    nx.algorithms.traversal.depth_first_search.dfs_tree(
+                        cnt_tree, x
+                    ).nodes,
+                )
+                for y in sub.nodes:
+                    if "––" not in cnt_tree.nodes[y]["label"]:
+                        lbs += cnt_tree.nodes[y]["label"]
+                labels[x] = lbs
+        return labels
+
     sc1_c = sc1.loc[:, sc1.sum() > 1].copy()
     sc2_c = sc2.loc[:, sc2.sum() > 1].copy()
 
@@ -115,44 +148,72 @@ def run(sc1, sc2):
     cnt_tree1 = get_cnt_tree(tree1)
     cnt_tree2 = get_cnt_tree(tree2)
 
-    import copy
-
-    cnt_tree1_back = copy.deepcopy(cnt_tree1)
-    cnt_tree2_back = copy.deepcopy(cnt_tree2)
-
     nodes1 = get_node_labels(cnt_tree1)
     nodes2 = get_node_labels(cnt_tree2)
 
     common_cells = list(np.intersect1d(nodes1.keys(), nodes2.keys())[0])
-    # return cnt_tree1, cnt_tree2, nodes1, nodes2, cnt_tree1_back, cnt_tree2_back
+
+    total_cost = 0
 
     #### step 1,2
-    total_cost = 0
     for x, y in itertools.permutations(common_cells, 2):
         hp1, cost1 = has_path(cnt_tree1, nodes1, x, y)
         if hp1:
             hp2, cost2 = has_path(cnt_tree2, nodes2, x, y)
             if not hp2:
-                # lca = nx.lowest_common_ancestor(cnt_tree2, nodes2[x], nodes2[y])
-                # cost2, _ = nx.bidirectional_dijkstra(cnt_tree2, lca, nodes2[x], weight="label")
                 tsc.logg.info("tree2:", x, y, cost2)
                 cnt_tree2, nodes2, cost2 = merge_with_parents(
                     cnt_tree2, nodes2, nodes2[x], nodes2[y]
                 )
                 total_cost += cost2
 
+    for x, y in itertools.permutations(common_cells, 2):
         hp2, cost2 = has_path(cnt_tree2, nodes2, x, y)
         if hp2:
             hp1, cost1 = has_path(cnt_tree1, nodes1, x, y)
             if not hp1:
-                # lca = nx.lowest_common_ancestor(cnt_tree1, nodes1[x], nodes1[y])
-                # cost1, _ = nx.bidirectional_dijkstra(cnt_tree1, lca, nodes1[x], weight="label")
                 tsc.logg.info("tree1:", x, y, cost1)
                 cnt_tree1, nodes1, cost1 = merge_with_parents(
                     cnt_tree1, nodes1, nodes1[x], nodes1[y]
                 )
                 total_cost += cost1
 
+    for x, y in itertools.permutations(common_cells, 2):
+        hp1, cost1 = has_path(cnt_tree1, nodes1, x, y)
+        if hp1:
+            hp2, cost2 = has_path(cnt_tree2, nodes2, x, y)
+            if not hp2:
+                tsc.logg.info("tree2:", x, y, cost2)
+                cnt_tree2, nodes2, cost2 = merge_with_parents(
+                    cnt_tree2, nodes2, nodes2[x], nodes2[y]
+                )
+                total_cost += cost2
+
+    #### step 3
+    labels1 = _get_labels(cnt_tree1)
+    labels2 = _get_labels(cnt_tree2)
+
+    matched = []
+    for x, y in labels1.items():
+        for p, q in labels2.items():
+            if set(y) == set(q):
+                matched.append((x, p))
+    for i, j in matched:
+        del labels1[i]
+        del labels2[j]
+
+    for y, _ in labels1.items():
+        parent = list(cnt_tree1.predecessors(y))[0]
+        tsc.logg.info("tree1:", "internal", y)
+        cnt_tree1, nodes1, cost1 = merge_with_parents(cnt_tree1, nodes1, y, parent)
+        total_cost += cost1
+
+    for y, _ in labels2.items():
+        parent = list(cnt_tree2.predecessors(y))[0]
+        tsc.logg.info("tree2:", "internal", y)
+        cnt_tree2, nodes2, cost2 = merge_with_parents(cnt_tree2, nodes2, y, parent)
+        total_cost += cost2
+
     tsc.logg.info("total:", total_cost)
 
-    return cnt_tree1, cnt_tree2, nodes1, nodes2, cnt_tree1_back, cnt_tree2_back
+    return cnt_tree1, cnt_tree2

@@ -14,21 +14,6 @@ def combine_replicates_in_cfmatrix(df):
 
 
 def consensus_of_cfmatrices(df1, df2):
-    """Building the consensus tree between to phylogenetic trees.
-
-    Parameters
-    ----------
-    df1 : First conflict-free matrix.
-        :class:`pandas.DataFrame`
-    df2 : Second conflict-free matrix.
-        :class:`pandas.DataFrame`
-
-    Returns
-    -------
-    Two trees derived by building the consensus procedure.
-        :class:`networkx.DiGraph`
-    """
-
     df1_temp = df1.loc[df1.index]
     df2_temp = df2.loc[df1.index]
     mut1 = pd.DataFrame(df1.columns, columns=["muts"])
@@ -69,7 +54,22 @@ def consensus_of_cfmatrices(df1, df2):
     return df1[finals]
 
 
-def run(sc1, sc2):
+def consensus_run(sc1, sc2):
+    """Building the consensus tree between to phylogenetic trees.
+
+    Parameters
+    ----------
+    df1 : :class:`pandas.DataFrame`
+        First conflict-free matrix.
+    df2 : :class:`pandas.DataFrame`
+        Second conflict-free matrix.
+
+    Returns
+    -------
+    :class:`networkx.DiGraph`
+        Two trees derived by building the consensus procedure.
+    """
+
     def get_cnt_tree(tree):
         cnt_tree = tree.copy()
         for u, v, l in cnt_tree.edges.data("label"):

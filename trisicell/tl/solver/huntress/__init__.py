@@ -10,7 +10,7 @@ def huntress(df_input_filepath, alpha, beta, kind, n_threads=1, save_inter=False
     tmpdir = tsc.ul.tmpdir(prefix="trisicell.", suffix=".huntress", dirname=".")
 
     # TODO remove tmpdir and directly work with python api.
-    from .huntress_21_03_19 import Reconstruct
+    from ._huntress_21_03_19 import Reconstruct
 
     running_time = 0
     if kind == "dna":

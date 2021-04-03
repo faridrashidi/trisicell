@@ -1,13 +1,16 @@
+import contextlib
 import functools
 import multiprocessing
 import os
 import time
 
+import joblib
 import networkx as nx
 import numpy as np
 import pandas as pd
 from joblib import Parallel, delayed
 from networkx.drawing.nx_agraph import graphviz_layout, to_agraph
+from tqdm import tqdm
 
 import trisicell as tsc
 
@@ -28,6 +31,25 @@ def with_timeout(timeout):
     return decorator
 
 
+@contextlib.contextmanager
+def tqdm_joblib(tqdm_object):
+    class TqdmBatchCompletionCallback(joblib.parallel.BatchCompletionCallBack):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+
+        def __call__(self, *args, **kwargs):
+            tqdm_object.update(n=self.batch_size)
+            return super().__call__(*args, **kwargs)
+
+    old_batch_callback = joblib.parallel.BatchCompletionCallBack
+    joblib.parallel.BatchCompletionCallBack = TqdmBatchCompletionCallback
+    try:
+        yield tqdm_object
+    finally:
+        joblib.parallel.BatchCompletionCallBack = old_batch_callback
+        tqdm_object.close()
+
+
 def booster(
     df_input,
     alpha,
@@ -42,8 +64,9 @@ def booster(
     save_inter=True,
     dir_inter=".",
     base_inter=None,
+    disable_tqdm=False,
 ):
-    """Divide and Conquer solver
+    """Divide and Conquer Booster solver.
 
     Parameters
     ----------
@@ -88,7 +111,7 @@ def booster(
     #     f" sample_on={sample_on}, sample_size={sample_size}, n_samples={n_samples},"
     #     f" n_jobs={n_jobs}, time_out={time_out}"
     # )
-    tsc.logg.info(f"id,m,i0,i1,i3,o0,o1,f01,f10,f30,f31,r")
+    # tsc.logg.info(f"id,m,i0,i1,i3,o0,o1,f01,f10,f30,f31,r")
 
     if not base_inter:
         tmpdir = tsc.ul.tmpdir(
@@ -118,7 +141,7 @@ def booster(
             dfn = df_input.sample(n=sample_size, replace=False, axis=0)
 
         if solver.lower() == "phiscs":
-            dfo = tsc.tl.solver.phiscs(dfn, alpha, beta, experiment=True)
+            dfo = tsc.tl.solver.phiscsb(dfn, alpha, beta, experiment=True)
             dfo.to_csv(f"{tmpdir}/{i}.CFMatrix", sep="\t")
         elif solver.lower() == "scite":
             dfo, _, _, _ = tsc.tl.solver.scite(
@@ -139,15 +162,25 @@ def booster(
             o0 = np.sum(dfo.values == 0)
             o1 = np.sum(dfo.values == 1)
             f01, f10, f30, f31 = tsc.ul.count_flips(dfn.values, dfo.values)
-            tsc.logg.info(
-                f"{i},{dfn.shape[1]},{i0},{i1},{i3},{o0},{o1},{f01},{f10},{f30},{f31},{run_time:.1f}"
-            )
+            # tsc.logg.info(
+            #     f"{i},{dfn.shape[1]},{i0},{i1},{i3},{o0},{o1},{f01},{f10},{f30},{f31},{run_time:.1f}"
+            # )
             dfo.to_csv(f"{tmpdir}/{i}.CFMatrix", sep="\t")
 
     s_time = time.time()
-    output = Parallel(n_jobs=n_jobs)(
-        delayed(run)(i) for i in range(begin_sample, begin_sample + n_samples)
-    )
+    with tqdm_joblib(
+        tqdm(
+            ascii=True,
+            ncols=121,
+            desc="STATUS",
+            total=n_samples,
+            position=0,
+            disable=disable_tqdm,
+        )
+    ) as progress_bar:
+        output = Parallel(n_jobs=n_jobs)(
+            delayed(run)(i) for i in range(begin_sample, begin_sample + n_samples)
+        )
     e_time = time.time()
     running_time = e_time - s_time
 

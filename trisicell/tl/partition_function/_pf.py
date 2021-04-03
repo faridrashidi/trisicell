@@ -7,7 +7,7 @@ import pandas as pd
 from sklearn.metrics.pairwise import pairwise_distances
 from tqdm import tqdm
 
-from .clt_sampler import draw_sample_clt
+from ._clt_sampler import draw_sample_clt
 
 
 def cell_lineage_tree_prob(P, subtrees):

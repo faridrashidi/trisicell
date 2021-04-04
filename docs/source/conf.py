@@ -61,9 +61,9 @@ extensions = [
     "sphinx_paramlinks",
     "sphinx_copybutton",
     "sphinx_click.ext",
+    "sphinx.ext.viewcode",
     "sphinx.ext.napoleon",
     "sphinxcontrib.bibtex",
-    "sphinx.ext.viewcode",
     # "sphinx_gallery.gen_gallery",
     # "sphinx_last_updated_by_git",
 ]

@@ -50,61 +50,20 @@ def tqdm_joblib(tqdm_object):
         tqdm_object.close()
 
 
-def booster(
+def subsampling(
     df_input,
     alpha,
     beta,
-    solver="PhISCS",
-    sample_on="muts",
-    sample_size=10,
-    n_samples=10,
-    begin_sample=0,
-    n_jobs=10,
-    time_out=120,
-    save_inter=True,
-    dir_inter=".",
-    base_inter=None,
-    disable_tqdm=False,
+    solver,
+    sample_on,
+    sample_size,
+    n_samples,
+    begin_sample,
+    n_jobs,
+    time_out,
+    tmpdir,
+    disable_tqdm,
 ):
-    """Divide and Conquer Booster solver.
-
-    Parameters
-    ----------
-    df_input : :class:`pandas.DataFrame`
-        input noisy dataframe
-    alpha : float
-        false positive rate
-    beta : float
-        false negative rate
-    solver : :obj:`str`, optional
-        [description], by default "PhISCS"
-    sample_size : :obj:`int`, optional
-        [description], by default 10
-    n_samples : :obj:`int`, optional
-        [description], by default 10
-    begin_sample : :obj:`int`, optional
-        [description], by default 0
-    n_jobs : :obj:`int`, optional
-        [description], by default 10
-    time_out : :obj:`int`, optional
-        [description], by default 120
-    save_inter : b:obj:`ool`, optional
-        [description], by default True
-    dir_inter : :obj:`str`, optional
-        [description], by default "."
-    base_inter : [ty:obj:`pe]`, optional
-        [description], by default None
-
-    Returns
-    -------
-    :class:`pandas.DataFrame`
-        [description]
-
-
-    See Also
-    --------
-    :func:`trisicell.tl.solver.scite`.
-    """
 
     # tsc.logg.info(
     #     f"running Booster with alpha={alpha}, beta={beta}, solver={solver},"
@@ -112,13 +71,6 @@ def booster(
     #     f" n_jobs={n_jobs}, time_out={time_out}"
     # )
     # tsc.logg.info(f"id,m,i0,i1,i3,o0,o1,f01,f10,f30,f31,r")
-
-    if not base_inter:
-        tmpdir = tsc.ul.tmpdir(
-            prefix="trisicell.", suffix=".booster", dirname=dir_inter
-        )
-    else:
-        tmpdir = tsc.ul.mkdir(os.path.join(dir_inter, base_inter))
 
     # graph = nx.DiGraph()
     # graph.add_nodes_from(df_input.columns)
@@ -171,8 +123,8 @@ def booster(
     with tqdm_joblib(
         tqdm(
             ascii=True,
-            ncols=121,
-            desc="STATUS",
+            ncols=100,
+            desc="SUBSAMPLING ",
             total=n_samples,
             position=0,
             disable=disable_tqdm,
@@ -238,14 +190,4 @@ def booster(
     # mygraph.layout(prog="dot")
     # mygraph.draw(f"{tmpdir}/_tree.png")
 
-    df_output = pd.DataFrame(df_input.values)
-    df_output.columns = df_input.columns
-    df_output.index = df_input.index
-    df_output.index.name = "cellIDxmutID"
-
-    if not save_inter:
-        tsc.ul.cleanup(tmpdir)
-
     # tsc.ul.stat(df_input, df_output, alpha, beta, running_time)
-
-    return df_output

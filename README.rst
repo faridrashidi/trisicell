@@ -9,11 +9,10 @@ Trisicell - Scalable tumor phylogeny reconstruction and validation from single-c
    :align: center
 
 
-Trisicell (pronounced as "tricycle") is a computational toolkit for scalable tumor phylogeny reconstruction
-and validation from full-length transcriptome profiling of single-cell data (e.g. Smart-seq2)
-as well as single cell genome or exome sequencing data. Trisicell allows identifying and validating
-robust portions of a tumor phylogeny, offering the ability to focus on the most important (sub)clones
-and the genomic alterations that seed the associated clonal expansion.
+Trisicell (**Tri**\ ple-toolkit for **si**\ ngle-\ **cell** tumor phylogenetics), pronounced as "tricycle",
+is a new computational toolkit for scalable tumor phylogeny reconstruction and evaluation from scRNAseq
+(as well as single-cell genome or exome sequencing) data. Trisicell utilizes expressed SNVs and Indels
+to infer evolutionary relationships between genomic alterations and the cells that harbor them.
 
 
 Manuscript

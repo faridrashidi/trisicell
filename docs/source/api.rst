@@ -106,10 +106,10 @@ For comparing two phylogenetic trees
 .. autosummary::
     :toctree: gen_modules
 
-    tl.comp.calc_ad_score
-    tl.comp.calc_dl_score
-    tl.comp.calc_mltd
-    tl.comp.calc_tpted
+    tl.score.ad
+    tl.score.dl
+    tl.score.mltd
+    tl.score.tpted
 
 
 

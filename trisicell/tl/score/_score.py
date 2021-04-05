@@ -11,7 +11,7 @@ import trisicell as tsc
 from trisicell.ul._trees import _split_labels, _to_apted, _to_mutation_tree
 
 
-def calc_ad_score(df_grnd, df_sol):
+def ad(df_grnd, df_sol):
     """Ancestor-descendent accuracy.
 
     For each pair of mutations in ground truth tree that are in
@@ -61,7 +61,7 @@ def calc_ad_score(df_grnd, df_sol):
     return 1 - len(error_pairs) / n_adpairs
 
 
-def calc_dl_score(df_grnd, df_sol):
+def dl(df_grnd, df_sol):
     """Different-lineage accuracy.
 
     For each pair of mutations in ground truth tree that are
@@ -110,7 +110,7 @@ def calc_dl_score(df_grnd, df_sol):
     return n_dlpairs2 / n_dlpairs1
 
 
-def calc_cc_score(df_grnd, df_sol):
+def cc(df_grnd, df_sol):
     """Co-clustering accuracy.
 
     For each pair of mutations in ground truth tree that are on the same node we look
@@ -141,7 +141,7 @@ def calc_cc_score(df_grnd, df_sol):
     pass
 
 
-def calc_mltd(df_grnd, df_sol):
+def mltd(df_grnd, df_sol):
     """Multi-labeled tree dissimilarity measure (MLTD).
 
     This measure was introduced in :cite:`MLTD`.
@@ -214,7 +214,7 @@ def calc_mltd(df_grnd, df_sol):
     return distance, similarity, mltsm
 
 
-def calc_tpted(df_grnd, df_sol):
+def tpted(df_grnd, df_sol):
     """Tumor phylogeny tree edit distance measure (TPTED).
 
     This measure was introduced in :cite:`PhISCS`. This implementation uses

@@ -3,7 +3,7 @@ import os
 import pandas as pd
 
 import trisicell as tsc
-from trisicell.tl.solver.booster._dependecies import prepare_dependencies
+from trisicell.tl.solver.booster._dependencies import prepare_dependencies
 from trisicell.tl.solver.booster._subsamples import subsampling
 
 
@@ -46,7 +46,7 @@ def booster(
         [description], by default 10
     time_out : :obj:`int`, optional
         [description], by default 120
-    save_inter : b:obj:`ool`, optional
+    save_inter : :obj:`bool`, optional
         [description], by default True
     dir_inter : :obj:`str`, optional
         [description], by default "."
@@ -54,7 +54,7 @@ def booster(
         [description], by default None
     disable_tqdm : :obj:`bool`, optional
         [description], by default False
-    weight : :obj:`int``, optional
+    weight : :obj:`int`, optional
         [description], by default 50
 
     Returns

@@ -166,7 +166,6 @@ def prepare_dependencies(
         position=0,
         disable=disable_tqdm,
     ):
-        completed += 1
         if max_num_submatrices is not None and completed == max_num_submatrices:
             break
 
@@ -210,6 +209,7 @@ def prepare_dependencies(
                         + " and "
                         + mut2
                     )
+        completed += 1
 
     output_file = open(output_file, "w")
     output_file.write(

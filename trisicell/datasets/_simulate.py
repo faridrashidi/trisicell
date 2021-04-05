@@ -34,45 +34,32 @@ def simulate(n_cells=10, n_muts=10, n_clones=3, alpha=0.00001, beta=0.1, missing
         A genotype matrix where 0 is absent, 1 is present and 3 is missing.
     """
 
-    try:
-        import rpy2.robjects as robjects
-        from rpy2.robjects.packages import importr
-    except:
-        raise SystemExit(
-            "A problem was encountered importing `rpy2`. "
-            "To run this `rpy2` and `R` need to be installed."
-        )
-    try:
-        importr("oncoNEM")
-    except:
-        raise SystemExit(
-            "A problem was encountered importing `oncoNEM` in R. "
-            "To run this `oncoNEM` needs to be installed in R. "
-            "Use the following lines to installed them.\n\n"
-            "BiocManager::install('graph')\n"
-            "devtools::install_bitbucket('edith_ross/oncoNEM')\n"
-        )
+    onconem, onconem_is_not_imported = tsc.ul.import_rpy2(
+        "oncoNEM",
+        "BiocManager::install('graph')\ndevtools::install_bitbucket('edith_ross/oncoNEM')\n",
+    )
+    if onconem_is_not_imported:
+        raise RuntimeError("Unable to import a package!")
 
-    robjects.pandas2ri.activate()
-    cmd = f"""
-    suppressPackageStartupMessages({{
-        library(oncoNEM)
-    }})
+    import rpy2.robjects as ro
+    from rpy2.robjects import pandas2ri
 
-    dat <- simulateData(N.cells={n_cells},
-                        N.normalContam=0,
-                        N.clones={n_clones},
-                        N.unobs=0,
-                        N.sites={n_muts},
-                        FPR={alpha},
-                        FNR={beta},
-                        p.missing={missing},
-                        randomizeOrder=FALSE)
-    as.data.frame(dat$D)
-    """
-    dat = robjects.r(cmd)
-    df = robjects.conversion.rpy2py(dat)
-    df = df.replace(2, 3).astype(int).T
+    dat = onconem.simulateData(
+        N_cells=n_cells,
+        N_normalContam=0,
+        N_clones=n_clones,
+        N_unobs=0,
+        N_sites=n_muts,
+        FPR=alpha,
+        FNR=beta,
+        p_missing=missing,
+        randomizeOrder=False,
+    )
+
+    with ro.conversion.localconverter(ro.default_converter + pandas2ri.converter):
+        dat = ro.conversion.rpy2py(dat.rx2("D"))
+    dat[dat == 2] = 3
+    df = pd.DataFrame(dat, dtype=int)
     df.columns = [f"mut{x}" for x in df.columns]
     df.index = [f"cell{x}" for x in df.index]
 
@@ -82,23 +69,14 @@ def simulate(n_cells=10, n_muts=10, n_clones=3, alpha=0.00001, beta=0.1, missing
 def splatter(noisy, ground, seed=5):
     params = tsc.ul.get_file("trisicell.datasets/data/splatter.rds")
 
-    try:
-        import rpy2.robjects as robjects
-        from rpy2.robjects.packages import importr
-    except:
-        raise SystemExit(
-            "A problem was encountered importing `rpy2`. "
-            "To run this `rpy2` and `R` need to be installed."
-        )
-    try:
-        importr("splatter")
-    except:
-        raise SystemExit(
-            "A problem was encountered importing `splatter` in R. "
-            "To run this `splatter` needs to be installed in R. "
-            "Use the following lines to installed them.\n\n"
-            "BiocManager::install('splatter')\n"
-        )
+    splatter, splatter_is_not_imported = tsc.ul.import_rpy2(
+        "splatter",
+        "BiocManager::install('splatter')\n",
+    )
+    if splatter_is_not_imported:
+        raise RuntimeError("Unable to import a package!")
+
+    import rpy2.robjects as ro
 
     cmd = f"""
     suppressPackageStartupMessages({{
@@ -178,29 +156,20 @@ def splatter(noisy, ground, seed=5):
     write.table(x=data.frame('cellID_mutID'=rownames(outmatrix),outmatrix),
                              file=outfile, sep='\\t', quote=FALSE, row.names=FALSE)
     """
-    robjects.r(cmd)
+    ro.r(cmd)
 
 
 def create_splatter():
     params = tsc.ul.get_file("trisicell.datasets/data/splatter.rds")
 
-    try:
-        import rpy2.robjects as robjects
-        from rpy2.robjects.packages import importr
-    except:
-        raise SystemExit(
-            "A problem was encountered importing `rpy2`. "
-            "To run this `rpy2` and `R` need to be installed."
-        )
-    try:
-        importr("splatter")
-    except:
-        raise SystemExit(
-            "A problem was encountered importing `splatter` in R. "
-            "To run this `splatter` needs to be installed in R. "
-            "Use the following lines to installed them.\n\n"
-            "BiocManager::install('splatter')\n"
-        )
+    splatter, splatter_is_not_imported = tsc.ul.import_rpy2(
+        "splatter",
+        "BiocManager::install('splatter')\n",
+    )
+    if splatter_is_not_imported:
+        raise RuntimeError("Unable to import a package!")
+
+    import rpy2.robjects as ro
 
     cmd = f"""
     suppressPackageStartupMessages({{
@@ -213,7 +182,7 @@ def create_splatter():
     params <- splatEstimate(data)
     saveRDS(params, file='{params}')
     """
-    robjects.r(cmd)
+    ro.r(cmd)
 
 
 def add_noise(df_in, alpha, beta, missing):

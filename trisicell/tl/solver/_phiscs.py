@@ -123,13 +123,9 @@ def phiscsb(df_input, alpha, beta, experiment=False):
 
 
 def phiscsi(df_input, alpha, beta, time_out=86400):
-    try:
-        import gurobipy as gp
-    except:
-        raise SystemExit(
-            "A problem was encountered importing `gurobipy`. "
-            "To run this `Gurobi` and `gurobipy` need to be installed."
-        )
+    gp, gp_is_not_imported = tsc.ul.import_gurobi()
+    if gp_is_not_imported:
+        raise RuntimeError("Unable to import a package!")
 
     tsc.logg.info(
         f"running PhISCS-I with alpha={alpha}, beta={beta}, time_out={time_out}"
@@ -214,13 +210,9 @@ def phiscs_original(
     time_out=86400,
 ):
 
-    try:
-        import gurobipy as gp
-    except:
-        raise SystemExit(
-            "A problem was encountered importing `gurobipy`. "
-            "To run this `Gurobi` and `gurobipy` need to be installed."
-        )
+    gp, gp_is_not_imported = tsc.ul.import_gurobi()
+    if gp_is_not_imported:
+        raise RuntimeError("Unable to import a package!")
 
     tsc.logg.info(
         f"running PhISCS-I with alpha={alpha}, beta={beta}, time_out={time_out}"

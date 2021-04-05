@@ -37,7 +37,10 @@ def read(filepath):
 
     ext = os.path.splitext(filepath)[-1]
     if ext in [".SC", ".CFMatrix", ".before_FP_FN_NA"]:
-        return pd.read_table(filepath, index_col=0)
+        sc = pd.read_table(filepath, index_col=0)
+        if len(sc.columns) != len(set(sc.columns)):
+            raise RuntimeError("Mutation ids must be unique!")
+        return sc
     elif ext in [".h5ad", ".gz"]:
         return ad.read(filepath)
     else:

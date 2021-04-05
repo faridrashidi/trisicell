@@ -1,10 +1,11 @@
 import pytest
+from _helpers import *
 
 import trisicell as tsc
 
 
 class TestSolvers:
-    @tsc.ul.skip_rpy2
+    @skip_rpy2
     def test_simulate(self):
         df_in = tsc.datasets.simulate(
             n_cells=10, n_muts=10, n_clones=3, alpha=0.00001, beta=0.2, missing=0.1
@@ -26,7 +27,7 @@ class TestSolvers:
         is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
         assert is_cf == True
 
-    @tsc.ul.skip_mpi4py
+    @skip_mpi4py
     def test_bnb(self):
         df_in = tsc.datasets.test()
         df_out = tsc.tl.solver.bnb(df_in, bounding="simulated")
@@ -39,7 +40,7 @@ class TestSolvers:
         is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
         assert is_cf == True
 
-    @tsc.ul.skip_gurobi
+    @skip_gurobi
     def test_phiscs_original(self):
         adata = tsc.datasets.acute_lymphocytic_leukemia2()
         adata.var["VAF"] = (

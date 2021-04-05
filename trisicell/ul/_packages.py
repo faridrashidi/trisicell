@@ -1,5 +1,3 @@
-import pytest
-
 import trisicell as tsc
 
 
@@ -65,13 +63,3 @@ def import_rpy2(name="base", how=""):
 def import_graphviz():
     # TODO: implement
     return None, None
-
-
-skip_gurobi = pytest.mark.skipif(
-    import_gurobi()[1], reason="Unable to import `Gurobi`!"
-)
-skip_mpi4py = pytest.mark.skipif(import_mpi4py()[1], reason="Unable to import `MPI`!")
-skip_rpy2 = pytest.mark.skipif(import_rpy2()[1], reason="Unable to import `rpy2`!")
-skip_graphviz = pytest.mark.skipif(
-    import_graphviz()[1], reason="Unable to import `Graphviz`!"
-)

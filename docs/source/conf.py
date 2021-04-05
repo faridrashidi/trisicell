@@ -138,10 +138,7 @@ html_context = {
 }
 html_show_sphinx = False
 html_static_path = ["_static"]
-
-
-def setup(app):
-    app.add_stylesheet("css/custom.css")
+html_css_files = ["css/custom.css"]
 
 
 # -- Options for other output ------------------------------------------

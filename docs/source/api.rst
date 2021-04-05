@@ -19,7 +19,6 @@ This module offers a bunch of functions for reading and writing of the data.
 
 .. module:: trisicell.io
 .. currentmodule:: trisicell
-
 .. autosummary::
     :toctree: gen_modules
 
@@ -35,7 +34,6 @@ This module offers a bunch of functions for simulating data.
 
 .. module:: trisicell.datasets
 .. currentmodule:: trisicell
-
 .. autosummary::
     :toctree: gen_modules
 
@@ -54,7 +52,6 @@ This module offers a bunch of functions for filtering and preprocessing of the d
 
 .. module:: trisicell.pp
 .. currentmodule:: trisicell
-
 .. autosummary::
     :toctree: gen_modules
 
@@ -98,7 +95,8 @@ Consensus tree building (Trisicell-Cons)
 .. autosummary::
     :toctree: gen_modules
 
-    tl.consensus_run
+    tl.consensus_combine
+    tl.consensus_tree
 
 For comparing two phylogenetic trees
 ########################################
@@ -112,14 +110,12 @@ For comparing two phylogenetic trees
     tl.score.tpted
 
 
-
 Plotting (pl)
 ~~~~~~~~~~~~~
 This module offers plotting the tree in clonal or dendrogram format.
 
 .. module:: trisicell.pl
 .. currentmodule:: trisicell
-
 .. autosummary::
     :toctree: gen_modules
 
@@ -133,7 +129,6 @@ This module offers a bunch of utility functions.
 
 .. module:: trisicell.ul
 .. currentmodule:: trisicell
-
 .. autosummary::
     :toctree: gen_modules
 

@@ -80,6 +80,41 @@ import trisicell as tsc
     help="""Timeout of solving allowance
     (if solver is SCITE this parameter is the number of iterations)""",
 )
+@click.option(
+    "--disable_tqdm",
+    "-dt",
+    is_flag=True,
+    default=False,
+    type=bool,
+    show_default=True,
+    help="Disable showing the tqdm progress.",
+)
+@click.option(
+    "--weight",
+    "-w",
+    default=50,
+    type=int,
+    show_default=True,
+    help="""Weight for how many subsamples to be used in dependencies calculation.""",
+)
+@click.option(
+    "--no_subsampling",
+    "-nss",
+    is_flag=True,
+    default=False,
+    type=bool,
+    show_default=True,
+    help="No running of subsampling.",
+)
+@click.option(
+    "--no_dependencies",
+    "-nd",
+    is_flag=True,
+    default=False,
+    type=bool,
+    show_default=True,
+    help="No running of subsampling.",
+)
 def booster(
     genotype_file,
     alpha,
@@ -91,11 +126,15 @@ def booster(
     begin_sample,
     n_jobs,
     time_out,
+    disable_tqdm,
+    weight,
+    no_subsampling,
+    no_dependencies,
 ):
     """Divide and Conquer
 
     trisicell booster input.SC 0.001 0.1
-    -s scistree -so cells -ss 3 -ns 10 -bs 0 -nj 5 -to 3600
+    -s scite -ss 40 -ns 10 -bs 0 -nj 5 -to 1000 -nd/-nss
     """
 
     dirbase = tsc.ul.dirbase(genotype_file)
@@ -119,6 +158,10 @@ def booster(
         save_inter=True,
         dir_inter=".",
         base_inter=basename,
+        disable_tqdm=disable_tqdm,
+        weight=weight,
+        no_subsampling=no_subsampling,
+        no_dependencies=no_dependencies,
     )
     # tsc.io.write(df_out, f'{dirbase}.booster.CFMatrix')
 

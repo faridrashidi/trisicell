@@ -23,6 +23,8 @@ def booster(
     base_inter=None,
     disable_tqdm=False,
     weight=50,
+    no_subsampling=False,
+    no_dependencies=False,
 ):
     """Divide and Conquer Booster solver.
 
@@ -76,31 +78,33 @@ def booster(
         tmpdir = tsc.ul.mkdir(os.path.join(dir_inter, base_inter))
 
     #### subsampling matrices and solving them
-    subsampling(
-        df_input,
-        alpha=alpha,
-        beta=beta,
-        solver=solver,
-        sample_on=sample_on,
-        sample_size=sample_size,
-        n_samples=n_samples,
-        begin_sample=begin_sample,
-        n_jobs=n_jobs,
-        time_out=time_out,
-        tmpdir=tmpdir,
-        disable_tqdm=disable_tqdm,
-    )
+    if not no_subsampling:
+        subsampling(
+            df_input,
+            alpha=alpha,
+            beta=beta,
+            solver=solver,
+            sample_on=sample_on,
+            sample_size=sample_size,
+            n_samples=n_samples,
+            begin_sample=begin_sample,
+            n_jobs=n_jobs,
+            time_out=time_out,
+            tmpdir=tmpdir,
+            disable_tqdm=disable_tqdm,
+        )
 
     #### preparing dependencies file
-    n_muts = df_input.shape[1]
-    max_num_submatrices = int(weight * (n_muts ** 2) / (sample_size ** 2))
-    prepare_dependencies(
-        df_input.columns,
-        tmpdir,
-        f"{tmpdir}/_booster.dependencies",
-        max_num_submatrices,
-        disable_tqdm,
-    )
+    if not no_dependencies:
+        n_muts = df_input.shape[1]
+        max_num_submatrices = int(weight * (n_muts ** 2) / (sample_size ** 2))
+        prepare_dependencies(
+            df_input.columns,
+            tmpdir,
+            f"{tmpdir}/_booster.dependencies",
+            max_num_submatrices,
+            disable_tqdm,
+        )
 
     #### building the final cfmatrix
 

@@ -8,8 +8,7 @@ import trisicell as tsc
 from trisicell.commands.trisicell import cli
 
 
-class TestSolvers:
-    @pytest.mark.skip(reason="Needs log and cfmatrix to be removed.")
+class TestCommands:
     def test_scistree(self):
         runner = CliRunner()
         result = runner.invoke(
@@ -21,11 +20,8 @@ class TestSolvers:
                 "0.1",
             ],
         )
-        os.remove(tsc.ul.get_file("trisicell.datasets/test/test.scistree.CFMatrix"))
-        os.remove(tsc.ul.get_file("trisicell.datasets/test/test.scistree.log"))
         assert result.exit_code == 0
 
-    @pytest.mark.skip(reason="Needs log and cfmatrix to be removed.")
     def test_scite(self):
         runner = CliRunner()
         result = runner.invoke(
@@ -39,11 +35,8 @@ class TestSolvers:
                 "-l 1000",
             ],
         )
-        os.remove(tsc.ul.get_file("trisicell.datasets/test/test.scite.CFMatrix"))
-        os.remove(tsc.ul.get_file("trisicell.datasets/test/test.scite.log"))
         assert result.exit_code == 0
 
-    @pytest.mark.skip(reason="Needs log and cfmatrix to be removed.")
     def test_phiscsb(self):
         runner = CliRunner()
         result = runner.invoke(
@@ -55,6 +48,17 @@ class TestSolvers:
                 "0.1",
             ],
         )
-        os.remove(tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.CFMatrix"))
-        os.remove(tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.log"))
         assert result.exit_code == 0
+
+
+@pytest.fixture(scope="session", autouse=True)
+def cleanup(request):
+    def remove_test_dir():
+        tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.scistree.CFMatrix"))
+        tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.scistree.log"))
+        tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.scite.CFMatrix"))
+        tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.scite.log"))
+        tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.CFMatrix"))
+        tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.log"))
+
+    request.addfinalizer(remove_test_dir)

@@ -74,7 +74,7 @@ We use ``numpy``-style docstrings for the documentation with the following addit
 In order to build the documentation, run::
 
     cd docs
-    rm -rf ./source/gen_modules
+    rm -rf ./source/trisicell*
     make clean html
 
 

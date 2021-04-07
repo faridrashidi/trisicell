@@ -247,6 +247,11 @@ def cleanup(dirname):
     shutil.rmtree(dirname)
 
 
+def remove(filename):
+    if os.path.exists(filename):
+        os.remove(filename)
+
+
 def dir_base(infile):
     basename = os.path.splitext(os.path.basename(infile))[0]
     dirname = os.path.dirname(infile)

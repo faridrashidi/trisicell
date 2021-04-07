@@ -59,6 +59,7 @@ This module offers a bunch of functions for filtering and preprocessing of the d
     pp.remove_cell_by_list
     pp.filter_mut_reference_must_present_in_at_least
     pp.filter_mut_mutant_must_present_in_at_least
+    pp.bifiltering
 
 
 Tools (tl)

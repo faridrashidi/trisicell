@@ -59,3 +59,27 @@ class TestSolvers:
         )
         is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
         assert is_cf == True
+
+    def test_booster(self):
+        df_in = tsc.datasets.test()
+        df_out = tsc.tl.booster(
+            df_in,
+            alpha=0.0000001,
+            beta=0.1,
+            solver="SCITE",
+            sample_on="muts",
+            sample_size=10,
+            n_samples=20,
+            begin_sample=0,
+            n_jobs=1,
+            time_out=10000,
+            save_inter=False,
+            dir_inter=".",
+            base_inter=None,
+            disable_tqdm=False,
+            weight=5,
+            no_subsampling=False,
+            no_dependencies=False,
+        )
+        is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
+        assert is_cf == False

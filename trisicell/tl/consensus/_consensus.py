@@ -302,37 +302,36 @@ def consensus_tree(sc1, sc2):
     if nx.is_isomorphic(cnt_tree1, cnt_tree2) == False:
         raise RuntimeError("Error: Two trees are not isomorphic!")
 
-    edges2 = {}
-    for u, v, mutations in cnt_tree2.edges.data("mutations"):
-        x = cnt_tree2.nodes[u]["label"]
-        y = cnt_tree2.nodes[v]["label"]
-        if "––" in x:
-            x = "––"
-        elif cnt_tree2.in_degree(u) != 0:
-            x = cnt_tree2.graph["splitter_cell"].join(x)
-        if "––" in y:
-            y = "––"
-        elif cnt_tree2.in_degree(v) != 0:
-            y = cnt_tree2.graph["splitter_cell"].join(x)
-        edges2[(x, y)] = mutations
-
     final_tree = cnt_tree1.copy()
-    for u, v, mutations1 in cnt_tree1.edges.data("mutations"):
-        x = cnt_tree1.nodes[u]["label"]
-        y = cnt_tree1.nodes[v]["label"]
-        if "––" in x:
-            x = "––"
-        elif cnt_tree1.in_degree(u) != 0:
-            x = cnt_tree1.graph["splitter_cell"].join(x)
-        if "––" in y:
-            y = "––"
-        elif cnt_tree1.in_degree(v) != 0:
-            y = cnt_tree1.graph["splitter_cell"].join(x)
-        mutations2 = edges2[(x, y)]
-        mutations = np.intersect1d(mutations1, mutations2)
-        # if len(mutations) == 0:
-        #     print("a", mutations1, "b", mutations2)
-        # BUG: the shared mutations
-        final_tree.add_edge(u, v, label=len(mutations))
+    root1 = [x for x in cnt_tree1.nodes if cnt_tree1.in_degree(x) == 0][0]
+    root2 = [x for x in cnt_tree2.nodes if cnt_tree2.in_degree(x) == 0][0]
+    leaves2 = [x for x in cnt_tree2.nodes if cnt_tree2.out_degree(x) == 0]
+    for leaf2 in leaves2:
+        list2 = nx.dijkstra_path(cnt_tree2, root2, leaf2)
+        label1 = cnt_tree2.nodes[leaf2]["label"]
+
+        mutations2 = []
+        for first, second in zip(list2, list2[1:]):
+            mutations2.append(cnt_tree2.edges[(first, second)]["mutations"])
+
+        list1 = nx.dijkstra_path(cnt_tree1, root1, nodes1[label1[0]])
+        i = 0
+        for first, second in zip(list1, list1[1:]):
+            mutations1 = cnt_tree1.edges[(first, second)]["mutations"]
+            mutations = np.intersect1d(mutations1, mutations2[i])
+            final_tree.add_edge(
+                first, second, label=final_tree.graph["splitter_mut"].join(mutations)
+            )
+            i += 1
+    for v in final_tree.nodes:
+        if final_tree.in_degree(v) != 0:
+            if "––" not in final_tree.nodes[v]["label"]:
+                final_tree.nodes[v]["label"] = final_tree.graph["splitter_cell"].join(
+                    final_tree.nodes[v]["label"]
+                )
+
+    data = tsc.ul.to_cfmatrix(final_tree)
+    final_tree.graph["data"] = data
+    del final_tree.graph["become_germline"]
 
     return final_tree

@@ -6,6 +6,16 @@
 Release Notes
 =============
 
+Version 0.0.3 :small:`April 8, 2021`
+-------------------------------------
+
+This version includes:
+
+    - Consensus tree builder with CLI command.
+    - Some new utility functions such as converting a tree fo conflict-free matrix.
+    - Bifiltering ILP code for selecting the maximal informed submatrix.
+
+
 Version 0.0.2 :small:`March 29, 2021`
 -------------------------------------
 

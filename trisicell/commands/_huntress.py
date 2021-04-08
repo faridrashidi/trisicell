@@ -50,7 +50,7 @@ def huntress(genotype_file, alpha, beta, method, n_threads):
     tsc.settings.verbosity = "info"
     tsc.settings.logfile = f"{outfile}.huntress.log"
 
-    df_out = tsc.tl.solver.huntress(
+    df_out = tsc.tl.huntress(
         genotype_file, alpha=alpha, beta=beta, kind=method, n_threads=n_threads
     )
     tsc.io.write(df_out, f"{outfile}.huntress.CFMatrix")

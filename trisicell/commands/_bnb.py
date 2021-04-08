@@ -34,7 +34,7 @@ def bnb(genotype_file, bounding):
     tsc.settings.logfile = f"{outfile}.bnb.log"
 
     df_in = tsc.io.read(genotype_file)
-    df_out = tsc.tl.solver.bnb(df_in, bounding=bounding)
+    df_out = tsc.tl.bnb(df_in, bounding=bounding)
     tsc.io.write(df_out, f"{outfile}.bnb.CFMatrix")
 
     return None

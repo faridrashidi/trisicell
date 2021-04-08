@@ -11,7 +11,7 @@ class TestScores:
         f2 = tsc.ul.get_file("trisicell.datasets/test/fp_1-fn_0.1-na_0.bnb.CFMatrix")
         grnd = tsc.io.read(f1)
         sol = tsc.io.read(f2)
-        ad = tsc.tl.score.ad(grnd, sol)
+        ad = tsc.tl.ad(grnd, sol)
         assert np.abs(ad - 0.9778) < 0.0001
 
     def test_dl(self):
@@ -19,7 +19,7 @@ class TestScores:
         f2 = tsc.ul.get_file("trisicell.datasets/test/fp_1-fn_0.1-na_0.bnb.CFMatrix")
         grnd = tsc.io.read(f1)
         sol = tsc.io.read(f2)
-        dl = tsc.tl.score.dl(grnd, sol)
+        dl = tsc.tl.dl(grnd, sol)
         assert np.abs(dl - 0.9880) < 0.0001
 
     def test_mltd(self):
@@ -27,7 +27,7 @@ class TestScores:
         f2 = tsc.ul.get_file("trisicell.datasets/test/fp_1-fn_0.1-na_0.bnb.CFMatrix")
         grnd = tsc.io.read(f1)
         sol = tsc.io.read(f2)
-        mltd = tsc.tl.score.mltd(grnd, sol)
+        mltd = tsc.tl.mltd(grnd, sol)
         assert np.abs(mltd[2] - 0.7800) < 0.0001
 
     def test_tpted(self):
@@ -35,5 +35,5 @@ class TestScores:
         f2 = tsc.ul.get_file("trisicell.datasets/test/fp_1-fn_0.1-na_0.bnb.CFMatrix")
         grnd = tsc.io.read(f1)
         sol = tsc.io.read(f2)
-        tpted = tsc.tl.score.tpted(grnd, sol)
+        tpted = tsc.tl.tpted(grnd, sol)
         assert tpted == 0.99

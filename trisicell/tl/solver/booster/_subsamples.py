@@ -93,10 +93,10 @@ def subsampling(
             dfn = df_input.sample(n=sample_size, replace=False, axis=0)
 
         if solver.lower() == "phiscs":
-            dfo = tsc.tl.solver.phiscsb(dfn, alpha, beta, experiment=True)
+            dfo = tsc.tl.phiscsb(dfn, alpha, beta, experiment=True)
             dfo.to_csv(f"{tmpdir}/{i}.CFMatrix", sep="\t")
         elif solver.lower() == "scite":
-            dfo, _, _, _ = tsc.tl.solver.scite(
+            dfo, _, _, _ = tsc.tl.scite(
                 dfn, alpha, beta, time_out, 1, False, experiment=True
             )
             dfo.to_csv(f"{tmpdir}/{i}.CFMatrix", sep="\t")
@@ -105,9 +105,7 @@ def subsampling(
             dfn = dfn[dfn.columns[x]]
             if dfn.shape[1] < 2:
                 return None
-            dfo, run_time = tsc.tl.solver.scistree(
-                dfn, alpha, beta, False, experiment=True
-            )
+            dfo, run_time = tsc.tl.scistree(dfn, alpha, beta, False, experiment=True)
             i0 = np.sum(dfn.values == 0)
             i1 = np.sum(dfn.values == 1)
             i3 = np.sum(dfn.values == 3)

@@ -144,7 +144,7 @@ def booster(
     # tsc.settings.logfile = f'{dirbase}.booster.log'
 
     df_in = tsc.io.read(genotype_file)
-    df_out = tsc.tl.solver.booster(
+    df_out = tsc.tl.booster(
         df_in,
         alpha=alpha,
         beta=beta,

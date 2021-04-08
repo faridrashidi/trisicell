@@ -77,10 +77,10 @@ Solving the noisy input genotype matrix (Trisicell-Boost)
 .. autosummary::
     :toctree: .
 
-    tl.solver.booster
-    tl.solver.scite
-    tl.solver.phiscsb
-    tl.solver.scistree
+    tl.booster
+    tl.scite
+    tl.phiscsb
+    tl.scistree
     
 
 Partition function calculation (Trisicell-PartF)
@@ -106,10 +106,10 @@ For comparing two phylogenetic trees
 .. autosummary::
     :toctree: .
 
-    tl.score.ad
-    tl.score.dl
-    tl.score.mltd
-    tl.score.tpted
+    tl.ad
+    tl.dl
+    tl.mltd
+    tl.tpted
 
 
 Plotting (pl)

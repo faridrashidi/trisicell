@@ -15,13 +15,13 @@ class TestSolvers:
 
     def test_scistree(self):
         df_in = tsc.datasets.test()
-        df_out = tsc.tl.solver.scistree(df_in, alpha=0.0000001, beta=0.1)
+        df_out = tsc.tl.scistree(df_in, alpha=0.0000001, beta=0.1)
         is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
         assert is_cf == True
 
     def test_scite(self):
         df_in = tsc.datasets.test()
-        df_out = tsc.tl.solver.scite(
+        df_out = tsc.tl.scite(
             df_in, alpha=0.0000001, beta=0.1, n_restarts=3, n_iters=1000
         )
         is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
@@ -30,13 +30,13 @@ class TestSolvers:
     @skip_mpi4py
     def test_bnb(self):
         df_in = tsc.datasets.test()
-        df_out = tsc.tl.solver.bnb(df_in, bounding="simulated")
+        df_out = tsc.tl.bnb(df_in, bounding="simulated")
         is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
         assert is_cf == True
 
     def test_phiscsb(self):
         df_in = tsc.datasets.test()
-        df_out = tsc.tl.solver.phiscsb(df_in, alpha=0.0000001, beta=0.1)
+        df_out = tsc.tl.phiscsb(df_in, alpha=0.0000001, beta=0.1)
         is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
         assert is_cf == True
 
@@ -48,7 +48,7 @@ class TestSolvers:
             * adata.var["MutantCount"]
             / (adata.var["MutantCount"] + adata.var["ReferenceCount"])
         )
-        df_out = tsc.tl.solver.phiscs_original(
+        df_out = tsc.tl.phiscs_original(
             adata.to_df(),
             alpha=0.001,
             beta=0.181749,

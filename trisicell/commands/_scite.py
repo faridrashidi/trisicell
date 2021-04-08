@@ -75,7 +75,7 @@ def scite(genotype_file, alpha, beta, n_iters, n_restarts, experiment, output_fi
     df_in = tsc.io.read(genotype_file)
     if experiment == False:
         tsc.settings.logfile = f"{outfile}.scite.log"
-        df_out = tsc.tl.solver.scite(
+        df_out = tsc.tl.scite(
             df_in,
             alpha=alpha,
             beta=beta,
@@ -88,7 +88,7 @@ def scite(genotype_file, alpha, beta, n_iters, n_restarts, experiment, output_fi
         tsc.io.write(df_out, f"{outfile}.scite.CFMatrix")
     else:
         tsc.settings.logfile = f"{outfile}.scite.log"
-        df_out, running_time, _, _ = tsc.tl.solver.scite(
+        df_out, running_time, _, _ = tsc.tl.scite(
             df_in,
             alpha=alpha,
             beta=beta,
@@ -104,7 +104,7 @@ def scite(genotype_file, alpha, beta, n_iters, n_restarts, experiment, output_fi
         dir_inter = tsc.ul.tmpdir(prefix="trisicell.", suffix=".scite", dirname=".")
 
         def run(i):
-            do, r, s, b = tsc.tl.solver.scite(
+            do, r, s, b = tsc.tl.scite(
                 df_in,
                 alpha=alpha,
                 beta=beta,

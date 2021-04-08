@@ -67,7 +67,7 @@ def booster(
 
     See Also
     --------
-    :func:`trisicell.tl.solver.scite`.
+    :func:`trisicell.tl.scite`.
     """
 
     if not base_inter:

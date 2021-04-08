@@ -37,7 +37,7 @@ def phiscsb(genotype_file, alpha, beta):
     tsc.settings.logfile = f"{outfile}.phiscsb.log"
 
     df_in = tsc.io.read(genotype_file)
-    df_out = tsc.tl.solver.phiscsb(df_in, alpha=alpha, beta=beta)
+    df_out = tsc.tl.phiscsb(df_in, alpha=alpha, beta=beta)
     tsc.io.write(df_out, f"{outfile}.phiscsb.CFMatrix")
 
     return None
@@ -83,7 +83,7 @@ def phiscsi(genotype_file, alpha, beta, time_out):
     tsc.settings.logfile = f"{outfile}.phiscsi.log"
 
     df_in = tsc.io.read(genotype_file)
-    df_out = tsc.tl.solver.phiscsi(df_in, alpha=alpha, beta=beta, time_out=time_out)
+    df_out = tsc.tl.phiscsi(df_in, alpha=alpha, beta=beta, time_out=time_out)
     tsc.io.write(df_out, f"{outfile}.phiscsi.CFMatrix")
 
     return None

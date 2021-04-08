@@ -136,3 +136,4 @@ This module offers a bunch of utility functions.
 
     ul.is_conflict_free_gusfield
     ul.to_tree
+    ul.to_cfmatrix

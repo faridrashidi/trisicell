@@ -1,3 +1,5 @@
+from operator import index
+
 import networkx as nx
 import numpy as np
 import pandas as pd
@@ -126,6 +128,48 @@ def to_tree(df):
             clusters[k] = i * "––"
             i += 1
     return tree
+
+
+def to_cfmatrix(tree):
+    """Convert phylogenetic tree to conflict-free matrix.
+
+    This function converts a phylogenetic tree in which mutations
+    are at edges and cells are at nodes to a conflict-free matrix
+    where rows are cells, columns are mutations and each entry is
+    either zero or one representing the absence or presence of the
+    mutation in the cell.
+
+    Parameters
+    ----------
+    tree : :class:`networkx.DiGraph`
+        The phylogenetic tree.
+
+    Returns
+    -------
+    :class:`pandas.DataFrame`
+        The conflict-free matrix.
+    """
+
+    mutations = []
+    cells = []
+    for _, v, l in tree.edges(data=True):
+        mutations += l["label"].split(tree.graph["splitter_mut"])
+        if "––" not in tree.nodes[v]["label"]:
+            cells += tree.nodes[v]["label"].split(tree.graph["splitter_cell"])
+    df = pd.DataFrame(0, index=cells, columns=mutations)
+    root = [x for x in tree.nodes if tree.in_degree(x) == 0][0]
+    leaves = [x for x in tree.nodes if tree.out_degree(x) == 0]
+    for leaf in leaves:
+        nodes = nx.dijkstra_path(tree, root, leaf)
+        mut = []
+        for first, second in zip(nodes, nodes[1:]):
+            mut += tree.edges[(first, second)]["label"].split(
+                tree.graph["splitter_mut"]
+            )
+            if "––" not in tree.nodes[second]["label"]:
+                cell = tree.nodes[second]["label"].split(tree.graph["splitter_cell"])
+                df.loc[cell, mut] = 1
+    return df
 
 
 def _to_mutation_tree(tree):
@@ -315,7 +359,7 @@ def cells_rooted_at(tree, node_id):
     return cells, np.setdiff1d(tree.graph["data"].index, cells)
 
 
-def muts_rooted_at(self, node_id):
+def muts_rooted_at(tree):
     muts = tree.graph["mutation_list"][
         tree.graph["mutation_list"].Node == node_id
     ].index

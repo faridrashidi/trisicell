@@ -443,3 +443,57 @@ def read_sc_bulk_simulation(sc_file, bulk_file):
     adata.var = bulk
 
     return adata
+
+
+def read_snpeff(filepath):
+    """Read the VCF file annotated by SnpEff in multi-sample format.
+
+    SnpEff was introduced in :cite:`SnpEff`.
+
+    Parameters
+    ----------
+    filepath : :obj:`str`
+        The path to the VCF file.
+
+    Returns
+    -------
+    :class:`anndata.AnnData`
+        The AnnData object which includes layers of mutant, total and genotype
+    """
+
+    vcf = VCF(filepath)
+    info = vcf.get_header_type("ANN")["Description"].split(" | ")
+    info[0] = "Allele"
+    info[-1] = "ERRORS / WARNINGS / INFO"
+    info = ["CHROM", "POS", "REF", "ALT"] + info
+
+    cells = vcf.samples
+    muts = []
+    m_gen = []
+    m_ref = []
+    m_alt = []
+    for var in VCF(filepath):
+        if var.is_snp or var.is_indel:
+            row = [var.CHROM, var.POS, var.REF, var.ALT]
+            ann = var.INFO.get("ANN").split(",")[0].split("|")
+            row += ann
+            m_gen.append(var.gt_types.tolist())
+            m_ref.append(var.gt_ref_depths.tolist())
+            m_alt.append(var.gt_alt_depths.tolist())
+            muts.append(row)
+
+    m_gen = np.array(m_gen)
+    m_ref = np.array(m_ref)
+    m_alt = np.array(m_alt)
+    muts = pd.DataFrame(muts, columns=info)
+    muts.index = muts.index.map(lambda x: f"mut{x}")
+    cells = pd.DataFrame(index=cells)
+
+    adata = ad.AnnData(np.zeros((len(muts), len(cells))))
+    adata.obs = muts
+    adata.var = cells
+    adata.layers["genotype"] = m_gen
+    adata.layers["total"] = m_ref + m_alt
+    adata.layers["mutant"] = m_alt
+    adata = adata.T
+    return adata

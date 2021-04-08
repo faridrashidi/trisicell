@@ -25,6 +25,7 @@ This module offers a bunch of functions for reading and writing of the data.
     io.read
     io.read_gatk
     io.read_rsem
+    io.read_snpeff
     io.write
 
 

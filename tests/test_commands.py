@@ -50,6 +50,19 @@ class TestCommands:
         )
         assert result.exit_code == 0
 
+    def test_consensus(self):
+        runner = CliRunner()
+        result = runner.invoke(
+            cli,
+            [
+                "consensus",
+                f"{tsc.ul.get_file('trisicell.datasets/test/consensus/biorxiv.fig3b.CFMatrix')}",
+                f"{tsc.ul.get_file('trisicell.datasets/test/consensus/biorxiv.figs18a.CFMatrix')}",
+                f"{tsc.ul.get_file('trisicell.datasets/test/consensus.CFMatrix')}",
+            ],
+        )
+        assert result.exit_code == 0
+
 
 @pytest.fixture(scope="session", autouse=True)
 def cleanup(request):
@@ -60,5 +73,6 @@ def cleanup(request):
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.scite.log"))
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.CFMatrix"))
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.log"))
+        tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/consensus.CFMatrix"))
 
     request.addfinalizer(remove_test_dir)

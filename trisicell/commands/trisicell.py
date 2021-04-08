@@ -3,9 +3,11 @@ from collections import OrderedDict
 import click
 
 import trisicell as tsc
+from trisicell.tl import consensus
 
 from ._bnb import bnb
 from ._booster import booster
+from ._consensus import consensus
 from ._huntress import huntress
 from ._mcalling import mcalling
 from ._others import cf2newick, cf2tree
@@ -52,3 +54,4 @@ cli.add_command(bnb)
 cli.add_command(huntress)
 cli.add_command(cf2newick)
 cli.add_command(cf2tree)
+cli.add_command(consensus)

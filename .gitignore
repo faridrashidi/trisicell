@@ -29,4 +29,5 @@ docs/source/trisicell*
 # GUROBI
 gurobi.log
 
-# Temporary
+# Trisicell specific
+trisicell.*

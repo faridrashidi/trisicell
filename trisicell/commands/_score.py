@@ -3,7 +3,7 @@ import click
 import trisicell as tsc
 
 
-@click.command(short_help="Caculate scores.")
+@click.command(short_help="Calculate scores between two trees.")
 @click.argument(
     "ground_file",
     required=True,

@@ -178,7 +178,7 @@ def mltd(df_grnd, df_sol):
                     continue
                 fout.write(f"{u}:{','.join(children)}\n")
 
-    tmpdir = tsc.ul.tmpdir(prefix="trisicell.", suffix=".mltd", dirname=".")
+    tmpdir = tsc.ul.tmpdirsys(suffix=".mltd")
 
     df_grnd.columns = df_grnd.columns.str.replace(":", "_").str.replace("=", "_")
     df_sol.columns = df_sol.columns.str.replace(":", "_").str.replace("=", "_")
@@ -189,18 +189,18 @@ def mltd(df_grnd, df_sol):
     tree_grnd = tsc.ul.to_tree(df_grnd1)
     tree_sol = tsc.ul.to_tree(df_sol1)
 
-    _convert_tree_to_mtld_input(tree_grnd, f"{tmpdir}/grnd.in")
-    _convert_tree_to_mtld_input(tree_sol, f"{tmpdir}/sol.in")
+    _convert_tree_to_mtld_input(tree_grnd, f"{tmpdir.name}/grnd.in")
+    _convert_tree_to_mtld_input(tree_sol, f"{tmpdir.name}/sol.in")
 
     mltd = tsc.ul.get_file("trisicell.external/bin/mltd")
-    cmd = f"{mltd} {tmpdir}/grnd.in {tmpdir}/sol.in > {tmpdir}/res.out 2>&1"
+    cmd = f"{mltd} {tmpdir.name}/grnd.in {tmpdir.name}/sol.in > {tmpdir.name}/res.out 2>&1"
     s_time = time.time()
     os.system(cmd)
     e_time = time.time()
     running_time = e_time - s_time
 
     distance, similarity, mltsm = None, None, None
-    with open(f"{tmpdir}/res.out") as fin:
+    with open(f"{tmpdir.name}/res.out") as fin:
         for line in fin:
             if line.startswith("Distance = "):
                 distance = int(line.strip().replace("Distance = ", ""))
@@ -209,7 +209,7 @@ def mltd(df_grnd, df_sol):
             if line.startswith("Normalized Similarity = "):
                 mltsm = float(line.strip().replace("Normalized Similarity = ", ""))
 
-    tsc.ul.cleanup(tmpdir)
+    tmpdir.cleanup()
 
     return distance, similarity, mltsm
 

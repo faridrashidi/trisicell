@@ -35,7 +35,7 @@ def dendro(adata, kind):
         )
 
     tsc.logg.info(f"running DENDRO")
-    tmpdir = tsc.ul.tmpdir(prefix="trisicell.", suffix=".dendro", dirname=".")
+    tmpdir = tsc.ul.tmpdir(suffix=".dendro", dirname=".")
 
     Z = adata.to_df(layer="genotype")
     Z[(Z == 1) | (Z == 3)] = 1

@@ -21,7 +21,7 @@ def infer_cna(adata):
         )
 
     tsc.logg.info(f"running InferCNA")
-    tmpdir = tsc.ul.tmpdir(prefix="trisicell.", suffix=".cn", dirname=".")
+    tmpdir = tsc.ul.tmpdir(suffix=".cna", dirname=".")
 
     cmd = f"""
     suppressMessages(library(infercna))

@@ -37,6 +37,23 @@ class TestCommands:
         )
         assert result.exit_code == 0
 
+    def test_scite_experiment(self):
+        runner = CliRunner()
+        result = runner.invoke(
+            cli,
+            [
+                "scite",
+                f"{tsc.ul.get_file('trisicell.datasets/test/test.SC')}",
+                "0.0000001",
+                "0.1",
+                "-r 3",
+                "-l 1000",
+                "-e",
+                "-h 0.005",
+            ],
+        )
+        assert result.exit_code == 0
+
     def test_phiscsb(self):
         runner = CliRunner()
         result = runner.invoke(

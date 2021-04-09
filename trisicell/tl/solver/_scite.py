@@ -14,9 +14,6 @@ def scite(
     beta,
     n_iters=90000,
     n_restarts=3,
-    save_inter=False,
-    dir_inter=".",
-    base_inter=None,
     experiment=False,
 ):
     """Solving using SCITE.
@@ -36,12 +33,6 @@ def scite(
         Number of iterations, by default 90000
     n_restarts : :obj:`int`, optional
         Number of restarts, by default 3
-    save_inter : :obj:`bool`, optional
-        Save input/output of the ScisTree format, by default False
-    dir_inter : :obj:`str`, optional
-        Directory of the output of the SCITE, by default "."
-    base_inter : :obj:`str`, optional
-        Basename of the output of the SCITE, by default None
     experiment : :obj:`bool`, optional
         Is in the experiment mode (the log won't be shown), by default False
 
@@ -57,20 +48,20 @@ def scite(
             f"running SCITE with alpha={alpha}, beta={beta}, n_iters={n_iters}, "
             f"n_restarts={n_restarts}"
         )
-    if not base_inter:
-        tmpdir = tsc.ul.tmpdir(prefix="trisicell.", suffix=".scite", dirname=dir_inter)
-    else:
-        tmpdir = tsc.ul.mkdir(os.path.join(dir_inter, base_inter))
 
-    np.savetxt(f"{tmpdir}/scite.SC.T", df_input.values.T, delimiter="\t", fmt="%1.0f")
-    with open(f"{tmpdir}/scite.geneNames", "w") as fout:
+    tmpdir = tsc.ul.tmpdirsys(suffix=".scite")
+
+    np.savetxt(
+        f"{tmpdir.name}/scite.SC.T", df_input.values.T, delimiter="\t", fmt="%1.0f"
+    )
+    with open(f"{tmpdir.name}/scite.geneNames", "w") as fout:
         fout.write("\n".join(df_input.columns))
 
     scite = tsc.ul.get_file("trisicell.external/bin/scite")
     cmd = (
         f"{scite} "
-        f"-i {tmpdir}/scite.SC.T "
-        f"-names {tmpdir}/scite.geneNames "
+        f"-i {tmpdir.name}/scite.SC.T "
+        f"-names {tmpdir.name}/scite.geneNames "
         f"-n {df_input.shape[1]} "
         f"-m {df_input.shape[0]} "
         f"-ad {beta} "
@@ -79,7 +70,7 @@ def scite(
         "-e 0.20 "
         "-a "
         f"-l {n_iters} "
-        f"-o {tmpdir}/scite > {tmpdir}/scite.log"
+        f"-o {tmpdir.name}/scite > {tmpdir.name}/scite.log"
     )
 
     s_time = time.time()
@@ -87,8 +78,8 @@ def scite(
     e_time = time.time()
     running_time = e_time - s_time
 
-    with open(f"{tmpdir}/scite_ml0.gv") as fin:
-        with open(f"{tmpdir}/scite_ml0_quoted.gv", "w") as fout:
+    with open(f"{tmpdir.name}/scite_ml0.gv") as fin:
+        with open(f"{tmpdir.name}/scite_ml0_quoted.gv", "w") as fout:
             for line in fin:
                 if " -> " in line:
                     line = line.strip()
@@ -99,7 +90,7 @@ def scite(
                     fout.write(line)
 
     detail = {}
-    with open(f"{tmpdir}/scite.log") as fin:
+    with open(f"{tmpdir.name}/scite.log") as fin:
         for line in fin:
             line = line.strip()
             if "best value for beta:" in line:
@@ -109,7 +100,7 @@ def scite(
                     line.replace("best log score for tree:", "").strip()
                 )
 
-    G = nx.drawing.nx_pydot.read_dot(f"{tmpdir}/scite_ml0_quoted.gv")
+    G = nx.drawing.nx_pydot.read_dot(f"{tmpdir.name}/scite_ml0_quoted.gv")
     df_output = df_input.copy()
     for col in df_output.columns:
         df_output[col].values[:] = 0
@@ -120,8 +111,7 @@ def scite(
         if len(muts) > 0:
             df_output.loc[df_output.index[i], muts] = 1
 
-    if not save_inter:
-        tsc.ul.cleanup(tmpdir)
+    tmpdir.cleanup()
 
     if not experiment:
         tsc.ul.stat(df_input, df_output, alpha, beta, running_time)
@@ -138,33 +128,25 @@ def infscite(
     beta,
     n_iters,
     n_restarts=3,
-    save_inter=False,
-    dir_inter=".",
-    base_inter=None,
     experiment=False,
 ):
     tsc.logg.info(
         f"running infSCITE with alpha={alpha}, beta={beta}, n_iters={n_iters}, "
         f"n_restarts={n_restarts}"
     )
-    if not base_inter:
-        tmpdir = tsc.ul.tmpdir(
-            prefix="trisicell_", suffix="_infscite", dirname=dir_inter
-        )
-    else:
-        tmpdir = tsc.ul.mkdir(os.path.join(dir_inter, base_inter))
+    tmpdir = tsc.ul.tmpdirsys(suffix=".infscite")
 
     np.savetxt(
-        f"{tmpdir}/infscite.SC.T", df_input.values.T, delimiter="\t", fmt="%1.0f"
+        f"{tmpdir.name}/infscite.SC.T", df_input.values.T, delimiter="\t", fmt="%1.0f"
     )
-    with open(f"{tmpdir}/infscite.geneNames", "w") as fout:
+    with open(f"{tmpdir.name}/infscite.geneNames", "w") as fout:
         fout.write("\n".join(df_input.columns))
 
     infscite = tsc.ul.get_file("trisicell.external/bin/infSCITE")
     cmd = (
         f"{infscite} "
-        f"-i {tmpdir}/infscite.SC.T "
-        f"-names {tmpdir}/infscite.geneNames "
+        f"-i {tmpdir.name}/infscite.SC.T "
+        f"-names {tmpdir.name}/infscite.geneNames "
         f"-n {df_input.shape[1]} "
         f"-m {df_input.shape[0]} "
         f"-ad {beta} "
@@ -174,7 +156,7 @@ def infscite(
         "-e 0.20 "
         "-a "
         f"-l {n_iters} "
-        f"-o {tmpdir}/infscite > {tmpdir}/infscite.log"
+        f"-o {tmpdir.name}/infscite > {tmpdir.name}/infscite.log"
     )
     # "-rec 1 "
     # "-d "
@@ -185,8 +167,8 @@ def infscite(
     e_time = time.time()
     running_time = e_time - s_time
 
-    with open(f"{tmpdir}/infscite_ml0.gv") as fin:
-        with open(f"{tmpdir}/infscite_ml0_quoted.gv", "w") as fout:
+    with open(f"{tmpdir.name}/infscite_ml0.gv") as fin:
+        with open(f"{tmpdir.name}/infscite_ml0_quoted.gv", "w") as fout:
             for line in fin:
                 if " -> " in line:
                     line = line.strip()
@@ -197,7 +179,7 @@ def infscite(
                     fout.write(line)
 
     detail = {}
-    with open(f"{tmpdir}/infscite.log") as fin:
+    with open(f"{tmpdir.name}/infscite.log") as fin:
         for line in fin:
             line = line.strip()
             if "best value for beta:" in line:
@@ -215,7 +197,7 @@ def infscite(
                     line.replace("best log score for tree:", "").strip()
                 )
 
-    G = nx.drawing.nx_pydot.read_dot(f"{tmpdir}/infscite_ml0_quoted.gv")
+    G = nx.drawing.nx_pydot.read_dot(f"{tmpdir.name}/infscite_ml0_quoted.gv")
     df_output = df_input.copy()
     for col in df_output.columns:
         df_output[col].values[:] = 0
@@ -226,8 +208,7 @@ def infscite(
         if len(muts) > 0:
             df_output.loc[df_output.index[i], muts] = 1
 
-    if not save_inter:
-        tsc.ul.cleanup(tmpdir)
+    tmpdir.cleanup()
 
     if not experiment:
         tsc.ul.stat(df_input, df_output, alpha, beta, running_time)

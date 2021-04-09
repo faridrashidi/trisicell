@@ -12,7 +12,7 @@ from Bio.Phylo.TreeConstruction import DistanceMatrix, DistanceTreeConstructor
 import trisicell as tsc
 
 
-def scistree(df_input, alpha, beta, save_inter=False, experiment=False):
+def scistree(df_input, alpha, beta, experiment=False):
     """Solving using ScisTree.
 
     Accurate and efficient cell lineage tree inference from noisy
@@ -27,8 +27,6 @@ def scistree(df_input, alpha, beta, save_inter=False, experiment=False):
         False positive error rate.
     beta : :obj:`float`
         False negative error rate.
-    save_inter : :obj:`bool`, optional
-        Save input/output of the ScisTree format, by default False
     experiment : :obj:`bool`, optional
         Is in the experiment mode (the log won't be shown), by default False
 
@@ -41,7 +39,7 @@ def scistree(df_input, alpha, beta, save_inter=False, experiment=False):
 
     if not experiment:
         tsc.logg.info(f"running ScisTree with alpha={alpha}, beta={beta}")
-    tmpdir = tsc.ul.tmpdir(prefix="trisicell.", suffix=".scistree", dirname=".")
+    tmpdir = tsc.ul.tmpdirsys(suffix=".scistree")
     cells = df_input.index
     snvs = df_input.columns
     matrix_input = df_input.values
@@ -51,7 +49,7 @@ def scistree(df_input, alpha, beta, save_inter=False, experiment=False):
     df = df.replace(0, 1 - beta)
     df = df.replace(1, alpha)
 
-    file1 = f"{tmpdir}/scistree.input"
+    file1 = f"{tmpdir.name}/scistree.input"
     df.index.name = f"HAPLOID {df.shape[0]} {df.shape[1]}"
     df.to_csv(file1, sep=" ")
     with open(file1, "r") as ifile:
@@ -66,8 +64,8 @@ def scistree(df_input, alpha, beta, save_inter=False, experiment=False):
         "-v "
         "-d 0 "
         "-e "
-        f"-o {tmpdir}/scistree.gml "
-        f"{tmpdir}/scistree.input > {tmpdir}/scistree.output"
+        f"-o {tmpdir.name}/scistree.gml "
+        f"{tmpdir.name}/scistree.input > {tmpdir.name}/scistree.output"
     )
     s_time = time.time()
     os.system(cmd)
@@ -78,7 +76,7 @@ def scistree(df_input, alpha, beta, save_inter=False, experiment=False):
     mut_tree = ""
     cell_tree = ""
     detail = {"cost": "\n"}
-    with open(f"{tmpdir}/scistree.output") as infile:
+    with open(f"{tmpdir.name}/scistree.output") as infile:
         now_store = False
         for line in infile:
             line = line.strip()
@@ -104,8 +102,8 @@ def scistree(df_input, alpha, beta, save_inter=False, experiment=False):
     df_output.columns = snvs
     df_output.index = cells
     df_output.index.name = "cellIDxmutID"
-    if not save_inter:
-        tsc.ul.cleanup(tmpdir)
+
+    tmpdir.cleanup()
 
     if not experiment:
         tsc.ul.stat(df_input, df_output, alpha, beta, running_time)
@@ -116,9 +114,9 @@ def scistree(df_input, alpha, beta, save_inter=False, experiment=False):
         return df_output, running_time
 
 
-def rscistree(adata, mode="haploid", save_inter=False):
+def rscistree(adata, mode="haploid"):
     tsc.logg.info(f"running rScisTree with mode={mode}")
-    tmpdir = tsc.ul.tmpdir(prefix="trisicell.", suffix=".scistree", dirname=".")
+    tmpdir = tsc.ul.tmpdirsys(suffix=".scistree", dirname=".")
 
     cells = adata.obs_names
     snvs = adata.var_names
@@ -127,14 +125,14 @@ def rscistree(adata, mode="haploid", save_inter=False):
 
     V = adata.layers["mutant"]
     R = adata.layers["total"] - V
-    with open(f"{tmpdir}/rscistree.counts", "w") as fout:
+    with open(f"{tmpdir.name}/rscistree.counts", "w") as fout:
         fout.write(f"{mode.upper()} {len(snvs)} {len(cells)}\n")
         for j in range(len(snvs)):
             for i in range(len(cells)):
                 fout.write(f"{R[i,j]} {V[i,j]}     ")
             fout.write(f"\n")
     cmd = f"/home/frashidi/software/temp/scistree/scprob/scprob_{mode.upper()} "
-    cmd += f"{tmpdir}/rscistree.counts > {tmpdir}/rscistree.input"
+    cmd += f"{tmpdir.name}/rscistree.counts > {tmpdir.name}/rscistree.input"
     os.system(cmd)
 
     scistree = tsc.ul.get_file("trisicell.external/bin/scistree")
@@ -143,8 +141,8 @@ def rscistree(adata, mode="haploid", save_inter=False):
         "-v "
         "-d 0 "
         "-e "
-        f"-o {tmpdir}/rscistree.gml "
-        f"{tmpdir}/rscistree.input > {tmpdir}/rscistree.output"
+        f"-o {tmpdir.name}/rscistree.gml "
+        f"{tmpdir.name}/rscistree.input > {tmpdir.name}/rscistree.output"
     )
     s_time = time.time()
     os.system(cmd)
@@ -155,7 +153,7 @@ def rscistree(adata, mode="haploid", save_inter=False):
     mut_tree = ""
     cell_tree = ""
     detail = {"cost": "\n"}
-    with open(f"{tmpdir}/rscistree.output") as infile:
+    with open(f"{tmpdir.name}/rscistree.output") as infile:
         now_store = False
         for line in infile:
             line = line.strip()
@@ -181,8 +179,8 @@ def rscistree(adata, mode="haploid", save_inter=False):
     df_output.columns = snvs
     df_output.index = cells
     df_output.index.name = "cellIDxmutID"
-    if not save_inter:
-        tsc.ul.cleanup(tmpdir)
+
+    tmpdir.cleanup()
 
     tsc.ul.stat(df_input, df_output, alpha, beta, running_time)
     # for k, v in detail.items():

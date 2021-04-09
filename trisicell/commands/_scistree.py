@@ -36,7 +36,7 @@ def scistree(genotype_file, alpha, beta):
     tsc.settings.logfile = f"{outfile}.scistree.log"
 
     df_in = tsc.io.read(genotype_file)
-    df_out = tsc.tl.scistree(df_in, alpha=alpha, beta=beta, save_inter=False)
+    df_out = tsc.tl.scistree(df_in, alpha=alpha, beta=beta)
     tsc.io.write(df_out, f"{outfile}.scistree.CFMatrix")
 
     return None

@@ -235,12 +235,16 @@ def is_conflict_free_gusfield(df_in, na_value=3):
     return True  # , (None, None)
 
 
-def tmpdir(prefix="trisicell_", suffix="_trisicell", dirname="."):
+def tmpdir(prefix="trisicell.", suffix=".trisicell", dirname="."):
     return tempfile.mkdtemp(suffix=suffix, prefix=prefix, dir=dirname)
 
 
-def tmpfile(prefix="trisicell_", suffix="_trisicell", dirname="."):
+def tmpfile(prefix="trisicell.", suffix=".trisicell", dirname="."):
     return tempfile.mkstemp(suffix=suffix, prefix=prefix, dir=dirname)[1]
+
+
+def tmpdirsys(prefix="trisicell.", suffix=".trisicell", dirname="."):
+    return tempfile.TemporaryDirectory(suffix=suffix, prefix=prefix)
 
 
 def cleanup(dirname):

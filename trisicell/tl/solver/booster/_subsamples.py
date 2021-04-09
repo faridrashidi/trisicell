@@ -97,7 +97,7 @@ def subsampling(
             dfo.to_csv(f"{tmpdir}/{i}.CFMatrix", sep="\t")
         elif solver.lower() == "scite":
             dfo, _, _, _ = tsc.tl.scite(
-                dfn, alpha, beta, time_out, 1, False, experiment=True
+                dfn, alpha, beta, n_iters=time_out, n_restarts=1, experiment=True
             )
             dfo.to_csv(f"{tmpdir}/{i}.CFMatrix", sep="\t")
         elif solver.lower() == "scistree":

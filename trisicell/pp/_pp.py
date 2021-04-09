@@ -138,13 +138,28 @@ def _helper(sub_adata):
     return genotype, mutant, total
 
 
+def _helper2(sub_adata):
+    genotype = 2 * np.ones(sub_adata.shape[1])
+    genotype2 = (
+        (sub_adata.layers["mutant"] == 1) | (sub_adata.layers["mutant"] == 3)
+    ).sum(axis=0)
+    mutant = sub_adata.layers["mutant"].sum(axis=0)
+    total = sub_adata.layers["total"].sum(axis=0)
+    vaf = mutant / total
+
+    genotype[vaf > 0] = 0
+    genotype[(vaf > 0.4) & (genotype2 >= 1)] = 1
+
+    return genotype, mutant, total
+
+
 def merge_cells_using(adata, using):
     genotypes = []
     mutants = []
     totals = []
     indices = []
     for index, subgroup in adata.obs.groupby(using):
-        genotype, mutant, total = _helper(adata[subgroup.index, :])
+        genotype, mutant, total = _helper2(adata[subgroup.index, :])
         indices.append(index)
         genotypes.append(genotype)
         mutants.append(mutant)

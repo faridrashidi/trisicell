@@ -51,24 +51,20 @@ import trisicell as tsc
     help="Is in experiment mode.",
 )
 @click.option(
-    "--output_file",
-    "-o",
-    default=None,
-    type=click.Path(exists=False),
+    "--n_hours",
+    "-h",
+    default=24,
+    type=float,
     show_default=True,
-    help="Output file.",
+    help="Number of hours for the experiment part.",
 )
-def scite(genotype_file, alpha, beta, n_iters, n_restarts, experiment, output_file):
+def scite(genotype_file, alpha, beta, n_iters, n_restarts, experiment, n_hours):
     """Tree inference for single-cell data :cite:`SCITE`.
 
-    trisicell scite input.SC 0.0001 0.1 -l 1000000 -r 3 -e
+    trisicell scite input.SC 0.0001 0.1 -l 1000000 -r 3 -e -h 24
     """
 
-    if not output_file:
-        outfile = os.path.splitext(genotype_file)[0]
-    else:
-        dirname, basename = tsc.ul.dir_base(output_file)
-        tsc.ul.mkdir(dirname)
+    outfile = os.path.splitext(genotype_file)[0]
 
     tsc.settings.verbosity = "info"
 
@@ -81,9 +77,6 @@ def scite(genotype_file, alpha, beta, n_iters, n_restarts, experiment, output_fi
             beta=beta,
             n_iters=n_iters,
             n_restarts=n_restarts,
-            save_inter=False,
-            dir_inter=".",
-            base_inter=None,
         )
         tsc.io.write(df_out, f"{outfile}.scite.CFMatrix")
     else:
@@ -94,14 +87,9 @@ def scite(genotype_file, alpha, beta, n_iters, n_restarts, experiment, output_fi
             beta=beta,
             n_iters=30000,
             n_restarts=1,
-            save_inter=False,
-            dir_inter=".",
-            base_inter=None,
             experiment=True,
         )
-        n_iters = int(2 * 30000 * 24 * 60 * 60 / running_time)
-
-        dir_inter = tsc.ul.tmpdir(prefix="trisicell.", suffix=".scite", dirname=".")
+        n_iters = int(2 * 30000 * n_hours * 60 * 60 / running_time)
 
         def run(i):
             do, r, s, b = tsc.tl.scite(
@@ -110,9 +98,6 @@ def scite(genotype_file, alpha, beta, n_iters, n_restarts, experiment, output_fi
                 beta=beta,
                 n_iters=n_iters,
                 n_restarts=1,
-                save_inter=True,
-                dir_inter=dir_inter,
-                base_inter=f"{i}",
                 experiment=True,
             )
             return do, r, s, b
@@ -133,6 +118,5 @@ def scite(genotype_file, alpha, beta, n_iters, n_restarts, experiment, output_fi
         tsc.logg.info(f"picked: {best_i}")
 
         tsc.io.write(df_out, f"{outfile}.scite.CFMatrix")
-        tsc.ul.cleanup(dir_inter)
 
     return None

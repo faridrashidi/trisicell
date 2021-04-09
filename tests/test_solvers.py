@@ -40,6 +40,13 @@ class TestSolvers:
         is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
         assert is_cf == True
 
+    @skip_rpy2
+    def test_onconem(self):
+        df_in = tsc.datasets.test()
+        df_out = tsc.tl.onconem(df_in, alpha=0.0000001, beta=0.1)
+        is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
+        assert is_cf == True
+
     @skip_gurobi
     def test_phiscs_original(self):
         adata = tsc.datasets.acute_lymphocytic_leukemia2()

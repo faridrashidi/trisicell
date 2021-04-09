@@ -1,5 +1,6 @@
 import os
 import time
+from logging import root
 
 import numpy as np
 import pandas as pd
@@ -25,37 +26,32 @@ def onconem(df_input, alpha, beta):
         Conflict-free genotype matrix where 0 is absent, 1 is present.
     """
 
-    try:
-        import rpy2.robjects as robjects
-        from rpy2.robjects.packages import importr
-    except:
-        raise SystemExit(
-            "A problem was encountered importing `rpy2`. "
-            "To run this `rpy2` and `R` need to be installed."
-        )
-    try:
-        importr("oncoNEM")
-    except:
-        raise SystemExit(
-            "A problem was encountered importing `oncoNEM` in R. "
-            "To run this `oncoNEM` needs to be installed in R. "
-            "Use the following lines to installed them.\n\n"
-            "BiocManager::install('graph')\n"
-            "devtools::install_bitbucket('edith_ross/oncoNEM')\n"
-        )
+    onconem, onconem_is_not_imported = tsc.ul.import_rpy2(
+        "oncoNEM",
+        "BiocManager::install('graph')\ndevtools::install_bitbucket('edith_ross/oncoNEM')\n",
+    )
+    if onconem_is_not_imported:
+        raise RuntimeError("Unable to import a package!")
+
+    import rpy2.robjects as ro
+    from rpy2.robjects import pandas2ri
 
     tsc.logg.info(f"running OncoNEM with alpha={alpha}, beta={beta}")
 
-    robjects.pandas2ri.activate()
-    df_r = robjects.conversion.py2rpy(df_input.replace(3, 2).T)
-    robjects.globalenv["df"] = df_r
+    pandas2ri.activate()
+
+    df_r = ro.conversion.py2rpy(df_input.replace(3, 2).T)
+    ro.globalenv["df"] = df_r
+
+    # onem = onconem.oncoNEM[new(Data=df_r, FPR=alpha, FNR=beta)
+    # print(onconem.oncoNEM.rx2("new"))
 
     cmd = f"""
     suppressPackageStartupMessages({{
         library(oncoNEM)
         library(igraph)
     }})
-    
+
     mat <- data.matrix(df)
     oNEM <- oncoNEM$new(Data=mat, FPR=as.numeric({alpha}), FNR=as.numeric({beta}))
     oNEM$search(delta=200)
@@ -69,7 +65,7 @@ def onconem(df_input, alpha, beta):
     post$p_mut
     """
     s_time = time.time()
-    result = robjects.r(cmd)
+    result = ro.r(cmd)
     e_time = time.time()
     running_time = e_time - s_time
 

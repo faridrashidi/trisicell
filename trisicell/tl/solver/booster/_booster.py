@@ -71,9 +71,7 @@ def booster(
     """
 
     if not base_inter:
-        tmpdir = tsc.ul.tmpdir(
-            prefix="trisicell.", suffix=".booster", dirname=dir_inter
-        )
+        tmpdir = tsc.ul.tmpdir(suffix=".booster", dirname=dir_inter)
     else:
         tmpdir = tsc.ul.mkdir(os.path.join(dir_inter, base_inter))
 

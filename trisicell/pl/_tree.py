@@ -18,6 +18,7 @@ def clonal_tree(
     collapsed_path=False,
     cell_info=None,
     output_file=None,
+    color_attr=None,
 ):
     """Draw the tree in clonal format.
 
@@ -37,6 +38,8 @@ def clonal_tree(
         Information of cells for coloring the nodes by a pie chart, by default None
     output_file : :obj:`str`, optional
         Path to a file for saving the tree in, by default None
+    output_file : :obj:`str`, optional
+        Attributes in the `cell_info` dataframe for coloring the nodes, by default None
 
     Returns
     -------
@@ -126,7 +129,7 @@ def clonal_tree(
                 tc2.nodes[new_node]["label"] = new_label
         tc = tc2
 
-        mapping = cell_info["name"].to_dict()
+        mapping = cell_info[color_attr].to_dict()
         for node in tc:
             if node != root:
                 num = 0
@@ -137,7 +140,7 @@ def clonal_tree(
                     num += len(tc[x][y]["label"].split(tc.graph["splitter_mut"]))
                 try:
                     freq = [
-                        mapping[x].split("_")[1]
+                        mapping[x]
                         for x in tc.nodes[node]["label"].split(
                             tc.graph["splitter_cell"]
                         )
@@ -170,7 +173,9 @@ def clonal_tree(
         mygraph.layout(prog="dot")
         mygraph.draw(output_file)
 
-    return display(SVG(nx.drawing.nx_pydot.to_pydot(tc).create_svg()))
+    return display(
+        Image(nx.drawing.nx_pydot.to_pydot(tc).create_png(), embed=True, retina=True)
+    )
 
 
 def _merge(x):
@@ -188,8 +193,9 @@ def _get_newick_info2_mutations(tree):
 
 def dendro_tree(
     tree,
-    width=8,
-    height=3,
+    width=1200,
+    height=500,
+    dpi=300,
     cell_info=None,
     label_color="group_color",
     line_size=0.4,
@@ -326,7 +332,7 @@ def dendro_tree(
                 cmd += _add_barplot(imp[0], imp[1])
 
     with grdevices.render_to_bytesio(
-        grdevices.svg, width=width, height=height
+        grdevices.png, width=width, height=height, res=dpi
     ) as image:
         p = robjects.r(cmd)
         robjects.r.show(p)
@@ -339,4 +345,4 @@ def dendro_tree(
         #     units="in",
         #     limitsize=False,
         # )
-    return display(SVG(image.getvalue()))
+    return display(Image(image.getvalue(), embed=True, retina=True))

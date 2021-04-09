@@ -8,6 +8,42 @@ import seaborn as sns
 import trisicell as tsc
 
 
+def heatmap(adata, color_attrs):
+    rvb = mcolors.LinearSegmentedColormap.from_list(
+        "",
+        ["#FFFFFF", "#000000"],
+        # "#A6CEE3"
+    )
+    row_colors = []
+    for attr in color_attrs:
+        row_colors.append(adata.obs[attr])
+    df = adata.to_df().copy()
+    df[df == 3] = 0
+
+    sns.clustermap(
+        df,
+        # vmin=-1,
+        # vmax=2,
+        vmin=0,
+        vmax=1,
+        metric="euclidean",  # euclidean, cosine
+        cmap=rvb,
+        row_cluster=False,
+        col_cluster=True,
+        row_colors=row_colors,
+        cbar_pos=None,
+        figsize=(7, 7),
+        xticklabels=False,
+        yticklabels=False,
+        # linecolor="white",
+        # linewidths=0.8,
+        # annot=False,
+        # colors_ratio=0.05,
+        dendrogram_ratio=0.0001,
+    )
+    # plt.savefig(filepath, bbox_inches="tight", pad_inches=0)
+
+
 def draw(adata, figsize=(10, 2), dpi=100):
     gspec = plt.GridSpec(1, 2, plt.figure(None, figsize, dpi=dpi))
     ax1 = plt.subplot(gspec[0])

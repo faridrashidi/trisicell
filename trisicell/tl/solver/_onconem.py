@@ -34,42 +34,35 @@ def onconem(df_input, alpha, beta):
         raise RuntimeError("Unable to import a package!")
 
     import rpy2.robjects as ro
-    from rpy2.robjects import pandas2ri
+    from rpy2.robjects import numpy2ri, pandas2ri
+    from rpy2.robjects.packages import importr
+
+    igraph = importr("igraph")
 
     tsc.logg.info(f"running OncoNEM with alpha={alpha}, beta={beta}")
 
-    pandas2ri.activate()
+    with ro.conversion.localconverter(ro.default_converter + numpy2ri.converter):
+        data = ro.conversion.py2rpy(df_input.replace(3, 2).T.values)
 
-    df_r = ro.conversion.py2rpy(df_input.replace(3, 2).T)
-    ro.globalenv["df"] = df_r
-
-    # onem = onconem.oncoNEM[new(Data=df_r, FPR=alpha, FNR=beta)
-    # print(onconem.oncoNEM.rx2("new"))
-
-    cmd = f"""
-    suppressPackageStartupMessages({{
-        library(oncoNEM)
-        library(igraph)
-    }})
-
-    mat <- data.matrix(df)
-    oNEM <- oncoNEM$new(Data=mat, FPR=as.numeric({alpha}), FNR=as.numeric({beta}))
-    oNEM$search(delta=200)
-    oNEM.expanded <- expandOncoNEM(oNEM, epsilon=10, delta=200,
-                                   checkMax=10000, app=TRUE)
-    oncoTree <-clusterOncoNEM(oNEM=oNEM.expanded, epsilon=10)
-    edges <- get.edgelist(oncoTree$g)
-    post <- oncoNEMposteriors(tree=oncoTree$g, clones=oncoTree$clones,
-                              Data=oNEM$Data, FPR=oNEM$FPR, FNR=oNEM$FNR)
-    
-    post$p_mut
-    """
     s_time = time.time()
-    result = ro.r(cmd)
+    onem = onconem.oncoNEM(Data=data, FPR=alpha, FNR=beta)
+    ro.globalenv["onem"] = onem
+    ro.r("onem$search(delta=200)")
+    onem_expanded = onconem.expandOncoNEM(
+        onem, epsilon=10, delta=200, checkMax=10000, app=True
+    )
+    onco_tree = onconem.clusterOncoNEM(oNEM=onem_expanded, epsilon=10)
+    edges = igraph.get_edgelist(onco_tree.rx2["g"])
+    post = onconem.oncoNEMposteriors(
+        tree=onco_tree.rx2["g"],
+        clones=onco_tree.rx2["clones"],
+        Data=data,
+        FPR=alpha,
+        FNR=beta,
+    )
+    sol_Y = np.rint(post.rx2["p_mut"])
     e_time = time.time()
     running_time = e_time - s_time
-
-    sol_Y = np.rint(result)
 
     df_output = pd.DataFrame(sol_Y)
     df_output = df_output.T

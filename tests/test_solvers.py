@@ -48,20 +48,19 @@ class TestSolvers:
         assert is_cf == True
 
     @skip_gurobi
-    def test_phiscs_original(self):
+    def test_phiscs_bulk(self):
         adata = tsc.datasets.acute_lymphocytic_leukemia2()
         adata.var["VAF"] = (
             2
             * adata.var["MutantCount"]
             / (adata.var["MutantCount"] + adata.var["ReferenceCount"])
         )
-        df_out = tsc.tl.phiscs_original(
+        df_out = tsc.tl.phiscs_bulk(
             adata.to_df(),
             alpha=0.001,
             beta=0.181749,
             delta=0.2,
             kmax=3,
-            kel_weight=0,
             vaf_info=adata.var[["VAF"]],
         )
         is_cf = tsc.ul.is_conflict_free_gusfield(df_out)

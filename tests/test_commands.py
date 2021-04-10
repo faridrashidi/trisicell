@@ -80,6 +80,28 @@ class TestCommands:
         )
         assert result.exit_code == 0
 
+    def test_cf2newick(self):
+        runner = CliRunner()
+        result = runner.invoke(
+            cli,
+            [
+                "cf2newick",
+                f"{tsc.ul.get_file('trisicell.datasets/test/test.scite.CFMatrix')}",
+            ],
+        )
+        assert result.exit_code == 0
+
+    def test_cf2tree(self):
+        runner = CliRunner()
+        result = runner.invoke(
+            cli,
+            [
+                "cf2tree",
+                f"{tsc.ul.get_file('trisicell.datasets/test/test.scite.CFMatrix')}",
+            ],
+        )
+        assert result.exit_code == 0
+
 
 @pytest.fixture(scope="session", autouse=True)
 def cleanup(request):
@@ -91,5 +113,8 @@ def cleanup(request):
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.CFMatrix"))
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.log"))
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/consensus.CFMatrix"))
+        tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.scite.info2"))
+        tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.scite.newick"))
+        tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.scite.png"))
 
     request.addfinalizer(remove_test_dir)

@@ -13,5 +13,6 @@ class TestTrees:
     def test_clonal_tree(self):
         tsc.pl.clonal_tree(self.tree)
 
+    @skip_mpi4py
     def test_dendro_tree(self):
         tsc.pl.dendro_tree(self.tree)

@@ -9,7 +9,9 @@ import trisicell as tsc
 
 
 def onconem(df_input, alpha, beta):
-    """Running OncoNEM.
+    """Solving using OncoNEM.
+
+    Inferring tumor evolution from single-cell sequencing data :cite:`OncoNEM`.
 
     Parameters
     ----------

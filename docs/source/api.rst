@@ -81,6 +81,7 @@ Solving the noisy input genotype matrix (Trisicell-Boost)
     tl.scite
     tl.phiscsb
     tl.scistree
+    tl.onconem
     
 
 Partition function calculation (Trisicell-PartF)

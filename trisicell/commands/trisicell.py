@@ -10,11 +10,11 @@ from ._booster import booster
 from ._consensus import consensus
 from ._huntress import huntress
 from ._mcalling import mcalling
-from ._trees import cf2newick, cf2tree
 from ._phiscs import phiscsb, phiscsi
 from ._scistree import scistree
 from ._scite import scite
 from ._score import score
+from ._trees import cf2newick, cf2tree
 
 
 class NaturalOrderGroup(click.Group):

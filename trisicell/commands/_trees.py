@@ -3,7 +3,7 @@ import os
 import click
 
 import trisicell as tsc
-from trisicell.pl._tree import _get_newick_info2_mutations
+from trisicell.pl._trees import _get_newick_info2_mutations
 
 
 @click.command(short_help="Convert conflict-free to newick file.")

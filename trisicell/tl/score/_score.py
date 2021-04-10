@@ -8,7 +8,7 @@ import pandas as pd
 import seaborn as sns
 
 import trisicell as tsc
-from trisicell.ul._trees import _split_labels, _to_apted, _to_mutation_tree
+from trisicell.ul._trees import _split_labels, _to_apted
 
 
 def ad(df_grnd, df_sol):
@@ -242,8 +242,8 @@ def tpted(df_grnd, df_sol):
     tree_grnd = tsc.ul.to_tree(df_grnd1)
     tree_sol = tsc.ul.to_tree(df_sol1)
 
-    mt_grnd = _to_mutation_tree(tree_grnd)
-    mt_sol = _to_mutation_tree(tree_sol)
+    mt_grnd = tsc.ul.mtree(tree_grnd)
+    mt_sol = tsc.ul.mtree(tree_sol)
 
     sl_grnd = _split_labels(mt_grnd, mt_guide=mt_sol)
     sl_sol = _split_labels(mt_sol, mt_guide=mt_sol)

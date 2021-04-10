@@ -7,11 +7,6 @@ import pandas as pd
 import trisicell as tsc
 
 
-def to_cfmatrix(tree):
-    # TODO: implement.
-    pass
-
-
 def to_tree(df):
     """Convert a conflict-free matrix to a tree object.
 
@@ -172,7 +167,21 @@ def to_cfmatrix(tree):
     return df
 
 
-def _to_mutation_tree(tree):
+def to_mtree(tree):
+    """Convert the phylogenetic tree to mutation tree.
+
+    Parameters
+    ----------
+    tree : :class:`networkx.DiGraph`
+        The phylogenetic tree in which cells are in nodes and
+        mutations are at edges.
+
+    Returns
+    -------
+    :class:`networkx.DiGraph`
+        The mutation tree in which mutations are in nodes.
+    """
+
     tree2 = nx.DiGraph()
     for u, v, l in tree.edges.data("label"):
         if tree.in_degree(u) == 0:
@@ -222,7 +231,7 @@ def _to_newick(tree):
 
 
 def _info2_mutation_list(tree):
-    tree2 = _to_mutation_tree(tree)
+    tree2 = to_mtree(tree)
 
     row = []
     for node in tree2.nodes:

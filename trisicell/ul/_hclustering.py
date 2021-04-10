@@ -1,6 +1,12 @@
 import numba
 import numpy as np
+import pandas as pd
+import scipy as sp
+from scipy.cluster.hierarchy import cut_tree, dendrogram, fcluster, linkage
 from sklearn.metrics import pairwise_distances
+
+import trisicell as tsc
+from trisicell.external._betabinom import pmf_BetaBinomial
 
 
 def _l1_ignore_na(a, b):
@@ -9,7 +15,7 @@ def _l1_ignore_na(a, b):
     return np.nanmean(np.abs(a - b))
 
 
-def calc_dist_by_l1_ignore_na(I):
+def dist_l1_ignore_na(I):
     return pairwise_distances(I, metric=_l1_ignore_na)
 
 
@@ -37,15 +43,11 @@ def _cosine_ignore_na(u, v):
     return ratio
 
 
-def calc_dist_by_cosine_ignore_na(I):
+def dist_cosine_ignore_na(I):
     return pairwise_distances(I, metric=_cosine_ignore_na)
 
 
-def calc_dist_by_dendro(T, V, I):
-    from betabinom import pmf_BetaBinomial
-    from scipy import stats
-    from scipy.stats import binom
-
+def _dist_dendro(T, V, I):
     PROB_SEQ_ERROR = 0.001
 
     def logSum_1(x, y):
@@ -79,7 +81,7 @@ def calc_dist_by_dendro(T, V, I):
     for i in range(T.shape[0]):
         for j in range(T.shape[1]):
             if T[i, j] != 0:
-                lPz0[i, j] = np.log(binom.pmf(V[i, j], T[i, j], PROB_SEQ_ERROR))
+                lPz0[i, j] = np.log(sp.stat.binom.pmf(V[i, j], T[i, j], PROB_SEQ_ERROR))
                 lPz1[i, j] = np.log(pmf_BetaBinomial(V[i, j], T[i, j], a[j], b[j]))
 
     Pg = np.sum(I == 1, axis=0) / I.shape[0]
@@ -95,3 +97,43 @@ def calc_dist_by_dendro(T, V, I):
 
     dist = dist - np.min(dist) + 1
     return dist, bad_muts
+
+
+def dist_dendro(adata):
+    T = adata.layers["total"]
+    V = adata.layers["mutant"]
+    G = adata.layers["genotype"]
+    G[(G == 1) | (G == 3)] = 1
+    G[G == 2] = 0
+    dist, bad_muts = _dist_dendro(T, V, G)
+    tsc.pp.remove_mut_by_list(adata, bad_muts)
+    tsc.logg.info(f"{sum(bad_muts)} mutations filtered")
+    return dist
+
+
+def hclustering(df, method="ward"):
+    """Hierarchical clustering.
+
+    Parameters
+    ----------
+    df : :class:`pandas.DataFrame`
+        The genotype matrix.
+    method : :obj:`str`, optional
+        The method for the hierarchical clustering, by default "ward"
+
+    Returns
+    -------
+    :obj:`dict`
+        A dictionary in which keys are the number of clusters and
+        values are the cluster labels for each item.
+    """
+
+    dist = dist_l1_ignore_na(df.values)
+    clust = linkage(dist[np.triu_indices(dist.shape[0], 1)], method=method)
+    clusters = {}
+
+    for i in range(2, dist.shape[0]):
+        fc = fcluster(clust, i, criterion="maxclust")
+        clusters[i] = pd.Series(fc, index=df.index)
+
+    return clusters

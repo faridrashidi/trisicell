@@ -135,6 +135,8 @@ This module offers a bunch of utility functions.
 .. autosummary::
     :toctree: .
 
-    ul.is_conflict_free_gusfield
     ul.to_tree
     ul.to_cfmatrix
+    ul.to_mtree
+    ul.hclustering
+    ul.is_conflict_free_gusfield

@@ -506,7 +506,7 @@ def iscistree(df_input, alpha, beta, n_iters=np.inf):
 
     s_time = time.time()
     Ip = np.vstack([I, np.zeros(I.shape[1])])  # add root with profile zero
-    dist = tsc.ul.calc_dist_by_l1_ignore_na(Ip)
+    dist = tsc.ul.dist_l1_ignore_na(Ip)
     opt_tree = get_initial_tree(dist)
     # opt_subtrees = get_subtrees(opt_tree)
     # opt_O, opt_cost = denoise_quadratic(I, alpha, beta, opt_subtrees)

@@ -179,9 +179,7 @@ def merge_cells_using(adata, using):
 
 
 def merge_clusters_and_call_mutations(adata, n_clusters, min_n_cells, using):
-    tsc.pp.build_scmatrix(adata)
-    dist = tsc.ul.calc_dist_by_l1_ignore_na(adata.X)
-    clusters = tsc.ul.calc_hclust(dist, adata.obs_names, method="ward")
+    clusters = tsc.ul.hclustering(adata.to_df(), method="ward")
 
     cluster = clusters[n_clusters]
     count = cluster.value_counts()
@@ -382,18 +380,6 @@ def to_dendro(adata, filepath):
     pd.DataFrame(Z).to_csv(filepath + "/Z.csv")
     pd.DataFrame(X).to_csv(filepath + "/X.csv")
     pd.DataFrame(N).to_csv(filepath + "/N.csv")
-
-
-def calc_dist_by_dendro(adata):
-    T = adata.layers["total"]
-    V = adata.layers["mutant"]
-    G = adata.layers["genotype"]
-    G[(G == 1) | (G == 3)] = 1
-    G[G == 2] = 0
-    dist, bad_muts = tsc.ul.calc_dist_by_dendro(T, V, G)
-    remove_mut_by_list(adata, bad_muts)
-    tsc.logg.info(f"{sum(bad_muts)} mutations filtered")
-    return dist
 
 
 def calc_relative_expression(adata, threshold):

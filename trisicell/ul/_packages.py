@@ -58,8 +58,3 @@ def import_rpy2(name="base", how=""):
     except PackageNotInstalledError:
         tsc.logg.error(f"Install R library `{name!r}` first." f"{how}")
         return None, True
-
-
-def import_graphviz():
-    # TODO: implement
-    return None, None

@@ -6,8 +6,18 @@ __pycache__/
 *.egg-info/
 /build/
 /dist/
-.coverage
 .eggs
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+nosetests.xml
+coverage.xml
+*.cover
+.hypothesis/
+.pytest_cache/
 
 # OS or Editor files and folders
 ._*

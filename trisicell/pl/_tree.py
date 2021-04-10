@@ -243,36 +243,20 @@ def dendro_tree(
     Returns
     -------
     :obj:`None`
-
-    Raises
-    ------
-    SystemExit
-        If `rpy2 <https://pypi.org/project/rpy2/>`_ is not already installed.
-    SystemExit
-        If `ggtree <https://github.com/YuLab-SMU/ggtree>`_ is not already installed.
     """
 
-    try:
-        import rpy2.robjects as robjects
-        from rpy2.robjects import pandas2ri
-        from rpy2.robjects.lib import grdevices
-        from rpy2.robjects.packages import importr
-    except:
-        raise SystemExit(
-            "A problem was encountered importing `rpy2`. "
-            "To run this `rpy2` and `R` need to be installed."
-        )
-    try:
-        importr("ggtree")
-    except:
-        raise SystemExit(
-            "A problem was encountered importing `ggtree` in R. "
-            "To run this `ggtree` needs to be installed in R. "
-            "Use the following lines to installed them.\n\n"
-            "devtools::install_github(c('YuLab-SMU/ggtree',"
-            "'xiangpin/ggtreeExtra','YuLab-SMU/aplot'))\n"
-            "install.packages('cowplot')\n"
-        )
+    ggtree, ggtree_is_not_imported = tsc.ul.import_rpy2(
+        "ggtree",
+        "devtools::install_github(c('YuLab-SMU/ggtree','xiangpin/ggtreeExtra','YuLab-SMU/aplot'))\n"
+        "install.packages('cowplot')\n",
+    )
+    if ggtree_is_not_imported:
+        raise RuntimeError("Unable to import a package!")
+
+    import rpy2.robjects as ro
+    from rpy2.robjects import pandas2ri
+    from rpy2.robjects.lib import grdevices
+    from rpy2.robjects.packages import importr
 
     newick, info2, mutation_list = _get_newick_info2_mutations(tree)
     mutation_list["index"] = mutation_list.apply(_merge, axis=1)
@@ -284,24 +268,24 @@ def dendro_tree(
     ggtree = importr("ggtree")
     ape = importr("ape")
     aplot = importr("aplot")
-    pandas2ri.activate()
 
-    if cell_info is not None:
-        if "group_color" not in cell_info.columns:
-            cell_info["group_color"] = tree.graph["data"].shape[0] * ["#000000"]
-        cell_info_r = robjects.conversion.py2rpy(cell_info.reset_index())
-    else:
-        cell_info_r = robjects.conversion.py2rpy(
-            pd.DataFrame.from_dict(
-                {
-                    "x": tree.graph["data"].index,
-                    "group_color": tree.graph["data"].shape[0] * ["#000000"],
-                }
+    with ro.conversion.localconverter(ro.default_converter + pandas2ri.converter):
+        if cell_info is not None:
+            if "group_color" not in cell_info.columns:
+                cell_info["group_color"] = tree.graph["data"].shape[0] * ["#000000"]
+            cell_info_r = ro.conversion.py2rpy(cell_info.reset_index())
+        else:
+            cell_info_r = ro.conversion.py2rpy(
+                pd.DataFrame.from_dict(
+                    {
+                        "x": tree.graph["data"].index,
+                        "group_color": tree.graph["data"].shape[0] * ["#000000"],
+                    }
+                )
             )
-        )
-    robjects.globalenv["info1"] = cell_info_r
-    info2_r = robjects.conversion.py2rpy(info2)
-    robjects.globalenv["info2"] = info2_r
+        ro.globalenv["info1"] = cell_info_r
+        info2_r = ro.conversion.py2rpy(info2)
+        ro.globalenv["info2"] = info2_r
 
     # p = ggtree.ggtree(
     #     ape.read_tree(text=f"{newick}"), layout="dendrogram", size=line_size
@@ -334,9 +318,9 @@ def dendro_tree(
     with grdevices.render_to_bytesio(
         grdevices.png, width=width, height=height, res=dpi
     ) as image:
-        p = robjects.r(cmd)
-        robjects.r.show(p)
-        # robjects.r.ggsave(
+        p = ro.r(cmd)
+        ro.r.show(p)
+        # ro.r.ggsave(
         #     plot=p,
         #     filename="x.pdf",
         #     device="pdf",

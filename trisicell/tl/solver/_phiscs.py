@@ -199,12 +199,11 @@ def phiscsi(df_input, alpha, beta, time_out=86400):
     return df_output
 
 
-def phiscs_original(
+def phiscs_bulk(
     df_input,
     alpha,
     beta,
     kmax=0,
-    kel_weight=0,
     vaf_info=None,
     delta=0.2,
     time_out=86400,
@@ -404,3 +403,8 @@ def phiscs_original(
     tsc.ul.stat(df_input, df_output, alpha, beta, running_time)
 
     return df_output
+
+
+def phiscs_readcount(df_input, alpha, beta):
+    # TODO: implement
+    pass

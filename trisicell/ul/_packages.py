@@ -35,13 +35,12 @@ def import_mpi4py():
         tsc.logg.error(
             "Unable to import `mpi4py`!",
             "Make sure `mpi/mpich-x86_64` is already installed in your system.",
-            "Then install `mpi4py`.",
+            "Then install `mpi4py` using `pip`.",
         )
         return None, True
 
 
 def import_rpy2(name="base", how=""):
-    "Unable to import `rpy2`, install it first as `pip install rpy2` version `>=3.3.0`."
     try:
         from rpy2.robjects import r
         from rpy2.robjects.packages import PackageNotInstalledError, importr
@@ -57,4 +56,18 @@ def import_rpy2(name="base", how=""):
         return _r_lib, False
     except PackageNotInstalledError:
         tsc.logg.error(f"Install R library `{name!r}` first." f"{how}")
+        return None, True
+
+
+def import_graphviz():
+    try:
+        import pygraphviz
+
+        return pygraphviz, False
+    except:
+        tsc.logg.error(
+            "Unable to import `pygraphviz`!",
+            "Make sure `Graphviz` is already installed in your system.",
+            "Then install `pygraphviz` using `pip`.",
+        )
         return None, True

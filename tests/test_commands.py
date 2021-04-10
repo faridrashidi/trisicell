@@ -91,6 +91,7 @@ class TestCommands:
         )
         assert result.exit_code == 0
 
+    @skip_graphviz
     def test_cf2tree(self):
         runner = CliRunner()
         result = runner.invoke(

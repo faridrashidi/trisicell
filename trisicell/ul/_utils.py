@@ -1,9 +1,13 @@
+import contextlib
 import datetime
+import functools
+import multiprocessing
 import os
 import shutil
 import tempfile
 import time
 
+import joblib
 import numpy as np
 import pandas as pd
 import pkg_resources
@@ -414,3 +418,38 @@ def difference_between(dna, rna):
     c = rna.to_df(layer="mutant").T.loc[rna_temp[rna_temp.isin(c)].index]
 
     return dna_temp[dna_temp.isin(a)].index, b, c
+
+
+def with_timeout(timeout):
+    def decorator(decorated):
+        @functools.wraps(decorated)
+        def inner(*args, **kwargs):
+            pool = multiprocessing.pool.ThreadPool(1)
+            async_result = pool.apply_async(decorated, args, kwargs)
+            try:
+                return async_result.get(timeout)
+            except multiprocessing.TimeoutError:
+                return None
+
+        return inner
+
+    return decorator
+
+
+@contextlib.contextmanager
+def tqdm_joblib(tqdm_object):
+    class TqdmBatchCompletionCallback(joblib.parallel.BatchCompletionCallBack):
+        def __init__(self, *args, **kwargs):
+            super().__init__(*args, **kwargs)
+
+        def __call__(self, *args, **kwargs):
+            tqdm_object.update(n=self.batch_size)
+            return super().__call__(*args, **kwargs)
+
+    old_batch_callback = joblib.parallel.BatchCompletionCallBack
+    joblib.parallel.BatchCompletionCallBack = TqdmBatchCompletionCallback
+    try:
+        yield tqdm_object
+    finally:
+        joblib.parallel.BatchCompletionCallBack = old_batch_callback
+        tqdm_object.close()

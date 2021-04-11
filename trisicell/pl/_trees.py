@@ -46,6 +46,10 @@ def clonal_tree(
     :obj:`None`
     """
 
+    graphviz, graphviz_is_not_imporeted = tsc.ul.import_graphviz()
+    if graphviz_is_not_imporeted:
+        raise RuntimeError("Unable to import a package!")
+
     tc = tree.copy()
     root = None
     for node in tc.nodes:

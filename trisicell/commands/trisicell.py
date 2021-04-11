@@ -14,6 +14,7 @@ from ._phiscs import phiscsb, phiscsi
 from ._scistree import scistree
 from ._scite import scite
 from ._score import score
+from ._search import search
 from ._trees import cf2newick, cf2tree
 
 
@@ -55,3 +56,4 @@ cli.add_command(huntress)
 cli.add_command(cf2newick)
 cli.add_command(cf2tree)
 cli.add_command(consensus)
+cli.add_command(search)

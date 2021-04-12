@@ -267,7 +267,7 @@ def read_gatk(
     adata = ad.AnnData(
         X=X,
         obs=pd.DataFrame(cells).set_index("cells"),
-        var=exonic.loc[muts],
+        var=exonic.loc[muts] if only_exonic else pd.DataFrame(index=muts),
         layers={"total": T, "mutant": V, "genotype": G},
     )
     if os.path.exists(f"{folderpath}/readstat.tsv"):
@@ -465,7 +465,7 @@ def read_snpeff(filepath):
     info = vcf.get_header_type("ANN")["Description"].split(" | ")
     info[0] = "Allele"
     info[-1] = "ERRORS / WARNINGS / INFO"
-    info = ["CHROM", "POS", "REF", "ALT"] + info
+    info = ["CHROM", "POS", "REF", "ALT", "START", "END"] + info
 
     cells = vcf.samples
     muts = []
@@ -474,7 +474,7 @@ def read_snpeff(filepath):
     m_alt = []
     for var in VCF(filepath):
         if var.is_snp or var.is_indel:
-            row = [var.CHROM, var.POS, var.REF, var.ALT]
+            row = [var.CHROM, var.POS, var.REF, var.ALT, var.start+1, var.end]
             ann = var.INFO.get("ANN").split(",")[0].split("|")
             row += ann
             m_gen.append(var.gt_types.tolist())

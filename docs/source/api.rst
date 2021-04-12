@@ -13,24 +13,8 @@ After mutation calling and building the input data via our suggested
 :ref:`mutation calling pipeline <caller>`.
 
 
-Read/Write (io)
-~~~~~~~~~~~~~~~
-This module offers a bunch of functions for reading and writing of the data.
-
-.. module:: trisicell.io
-.. currentmodule:: trisicell
-.. autosummary::
-    :toctree: .
-
-    io.read
-    io.read_gatk
-    io.read_rsem
-    io.read_snpeff
-    io.write
-
-
 Datasets (datasets)
-~~~~~~~~~~~~~~~~~~~
+-------------------
 This module offers a bunch of functions for simulating data.
 
 .. module:: trisicell.datasets
@@ -47,8 +31,24 @@ This module offers a bunch of functions for simulating data.
     datasets.high_grade_serous_ovarian_cancer
 
 
+Read/Write (io)
+---------------
+This module offers a bunch of functions for reading and writing of the data.
+
+.. module:: trisicell.io
+.. currentmodule:: trisicell
+.. autosummary::
+    :toctree: .
+
+    io.read
+    io.read_gatk
+    io.read_rsem
+    io.read_snpeff
+    io.write
+
+
 Preprocessing (pp)
-~~~~~~~~~~~~~~~~~~
+------------------
 This module offers a bunch of functions for filtering and preprocessing of the data.
 
 .. module:: trisicell.pp
@@ -64,15 +64,14 @@ This module offers a bunch of functions for filtering and preprocessing of the d
 
 
 Tools (tl)
-~~~~~~~~~~
+----------
 This module offers a high-level API to compute the conflict-free solution
 and calculating the probability of mutations seeding particular cells.
 
 .. module:: trisicell.tl
 .. currentmodule:: trisicell
 
-Solving the noisy input genotype matrix (Trisicell-Boost)
-#########################################################
+**Solving the noisy input genotype matrix (Trisicell-Boost)**
 
 .. autosummary::
     :toctree: .
@@ -84,16 +83,14 @@ Solving the noisy input genotype matrix (Trisicell-Boost)
     tl.onconem
     
 
-Partition function calculation (Trisicell-PartF)
-################################################
+**Partition function calculation (Trisicell-PartF)**
 
 .. autosummary::
     :toctree: .
 
     tl.partition_function
 
-Consensus tree building (Trisicell-Cons)
-########################################
+**Consensus tree building (Trisicell-Cons)**
 
 .. autosummary::
     :toctree: .
@@ -101,8 +98,7 @@ Consensus tree building (Trisicell-Cons)
     tl.consensus_combine
     tl.consensus_tree
 
-For comparing two phylogenetic trees
-########################################
+**For comparing two phylogenetic trees**
 
 .. autosummary::
     :toctree: .
@@ -114,7 +110,7 @@ For comparing two phylogenetic trees
 
 
 Plotting (pl)
-~~~~~~~~~~~~~
+-------------
 This module offers plotting the tree in clonal or dendrogram format.
 
 .. module:: trisicell.pl
@@ -127,7 +123,7 @@ This module offers plotting the tree in clonal or dendrogram format.
 
 
 Utils (ul)
-~~~~~~~~~~
+----------
 This module offers a bunch of utility functions.
 
 .. module:: trisicell.ul

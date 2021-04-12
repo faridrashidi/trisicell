@@ -111,13 +111,18 @@ def dist_dendro(adata):
     return dist
 
 
-def hclustering(df, method="ward"):
+def hclustering(df, metric="l1", method="ward"):
     """Hierarchical clustering.
 
     Parameters
     ----------
     df : :class:`pandas.DataFrame`
         The genotype matrix.
+    metric: :obj:`str`, optional
+        The metric option. Can be:
+
+            - `l1`
+            - `cosine`
     method : :obj:`str`, optional
         The method for the hierarchical clustering, by default "ward"
 
@@ -128,7 +133,12 @@ def hclustering(df, method="ward"):
         values are the cluster labels for each item.
     """
 
-    dist = dist_l1_ignore_na(df.values)
+    if metric == "l1":
+        dist = dist_l1_ignore_na(df.values)
+    elif metric == "cosine":
+        dist = dist_cosine_ignore_na(df.values)
+    else:
+        raise ValueError("Wroing `metric` choice!")
     clust = linkage(dist[np.triu_indices(dist.shape[0], 1)], method=method)
     clusters = {}
 

@@ -125,7 +125,7 @@ def filter_mut_coverage_mutant_must_be_greater_than(
     keep_mut_by_list(adata, adata.var_names.to_numpy()[good_muts])
 
 
-def _helper(sub_adata):
+def _pseudo_bulk_caller(sub_adata):
     genotype = 2 * np.ones(sub_adata.shape[1])
     mutant = sub_adata.layers["mutant"].sum(axis=0)
     total = sub_adata.layers["total"].sum(axis=0)
@@ -138,7 +138,7 @@ def _helper(sub_adata):
     return genotype, mutant, total
 
 
-def _helper2(sub_adata, min_vaf, min_cell):
+def _pseudo_bulk_caller_better(sub_adata, min_vaf, min_cell):
     genotype_final = 2 * np.ones(sub_adata.shape[1])
     genotype = (
         (sub_adata.layers["genotype"] == 1) | (sub_adata.layers["genotype"] == 3)
@@ -148,7 +148,7 @@ def _helper2(sub_adata, min_vaf, min_cell):
     vaf = mutant / total
 
     genotype_final[vaf > 0] = 0
-    genotype_final[(vaf > min_vaf) & (genotype >= min_cell)] = 1
+    genotype_final[(vaf >= min_vaf) & (genotype >= min_cell)] = 1
 
     return genotype_final, mutant, total
 
@@ -159,7 +159,9 @@ def merge_cells_using(adata, using, min_vaf=0.4, min_cell=2):
     totals = []
     indices = []
     for index, subgroup in adata.obs.groupby(using):
-        genotype, mutant, total = _helper2(adata[subgroup.index, :], min_vaf, min_cell)
+        genotype, mutant, total = _pseudo_bulk_caller_better(
+            adata[subgroup.index, :], min_vaf, min_cell
+        )
         indices.append(index)
         genotypes.append(genotype)
         mutants.append(mutant)
@@ -178,8 +180,15 @@ def merge_cells_using(adata, using, min_vaf=0.4, min_cell=2):
     return adata_merged
 
 
-def merge_clusters_and_call_mutations(adata, n_clusters, min_n_cells, using):
-    clusters = tsc.ul.hclustering(adata.to_df(), method="ward")
+def local_cluster_cells_then_merge_muts_pseudo_bulk(
+    adata, by="mut", n_clusters=100, min_n_cells=5, attr="group"
+):
+    if by == "mut":
+        clusters = tsc.ul.hclustering(adata.to_df())
+    elif by == "cna":
+        clusters = tsc.ul.hclustering(adata.obsm["cna"], metric="cosine")
+    else:
+        raise ValueError("Wrong `by` choice!")
 
     cluster = clusters[n_clusters]
     count = cluster.value_counts()
@@ -187,14 +196,16 @@ def merge_clusters_and_call_mutations(adata, n_clusters, min_n_cells, using):
     cluster = cluster.apply(lambda x: f"G{x}")
 
     adata = adata[cluster.index, :]
-    adata.obs[using] = cluster
+    adata.obs[attr] = cluster
 
     genotypes = []
     mutants = []
     totals = []
     indices = []
-    for index, subgroup in adata.obs.groupby(adata.obs[using]):
-        genotype, mutant, total = _helper(adata[subgroup.index, :])
+    for index, subgroup in adata.obs.groupby(adata.obs[attr]):
+        genotype, mutant, total = _pseudo_bulk_caller_better(
+            adata[subgroup.index, :], min_vaf=0.4, min_cell=2
+        )
         indices.append(index)
         genotypes.append(genotype)
         mutants.append(mutant)

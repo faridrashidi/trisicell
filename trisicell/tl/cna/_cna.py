@@ -5,20 +5,33 @@ from IPython.display import SVG, Image, display
 import trisicell as tsc
 
 
-def infercna(expr, ref_cells):
-    """[summary]
+def infercna(expr, ref_cells, genome="hg19", show_heatmap=False):
+    """Calling copy number profiles from scRNAseq.
+
+    This function is a wraper to run
+    `InferCNA <https://github.com/jlaffy/infercna>`_
 
     Parameters
     ----------
-    expr : [type]
-        [description]
-    ref_cells : [type]
-        [description]
+    expr : :class:`anndata.AnnData`
+        The input expression matrix where
+
+            - raw count are in `.X`
+            - fpkm is in `.layer['fpkm']`
+            - tpm is in `.layer['tpm']`
+    ref_cells : :obj:`dict`
+        A dictionary of list of normal cells.
+    genome : :obj:`str`, optional
+        {'hg38', 'hg19', 'mm10'}, by default "hg19"
+    show_heatmap : :obj:`bool`, optional
+        Show the copy number heatmap, by default False
 
     Returns
     -------
-    [type]
-        [description]
+    :class:`pandas.DataFrame`
+        A datafrme of log2 copy number ratios where normal cells
+        are filtered out. Rows are cells and columns are list of
+        variable genes.
 
     Examples
     --------
@@ -45,7 +58,6 @@ def infercna(expr, ref_cells):
     rc = ro.ListVector(rc)
 
     tpm = expr.to_df(layer="tpm").T
-    # tpm = np.log(tpm / 10 + 1).T
     tpm.index = tpm.index.str.split("_").str[1]
 
     with ro.conversion.localconverter(ro.default_converter + pandas2ri.converter):
@@ -53,7 +65,7 @@ def infercna(expr, ref_cells):
     data = base.as_matrix(data)
     data.rownames = ro.StrVector(tpm.index.tolist())
 
-    infercna.useGenome("hg19")
+    infercna.useGenome(genome)
     # ref = infercna.retrieveGenome()
 
     cna_mal = infercna.infercna(
@@ -62,7 +74,7 @@ def infercna(expr, ref_cells):
         window=100,
         n=5000,
         range=ro.FloatVector([-3, 3]),
-        noise=0.1,
+        noise=0,
         center_method="median",
         isLog=False,
         verbose=False,
@@ -132,10 +144,11 @@ def infercna(expr, ref_cells):
         cna_log = ro.conversion.rpy2py(cna_plot.rx2("data"))
     cna_log = pd.pivot(cna_log, index="Cell", columns="Gene", values="CNA")
 
-    # with ro.lib.grdevices.render_to_bytesio(
-    #     grdevices.png, width=1024, height=896, res=150
-    # ) as image:
-    #     ro.r.show(cna_plot.rx2("p"))
-    # display(Image(data=image.getvalue(), embed=True, retina=True))
+    if show_heatmap:
+        with ro.lib.grdevices.render_to_bytesio(
+            grdevices.png, width=1024, height=896, res=150
+        ) as image:
+            ro.r.show(cna_plot.rx2("p"))
+        display(Image(data=image.getvalue(), embed=True, retina=True))
 
     return cna_log

@@ -34,8 +34,6 @@ def score(ground_file, inferred_file):
     mltd = tsc.tl.mltd(df_g, df_s)["normalized_similarity"]
     tpted = tsc.tl.tpted(df_g, df_s)
 
-    tsc.logg.info(
-        f"AD={ad:0.4f}\nDL={dl:0.4f}\nMLTSM={mltd[2]:0.4f}\nTPTED={tpted:0.4f}"
-    )
+    tsc.logg.info(f"AD={ad:0.4f}\nDL={dl:0.4f}\nMLTSM={mltd:0.4f}\nTPTED={tpted:0.4f}")
 
     return None

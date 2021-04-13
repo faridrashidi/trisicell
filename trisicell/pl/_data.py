@@ -8,7 +8,7 @@ import seaborn as sns
 import trisicell as tsc
 
 
-def heatmap(adata, color_attrs, layer="X"):
+def heatmap(adata, color_attrs, layer="X", figsize=(12, 7)):
     row_colors = []
     for attr in color_attrs:
         row_colors.append(adata.obs[attr])
@@ -23,7 +23,6 @@ def heatmap(adata, color_attrs, layer="X"):
         vmin = 0
         vmax = 1
         col_cluster = True
-        figsize = (12, 7)
     else:
         rvb = "RdBu_r"
         df = adata.obsm[layer].copy()
@@ -37,12 +36,11 @@ def heatmap(adata, color_attrs, layer="X"):
         # vmax = 2
 
         col_cluster = False
-        figsize = (12, 7)
 
     sns.clustermap(
         df,
-        vmin=vmin,
-        vmax=vmax,
+        # vmin=0,
+        # vmax=1,
         metric="euclidean",
         cmap=rvb,
         row_cluster=False,

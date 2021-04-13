@@ -474,7 +474,7 @@ def read_snpeff(filepath):
     m_alt = []
     for var in VCF(filepath):
         if var.is_snp or var.is_indel:
-            row = [var.CHROM, var.POS, var.REF, var.ALT, var.start+1, var.end]
+            row = [var.CHROM, var.POS, var.REF, var.ALT, var.start + 1, var.end]
             ann = var.INFO.get("ANN").split(",")[0].split("|")
             row += ann
             m_gen.append(var.gt_types.tolist())

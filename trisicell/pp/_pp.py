@@ -203,9 +203,11 @@ def local_cluster_cells_then_merge_muts_pseudo_bulk(
     totals = []
     indices = []
     for index, subgroup in adata.obs.groupby(adata.obs[attr]):
-        genotype, mutant, total = _pseudo_bulk_caller_better(
-            adata[subgroup.index, :], min_vaf=0.4, min_cell=2
-        )
+        # genotype, mutant, total = _pseudo_bulk_caller_better(
+        #     adata[subgroup.index, :], min_vaf=0.2, min_cell=1
+        # )
+        genotype, mutant, total = _pseudo_bulk_caller(adata[subgroup.index, :])
+
         indices.append(index)
         genotypes.append(genotype)
         mutants.append(mutant)

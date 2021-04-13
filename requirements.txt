@@ -1,3 +1,4 @@
+cython
 tqdm
 click
 joblib

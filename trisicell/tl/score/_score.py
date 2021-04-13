@@ -8,6 +8,7 @@ import pandas as pd
 import seaborn as sns
 
 import trisicell as tsc
+from trisicell.external._mltd import run_mltd
 from trisicell.ul._trees import _split_labels, _to_apted
 
 
@@ -157,12 +158,8 @@ def mltd(df_grnd, df_sol):
 
     Returns
     -------
-    :obj:`int`
-        MLTD
-    :obj:`int`
-        MLTS
-    :obj:`float`
-        MLTSM out of 1.00
+    :obj:`dict`
+        {'distance', 'similarity', 'normalized_similarity'}
     """
 
     def _convert_tree_to_mtld_input(tree, file):
@@ -192,26 +189,14 @@ def mltd(df_grnd, df_sol):
     _convert_tree_to_mtld_input(tree_grnd, f"{tmpdir.name}/grnd.in")
     _convert_tree_to_mtld_input(tree_sol, f"{tmpdir.name}/sol.in")
 
-    mltd = tsc.ul.get_file("trisicell.external/bin/mltd")
-    cmd = f"{mltd} {tmpdir.name}/grnd.in {tmpdir.name}/sol.in > {tmpdir.name}/res.out 2>&1"
     s_time = time.time()
-    os.system(cmd)
+    result = run_mltd(f"{tmpdir.name}/grnd.in", f"{tmpdir.name}/sol.in")
     e_time = time.time()
     running_time = e_time - s_time
 
-    distance, similarity, mltsm = None, None, None
-    with open(f"{tmpdir.name}/res.out") as fin:
-        for line in fin:
-            if line.startswith("Distance = "):
-                distance = int(line.strip().replace("Distance = ", ""))
-            if line.startswith("Similarity = "):
-                similarity = int(line.strip().replace("Similarity = ", ""))
-            if line.startswith("Normalized Similarity = "):
-                mltsm = float(line.strip().replace("Normalized Similarity = ", ""))
-
     tmpdir.cleanup()
 
-    return distance, similarity, mltsm
+    return result
 
 
 def tpted(df_grnd, df_sol):

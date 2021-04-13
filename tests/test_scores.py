@@ -28,7 +28,7 @@ class TestScores:
         grnd = tsc.io.read(f1)
         sol = tsc.io.read(f2)
         mltd = tsc.tl.mltd(grnd, sol)
-        assert np.abs(mltd[2] - 0.7800) < 0.0001
+        assert np.abs(mltd["normalized_similarity"] - 0.7800) < 0.0001
 
     def test_tpted(self):
         f1 = tsc.ul.get_file("trisicell.datasets/test/fp_0-fn_0-na_0.ground.CFMatrix")

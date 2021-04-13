@@ -484,7 +484,7 @@ def read_snpeff(filepath):
             muts.append(row)
             cnas_per_var = []
             for cell in cells:
-                cna_tmp = var.INFO.get(f'cn|{cell}')
+                cna_tmp = var.INFO.get(f"cn|{cell}")
                 if cna_tmp is not None:
                     cnas_per_var.append(int(cna_tmp))
                 else:

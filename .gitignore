@@ -41,3 +41,5 @@ gurobi.log
 
 # Trisicell specific
 trisicell.*
+
+trisicell/external/scistree

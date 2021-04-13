@@ -17,3 +17,8 @@ repos:
     -   id: isort
         additional_dependencies: [toml]
         args: [--order-by-type, --profile, 'black']
+-   repo: https://github.com/doublify/pre-commit-clang-format
+    rev: master
+    hooks:
+    -   id: clang-format
+        args: [-style=LLVM]

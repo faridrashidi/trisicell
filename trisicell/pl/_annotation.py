@@ -82,7 +82,7 @@ def _get_tree(
     return cmd
 
 
-def _add_barplot(column_name, column_color):
+def _add_barplot(column_name, column_color, height=0.4):
     cmd = f"""
     p2 <- ggplot(data=info1) +
     geom_bar(aes(x=id_index, y={column_name}, fill={column_color}),
@@ -103,7 +103,7 @@ def _add_barplot(column_name, column_color):
           axis.ticks.length=unit(0.02, "in"),
     ) +
     labs(y='{column_name}', x='')
-    p <- p %>% insert_bottom(p2, height=0.2)
+    p <- p %>% insert_bottom(p2, height={height})
     """
     return cmd
 

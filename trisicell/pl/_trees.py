@@ -304,10 +304,12 @@ def dendro_tree(
         distance_labels_to_bottom,
     )
 
-    for ann in annotation:
-        cmd += "info1$id_index <- p$data[match(info1[,1], p$data$label),]$y"
+    for i, ann in enumerate(annotation):
+        if i == 0:
+            cmd += "info1$id_index <- p$data[match(info1[,1], p$data$label),]$y"
         if ann[0] == "bar":
-            cmd += _add_barplot(ann[1], ann[2])
+            cmd += _add_barplot(ann[1], ann[2], ann[3])
+            print(cmd)
         elif ann == "chrom":
             cmd += _add_chromplot()
         elif ann == "imputation":

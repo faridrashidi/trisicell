@@ -108,7 +108,7 @@ struct Tree {
     }
     int cnt = 0;
     g.resize(p.size());
-    cerr << p.size() << "\n";
+    // cerr << p.size() << "\n";
     for (int i = 0; i < (int)p.size(); i++) {
       cnt += p[i] == -1;
       if (p[i] != -1) {
@@ -238,10 +238,6 @@ int cG(int a, int b) {
   return res = -mcmf(g, S, T);
 }
 
-int main(int argc, char *argv[]) {
-  return 0;
-}
-
 MLTDResult calc_mltd(const char *tree1, const char *tree2) {
   t.read(tree1);
   s.read(tree2);
@@ -265,29 +261,28 @@ MLTDResult calc_mltd(const char *tree1, const char *tree2) {
       T[tl[i]][sl[i]]++;
     }
   }
-  for (auto &x : T) {
+  /*for (auto &x : T) {
     for (auto &y : x) {
       cerr << y << " ";
     }
     cerr << "\n";
   }
-  cerr << t.npair << " " << s.npair << "\n";
+  cerr << t.npair << " " << s.npair << "\n";*/
   D = vector<vector<int> >(t.npair, vector<int>(s.npair, -1));
   G = vector<vector<int> >(t.nname, vector<int>(s.nname, -1));
   int res = 0;
-  cerr << t.r << " " << s.r << "\n";
+  // cerr << t.r << " " << s.r << "\n";
   for (int i = 0; i < t.nname; i++) {
     for (int j = 0; j < s.nname; j++) {
       res = max(res, cG(i, j) + cD(t.r, s.r, i, j));
     }
   }
-  cerr << "T1\n";
+  /*cerr << "T1\n";
   for (int i = 0; i < t.nname; i++) {
     cerr << i << " :(";
     for (auto x : t.l[i]) {
       cerr << x << ",";
     }
-
     cerr << ") ";
     for (auto x : t.g[i]) {
       cerr << x << " ";
@@ -300,20 +295,21 @@ MLTDResult calc_mltd(const char *tree1, const char *tree2) {
     for (auto x : s.l[i]) {
       cerr << x << ",";
     }
-
     cerr << ") ";
     for (auto x : s.g[i]) {
       cerr << x << " ";
     }
     cerr << "\n";
-  }
+  }*/
   MLTDResult mltdresult;
-  cout << "\nOutput:\n\n";
-  cout << "Distance = " << t.nl + s.nl - 2 * res << "\n";
-  cout << "Similarity = " << res << "\n";
-  cout << "Normalized Similarity = " << res * 1.0 / nlabel << "\n\n";
+  // cout << "\nOutput:\n\n";
+  // cout << "Distance = " << t.nl + s.nl - 2 * res << "\n";
+  // cout << "Similarity = " << res << "\n";
+  // cout << "Normalized Similarity = " << res * 1.0 / nlabel << "\n\n";
   mltdresult.distance = t.nl + s.nl - 2 * res;
   mltdresult.similarity = res;
   mltdresult.normalized_similarity = res * 1.0 / nlabel;
   return mltdresult;
 }
+
+int main(int argc, char *argv[]) { return 0; }

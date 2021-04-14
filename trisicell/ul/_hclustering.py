@@ -44,7 +44,7 @@ def _cosine_ignore_na(u, v):
 
 
 def dist_cosine_ignore_na(I):
-    return pairwise_distances(I, metric=_cosine_ignore_na)
+    return pairwise_distances(I, metric=_cosine_ignore_na, force_all_finite="allow-nan")
 
 
 def _dist_dendro(T, V, I):

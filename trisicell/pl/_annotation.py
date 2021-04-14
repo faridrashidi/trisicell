@@ -71,7 +71,7 @@ def _get_tree(
                 size={tiplab_size},
                 fontface='bold') +
     scale_color_identity(guide='none') +
-    geom_label2(aes(subset=!isTip,
+    geom_label2(aes(x=branch, subset=!isTip,
                     label={'nmuts_label' if not inner_node_id else 'nodeid_label'}),
                 fill='white',
                 color='black',

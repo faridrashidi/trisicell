@@ -19,6 +19,7 @@ def clonal_tree(
     cell_info=None,
     output_file=None,
     color_attr=None,
+    dpi=150,
 ):
     """Draw the tree in clonal format.
 
@@ -40,6 +41,9 @@ def clonal_tree(
         Path to a file for saving the tree in, by default None
     output_file : :obj:`str`, optional
         Attributes in the `cell_info` dataframe for coloring the nodes, by default None
+    dpi : :obj:`int`, optional
+        Resolution of rendered figures – this influences the size of
+        figures in notebooks, by default 150
 
     Returns
     -------
@@ -174,6 +178,7 @@ def clonal_tree(
 
     if output_file is not None:
         mygraph = nx.drawing.nx_agraph.to_agraph(tc)
+        mygraph.graph_attr["dpi"] = dpi
         mygraph.layout(prog="dot")
         mygraph.draw(output_file)
 
@@ -247,6 +252,11 @@ def dendro_tree(
     Returns
     -------
     :obj:`None`
+
+    Note
+    ----
+    The cell names in the tree must be identical to the index of `cell_info`
+    dataframe if it was provided.
     """
 
     ggtree, ggtree_is_not_imported = tsc.ul.import_rpy2(
@@ -309,7 +319,6 @@ def dendro_tree(
             cmd += "info1$id_index <- p$data[match(info1[,1], p$data$label),]$y"
         if ann[0] == "bar":
             cmd += _add_barplot(ann[1], ann[2], ann[3])
-            print(cmd)
         elif ann == "chrom":
             cmd += _add_chromplot()
         elif ann == "imputation":

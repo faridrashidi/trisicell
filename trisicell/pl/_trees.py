@@ -39,7 +39,7 @@ def clonal_tree(
         Information of cells for coloring the nodes by a pie chart, by default None
     output_file : :obj:`str`, optional
         Path to a file for saving the tree in, by default None
-    output_file : :obj:`str`, optional
+    color_attr : :obj:`str`, optional
         Attributes in the `cell_info` dataframe for coloring the nodes, by default None
     dpi : :obj:`int`, optional
         Resolution of rendered figures – this influences the size of
@@ -210,6 +210,7 @@ def dendro_tree(
     inner_node_size=2,
     distance_labels_to_bottom=4,
     annotation=[],
+    output_file=None,
 ):
     """Draw the tree in dendro fromat.
 
@@ -245,6 +246,8 @@ def dendro_tree(
     annotation : :obj:`list`, optional
         List of gene names provided in the column dataframe of ``cell_info``
         in to be annotated in the bottom of the tree, by default []
+    output_file : :obj:`str`, optional
+        Path to a file for saving the tree in, by default None
 
     Returns
     -------
@@ -336,13 +339,14 @@ def dendro_tree(
     ) as image:
         p = ro.r(cmd)
         ro.r.show(p)
-        # ro.r.ggsave(
-        #     plot=p,
-        #     filename="x.pdf",
-        #     device="pdf",
-        #     width=7.5,
-        #     height=3,
-        #     units="in",
-        #     limitsize=False,
-        # )
+        if output_file is not None:
+            ro.r.ggsave(
+                plot=p,
+                filename=output_file,
+                width=width / dpi,
+                height=height / dpi,
+                units="in",
+                dpi=dpi,
+                limitsize=False,
+            )
     return display(Image(image.getvalue(), embed=True, retina=True))

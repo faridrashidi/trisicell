@@ -226,6 +226,18 @@ def tpted(df_grnd, df_sol):
 
     tree_grnd = tsc.ul.to_tree(df_grnd1)
     tree_sol = tsc.ul.to_tree(df_sol1)
+    inter = np.setdiff1d(
+        inter,
+        np.union1d(
+            tree_grnd.graph["become_germline"], tree_sol.graph["become_germline"]
+        ),
+    )
+
+    df_grnd1 = df_grnd[inter]
+    df_sol1 = df_sol[inter]
+
+    tree_grnd = tsc.ul.to_tree(df_grnd1)
+    tree_sol = tsc.ul.to_tree(df_sol1)
 
     mt_grnd = tsc.ul.to_mtree(tree_grnd)
     mt_sol = tsc.ul.to_mtree(tree_sol)

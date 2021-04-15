@@ -177,10 +177,7 @@ def clonal_tree(
                 tc.nodes[node]["label"] = f"<<b>zygote</b>>"
 
     if output_file is not None:
-        mygraph = nx.drawing.nx_agraph.to_agraph(tc)
-        mygraph.graph_attr["dpi"] = dpi
-        mygraph.layout(prog="dot")
-        mygraph.draw(output_file)
+        tsc.io.to_png(tc, output_file, dpi)
 
     return display(
         Image(nx.drawing.nx_pydot.to_pydot(tc).create_png(), embed=True, retina=True)

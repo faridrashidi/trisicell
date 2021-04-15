@@ -209,7 +209,7 @@ def dendro_tree(
     label_color="group_color",
     line_size=0.4,
     tiplab_size=2.5,
-    inner_node_id=False,
+    inner_node_type="nmuts",
     inner_node_size=2,
     distance_labels_to_bottom=4,
     annotation=[],
@@ -234,13 +234,13 @@ def dendro_tree(
         Line size of the tree, by default 0.4
     tiplab_size : :obj:`float`, optional
         Cell name size in the tree, by default 2.5
-    inner_node_id : :obj:`bool`, optional
-        Information of the inner nodes (i.e. mutations), by default False
+    inner_node_type : :obj:`str`, optional
+        The format of the inner nodes (i.e. mutations), by default "nmuts"
         Values are:
 
-            - `nmuts_label`: only number of mutations
-            - `nodeid_label`: only node id
-            - `mixed_label`: both number of mutations and node id
+            - `nmuts`: only number of mutations
+            - `nodeid`: only node id
+            - `both`: both number of mutations and node id
     inner_node_size : :obj:`int`, optional
         Size of the inner nodes (i.e. mutations), by default 2
     distance_labels_to_bottom : :obj:`int`, optional
@@ -258,6 +258,9 @@ def dendro_tree(
     The cell names in the tree must be identical to the index of `cell_info`
     dataframe if it was provided.
     """
+
+    if inner_node_type.lower() not in ["nmuts", "nodeid", "both"]:
+        raise ValueError("Wrong `inner_node_type` choice!")
 
     ggtree, ggtree_is_not_imported = tsc.ul.import_rpy2(
         "ggtree",
@@ -282,6 +285,7 @@ def dendro_tree(
     ggtree = importr("ggtree")
     ape = importr("ape")
     aplot = importr("aplot")
+    # ggtext = importr("ggtext")
 
     with ro.conversion.localconverter(ro.default_converter + pandas2ri.converter):
         if cell_info is not None:
@@ -309,7 +313,7 @@ def dendro_tree(
         line_size,
         label_color,
         tiplab_size,
-        inner_node_id,
+        inner_node_type,
         inner_node_size,
         distance_labels_to_bottom,
     )

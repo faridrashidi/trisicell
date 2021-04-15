@@ -54,7 +54,7 @@ def _get_tree(
     line_size,
     label_color,
     tiplab_size,
-    inner_node_id,
+    inner_node_type,
     inner_node_size,
     distance_labels_to_bottom,
 ):
@@ -72,9 +72,10 @@ def _get_tree(
                 fontface='bold') +
     scale_color_identity(guide='none') +
     geom_label2(aes(x=branch, subset=!isTip,
-                    label={'nmuts_label' if not inner_node_id else 'nodeid_label'}),
+                    label={inner_node_type.lower()}_label),
                 fill='white',
                 color='black',
+                # parse=TRUE,
                 size={inner_node_size},
                 label.padding=unit(0.1,'lines')) +
     xlim_tree({distance_labels_to_bottom})

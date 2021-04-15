@@ -241,7 +241,7 @@ def _info2_mutation_list(tree):
                     "newick_label": f"Node{node+1}",
                     "nmuts_label": "root",
                     "nodeid_label": f"[{node+1}]",
-                    "mixed_label": f"root – [{node+1}]",
+                    "both_label": f"[{node+1}]: root",
                 }
             )
         else:
@@ -250,7 +250,7 @@ def _info2_mutation_list(tree):
                     "newick_label": f"Node{node+1}",
                     "nmuts_label": f"{len(tree2.nodes[node]['label'])}",
                     "nodeid_label": f"[{node+1}]",
-                    "mixed_label": (f"{len(tree2.nodes[node]['label'])} – [{node+1}]"),
+                    "both_label": (f"[{node+1}]: {len(tree2.nodes[node]['label'])}"),
                 }
             )
     info2 = pd.DataFrame(row)

@@ -8,7 +8,7 @@ from IPython.display import SVG, Image, display
 
 import trisicell as tsc
 from trisicell.pl._annotation import _add_barplot, _add_chromplot, _get_tree
-from trisicell.ul._trees import _info2_mutation_list, _to_newick
+from trisicell.ul._trees import _newick_info2_mutation_list
 
 
 def clonal_tree(
@@ -184,19 +184,6 @@ def clonal_tree(
     )
 
 
-def _merge(x):
-    return (
-        f"{x['Ensemble']}_{x['Gene']}.{x['Chrom']}."
-        f"{x['Position']}.{x['Reference']}.{x['Alteration']}"
-    )
-
-
-def _get_newick_info2_mutations(tree):
-    newick = _to_newick(tree)
-    info2, mutation_list = _info2_mutation_list(tree)
-    return newick, info2, mutation_list
-
-
 def dendro_tree(
     tree,
     width=1200,
@@ -275,8 +262,7 @@ def dendro_tree(
     from rpy2.robjects.lib import grdevices
     from rpy2.robjects.packages import importr
 
-    newick, info2, mutation_list = _get_newick_info2_mutations(tree)
-    mutation_list["index"] = mutation_list.apply(_merge, axis=1)
+    newick, info2, mutation_list = _newick_info2_mutation_list(tree)
     tree.graph["mutation_list"] = mutation_list.set_index("index")
     tree.graph["newick"] = newick
 

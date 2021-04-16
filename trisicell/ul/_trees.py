@@ -230,7 +230,7 @@ def _to_newick(tree):
     return newick
 
 
-def _info2_mutation_list(tree):
+def _newick_info2_mutation_list(tree):
     tree2 = to_mtree(tree)
 
     row = []
@@ -261,19 +261,29 @@ def _info2_mutation_list(tree):
             continue
         for mut in tree2.nodes[node]["label"]:
             ens, gene, chrom, pos, ref, alt = tsc.ul.split_mut(mut)
-            row.append(
-                {
-                    "Node": f"[{node+1}]",
-                    "Ensemble": ens,
-                    "Gene": gene,
-                    "Chrom": chrom,
-                    "Position": pos,
-                    "Reference": ref,
-                    "Alteration": alt,
-                }
-            )
+            if ens is None:
+                row.append(
+                    {
+                        "index": mut,
+                        "node_id": f"[{node+1}]",
+                    }
+                )
+            else:
+                row.append(
+                    {
+                        "index": mut,
+                        "Node": f"[{node+1}]",
+                        "Ensemble": ens,
+                        "Gene": gene,
+                        "Chrom": chrom,
+                        "Position": pos,
+                        "Reference": ref,
+                        "Alteration": alt,
+                    }
+                )
     mutation_list = pd.DataFrame(row)
-    return info2, mutation_list
+    newick = _to_newick(tree)
+    return newick, info2, mutation_list
 
 
 def _split_labels(mt, mt_guide):

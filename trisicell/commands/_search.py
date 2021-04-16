@@ -5,7 +5,7 @@ from joblib import Parallel, delayed
 from tqdm import tqdm
 
 import trisicell as tsc
-from trisicell.pl._trees import _get_newick_info2_mutations
+from trisicell.pl._trees import _newick_info2_mutation_list
 
 
 def run_scistree(df_in, alpha, beta, outfile):
@@ -14,7 +14,7 @@ def run_scistree(df_in, alpha, beta, outfile):
     tsc.io.write(df_out, f"{outfile}/fn_{beta}-fp_{alpha}.CFMatrix")
 
     tree = tsc.ul.to_tree(df_out)
-    newick, info2, mutations = _get_newick_info2_mutations(tree)
+    newick, info2, mutations = _newick_info2_mutation_list(tree)
     with open(f"{outfile}/fn_{beta}-fp_{alpha}.newick", "w") as fout:
         fout.write(newick + "\n")
     info2.to_csv(f"{outfile}/fn_{beta}-fp_{alpha}.info2", index=None)

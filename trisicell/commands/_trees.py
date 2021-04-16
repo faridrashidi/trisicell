@@ -3,7 +3,7 @@ import os
 import click
 
 import trisicell as tsc
-from trisicell.pl._trees import _get_newick_info2_mutations
+from trisicell.pl._trees import _newick_info2_mutation_list
 
 
 @click.command(short_help="Convert conflict-free to newick file.")
@@ -20,7 +20,7 @@ def cf2newick(cf_file):
     outfile = os.path.splitext(cf_file)[0]
     cf = tsc.io.read(cf_file)
     tree = tsc.ul.to_tree(cf)
-    newick, info2, mutations = _get_newick_info2_mutations(tree)
+    newick, info2, mutations = _newick_info2_mutation_list(tree)
     with open(f"{outfile}.newick", "w") as fout:
         fout.write(newick + "\n")
     info2.to_csv(f"{outfile}.info2", index=None)

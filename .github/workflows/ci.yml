@@ -78,14 +78,14 @@ jobs:
         -   name: Install dependencies
             run: |
                 python -m pip install --upgrade pip
+                pip install twine
         -   name: Build a binary wheel and a source tarball
             uses: RalfG/python-wheels-manylinux-build@v0.3.3
             with:
               python-versions: 'cp37-cp37m'
-        -   name: Publish package on PyPI
-            uses: pypa/gh-action-pypi-publish@master
-            with:
-                user: __token__
-                password: ${{ secrets.PYPI_TOKEN }}
-                skip_existing: true
-                verbose: true
+        -   name: Publish wheels to PyPI
+            env:
+            TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
+            TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+            run: |
+                twine upload dist/*-manylinux*.whl

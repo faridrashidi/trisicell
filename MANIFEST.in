@@ -1,5 +1,0 @@
-include trisicell/external/_mltd.cpp
-include trisicell/external/bin/scistree
-include trisicell/external/bin/scite
-include trisicell/external/mltd/mltd.cpp
-include trisicell/external/mltd/mltd.h

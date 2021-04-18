@@ -85,7 +85,7 @@ jobs:
               python-versions: 'cp37-cp37m'
         -   name: Publish wheels to PyPI
             env:
-                TWINE_USERNAME: ${{ secrets.PYPI_USER }}
-                TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
+                TWINE_USERNAME: ${{ secrets.TWINE_PASSWORD }}
+                TWINE_PASSWORD: ${{ secrets.TWINE_USERNAME }}
             run: |
                 twine upload dist/*-manylinux*.whl

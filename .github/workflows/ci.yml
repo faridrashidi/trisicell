@@ -89,4 +89,3 @@ jobs:
                 TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
             run: |
                 twine upload dist/*-manylinux*.whl
-                twine upload dist/*.tar.gz

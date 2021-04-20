@@ -445,7 +445,3 @@ def statistics(adata):
     tsc.logg.info(f"    HET     = {b:6d} ({100*b/t:2.1f}%)")
     tsc.logg.info(f"    HOM_ALT = {d:6d} ({100*d/t:2.1f}%)")
     tsc.logg.info(f"    UNKNOWN = {c:6d} ({100*c/t:2.1f}%)")
-
-
-def filter_private_mutations(df):
-    df.drop(df.columns[df.sum() == 1], inplace=True)

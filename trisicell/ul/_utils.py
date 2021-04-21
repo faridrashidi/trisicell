@@ -299,21 +299,16 @@ def get_file(key):
 
 
 def split_mut(mut):
-    alt = mut.split(".")[-1]
     try:
         ref = mut.split(".")[-2]
-    except:
-        return None, None, None, None, None, None
-    pos = mut.split(".")[-3]
-    chrom = mut.split(".")[-4]
-    gene = None
-    ens = None
-    try:
+        pos = mut.split(".")[-3]
+        chrom = mut.split(".")[-4]
         gene = mut.split(".chr")[0].split("_")[1]
         ens = mut.split(".chr")[0].split("_")[0]
+        alt = mut.split(".")[-1]
+        return ens, gene, chrom, pos, ref, alt
     except:
-        pass
-    return ens, gene, chrom, pos, ref, alt
+        return None, None, None, None, None, None
 
 
 def flips_in_cells(adata, df_in, df_out):

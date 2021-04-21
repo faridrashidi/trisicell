@@ -20,3 +20,14 @@ def binarym_filter_nonsense_mutations(df, alt_in=2, ref_in=1):
         axis=1,
         inplace=True,
     )
+
+
+def binarym_statistics(df):
+    t = df.shape[0] * df.shape[1]
+    a = (df == 0).sum().sum()
+    b = (df == 1).sum().sum()
+    d = (df == 3).sum().sum()
+    tsc.logg.info(f"size = {df.shape[0]} × {df.shape[1]}")
+    tsc.logg.info(f"    REF     = {a:6d} ({100*a/t:2.1f}%)")
+    tsc.logg.info(f"    HET     = {b:6d} ({100*b/t:2.1f}%)")
+    tsc.logg.info(f"    UNKNOWN = {d:6d} ({100*d/t:2.1f}%)")

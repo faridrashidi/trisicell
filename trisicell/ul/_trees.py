@@ -95,6 +95,7 @@ def to_tree(df):
             node_mud[names_mut[i]] = i
         i -= 1
 
+    tumor_cells = []
     clusters = {cols: "root"}
     for node in tree:
         if node == cols:
@@ -112,10 +113,17 @@ def to_tree(df):
         ].index
         if len(untilnow_cell) > 0:
             clusters[node] = f"{tree.graph['splitter_cell'].join(untilnow_cell)}"
+            tumor_cells += [y for y in tree.graph["splitter_cell"].join(untilnow_cell)]
         else:
             clusters[node] = "––"
 
         tree.nodes[node]["label"] = clusters[node]
+
+    tree.graph["normal_cells"] = df[df.sum(axis=1) == 0].index
+    tree.nodes[cols]["label"] = tree.graph["splitter_cell"].join(
+        df[df.sum(axis=1) == 0].index
+    )
+    tree.graph["root_id"] = cols
 
     i = 1
     for k, v in clusters.items():

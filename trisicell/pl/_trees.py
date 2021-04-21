@@ -1,6 +1,3 @@
-import copy
-import os
-
 import networkx as nx
 import numpy as np
 import pandas as pd
@@ -82,6 +79,15 @@ def clonal_tree(
                 tc.nodes[node]["shape"] = "circle"
                 tc.nodes[node]["width"] = 0
                 tc.nodes[node]["height"] = 0
+            else:
+                tc.nodes[node]["label"] = "root"
+                tc.nodes[node]["fontname"] = "Helvetica"
+                tc.nodes[node]["style"] = "rounded"
+                tc.nodes[node]["shape"] = "box"
+                tc.nodes[node]["margin"] = 0.05
+                tc.nodes[node]["pad"] = 0
+                tc.nodes[node]["width"] = 0
+                tc.nodes[node]["height"] = 0
 
     if collapsed_path:
         tc2 = tc.copy()
@@ -139,42 +145,45 @@ def clonal_tree(
 
         mapping = cell_info[color_attr].to_dict()
         for node in tc:
-            if node != root:
-                num = 0
-                paths = nx.shortest_path(tc, source=root, target=node)
-                for i in range(len(paths) - 1):
-                    x = paths[i]
-                    y = paths[i + 1]
-                    num += len(tc[x][y]["label"].split(tc.graph["splitter_mut"]))
-                try:
-                    freq = [
-                        mapping[x]
-                        for x in tc.nodes[node]["label"].split(
-                            tc.graph["splitter_cell"]
-                        )
-                    ]
-                except:
-                    freq = ["#FFFFFF"]
-                freq = pd.DataFrame(freq)[0].value_counts(normalize=True)
-                fillcolor = ""
-                for index, value in freq.items():
-                    fillcolor += f"{index};{value}:"
-                tc.nodes[node]["fontsize"] = 0.5
-                tc.nodes[node]["shape"] = "circle"
-                tc.nodes[node]["fontname"] = "Helvetica"
-                tc.nodes[node]["style"] = "wedged"
-                tc.nodes[node]["margin"] = 0.05
-                tc.nodes[node]["pad"] = 0
-                if "––" in tc.nodes[node]["label"]:
-                    tc.nodes[node]["width"] = 0
-                    tc.nodes[node]["height"] = 0
-                else:
-                    tc.nodes[node]["width"] = 0.8
-                    tc.nodes[node]["height"] = 0.8
-                tc.nodes[node]["fillcolor"] = fillcolor  # "red;0.3:green;0.6:orange"
-                tc.nodes[node]["label"] = node
+            num = 0
+            paths = nx.shortest_path(tc, source=root, target=node)
+            for i in range(len(paths) - 1):
+                x = paths[i]
+                y = paths[i + 1]
+                num += len(tc[x][y]["label"].split(tc.graph["splitter_mut"]))
+            try:
+                freq = [
+                    mapping[x]
+                    for x in tc.nodes[node]["label"].split(tc.graph["splitter_cell"])
+                ]
+            except:
+                freq = ["#FFFFFF"]
+            freq = pd.DataFrame(freq)[0].value_counts(normalize=True)
+            fillcolor = ""
+            for index, value in freq.items():
+                fillcolor += f"{index};{value}:"
+            tc.nodes[node]["fontsize"] = 14
+            tc.nodes[node]["shape"] = "circle"
+            tc.nodes[node]["fontname"] = "Helvetica"
+            tc.nodes[node]["style"] = "wedged"
+            tc.nodes[node]["margin"] = 0.05
+            tc.nodes[node]["pad"] = 0
+            if "––" in tc.nodes[node]["label"]:
+                tc.nodes[node]["width"] = 0
+                tc.nodes[node]["height"] = 0
             else:
-                tc.nodes[node]["label"] = f"<<b>zygote</b>>"
+                tc.nodes[node]["width"] = 0.8
+                tc.nodes[node]["height"] = 0.8
+            tc.nodes[node]["fillcolor"] = fillcolor  # "red;0.3:green;0.6:orange"
+            tc.nodes[node]["label"] = len(
+                tc.nodes[node]["label"].split(tc.graph["splitter_cell"])
+            )
+            tc.nodes[node]["fontcolor"] = "white"
+            tc.nodes[node]["color"] = "gray"
+
+    tc.graph["graph"] = {"fontname": "Helvetica"}
+    tc.graph["node"] = {"fontname": "Helvetica", "fontsize": 14}
+    tc.graph["edge"] = {"fontname": "Helvetica", "fontsize": 14}
 
     if output_file is not None:
         tsc.io.to_png(tc, output_file, dpi)

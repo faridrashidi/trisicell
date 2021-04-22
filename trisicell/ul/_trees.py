@@ -120,9 +120,6 @@ def to_tree(df):
         tree.nodes[node]["label"] = clusters[node]
 
     tree.graph["normal_cells"] = df[df.sum(axis=1) == 0].index
-    tree.nodes[cols]["label"] = tree.graph["splitter_cell"].join(
-        df[df.sum(axis=1) == 0].index
-    )
     tree.graph["root_id"] = cols
 
     i = 1

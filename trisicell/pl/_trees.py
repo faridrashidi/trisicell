@@ -143,6 +143,10 @@ def clonal_tree(
                 tc2.nodes[new_node]["label"] = new_label
         tc = tc2
 
+    if cell_info is not None:
+        tc.nodes[root]["label"] = tree.graph["splitter_cell"].join(
+            tc.graph["normal_cells"]
+        )
         mapping = cell_info[color_attr].to_dict()
         for node in tc:
             num = 0

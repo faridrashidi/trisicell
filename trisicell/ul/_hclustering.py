@@ -9,14 +9,15 @@ import trisicell as tsc
 from trisicell.external._betabinom import pmf_BetaBinomial
 
 
+@numba.jit(nopython=True)
 def _l1_ignore_na(a, b):
     a[a == 3] = np.nan
     b[b == 3] = np.nan
     return np.nanmean(np.abs(a - b))
 
 
-def dist_l1_ignore_na(I):
-    return pairwise_distances(I, metric=_l1_ignore_na)
+def dist_l1_ignore_na(I, n_jobs=1):
+    return pairwise_distances(I, metric=_l1_ignore_na, n_jobs=n_jobs)
 
 
 # https://gist.github.com/FedericoV/0e7d6d8c8794a99a7a42
@@ -43,8 +44,10 @@ def _cosine_ignore_na(u, v):
     return ratio
 
 
-def dist_cosine_ignore_na(I):
-    return pairwise_distances(I, metric=_cosine_ignore_na, force_all_finite="allow-nan")
+def dist_cosine_ignore_na(I, n_jobs=1):
+    return pairwise_distances(
+        I, metric=_cosine_ignore_na, force_all_finite="allow-nan", n_jobs=n_jobs
+    )
 
 
 def _dist_dendro(T, V, I):

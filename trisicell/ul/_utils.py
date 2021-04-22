@@ -11,6 +11,7 @@ import joblib
 import numpy as np
 import pandas as pd
 import pkg_resources
+import seaborn as sns
 
 import trisicell as tsc
 
@@ -448,3 +449,19 @@ def tqdm_joblib(tqdm_object):
     finally:
         joblib.parallel.BatchCompletionCallBack = old_batch_callback
         tqdm_object.close()
+
+
+def colorize_one(sery, color="#984EA3"):
+    x = sery.sort_values()
+    return pd.Series(
+        sns.color_palette(f"light:{color}", len(x)).as_hex(), index=x.index
+    )
+
+
+def colorize_two(sery):
+    x = sery.sort_values()
+    a = (x <= 0).sum()
+    b = (0 < x).sum()
+    a = sns.color_palette("Reds_r", a).as_hex()
+    b = sns.color_palette("Blues", b).as_hex()
+    return pd.Series(a + b, index=x.index)

@@ -5,14 +5,14 @@ from IPython.display import SVG, Image, display
 
 import trisicell as tsc
 from trisicell.pl._annotation import _add_barplot, _add_chromplot, _get_tree
-from trisicell.ul._trees import _newick_info2_mutation_list
+from trisicell.ul._trees import _to_newick, to_mtree
 
 
 def clonal_tree(
     tree,
     muts_as_number=False,
-    show_cells=True,
-    collapsed_path=False,
+    cells_as_number=False,
+    show_id=False,
     cell_info=None,
     output_file=None,
     color_attr=None,
@@ -56,92 +56,29 @@ def clonal_tree(
     for node in tc.nodes:
         if tc.in_degree(node) == 0:
             root = node
+            tc.nodes[node]["label"] = "root"
+            tc.nodes[node]["fontname"] = "Helvetica"
+            tc.nodes[node]["style"] = "rounded"
+            tc.nodes[node]["shape"] = "box"
+            tc.nodes[node]["margin"] = 0.05
+            tc.nodes[node]["pad"] = 0
+            tc.nodes[node]["width"] = 0
+            tc.nodes[node]["height"] = 0
             break
-
-    if collapsed_path:
-        muts_as_number = True
-        show_cells = True
 
     if muts_as_number:
         for u, v, l in tc.edges.data("label"):
             ll = l.split(tc.graph["splitter_mut"])
             if "––" in tc.nodes[v]["label"]:
-                tc.add_edge(
-                    u, v, label=f"  {len(ll)}  ", color="black", fontcolor="black"
-                )
+                tc.add_edge(u, v, label=f"  {len(ll)}  ")
             else:
                 tc.add_edge(u, v, label=f"  {len(ll)}  ")
 
-    if not show_cells:
-        for node in tc.nodes:
-            if node != root:
-                tc.nodes[node]["label"] = ""
-                tc.nodes[node]["shape"] = "circle"
-                tc.nodes[node]["width"] = 0
-                tc.nodes[node]["height"] = 0
-            else:
-                tc.nodes[node]["label"] = "root"
-                tc.nodes[node]["fontname"] = "Helvetica"
-                tc.nodes[node]["style"] = "rounded"
-                tc.nodes[node]["shape"] = "box"
-                tc.nodes[node]["margin"] = 0.05
-                tc.nodes[node]["pad"] = 0
-                tc.nodes[node]["width"] = 0
-                tc.nodes[node]["height"] = 0
-
-    if collapsed_path:
-        tc2 = tc.copy()
-        for _ in range(len(tc.nodes)):
-            d_in = tc2.in_degree(tc2)
-            d_out = tc2.out_degree(tc2)
-            for node in tc2.nodes():
-                if d_out[node] == 1 and d_in[node] == 1:
-                    parent = [x for x in tc2.predecessors(node)][0]
-                    child = [x for x in tc2.successors(node)][0]
-                    if d_out[parent] < 2 and d_in[parent] == 1:
-                        new_node = f"{parent}+{node}"
-                        new_label = (
-                            f"{tc2.nodes[parent]['label']}"
-                            f"{tc.graph['splitter_cell']}"
-                            f"{tc2.nodes[node]['label']}"
-                        )
-                        a = int(tc2[parent][node]["label"])
-                        b = int(tc2[node][child]["label"])
-                        new_edge = f"{a + b}"
-
-                        tc2 = nx.contracted_nodes(tc2, parent, node, self_loops=False)
-                        mapping = {parent: new_node}
-                        tc2 = nx.relabel_nodes(tc2, mapping)
-                        tc2[new_node][child]["label"] = new_edge
-                        tc2.nodes[new_node]["label"] = new_label
-                        break
-        d_in = tc2.in_degree(tc2)
-        d_out = tc2.out_degree(tc2)
-        nodes = []
-        for node in tc2.nodes():
-            if d_out[node] == 0:
-                nodes.append(node)
-        for node in nodes:
-            parent = [x for x in tc2.predecessors(node)][0]
-            if d_out[parent] == 1 and d_in[parent] == 1:
-                grandparent = [x for x in tc2.predecessors(parent)][0]
-
-                new_node = f"{parent}+{node}"
-                new_label = (
-                    f"{tc2.nodes[parent]['label']}"
-                    f"{tc.graph['splitter_cell']}"
-                    f"{tc2.nodes[node]['label']}"
-                )
-                a = int(tc2[grandparent][parent]["label"])
-                b = int(tc2[parent][node]["label"])
-                new_edge = f"{a + b}"
-
-                tc2 = nx.contracted_nodes(tc2, parent, node, self_loops=False)
-                mapping = {parent: new_node}
-                tc2 = nx.relabel_nodes(tc2, mapping)
-                tc2[grandparent][new_node]["label"] = new_edge
-                tc2.nodes[new_node]["label"] = new_label
-        tc = tc2
+    if cells_as_number:
+        for n in tc.nodes:
+            if n != root:
+                ll = tc.nodes[n]["label"].split(tc.graph["splitter_cell"])
+                tc.nodes[n]["label"] = f"{len(ll)}"
 
     if cell_info is not None:
         tc.nodes[root]["label"] = tree.graph["splitter_cell"].join(
@@ -185,9 +122,17 @@ def clonal_tree(
             tc.nodes[node]["fontcolor"] = "white"
             tc.nodes[node]["color"] = "gray"
 
+    if show_id:
+        for u, v, l in tc.edges.data("label"):
+            tc.add_edge(u, v, label=l + f"\n[{v}]")
+            tc.nodes[v]["label"] = tc.nodes[v]["label"] + f"\n[{v}]"
+
     tc.graph["graph"] = {"fontname": "Helvetica"}
     tc.graph["node"] = {"fontname": "Helvetica", "fontsize": 14}
     tc.graph["edge"] = {"fontname": "Helvetica", "fontsize": 14}
+
+    tree.graph["type"] = "clonal"
+    tree.graph["mutation_list"] = None
 
     if output_file is not None:
         tsc.io.to_png(tc, output_file, dpi)
@@ -278,6 +223,7 @@ def dendro_tree(
     newick, info2, mutation_list = _newick_info2_mutation_list(tree)
     tree.graph["mutation_list"] = mutation_list.set_index("index")
     tree.graph["newick"] = newick
+    tree.graph["type"] = "dendro"
 
     ggplot2 = importr("ggplot2")
     cowplot = importr("cowplot")
@@ -349,3 +295,63 @@ def dendro_tree(
                 limitsize=False,
             )
     return display(Image(image.getvalue(), embed=True, retina=True))
+
+
+def _clonal_mutation_list(tree):
+    pass
+
+
+def _newick_info2_mutation_list(tree):
+    tree2 = to_mtree(tree)
+
+    row = []
+    for node in tree2.nodes:
+        if tree2.in_degree(node) == 0:
+            row.append(
+                {
+                    "newick_label": f"Node{node+1}",
+                    "nmuts_label": "root",
+                    "nodeid_label": f"[{node+1}]",
+                    "both_label": f"[{node+1}]: root",
+                }
+            )
+        else:
+            row.append(
+                {
+                    "newick_label": f"Node{node+1}",
+                    "nmuts_label": f"{len(tree2.nodes[node]['label'])}",
+                    "nodeid_label": f"[{node+1}]",
+                    "both_label": (f"[{node+1}]: {len(tree2.nodes[node]['label'])}"),
+                }
+            )
+    info2 = pd.DataFrame(row)
+
+    row = []
+    for node in tree2.nodes:
+        if tree2.in_degree(node) == 0:
+            continue
+        for mut in tree2.nodes[node]["label"]:
+            ens, gene, chrom, pos, ref, alt = tsc.ul.split_mut(mut)
+            if ens is None:
+                row.append(
+                    {
+                        "index": mut,
+                        "node_id": f"[{node+1}]",
+                    }
+                )
+            else:
+                row.append(
+                    {
+                        "index": mut,
+                        "Node": f"[{node+1}]",
+                        "Ensemble": ens,
+                        "Gene": gene,
+                        "Chrom": chrom,
+                        "Position": pos,
+                        "Reference": ref,
+                        "Alteration": alt,
+                    }
+                )
+    mutation_list = pd.DataFrame(row)
+    newick = _to_newick(tree)
+    return newick, info2, mutation_list

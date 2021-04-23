@@ -15,7 +15,7 @@ class TestCommands:
             cli,
             [
                 "scistree",
-                f"{tsc.ul.get_file('trisicell.datasets/test/test.SC')}",
+                f"{tsc.ul.get_file('trisicell.datasets/test/test.tsv')}",
                 "0.0000001",
                 "0.1",
             ],
@@ -28,7 +28,7 @@ class TestCommands:
             cli,
             [
                 "scite",
-                f"{tsc.ul.get_file('trisicell.datasets/test/test.SC')}",
+                f"{tsc.ul.get_file('trisicell.datasets/test/test.tsv')}",
                 "0.0000001",
                 "0.1",
                 "-r 3",
@@ -43,7 +43,7 @@ class TestCommands:
             cli,
             [
                 "scite",
-                f"{tsc.ul.get_file('trisicell.datasets/test/test.SC')}",
+                f"{tsc.ul.get_file('trisicell.datasets/test/test.tsv')}",
                 "0.0000001",
                 "0.1",
                 "-r 3",
@@ -60,7 +60,7 @@ class TestCommands:
             cli,
             [
                 "phiscsb",
-                f"{tsc.ul.get_file('trisicell.datasets/test/test.SC')}",
+                f"{tsc.ul.get_file('trisicell.datasets/test/test.tsv')}",
                 "0.0000001",
                 "0.1",
             ],

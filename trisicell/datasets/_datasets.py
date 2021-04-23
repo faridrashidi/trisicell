@@ -36,7 +36,7 @@ def example(kind):
 
 
 def test():
-    df = tsc.io.read(tsc.ul.get_file("trisicell.datasets/test/test.SC"))
+    df = tsc.io.read(tsc.ul.get_file("trisicell.datasets/test/test.tsv"))
     return df
 
 

@@ -157,7 +157,7 @@ def to_cfmatrix(tree):
         if "––" not in tree.nodes[v]["label"]:
             cells += tree.nodes[v]["label"].split(tree.graph["splitter_cell"])
     df = pd.DataFrame(0, index=cells, columns=mutations)
-    root = [x for x in tree.nodes if tree.in_degree(x) == 0][0]
+    root = tsc.ul.root_id(tree)
     leaves = [x for x in tree.nodes if tree.out_degree(x) == 0]
     for leaf in leaves:
         nodes = nx.dijkstra_path(tree, root, leaf)
@@ -207,7 +207,7 @@ def _to_newick(tree):
     def children(at):
         return [n for n in tree.neighbors(at)]
 
-    root = [x for x in tree.nodes if tree.in_degree(x) == 0][0]
+    root = tsc.ul.root_id(tree)
 
     def newick_recursive(node_id):
         node_ids = children(node_id)
@@ -233,62 +233,6 @@ def _to_newick(tree):
 
     newick = newick_recursive(root) + ";"
     return newick
-
-
-def _newick_info2_mutation_list(tree):
-    tree2 = to_mtree(tree)
-
-    row = []
-    for node in tree2.nodes:
-        if tree2.in_degree(node) == 0:
-            row.append(
-                {
-                    "newick_label": f"Node{node+1}",
-                    "nmuts_label": "root",
-                    "nodeid_label": f"[{node+1}]",
-                    "both_label": f"[{node+1}]: root",
-                }
-            )
-        else:
-            row.append(
-                {
-                    "newick_label": f"Node{node+1}",
-                    "nmuts_label": f"{len(tree2.nodes[node]['label'])}",
-                    "nodeid_label": f"[{node+1}]",
-                    "both_label": (f"[{node+1}]: {len(tree2.nodes[node]['label'])}"),
-                }
-            )
-    info2 = pd.DataFrame(row)
-
-    row = []
-    for node in tree2.nodes:
-        if tree2.in_degree(node) == 0:
-            continue
-        for mut in tree2.nodes[node]["label"]:
-            ens, gene, chrom, pos, ref, alt = tsc.ul.split_mut(mut)
-            if ens is None:
-                row.append(
-                    {
-                        "index": mut,
-                        "node_id": f"[{node+1}]",
-                    }
-                )
-            else:
-                row.append(
-                    {
-                        "index": mut,
-                        "Node": f"[{node+1}]",
-                        "Ensemble": ens,
-                        "Gene": gene,
-                        "Chrom": chrom,
-                        "Position": pos,
-                        "Reference": ref,
-                        "Alteration": alt,
-                    }
-                )
-    mutation_list = pd.DataFrame(row)
-    newick = _to_newick(tree)
-    return newick, info2, mutation_list
 
 
 def _split_labels(mt, mt_guide):
@@ -358,6 +302,10 @@ def _to_apted(sl_tree):
     return apted_recursive(root)
 
 
+def root_id(tree):
+    return [x for x in tree.nodes if tree.in_degree(x) == 0][0]
+
+
 def iterate(tree):
     for (u, v, e) in tree.edges.data():
         yield u.split(tree.graph["splitter_cell"]), v.split(
@@ -383,7 +331,7 @@ def cells_rooted_at(tree, node_id):
     return cells, np.setdiff1d(tree.graph["data"].index, cells)
 
 
-def muts_rooted_at(tree):
+def muts_rooted_at(tree, node_id):
     muts = tree.graph["mutation_list"][
         tree.graph["mutation_list"].Node == node_id
     ].index

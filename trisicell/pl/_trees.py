@@ -52,27 +52,20 @@ def clonal_tree(
         raise RuntimeError("Unable to import a package!")
 
     tc = tree.copy()
-    root = None
-    for node in tc.nodes:
-        if tc.in_degree(node) == 0:
-            root = node
-            tc.nodes[node]["label"] = "root"
-            tc.nodes[node]["fontname"] = "Helvetica"
-            tc.nodes[node]["style"] = "rounded"
-            tc.nodes[node]["shape"] = "box"
-            tc.nodes[node]["margin"] = 0.05
-            tc.nodes[node]["pad"] = 0
-            tc.nodes[node]["width"] = 0
-            tc.nodes[node]["height"] = 0
-            break
+    root = tsc.ul.root_id(tree)
+    tc.nodes[root]["label"] = "root"
+    tc.nodes[root]["fontname"] = "Helvetica"
+    tc.nodes[root]["style"] = "rounded"
+    tc.nodes[root]["shape"] = "box"
+    tc.nodes[root]["margin"] = 0.05
+    tc.nodes[root]["pad"] = 0
+    tc.nodes[root]["width"] = 0
+    tc.nodes[root]["height"] = 0
 
     if muts_as_number:
         for u, v, l in tc.edges.data("label"):
             ll = l.split(tc.graph["splitter_mut"])
-            if "––" in tc.nodes[v]["label"]:
-                tc.add_edge(u, v, label=f"  {len(ll)}  ")
-            else:
-                tc.add_edge(u, v, label=f"  {len(ll)}  ")
+            tc.add_edge(u, v, label=f"  {len(ll)}  ")
 
     if cells_as_number:
         for n in tc.nodes:
@@ -132,7 +125,9 @@ def clonal_tree(
     tc.graph["edge"] = {"fontname": "Helvetica", "fontsize": 14}
 
     tree.graph["type"] = "clonal"
-    tree.graph["mutation_list"] = None
+    cell_list, mutation_list = _clonal_cell_mutation_list(tree)
+    tree.graph["cell_list"] = cell_list
+    tree.graph["mutation_list"] = mutation_list
 
     if output_file is not None:
         tsc.io.to_png(tc, output_file, dpi)
@@ -297,8 +292,23 @@ def dendro_tree(
     return display(Image(image.getvalue(), embed=True, retina=True))
 
 
-def _clonal_mutation_list(tree):
-    pass
+def _clonal_cell_mutation_list(tree):
+    muts_list = []
+    cells_list = []
+    for u, v, l in tree.edges.data("label"):
+        muts = l.split(tree.graph["splitter_mut"])
+        if "––" not in tree.nodes[v]["label"]:
+            cells = tree.nodes[v]["label"].split(tree.graph["splitter_cell"])
+            for mut in muts:
+                muts_list.append({"mut": mut, "Node": f"[{v}]"})
+            for cell in cells:
+                cells_list.append({"cell": cell, "Node": f"[{v}]"})
+        else:
+            for mut in muts:
+                muts_list.append({"mut": mut, "Node": f"[{v}]"})
+    cells_list = pd.DataFrame(cells_list).set_index("cell")
+    muts_list = pd.DataFrame(muts_list).set_index("mut")
+    return cells_list, muts_list
 
 
 def _newick_info2_mutation_list(tree):

@@ -306,13 +306,6 @@ def root_id(tree):
     return [x for x in tree.nodes if tree.in_degree(x) == 0][0]
 
 
-def iterate(tree):
-    for (u, v, e) in tree.edges.data():
-        yield u.split(tree.graph["splitter_cell"]), v.split(
-            tree.graph["splitter_cell"]
-        ), e["label"].split(tree.graph["splitter_mut"])
-
-
 def partition_cells(tree, node):
     nd = tree.graph["splitter_cell"].join(node)
     cells = []

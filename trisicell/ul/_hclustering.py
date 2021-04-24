@@ -9,10 +9,11 @@ import trisicell as tsc
 from trisicell.external._betabinom import pmf_BetaBinomial
 
 
-@numba.jit(nopython=True)
+@numba.jit(nopython=True, parallel=True)
 def _l1_ignore_na(a, b):
     a[a == 3] = np.nan
     b[b == 3] = np.nan
+    print(np.abs(a - b))
     return np.nanmean(np.abs(a - b))
 
 
@@ -21,7 +22,7 @@ def dist_l1_ignore_na(I, n_jobs=1):
 
 
 # https://gist.github.com/FedericoV/0e7d6d8c8794a99a7a42
-@numba.jit(nopython=True)
+@numba.jit(nopython=True, parallel=True)
 def _cosine_ignore_na(u, v):
     m = u.shape[0]
     udotv = 0

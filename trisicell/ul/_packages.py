@@ -5,17 +5,6 @@ def import_gurobi():
     try:
         import gurobipy as gp
 
-        # m = gp.Model("MIP")
-        # m.Params.OutputFlag = 0
-        # m.Params.LogFile = ""
-        # m.Params.Threads = 1
-        # x = m.addVar(vtype=gp.GRB.BINARY, name="x")
-        # y = m.addVar(vtype=gp.GRB.BINARY, name="y")
-        # z = m.addVar(vtype=gp.GRB.BINARY, name="z")
-        # m.setObjective(x + y + 2 * z, gp.GRB.MAXIMIZE)
-        # m.addConstr(x + 2 * y + 3 * z <= 4, "c0")
-        # m.addConstr(x + y >= 1, "c1")
-        # m.optimize()
         return gp, False
     except:
         tsc.logg.error(

@@ -58,7 +58,7 @@ def infercna(expr, ref_cells, genome="hg19", show_heatmap=False):
     rc = ro.ListVector(rc)
 
     tpm = expr.to_df(layer="tpm").T
-    tpm.index = tpm.index.str.split("_").str[1]
+    # tpm.index = tpm.index.str.split("_").str[1]
 
     with ro.conversion.localconverter(ro.default_converter + pandas2ri.converter):
         data = ro.conversion.py2rpy(tpm)

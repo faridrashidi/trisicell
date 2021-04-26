@@ -183,6 +183,7 @@ def merge_cells_using(adata, using, min_vaf=0.4, min_cell=2):
 def local_cluster_cells_then_merge_muts_pseudo_bulk(
     adata, by="mut", n_clusters=100, min_n_cells=5, attr="group"
 ):
+    tsc.pp.build_scmatrix(adata)
     if by == "mut":
         clusters = tsc.ul.hclustering(adata.to_df())
     elif by == "cna":

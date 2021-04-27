@@ -1,4 +1,5 @@
 from operator import index
+from sys import path
 
 import networkx as nx
 import numpy as np
@@ -306,26 +307,36 @@ def root_id(tree):
     return [x for x in tree.nodes if tree.in_degree(x) == 0][0]
 
 
-def partition_cells(tree, node):
-    nd = tree.graph["splitter_cell"].join(node)
-    cells = []
-    for x in list(nx.algorithms.traversal.depth_first_search.dfs_tree(tree, nd).nodes):
-        for y in x.split(", "):
-            if not "–" in y:
-                cells.append(y)
-    cells = np.array(cells)
-    return cells, np.setdiff1d(tree.graph["data"].index, cells)
+# def partition_cells(tree, node):
+#     nd = tree.graph["splitter_cell"].join(node)
+#     cells = []
+#     for x in list(nx.algorithms.traversal.depth_first_search.dfs_tree(tree, nd).nodes):
+#         for y in x.split(", "):
+#             if not "–" in y:
+#                 cells.append(y)
+#     cells = np.array(cells)
+#     return cells, np.setdiff1d(tree.graph["data"].index, cells)
 
 
 def cells_rooted_at(tree, node_id):
-    df = tree.graph["mutation_list"][tree.graph["mutation_list"].Node == node_id]
-    cells = (tree.graph["data"][df.index] == 1).all(axis=1)
+    muts = tree.graph["mutation_list"][tree.graph["mutation_list"].Node == node_id]
+    if muts.index.shape[0] == 0:
+        return np.array([])
+    cells = (tree.graph["data"][muts.index] == 1).all(axis=1)
     cells = np.array(tree.graph["data"].loc[cells].index)
-    return cells, np.setdiff1d(tree.graph["data"].index, cells)
+    return cells  # , np.setdiff1d(tree.graph["data"].index, cells)
 
 
 def muts_rooted_at(tree, node_id):
-    muts = tree.graph["mutation_list"][
-        tree.graph["mutation_list"].Node == node_id
-    ].index
+    muts = tree.graph["mutation_list"][tree.graph["mutation_list"].Node == node_id]
+    if muts.index.shape[0] == 0:
+        return np.array([])
+    # return np.array(muts.index)
+
+    nd = int(node_id.replace("[", "").replace("]", ""))
+    paths = nx.algorithms.traversal.depth_first_search.dfs_tree(tree, nd).nodes
+    sub_tree = nx.subgraph(tree, paths)
+    muts = []
+    for u, v, l in sub_tree.edges.data("label"):
+        muts += l.split(tree.graph["splitter_mut"])
     return np.array(muts)

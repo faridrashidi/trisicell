@@ -40,4 +40,4 @@ class TestTrees:
         assert res.shape[0] == 33
 
         res = tsc.ul.muts_rooted_at(tree, "[8]")
-        assert res.shape[0] == 38
+        assert res.shape[0] == 51

@@ -331,12 +331,11 @@ def muts_rooted_at(tree, node_id):
     muts = tree.graph["mutation_list"][tree.graph["mutation_list"].Node == node_id]
     if muts.index.shape[0] == 0:
         return np.array([])
-    # return np.array(muts.index)
 
+    muts = muts.index.tolist()
     nd = int(node_id.replace("[", "").replace("]", ""))
     paths = nx.algorithms.traversal.depth_first_search.dfs_tree(tree, nd).nodes
     sub_tree = nx.subgraph(tree, paths)
-    muts = []
     for u, v, l in sub_tree.edges.data("label"):
         muts += l.split(tree.graph["splitter_mut"])
     return np.array(muts)

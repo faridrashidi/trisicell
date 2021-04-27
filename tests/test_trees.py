@@ -19,6 +19,7 @@ class TestTrees:
         mtree = tsc.ul.to_mtree(tree)
         assert len(mtree.nodes[8]["label"]) == 13
 
+    @skip_graphviz
     def test_cells_muts_rooted_at(self):
         file = tsc.ul.get_file("trisicell.datasets/test/fp_0-fn_0-na_0.ground.CFMatrix")
         data = tsc.io.read(file)

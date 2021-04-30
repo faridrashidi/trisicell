@@ -17,9 +17,11 @@ def _l1_ignore_na(a, b):
 
 
 def dist_l1_ignore_na(I, n_jobs=1):
-    return pairwise_distances(
+    dist = pairwise_distances(
         I, metric=_l1_ignore_na, force_all_finite="allow-nan", n_jobs=n_jobs
     )
+    np.fill_diagonal(dist, 0)
+    return dist
 
 
 # https://gist.github.com/FedericoV/0e7d6d8c8794a99a7a42
@@ -47,9 +49,11 @@ def _cosine_ignore_na(u, v):
 
 
 def dist_cosine_ignore_na(I, n_jobs=1):
-    return pairwise_distances(
+    dist = pairwise_distances(
         I, metric=_cosine_ignore_na, force_all_finite="allow-nan", n_jobs=n_jobs
     )
+    np.fill_diagonal(dist, 0)
+    return dist
 
 
 def _dist_dendro(T, V, I):

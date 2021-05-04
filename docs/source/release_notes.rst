@@ -6,6 +6,25 @@
 Release Notes
 =============
 
+
+Version 0.0.5 :small:`May 4, 2021`
+-------------------------------------
+
+This version includes:
+
+    - Writing intermediate file in /tmp directory
+    - Fix some bugs
+
+
+Version 0.0.4 :small:`April 17, 2021`
+-------------------------------------
+
+This version includes:
+
+    - Add copy number tool
+    - Fix some bugs
+
+
 Version 0.0.3 :small:`April 8, 2021`
 -------------------------------------
 

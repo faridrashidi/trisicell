@@ -508,3 +508,67 @@ def read_snpeff(filepath):
     adata.layers["cna"] = m_cna
     adata = adata.T
     return adata
+
+
+def read_vep(filepath):
+    """Read the VCF file annotated by VEP in multi-sample format.
+
+    VEP was introduced in :cite:`VEP`.
+
+    Parameters
+    ----------
+    filepath : :obj:`str`
+        The path to the VCF file.
+
+    Returns
+    -------
+    :class:`anndata.AnnData`
+        The AnnData object which includes layers of mutant, total, genotype anc cnv.
+    """
+
+    vcf = VCF(filepath)
+    info = vcf.get_header_type("CSQ")["Description"].split("|")
+    info[0] = "Allele"
+    info = ["CHROM", "POS", "REF", "ALT", "START", "END"] + info
+
+    cells = vcf.samples
+    muts = []
+    m_gen = []
+    m_ref = []
+    m_alt = []
+    m_cna = []
+    for var in VCF(filepath):
+        if var.is_snp or var.is_indel:
+            row = [var.CHROM, var.POS, var.REF, var.ALT, var.start + 1, var.end]
+            ann = var.INFO.get("CSQ").split(",")[0].split("|")
+            row += ann
+            m_gen.append(var.gt_types.tolist())
+            m_ref.append(var.gt_ref_depths.tolist())
+            m_alt.append(var.gt_alt_depths.tolist())
+            muts.append(row)
+            cnas_per_var = []
+            for cell in cells:
+                cna_tmp = var.INFO.get(f"cn|{cell}")
+                if cna_tmp is not None:
+                    cnas_per_var.append(int(cna_tmp))
+                else:
+                    cnas_per_var.append(-1)
+            m_cna.append(cnas_per_var)
+
+    m_gen = np.array(m_gen)
+    m_ref = np.array(m_ref)
+    m_alt = np.array(m_alt)
+    m_cna = np.array(m_cna)
+    muts = pd.DataFrame(muts, columns=info)
+    muts.index = muts.index.map(lambda x: f"mut{x}")
+    cells = pd.DataFrame(index=cells)
+
+    adata = ad.AnnData(np.zeros((len(muts), len(cells))))
+    adata.obs = muts
+    adata.var = cells
+    adata.layers["genotype"] = m_gen
+    adata.layers["total"] = m_ref + m_alt
+    adata.layers["mutant"] = m_alt
+    adata.layers["cna"] = m_cna
+    adata = adata.T
+    return adata

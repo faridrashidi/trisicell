@@ -5,6 +5,12 @@ def binarym_filter_private_mutations(df):
     df.drop(df.columns[df.sum() == 1], axis=1, inplace=True)
 
 
+def binarym_filter_clonal_mutations(df):
+    x = (df == 1).sum()
+    x = x[x == df.shape[0]]
+    df.drop(x.index, axis=1, inplace=True)
+
+
 def binarym_filter_nonsense_mutations(df, alt_in=2, ref_in=1):
     df.drop(
         df.columns[

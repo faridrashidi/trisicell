@@ -1,5 +1,3 @@
-import os
-
 import pytest
 from _helpers import *
 from click.testing import CliRunner

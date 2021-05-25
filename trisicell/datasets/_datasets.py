@@ -173,12 +173,41 @@ def acute_lymphocytic_leukemia6():
     pass
 
 
+def muscle_invasive_bladder():
+    """Muscle Invasive Bladder Cancer.
+
+    This dataset was introduced in :cite:`Li_2012` and was used in:
+
+    * :cite:`OncoNEM` Figure 6B.
+
+    The size is n_cells × n_muts = 44 × 443
+
+    Returns
+    -------
+    :class:`anndata.AnnData`
+        An anndata in which `.X` is the input noisy.
+
+            - `.uns['params_onconem']` is parameters inferred by OncoNEM.
+
+    Examples
+    --------
+    >>> adata = tsc.datasets.muscle_invasive_bladder()
+    >>> df_in = adata.to_df()
+    """
+
+    adata = tsc.io.read(
+        tsc.ul.get_file("trisicell.datasets/real/muscle_invasive_bladder.h5ad")
+    )
+    return adata
+
+
 def renal_cell_carcinoma():
     """Clear-cell Renal-cell Carcinoma.
 
     This dataset was introduced in :cite:`Xu_2012` and was used in:
 
     * :cite:`SCITE` Figure S6 and S7.
+    * :cite:`infSCITE` Figure S14.
 
     The size is n_cells × n_muts = 17 × 35
 
@@ -188,6 +217,11 @@ def renal_cell_carcinoma():
         An anndata in which `.X` is the input noisy.
 
             - `.uns['params_scite']` is parameters inferred by SCITE.
+
+    Examples
+    --------
+    >>> adata = tsc.datasets.renal_cell_carcinoma()
+    >>> df_in = adata.to_df()
     """
 
     adata = tsc.io.read(

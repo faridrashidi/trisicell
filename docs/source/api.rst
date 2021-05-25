@@ -27,7 +27,12 @@ This module offers a bunch of functions for simulating data.
     datasets.add_noise
     datasets.melanoma20
     datasets.colorectal2
+    datasets.acute_lymphocytic_leukemia1
     datasets.acute_lymphocytic_leukemia2
+    datasets.acute_lymphocytic_leukemia3
+    datasets.acute_lymphocytic_leukemia4
+    datasets.acute_lymphocytic_leukemia5
+    datasets.acute_lymphocytic_leukemia6
     datasets.high_grade_serous_ovarian_cancer
     datasets.myeloproliferative_neoplasms712
     datasets.myeloproliferative_neoplasms78

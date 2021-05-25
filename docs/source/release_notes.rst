@@ -20,6 +20,7 @@ This version includes:
         - Li et al., 2012 (muscle invasive bladder).
         - Wang et al., 2014 (oestrogen-receptor-positive breast cancer).
         - Wang et al., 2014 (triple-negative breast cancer).
+        - Gawad et al., 2014 (acute lymphocytic leukemia 1 patient).
 
 
 Version 0.0.5 :small:`May 4, 2021`

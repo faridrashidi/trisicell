@@ -108,11 +108,12 @@ def colorectal2():
 
 
 def acute_lymphocytic_leukemia1():
-    """Human Acute Lymphocytic Leukemia dataset.
+    """Human Acute Lymphocytic Leukemia dataset (Patient 1).
 
     This dataset was introduced in :cite:`Gawad_2014` and was used in:
 
     * :cite:`B-SCITE` Figure 5.
+    * :cite:`infSCITE` Figure S16.
 
     The size is n_cells × n_muts = 111 × 20
 
@@ -122,17 +123,22 @@ def acute_lymphocytic_leukemia1():
         An anndata in which `.X` is the input noisy.
     """
 
+    adata = tsc.io.read(
+        tsc.ul.get_file("trisicell.datasets/real/acute_lymphocytic_leukemia1.h5ad")
+    )
     # TODO: extract.
-    pass
+    return adata
 
 
 def acute_lymphocytic_leukemia2():
-    """Human Acute Lymphocytic Leukemia dataset.
+    """Human Acute Lymphocytic Leukemia dataset (Patient 2).
 
     This dataset was introduced in :cite:`Gawad_2014` and was used in:
 
     * :cite:`PhISCS` Figure 9.
     * :cite:`B-SCITE` in Figure 6.
+    * :cite:`infSCITE` Figure S17.
+    * :cite:`Phyolin` Table 2.
 
     The size is n_cells × n_muts = 102 × 16
 
@@ -154,23 +160,97 @@ def acute_lymphocytic_leukemia2():
 
 
 def acute_lymphocytic_leukemia3():
-    # TODO: extract.
-    pass
+    """Human Acute Lymphocytic Leukemia dataset (Patient 3).
+
+    This dataset was introduced in :cite:`Gawad_2014` and was used in:
+
+    * :cite:`infSCITE` Figure S18.
+    * :cite:`SCIPhI` Figure 5.
+    * :cite:`ScisTree` Figure S3.
+
+    The size is n_cells × n_muts = 150 × 49
+
+    Returns
+    -------
+    :class:`anndata.AnnData`
+        An anndata in which `.X` is the input noisy.
+    """
+
+    adata = tsc.io.read(
+        tsc.ul.get_file("trisicell.datasets/real/acute_lymphocytic_leukemia3.h5ad")
+    )
+    # TODO: 255 x 49 in SCIPhI and ScisTree?
+    return adata
 
 
 def acute_lymphocytic_leukemia4():
+    """Human Acute Lymphocytic Leukemia dataset (Patient 4).
+
+    This dataset was introduced in :cite:`Gawad_2014` and was used in:
+
+    * :cite:`infSCITE` Figure S19.
+    * :cite:`gpps` Figure 3.
+    * :cite:`SASC` Figure 6.
+
+    The size is n_cells × n_muts = 143 × 78
+
+    Returns
+    -------
+    :class:`anndata.AnnData`
+        An anndata in which `.X` is the input noisy.
+    """
+
+    adata = tsc.io.read(
+        tsc.ul.get_file("trisicell.datasets/real/acute_lymphocytic_leukemia4.h5ad")
+    )
     # TODO: extract.
-    pass
+    return adata
 
 
 def acute_lymphocytic_leukemia5():
+    """Human Acute Lymphocytic Leukemia dataset (Patient 5).
+
+    This dataset was introduced in :cite:`Gawad_2014` and was used in:
+
+    * :cite:`infSCITE` Figure S20.
+    * :cite:`SASC` Figure 7.
+
+    The size is n_cells × n_muts = 96 × 105
+
+    Returns
+    -------
+    :class:`anndata.AnnData`
+        An anndata in which `.X` is the input noisy.
+    """
+
+    adata = tsc.io.read(
+        tsc.ul.get_file("trisicell.datasets/real/acute_lymphocytic_leukemia5.h5ad")
+    )
     # TODO: extract.
-    pass
+    return adata
 
 
 def acute_lymphocytic_leukemia6():
+    """Human Acute Lymphocytic Leukemia dataset (Patient 6).
+
+    This dataset was introduced in :cite:`Gawad_2014` and was used in:
+
+    * :cite:`infSCITE` Figure S21.
+    * :cite:`Phyolin` Table 2 and Figure 5.
+
+    The size is n_cells × n_muts = 146 × 10
+
+    Returns
+    -------
+    :class:`anndata.AnnData`
+        An anndata in which `.X` is the input noisy.
+    """
+
+    adata = tsc.io.read(
+        tsc.ul.get_file("trisicell.datasets/real/acute_lymphocytic_leukemia6.h5ad")
+    )
     # TODO: extract.
-    pass
+    return adata
 
 
 def tnbc():
@@ -362,24 +442,6 @@ def myeloproliferative_neoplasms18():
         tsc.ul.get_file("trisicell.datasets/real/myeloproliferative_neoplasms18.h5ad")
     )
     return adata
-
-
-def triple_negative_breast_cancer():
-    """Triple-negative Breast Cancer.
-
-    This dataset was introduced in []_ and was used in:
-    * :cite:`B-SCITE` Figure 7.
-
-    The size is n_cells × n_muts = 16 × 18
-
-    Returns
-    -------
-    :class:`anndata.AnnData`
-        An anndata in which `.X` is the input noisy.
-    """
-
-    # TODO: extract.
-    pass
 
 
 def high_grade_serous_ovarian_cancer():

@@ -62,11 +62,14 @@ def melanoma20():
 
 
 def colorectal1():
-    """Human Colorectal Cancer dataset patient 1.
+    """Human Colorectal Cancer (Patient 1).
 
     This dataset was introduced in :cite:`Leung_2017` and was used in:
 
     * :cite:`B-SCITE` Figure 8a.
+    * :cite:`SiFit` Figure 6.
+    * :cite:`SPhyR` Table 1.
+    * :cite:`SiCloneFit` Figure 3.
 
     The size is n_cells × n_muts = 72 × 12
 
@@ -76,17 +79,19 @@ def colorectal1():
         An anndata in which `.X` is the input noisy.
     """
 
-    # TODO: extract.
+    # TODO: extract (SiFit 178 × 16).
     pass
 
 
 def colorectal2():
-    """Human Colorectal Cancer dataset patient 2.
+    """Human Colorectal Cancer (Patient 2).
 
     This dataset was introduced in :cite:`Leung_2017` and was used in:
 
     * :cite:`PhISCS` Figure 7.
     * :cite:`B-SCITE` Figure 8b.
+    * :cite:`SiCloneFit` Figure 4.
+    * :cite:`SCARLET` Figure 4.
 
     The size is n_cells × n_muts = 78 × 25
 
@@ -103,8 +108,27 @@ def colorectal2():
     """
 
     adata = tsc.io.read(tsc.ul.get_file("trisicell.datasets/real/colorectal2.h5ad"))
-    # TODO: 86 x 25 in B-SCITE?
+    # TODO: (86 x 25 in B-SCITE) (182 x 36 SiCloneFit)
     return adata
+
+
+def colorectal3():
+    """Human Colorectal Cancer.
+
+    This dataset was introduced in :cite:`Wu_2016` and was used in:
+
+    * :cite:`SiFit` Figure 5.
+
+    The size is n_cells × n_muts = 48 × 77
+
+    Returns
+    -------
+    :class:`anndata.AnnData`
+        An anndata in which `.X` is the input noisy.
+    """
+
+    # TODO: extract.
+    pass
 
 
 def acute_lymphocytic_leukemia1():

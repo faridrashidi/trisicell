@@ -173,6 +173,34 @@ def acute_lymphocytic_leukemia6():
     pass
 
 
+def erbc():
+    """Oestrogen-receptor-positive (ER+) Breast Cancer.
+
+    This dataset was introduced in :cite:`Wang_2014` and was used in:
+
+    * :cite:`SCITE` Figure S8 and S9.
+    * :cite:`infSCITE` Figure S15.
+    * :cite:`gpps` Figure 1.
+
+    The size is n_cells × n_muts = 47 × 40
+
+    Returns
+    -------
+    :class:`anndata.AnnData`
+        An anndata in which `.X` is the input noisy.
+
+            - `.uns['params_scite']` is parameters inferred by SCITE.
+
+    Examples
+    --------
+    >>> adata = tsc.datasets.erbc()
+    >>> df_in = adata.to_df()
+    """
+
+    adata = tsc.io.read(tsc.ul.get_file("trisicell.datasets/real/erbc.h5ad"))
+    return adata
+
+
 def muscle_invasive_bladder():
     """Muscle Invasive Bladder Cancer.
 

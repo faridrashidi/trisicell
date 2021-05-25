@@ -33,10 +33,13 @@ This module offers a bunch of functions for simulating data.
     datasets.acute_lymphocytic_leukemia4
     datasets.acute_lymphocytic_leukemia5
     datasets.acute_lymphocytic_leukemia6
-    datasets.high_grade_serous_ovarian_cancer
-    datasets.myeloproliferative_neoplasms712
-    datasets.myeloproliferative_neoplasms78
+    datasets.high_grade_serous_ovarian_cancer1
+    datasets.high_grade_serous_ovarian_cancer2
+    datasets.high_grade_serous_ovarian_cancer3
+    datasets.high_grade_serous_ovarian_cancer_3celllines
     datasets.myeloproliferative_neoplasms18
+    datasets.myeloproliferative_neoplasms78
+    datasets.myeloproliferative_neoplasms712
     datasets.renal_cell_carcinoma
     datasets.muscle_invasive_bladder
     datasets.erbc

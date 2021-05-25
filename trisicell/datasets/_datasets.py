@@ -444,8 +444,80 @@ def myeloproliferative_neoplasms18():
     return adata
 
 
-def high_grade_serous_ovarian_cancer():
-    """Triple-negative Breast Cancer.
+def high_grade_serous_ovarian_cancer1():
+    """Triple-negative Breast Cancer (Patient 2).
+
+    This dataset was introduced in :cite:`McPherson_2016` and was used in:
+
+    * :cite:`infSCITE` Figure S22.
+
+    The size is n_cells × n_muts = 588 × 37
+
+    Returns
+    -------
+    :class:`anndata.AnnData`
+        An anndata in which `.X` is the input noisy.
+    """
+
+    adata = tsc.io.read(
+        tsc.ul.get_file(
+            "trisicell.datasets/real/high_grade_serous_ovarian_cancer1.h5ad"
+        )
+    )
+    # TODO: extract.
+    return adata
+
+
+def high_grade_serous_ovarian_cancer2():
+    """Triple-negative Breast Cancer (Patient 3).
+
+    This dataset was introduced in :cite:`McPherson_2016` and was used in:
+
+    * :cite:`infSCITE` Figure S23.
+
+    The size is n_cells × n_muts = 672 × 60
+
+    Returns
+    -------
+    :class:`anndata.AnnData`
+        An anndata in which `.X` is the input noisy.
+    """
+
+    adata = tsc.io.read(
+        tsc.ul.get_file(
+            "trisicell.datasets/real/high_grade_serous_ovarian_cancer2.h5ad"
+        )
+    )
+    # TODO: extract.
+    return adata
+
+
+def high_grade_serous_ovarian_cancer3():
+    """Triple-negative Breast Cancer (Patient 9).
+
+    This dataset was introduced in :cite:`McPherson_2016` and was used in:
+
+    * :cite:`infSCITE` Figure S24.
+
+    The size is n_cells × n_muts = 420 × 37
+
+    Returns
+    -------
+    :class:`anndata.AnnData`
+        An anndata in which `.X` is the input noisy.
+    """
+
+    adata = tsc.io.read(
+        tsc.ul.get_file(
+            "trisicell.datasets/real/high_grade_serous_ovarian_cancer3.h5ad"
+        )
+    )
+    # TODO: extract.
+    return adata
+
+
+def high_grade_serous_ovarian_cancer_3celllines():
+    """Triple-negative Breast Cancer ().
 
     This dataset was introduced in :cite:`Laks_2019`
     and preprocessed in :cite:`McPherson_2019`.
@@ -474,7 +546,7 @@ def high_grade_serous_ovarian_cancer():
 
     Examples
     --------
-    >>> sc = tsc.datasets.high_grade_serous_ovarian_cancer()
+    >>> sc = tsc.datasets.high_grade_serous_ovarian_cancer_3celllines()
     >>> print(sc)
     AnnData object with n_obs × n_vars = 891 × 13666
         obs: 'clone_id', 'group_color', 'cell_name'

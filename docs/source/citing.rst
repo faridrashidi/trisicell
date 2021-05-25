@@ -4,8 +4,8 @@ Citing
 ------
 To cite Trisicell please use the following publication:
 
-Profiles of expressed mutations in single cells reveal patterns of tumor evolution and therapeutic impact of intratumor heterogeneity
-Farid Rashidi Mehrabadi, Kerrie L. Marie, Eva Perez-Guijarro, Salem Malikic, Erfan Sadeqi Azer, Howard H. Yang, Can Kizilkale, Charli Gruen, Huaitian Liu, Michael C. Kelly, Christina Marcelus, Sandra Burkett, Aydin Buluc, Funda Ergun, Maxwell P. Lee, Glenn Merlino, Chi-Ping Day, S. Cenk Sahinalp
+Profiles of expressed mutations in single cells reveal subclonal expansion patterns and therapeutic impact of intratumor heterogeneity
+Farid Rashidi Mehrabadi, Kerrie L. Marie, Eva Perez-Guijarro, Salem Malikic, Erfan Sadeqi Azer, Howard H. Yang, Can Kizilkale, Charli Gruen, Wells Robinson, Huaitian Liu, Michael C. Kelly, Christina Marcelus, Sandra Burkett, Aydin Buluc, Funda Ergun, Maxwell P. Lee, Glenn Merlino, Chi-Ping Day, S. Cenk Sahinalp
 bioRxiv 2021.03.26.437185; doi: https://doi.org/10.1101/2021.03.26.437185
 
 BibTeX

@@ -173,6 +173,11 @@ def acute_lymphocytic_leukemia6():
     pass
 
 
+def kidney():
+    # TODO: extract.
+    pass
+
+
 def myeloproliferative_neoplasms712():
     """JAK2-Negative Myeloproliferative Neoplasm.
 
@@ -186,7 +191,14 @@ def myeloproliferative_neoplasms712():
     -------
     :class:`anndata.AnnData`
         An anndata in which `.X` is the input noisy.
+
+            - `.uns['params_onconem']` is parameters inferred by OncoNEM.
     """
+
+    adata = tsc.io.read(
+        tsc.ul.get_file("trisicell.datasets/real/myeloproliferative_neoplasms712.h5ad")
+    )
+    return adata
 
 
 def myeloproliferative_neoplasms78():
@@ -194,7 +206,7 @@ def myeloproliferative_neoplasms78():
 
     This dataset was introduced in :cite:`Hou_2012` and was used in:
 
-    * :cite:`SCITE`.
+    * :cite:`SCITE` Figure S5.
 
     The size is n_cells × n_muts = 58 × 78
 
@@ -209,7 +221,10 @@ def myeloproliferative_neoplasms78():
     non-synonymous mutations from the full data.
     """
 
-    pass
+    adata = tsc.io.read(
+        tsc.ul.get_file("trisicell.datasets/real/myeloproliferative_neoplasms78.h5ad")
+    )
+    return adata
 
 
 def myeloproliferative_neoplasms18():
@@ -229,13 +244,18 @@ def myeloproliferative_neoplasms18():
     :class:`anndata.AnnData`
         An anndata in which `.X` is the input noisy.
 
+            - `.uns['params_scite']` is parameters inferred by SCITE.
+
     Notes
     -----
     The original dataset contains 712 mutations but 18 ones were considered as
     cancer related mutations from the full data.
     """
 
-    pass
+    adata = tsc.io.read(
+        tsc.ul.get_file("trisicell.datasets/real/myeloproliferative_neoplasms18.h5ad")
+    )
+    return adata
 
 
 def triple_negative_breast_cancer():

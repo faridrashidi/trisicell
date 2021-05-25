@@ -29,6 +29,9 @@ This module offers a bunch of functions for simulating data.
     datasets.colorectal2
     datasets.acute_lymphocytic_leukemia2
     datasets.high_grade_serous_ovarian_cancer
+    datasets.myeloproliferative_neoplasms712
+    datasets.myeloproliferative_neoplasms78
+    datasets.myeloproliferative_neoplasms18
 
 
 Read/Write (io)

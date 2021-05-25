@@ -173,9 +173,27 @@ def acute_lymphocytic_leukemia6():
     pass
 
 
-def kidney():
-    # TODO: extract.
-    pass
+def renal_cell_carcinoma():
+    """Clear-cell Renal-cell Carcinoma.
+
+    This dataset was introduced in :cite:`Xu_2012` and was used in:
+
+    * :cite:`SCITE` Figure S6 and S7.
+
+    The size is n_cells × n_muts = 17 × 35
+
+    Returns
+    -------
+    :class:`anndata.AnnData`
+        An anndata in which `.X` is the input noisy.
+
+            - `.uns['params_scite']` is parameters inferred by SCITE.
+    """
+
+    adata = tsc.io.read(
+        tsc.ul.get_file("trisicell.datasets/real/renal_cell_carcinoma.h5ad")
+    )
+    return adata
 
 
 def myeloproliferative_neoplasms712():
@@ -232,7 +250,7 @@ def myeloproliferative_neoplasms18():
 
     This dataset was introduced in :cite:`Hou_2012` and was used in:
 
-    * :cite:`SCITE` Figure S2.
+    * :cite:`SCITE` Figure S2, S3 and S4.
     * :cite:`Kim_2014` Figure 1.
     * :cite:`infSCITE` Figure S13.
     * :cite:`gpps` Figure 2.

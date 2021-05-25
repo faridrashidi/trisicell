@@ -1,18 +1,19 @@
 |DOI| |Stars| |PyPI| |PyPIDownloads| |Contributions Welcome| |Build Status| |Docs Status| |Pre-commit| |Code Style|
 
 
-Trisicell - Scalable tumor phylogeny reconstruction and validation from single-cell data
-========================================================================================
+Trisicell - Scalable intratumor heterogeneity inference and validation from single-cell data
+============================================================================================
 
 .. image:: https://raw.githubusercontent.com/faridrashidi/trisicell/master/docs/source/_static/images/overview.png
    :alt: overview
    :align: center
 
 
-Trisicell (**Tri**\ ple-toolkit for **si**\ ngle-\ **cell** tumor phylogenetics), pronounced as "tricycle",
-is a new computational toolkit for scalable tumor phylogeny reconstruction and evaluation from scRNAseq
-(as well as single-cell genome or exome sequencing) data. Trisicell utilizes expressed SNVs and Indels
-to infer evolutionary relationships between genomic alterations and the cells that harbor them.
+Trisicell (**Tri**\ ple-toolkit for **si**\ ngle-\ **cell** intratumor heterogeneity inference),
+pronounced as "tricycle", is a new computational toolkit for scalable intratumor heterogeneity inference
+and evaluation from scRNAseq (as well as single-cell genome or exome sequencing) data. Trisicell
+utilizes expressed SNVs and Indels to infer evolutionary relationships between genomic alterations
+and the cells that harbor them.
 
 
 Manuscript

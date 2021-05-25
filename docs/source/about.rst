@@ -2,15 +2,15 @@
 
 About Trisicell
 ---------------
-Trisicell is a computational toolkit for scalable tumor phylogeny reconstruction and validation from
+Trisicell is a computational toolkit for scalable intratumor heterogeneity inference and validation from
 full-length transcriptome profiling of single-cell data (e.g. Smart-seq2) as well as single cell genome or
-exome sequencing data. Trisicell allows identifying and validating robust portions of a tumor phylogeny,
+exome sequencing data. Trisicell allows identifying and validating robust portions of a tumor lineage tree,
 offering the ability to focus on the most important (sub)clones and the genomic alterations that seed the
 associated clonal expansion.
 
 
-Tumor Phylogeny Reconstruction Models
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Tumor Lineage Tree Reconstruction Models
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Cancer is an evolutionary process. Looking back in time there were somatic mutational events that resulted
 in an emergence of the first cancerous cell. By the means of cell division, the number of cancerous cells
 grew, and newly born cells acquired additional mutations over time, which results in distinct populations

@@ -19,6 +19,7 @@ This version includes:
         - Xu et al., 2012 (renal cell carcinoma).
         - Li et al., 2012 (muscle invasive bladder).
         - Wang et al., 2014 (oestrogen-receptor-positive breast cancer).
+        - Wang et al., 2014 (triple-negative breast cancer).
 
 
 Version 0.0.5 :small:`May 4, 2021`

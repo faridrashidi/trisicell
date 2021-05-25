@@ -173,6 +173,32 @@ def acute_lymphocytic_leukemia6():
     pass
 
 
+def tnbc():
+    """Triple-negative Breast Cancer.
+
+    This dataset was introduced in :cite:`Wang_2014` and was used in:
+
+    * :cite:`SCIPhI` Figure 4.
+    * :cite:`B-SCITE` Figure 7.
+    * :cite:`TRaIT` Figure 6.
+
+    The size is n_cells × n_muts = 16 × 20
+
+    Returns
+    -------
+    :class:`anndata.AnnData`
+        An anndata in which `.X` is the input noisy.
+
+    Examples
+    --------
+    >>> adata = tsc.datasets.tnbc()
+    >>> df_in = adata.to_df()
+    """
+
+    adata = tsc.io.read(tsc.ul.get_file("trisicell.datasets/real/tnbc.h5ad"))
+    return adata
+
+
 def erbc():
     """Oestrogen-receptor-positive (ER+) Breast Cancer.
 

@@ -35,6 +35,7 @@ This module offers a bunch of functions for simulating data.
     datasets.renal_cell_carcinoma
     datasets.muscle_invasive_bladder
     datasets.erbc
+    datasets.tnbc
 
 
 Read/Write (io)

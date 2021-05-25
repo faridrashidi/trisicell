@@ -64,18 +64,20 @@ jobs:
             PYTHON: ${{ matrix.python }}
         steps:
         -   uses: actions/checkout@v2
-        -   name: Set up Python ${{ matrix.python-version }}
+            with:
+                fetch-depth: 0
+        -   name: Set up Python ${{ matrix.python }}
             uses: actions/setup-python@v2
             with:
-                python-version: ${{ matrix.python-version }}
+                python-version: ${{ matrix.python }}
         -   name: Get pip cache dir
-            id: pip-cache
+            id: pip-cache-dir
             run: |
                 echo "::set-output name=dir::$(pip cache dir)"
-        -   name: Cache pip
+        -   name: Restore pip cache
             uses: actions/cache@v2
             with:
-                path: ${{ steps.pip-cache.outputs.dir }}
+                path: ${{ steps.pip-cache-dir.outputs.dir }}
                 key: pip-${{ runner.os }}-${{ env.pythonLocation }}-${{ hashFiles('**/requirements.txt') }}
                 restore-keys: |
                     pip-${{ runner.os }}-${{ env.pythonLocation }}-

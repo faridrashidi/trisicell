@@ -38,7 +38,9 @@ needs_sphinx = "2.0"  # Nicer param docs
 suppress_warnings = ["ref.citation"]
 project = "Trisicell"
 author = "National Cancer Institute"  # trisicell.__author__
-title = "Scalable tumor phylogeny reconstruction and validation from single-cell data"
+title = (
+    "Scalable intratumor heterogeneity inference and validation from single-cell data"
+)
 copyright = f"{datetime.now():%Y}, {author}"
 release = "master"
 version = f"master ({trisicell.__version__})"

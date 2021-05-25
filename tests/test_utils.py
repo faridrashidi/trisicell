@@ -1,7 +1,5 @@
 import numpy as np
-import pandas
 import pandas as pd
-import pytest
 from _helpers import *
 
 import trisicell as tsc

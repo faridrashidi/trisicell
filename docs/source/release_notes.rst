@@ -7,13 +7,29 @@ Release Notes
 =============
 
 
+Version 0.0.6 :small:`May 25, 2021`
+-------------------------------------
+
+This version includes:
+
+    - Add Stochastic Block Models (SBM) for sparse matrices.
+    - New datasets:
+
+        - Hou et al., 2012 (myeloproliferative neoplasm).
+        - Xu et al., 2012 (renal cell carcinoma).
+        - Li et al., 2012 (muscle invasive bladder).
+        - Wang et al., 2014 (oestrogen-receptor-positive breast cancer).
+        - Wang et al., 2014 (triple-negative breast cancer).
+        - Gawad et al., 2014 (acute lymphocytic leukemia 1 patient).
+
+
 Version 0.0.5 :small:`May 4, 2021`
 -------------------------------------
 
 This version includes:
 
-    - Writing intermediate file in /tmp directory
-    - Fix some bugs
+    - Writing intermediate file in /tmp directory.
+    - Fix some bugs.
 
 
 Version 0.0.4 :small:`April 17, 2021`
@@ -21,8 +37,8 @@ Version 0.0.4 :small:`April 17, 2021`
 
 This version includes:
 
-    - Add copy number tool
-    - Fix some bugs
+    - Add copy number tool.
+    - Fix some bugs.
 
 
 Version 0.0.3 :small:`April 8, 2021`

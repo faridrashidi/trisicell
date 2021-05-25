@@ -60,3 +60,16 @@ def import_graphviz():
             "Then install `pygraphviz` using `pip`.",
         )
         return None, True
+
+
+def import_graph_tool():
+    try:
+        import graph_tool
+
+        return graph_tool, False
+    except:
+        tsc.logg.error(
+            "Unable to import `graph_tool`!",
+            "Make sure `graph_tool` is installed in your system.",
+        )
+        return None, True

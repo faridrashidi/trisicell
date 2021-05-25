@@ -8,10 +8,13 @@ import seaborn as sns
 import trisicell as tsc
 
 
-def heatmap(adata, color_attrs, layer="X", figsize=(12, 7)):
-    row_colors = []
-    for attr in color_attrs:
-        row_colors.append(adata.obs[attr])
+def heatmap(adata, color_attrs=None, layer="X", figsize=(12, 7)):
+    if color_attrs is not None:
+        row_colors = []
+        for attr in color_attrs:
+            row_colors.append(adata.obs[attr])
+    else:
+        row_colors = None
 
     if layer == "X":
         rvb = mcolors.LinearSegmentedColormap.from_list(

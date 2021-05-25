@@ -14,6 +14,6 @@ skip_rpy2 = pytest.mark.skipif(
 skip_graphviz = pytest.mark.skipif(
     tsc.ul.import_graphviz()[1], reason="Unable to import `Graphviz`!"
 )
-skip_graph_tools = pytest.mark.skipif(
-    tsc.ul.import_graph_tools()[1], reason="Unable to import `graph_tools`!"
+skip_graph_tool = pytest.mark.skipif(
+    tsc.ul.import_graph_tool()[1], reason="Unable to import `graph_tool`!"
 )

@@ -173,12 +173,54 @@ def acute_lymphocytic_leukemia6():
     pass
 
 
+def myeloproliferative_neoplasms712():
+    """JAK2-Negative Myeloproliferative Neoplasm.
+
+    This dataset was introduced in :cite:`Hou_2012` and was used in:
+
+    * :cite:`OncoNEM` Figure 6D.
+
+    The size is n_cells × n_muts = 58 × 712
+
+    Returns
+    -------
+    :class:`anndata.AnnData`
+        An anndata in which `.X` is the input noisy.
+    """
+
+
+def myeloproliferative_neoplasms78():
+    """JAK2-Negative Myeloproliferative Neoplasm.
+
+    This dataset was introduced in :cite:`Hou_2012` and was used in:
+
+    * :cite:`SCITE`.
+
+    The size is n_cells × n_muts = 58 × 78
+
+    Returns
+    -------
+    :class:`anndata.AnnData`
+        An anndata in which `.X` is the input noisy.
+
+    Notes
+    -----
+    The original dataset contains 712 mutations but 78 ones were considered as
+    non-synonymous mutations from the full data.
+    """
+
+    pass
+
+
 def myeloproliferative_neoplasms18():
     """JAK2-Negative Myeloproliferative Neoplasm.
 
     This dataset was introduced in :cite:`Hou_2012` and was used in:
 
-    * :cite:`PhISCS` Figure 9.
+    * :cite:`SCITE` Figure S2.
+    * :cite:`Kim_2014` Figure 1.
+    * :cite:`infSCITE` Figure S13.
+    * :cite:`gpps` Figure 2.
 
     The size is n_cells × n_muts = 58 × 18
 
@@ -187,9 +229,10 @@ def myeloproliferative_neoplasms18():
     :class:`anndata.AnnData`
         An anndata in which `.X` is the input noisy.
 
-            - `.layers['solution_fig9']` is the solution presented in Figure 9 of PhISCS paper.
-            - `.uns['params_fig9']` is parameters used as input to get 'solution_fig9'.
-            - `.var` includes information of the bulk samples.
+    Notes
+    -----
+    The original dataset contains 712 mutations but 18 ones were considered as
+    cancer related mutations from the full data.
     """
 
     pass

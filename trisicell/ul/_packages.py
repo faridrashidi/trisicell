@@ -62,7 +62,7 @@ def import_graphviz():
         return None, True
 
 
-def import_graph_tools():
+def import_graph_tool():
     try:
         import graph_tool
 

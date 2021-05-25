@@ -4,7 +4,7 @@ import trisicell as tsc
 
 
 class TestSBM:
-    @skip_graph_tools
+    @skip_graph_tool
     def test_sbm(self):
         data = tsc.datasets.test()
         out = tsc.tl.sbm(data)

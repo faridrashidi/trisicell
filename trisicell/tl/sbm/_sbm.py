@@ -3,9 +3,14 @@ from collections import Counter
 import numpy as np
 import pandas as pd
 
+import trisicell as tsc
+
 
 def sbm(data2):
-    import graph_tool
+    graph_tool, graph_tool_is_not_imported = tsc.ul.import_graph_tool()
+    if graph_tool_is_not_imported:
+        raise RuntimeError("Unable to import a package!")
+
     from graph_tool.inference import minimize as gt_min
 
     def get_graph(df):

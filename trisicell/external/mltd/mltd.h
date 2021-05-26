@@ -1,12 +1,12 @@
 #include <algorithm>
-#include <iostream>
-#include <fstream>
-#include <sstream>
 #include <cassert>
-#include <vector>
-#include <string>
-#include <queue>
+#include <fstream>
+#include <iostream>
 #include <map>
+#include <queue>
+#include <sstream>
+#include <string>
+#include <vector>
 
 typedef struct {
   int distance;

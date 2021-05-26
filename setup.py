@@ -20,7 +20,37 @@ extensions = [
         include_dirs=["trisicell/external/mltd"],
         extra_compile_args=["-std=c++11"],
         language="c++",
-    )
+    ),
+    Extension(
+        "trisicell.external._scistree",
+        sources=[
+            "trisicell/external/_scistree.pyx",
+            "trisicell/external/scistree/Utils.cpp",
+            "trisicell/external/scistree/Utils2.cpp",
+            "trisicell/external/scistree/Utils3.cpp",
+            "trisicell/external/scistree/Utils4.cpp",
+            "trisicell/external/scistree/UtilsNumerical.cpp",
+            "trisicell/external/scistree/RerootTreeUtils.cpp",
+            "trisicell/external/scistree/TreeBuilder.cpp",
+            "trisicell/external/scistree/UnWeightedGraph.cpp",
+            "trisicell/external/scistree/MarginalTree.cpp",
+            "trisicell/external/scistree/RBT.cpp",
+            "trisicell/external/scistree/PhylogenyTreeBasic.cpp",
+            "trisicell/external/scistree/PhylogenyTree.cpp",
+            "trisicell/external/scistree/BioSequenceMatrix.cpp",
+            "trisicell/external/scistree/BinaryMatrix.cpp",
+            "trisicell/external/scistree/GenotypeMatrix.cpp",
+            "trisicell/external/scistree/ScistGenotype.cpp",
+            "trisicell/external/scistree/ScistPerfPhyUtils.cpp",
+            "trisicell/external/scistree/ScistPerfPhyImp.cpp",
+            "trisicell/external/scistree/ScistDoublet.cpp",
+            "trisicell/external/scistree/ScistErrRateInf.cpp",
+            "trisicell/external/scistree/main.cpp",
+        ],
+        include_dirs=["trisicell/external/scistree"],
+        extra_compile_args=["-O3", "-std=c++11", "-c"],
+        language="c++",
+    ),
 ]
 
 

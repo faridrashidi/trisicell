@@ -1,15 +1,15 @@
 #include "mltd.h"
 
+using std::cerr;
+using std::cout;
+using std::ifstream;
+using std::make_pair;
 using std::map;
 using std::max;
-using std::make_pair;
 using std::pair;
-using std::ifstream;
-using std::stringstream;
 using std::string;
+using std::stringstream;
 using std::vector;
-using std::cout;
-using std::cerr;
 
 struct Edge {
   int s, t, c, f, a;

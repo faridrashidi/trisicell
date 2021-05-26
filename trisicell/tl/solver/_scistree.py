@@ -10,6 +10,7 @@ from Bio.Phylo import BaseTree
 from Bio.Phylo.TreeConstruction import DistanceMatrix, DistanceTreeConstructor
 
 import trisicell as tsc
+from trisicell.external._scistree import run_scistree
 
 
 def scistree(df_input, alpha, beta, experiment=False):
@@ -59,16 +60,26 @@ def scistree(df_input, alpha, beta, experiment=False):
         ofile.write(data)
 
     scistree = tsc.ul.get_file("trisicell.external/bin/scistree")
-    cmd = (
-        f"{scistree} "
-        "-v "
-        "-d 0 "
-        "-e "
-        f"-o {tmpdir.name}/scistree.gml "
-        f"{tmpdir.name}/scistree.input > {tmpdir.name}/scistree.output"
-    )
+    # cmd = (
+    #     f"{scistree} "
+    #     "-v "
+    #     "-d 0 "
+    #     "-e "
+    #     f"-o {tmpdir.name}/scistree.gml "
+    #     f"{tmpdir.name}/scistree.input > {tmpdir.name}/scistree.output"
+    # )
+    cmd = [
+        "scistree",
+        "-v",
+        "-d",
+        "0",
+        "-e",
+        "-o",
+        f"{tmpdir.name}/scistree.gml",
+        f"{tmpdir.name}/scistree.input",
+    ]
     s_time = time.time()
-    os.system(cmd)
+    run_scistree(cmd)
     e_time = time.time()
     running_time = e_time - s_time
 

@@ -21,7 +21,7 @@ elif [[ "$OS" == "ubuntu-latest" ]]; then
   sudo apt-get install libopenblas-base r-base r-base-dev -y
   pip install rpy2>=3.3.0
 
-  sudo apt-get install graphviz -y
+  sudo apt-get install graphviz graphviz-dev -y
   pip install pygraphviz
   # Rscript --vanilla -e "library('mgcv')"
 else

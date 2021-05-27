@@ -40,9 +40,9 @@ elif [[ "$OS" == "ubuntu-latest" ]]; then
   sudo apt-get install graphviz graphviz-dev -y
   pip install pygraphviz
 
-  sudo add-apt-repository "deb [ arch=amd64 ] https://downloads.skewed.de/apt bullseye main"
-  sudo apt-key adv --keyserver keys.openpgp.org --recv-key 612DEFB798507F25
-  sudo apt-get install python3-graph-tool -y
+  # sudo add-apt-repository "deb [ arch=amd64 ] https://downloads.skewed.de/apt bullseye main"
+  # sudo apt-key adv --keyserver keys.openpgp.org --recv-key 612DEFB798507F25
+  # sudo apt-get install python3-graph-tool -y
 else
   exit 42
 fi

@@ -5,6 +5,7 @@ Trisicell - Scalable intratumor heterogeneity inference and validation from sing
 ============================================================================================
 
 .. image:: https://raw.githubusercontent.com/faridrashidi/trisicell/master/docs/source/_static/images/overview.png
+   :target: https://trisicell.readthedocs.io
    :alt: overview
    :align: center
 

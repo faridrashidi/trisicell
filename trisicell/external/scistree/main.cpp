@@ -366,11 +366,9 @@ int main_in_c(int argc, char **argv) {
   string str3 = "scistree.output";
   outputfile.replace(outputfile.find(str2), str2.length(), str3);
 
-  // Save position of current standard output
-  fpos_t pos;
-  fgetpos(stdout, &pos);
-  int fd = dup(fileno(stdout));
-  freopen(outputfile.c_str(), "w", stdout);
+  std::ofstream out(outputfile);
+  std::streambuf *coutbuf = std::cout.rdbuf(); // save old buf
+  std::cout.rdbuf(out.rdbuf());                // redirect std::cout to out.txt!
 
   cout << CODE_VER_INFO << endl << endl;
 
@@ -389,15 +387,7 @@ int main_in_c(int argc, char **argv) {
   // dump out stats
   // ApproxGTPStats::Instance().DumpStats();
 
-  // fclose(stdout);
-  // freopen("/dev/tty", "w", stdout);
-  // Flush stdout so any buffered messages are delivered
-  fflush(stdout);
-  // Close file and restore standard output to stdout in terminal
-  dup2(fd, fileno(stdout));
-  close(fd);
-  clearerr(stdout);
-  fsetpos(stdout, &pos);
+  std::cout.rdbuf(coutbuf); // reset to standard output again
 
   return 0;
 }

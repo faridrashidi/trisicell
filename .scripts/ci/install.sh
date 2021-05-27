@@ -2,18 +2,21 @@
 
 set -ev
 
-python -m pip install --upgrade pip
-pip install -e .
-pip install pytest pytest-cov
-
+echo "Installing APT dependencies"
 if [[ "$OS" == "macos-latest" ]]; then
   brew install gcc
   brew install R
   brew install graphviz
   pip install pygraphviz
   brew install graph-tool
+
+  python -m pip install --upgrade pip
+  pip install -e .
+  pip install pytest pytest-cov
 elif [[ "$OS" == "ubuntu-latest" ]]; then
-  echo "Installing APT dependencies"
+  python -m pip install --upgrade pip
+  pip install -e .
+  pip install pytest pytest-cov
   # https://github.com/yarnpkg/yarn/issues/7866
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
   # R-related
@@ -21,6 +24,7 @@ elif [[ "$OS" == "ubuntu-latest" ]]; then
   sudo add-apt-repository "deb https://cloud.r-project.org/bin/linux/ubuntu $(lsb_release -cs)-cran40/"
   sudo apt-get update -y
   sudo apt-get install libopenblas-base r-base r-base-dev -y
+  sudo apt-get install libcurl4-openssl-dev libssl-dev -y
   pip install rpy2>=3.3.0
   sudo Rscript -e 'install.packages("devtools")'
   sudo Rscript -e 'install.packages("BiocManager")'

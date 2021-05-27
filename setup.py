@@ -1,6 +1,7 @@
 import os
 import sys
 from pathlib import Path
+from sys import platform
 
 from setuptools import find_packages, setup
 from setuptools.extension import Extension
@@ -13,6 +14,10 @@ except ImportError:
     __email__ = ", ".join(["farid.rsh@gmail.com"])
     __version__ = "0.0.6"
 
+if platform == "linux" or platform == "linux2":
+    os.environ["CC"] = "g++"
+elif platform == "darwin":
+    os.environ["CC"] = "clang++"
 extensions = [
     Extension(
         "trisicell.external._mltd",

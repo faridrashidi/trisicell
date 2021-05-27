@@ -7,6 +7,7 @@ pip install -e .
 pip install pytest pytest-cov
 
 if [[ "$OS" == "macos-latest" ]]; then
+  brew install gcc
   brew install R
   brew install graphviz
   pip install pygraphviz
@@ -21,20 +22,23 @@ elif [[ "$OS" == "ubuntu-latest" ]]; then
   sudo apt-get update -y
   sudo apt-get install libopenblas-base r-base r-base-dev -y
   pip install rpy2>=3.3.0
-  Rscript -e 'install.packages("devtools")'
-  Rscript -e 'install.packages("BiocManager")'
-  Rscript -e 'install.packages("tidyverse")'
-  Rscript -e 'install.packages("cowplot")'
-  Rscript -e 'devtools::install_github("YuLab-SMU/ggtree")'
-  Rscript -e 'devtools::install_github("YuLab-SMU/aplot")'
-  Rscript -e 'devtools::install_github("xiangpin/ggtreeExtra")'
-  Rscript -e 'devtools::install_github("zhouzilu/DENDRO")'
-  Rscript -e 'BiocManager::install("graph")'
-  Rscript -e 'devtools::install_bitbucket("edith_ross/oncoNEM")'
+  sudo Rscript -e 'install.packages("devtools")'
+  sudo Rscript -e 'install.packages("BiocManager")'
+  sudo Rscript -e 'install.packages("tidyverse")'
+  sudo Rscript -e 'install.packages("cowplot")'
+  sudo Rscript -e 'devtools::install_github("YuLab-SMU/ggtree")'
+  sudo Rscript -e 'devtools::install_github("YuLab-SMU/aplot")'
+  sudo Rscript -e 'devtools::install_github("xiangpin/ggtreeExtra")'
+  sudo Rscript -e 'devtools::install_github("zhouzilu/DENDRO")'
+  sudo Rscript -e 'BiocManager::install("graph")'
+  sudo Rscript -e 'devtools::install_bitbucket("edith_ross/oncoNEM")'
 
   sudo apt-get install graphviz graphviz-dev -y
   pip install pygraphviz
-  # Rscript --vanilla -e "library('mgcv')"
+
+  sudo add-apt-repository "deb [ arch=amd64 ] https://downloads.skewed.de/apt bullseye main"
+  sudo apt-key adv --keyserver keys.openpgp.org --recv-key 612DEFB798507F25
+  sudo apt-get install python3-graph-tool -y
 else
   exit 42
 fi

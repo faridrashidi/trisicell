@@ -59,15 +59,6 @@ def scistree(df_input, alpha, beta, experiment=False):
         data = data.replace('"', "")
         ofile.write(data)
 
-    scistree = tsc.ul.get_file("trisicell.external/bin/scistree")
-    # cmd = (
-    #     f"{scistree} "
-    #     "-v "
-    #     "-d 0 "
-    #     "-e "
-    #     f"-o {tmpdir.name}/scistree.gml "
-    #     f"{tmpdir.name}/scistree.input > {tmpdir.name}/scistree.output"
-    # )
     cmd = [
         "scistree",
         "-v",

@@ -6,6 +6,7 @@ import numpy as np
 import pandas as pd
 
 import trisicell as tsc
+from trisicell.external._scite import run_scite
 
 
 def scite(
@@ -57,29 +58,38 @@ def scite(
     with open(f"{tmpdir.name}/scite.geneNames", "w") as fout:
         fout.write("\n".join(df_input.columns))
 
-    scite = tsc.ul.get_file("trisicell.external/bin/scite")
-    cmd = (
-        f"{scite} "
-        f"-i {tmpdir.name}/scite.SC.T "
-        f"-names {tmpdir.name}/scite.geneNames "
-        f"-n {df_input.shape[1]} "
-        f"-m {df_input.shape[0]} "
-        f"-ad {beta} "
-        f"-fd {alpha} "
-        f"-r {n_restarts} "
-        "-e 0.20 "
-        "-a "
-        f"-l {n_iters} "
-        f"-o {tmpdir.name}/scite > {tmpdir.name}/scite.log"
-    )
+    cmd = [
+        "scite",
+        "-i",
+        f"{tmpdir.name}/scite.SC.T",
+        "-names",
+        f"{tmpdir.name}/scite.geneNames",
+        "-n",
+        f"{df_input.shape[1]}",
+        "-m",
+        f"{df_input.shape[0]}",
+        "-ad",
+        f"{beta}",
+        "-fd",
+        f"{alpha}",
+        "-r",
+        f"{n_restarts}",
+        "-e",
+        "0.20",
+        "-a",
+        "-l",
+        f"{n_iters}",
+        "-o",
+        f"{tmpdir.name}/scite.output",
+    ]
 
     s_time = time.time()
-    os.system(cmd)
+    run_scite(cmd)
     e_time = time.time()
     running_time = e_time - s_time
 
-    with open(f"{tmpdir.name}/scite_ml0.gv") as fin:
-        with open(f"{tmpdir.name}/scite_ml0_quoted.gv", "w") as fout:
+    with open(f"{tmpdir.name}/scite.output_ml0.gv") as fin:
+        with open(f"{tmpdir.name}/scite.output_ml0_quoted.gv", "w") as fout:
             for line in fin:
                 if " -> " in line:
                     line = line.strip()
@@ -100,7 +110,7 @@ def scite(
                     line.replace("best log score for tree:", "").strip()
                 )
 
-    G = nx.drawing.nx_pydot.read_dot(f"{tmpdir.name}/scite_ml0_quoted.gv")
+    G = nx.drawing.nx_pydot.read_dot(f"{tmpdir.name}/scite.output_ml0_quoted.gv")
     df_output = df_input.copy()
     for col in df_output.columns:
         df_output[col].values[:] = 0

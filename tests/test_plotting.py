@@ -11,7 +11,7 @@ class TestTrees:
         tree = tsc.ul.to_tree(data)
         tsc.pl.clonal_tree(tree)
 
-    @skip_mpi4py
+    @skip_rpy2
     def test_dendro_tree(self):
         file = tsc.ul.get_file("trisicell.datasets/test/fp_0-fn_0-na_0.ground.CFMatrix")
         data = tsc.io.read(file)

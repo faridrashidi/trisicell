@@ -8,7 +8,7 @@ class TestSolvers:
     @skip_rpy2
     def test_simulate(self):
         df_in = tsc.datasets.simulate(
-            n_cells=10, n_muts=10, n_clones=3, alpha=0.00001, beta=0.2, missing=0.1
+            n_cells=100, n_muts=100, n_clones=5, alpha=0.001, beta=0.4, missing=0.2
         )
         is_cf = tsc.ul.is_conflict_free_gusfield(df_in)
         assert is_cf == False

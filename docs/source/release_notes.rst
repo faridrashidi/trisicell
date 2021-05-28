@@ -7,6 +7,19 @@ Release Notes
 =============
 
 
+Version 0.0.7 :small:`June 1, 2021`
+-------------------------------------
+
+This version includes:
+
+    - PhISCS with readcount model.
+    - Cythonizing all the cpp files including SCITE, ScisTree and MLTD.
+    - Fix some bugs and typos.
+    - New datasets:
+
+        - Leung et al., 2017 (colorectal cancer patient 1)
+
+
 Version 0.0.6 :small:`May 25, 2021`
 -------------------------------------
 
@@ -20,7 +33,7 @@ This version includes:
         - Li et al., 2012 (muscle invasive bladder).
         - Wang et al., 2014 (oestrogen-receptor-positive breast cancer).
         - Wang et al., 2014 (triple-negative breast cancer).
-        - Gawad et al., 2014 (acute lymphocytic leukemia 1 patient).
+        - Gawad et al., 2014 (acute lymphocytic leukemia patient 2).
 
 
 Version 0.0.5 :small:`May 4, 2021`

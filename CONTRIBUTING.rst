@@ -10,8 +10,9 @@ Table of Contents
 - `Code style guide`_
 - `Testing`_
 - `Writing documentation`_
-- `Creating a new release`_
+- `Building c files`_
 - `Submitting a PR`_
+- `Creating a new release`_
 
 
 Contributing to Trisicell
@@ -56,6 +57,8 @@ You can use ``pre-commit`` to check the changes::
 
     pre-commit run --all-files --show-diff-on-failure
 
+Keep in mind to use tags like `TODO[colon]` and `FIXME[colon]` to make other developers aware of what to do next.
+
 
 Testing
 -------
@@ -76,6 +79,7 @@ In order to build the documentation, run::
     cd docs
     rm -rf ./source/trisicell*
     make clean html
+
 
 Building c files
 ----------------

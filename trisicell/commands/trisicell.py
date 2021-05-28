@@ -40,7 +40,7 @@ class NaturalOrderGroup(click.Group):
     context_settings=dict(max_content_width=300, terminal_width=300),
 )
 def cli():
-    """Scalable tumor phylogeny reconstruction and validation from single-cell data"""
+    f"""Scalable intratumor heterogeneity inference and validation from single-cell data."""
     return None
 
 

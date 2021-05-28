@@ -29,48 +29,6 @@ def consensus_combine(df):
     return df2
 
 
-def _consensus_of_cfmatrices(df1, df2):
-    # TODO: unused
-    df1_temp = df1.loc[df1.index]
-    df2_temp = df2.loc[df1.index]
-    mut1 = pd.DataFrame(df1.columns, columns=["muts"])
-    mut1[["ensemble", "gene", "chrom", "position", "reference", "alteration"]] = (
-        mut1["muts"].apply(tsc.ul.split_mut).apply(pd.Series)
-    )
-    mut2 = pd.DataFrame(df2.columns, columns=["muts"])
-    mut2[["ensemble", "gene", "chrom", "position", "reference", "alteration"]] = (
-        mut2["muts"].apply(tsc.ul.split_mut).apply(pd.Series)
-    )
-    mut1 = mut1.set_index("muts")
-    mut2 = mut2.set_index("muts")
-    mut1_t = (
-        mut1["chrom"].astype(str)
-        + ":"
-        + mut1["position"].astype(str)
-        + ":"
-        + mut1["reference"].astype(str)
-        + ":"
-        + mut1["alteration"].astype(str)
-    )
-    mut2_t = (
-        mut2["chrom"].astype(str)
-        + ":"
-        + mut2["position"].astype(str)
-        + ":"
-        + mut2["reference"].astype(str)
-        + ":"
-        + mut2["alteration"].astype(str)
-    )
-    mut1_t = pd.Series(mut1_t.index, index=mut1_t)
-    mut2_t = pd.Series(mut2_t.index, index=mut2_t)
-    shared = np.intersect1d(mut1_t.index, mut2_t.index)
-    finals = []
-    for mut1, mut2 in zip(mut1_t[shared].values, mut2_t[shared].values):
-        if df1_temp[mut1].equals(df2_temp[mut2]):
-            finals.append(mut1)
-    return df1[finals]
-
-
 def _get_cnt_tree(tree):
     cnt_tree = tree.copy()
     for u, v, l in cnt_tree.edges.data("label"):

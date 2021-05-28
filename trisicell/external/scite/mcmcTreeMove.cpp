@@ -205,7 +205,7 @@ bool** getNewAncMatrix(bool** currTreeAncMatrix, int newParent, std::vector<int>
 //		std::vector<int> possibleparents = getNonDescendants(currTreeAncMatrix, nodeToMove, n);             // possible attachment points
 //
 //		int newParent = choseParent(possibleparents, n);                                    // randomly pick a new parent among available nodes, root (n+1) is also possible parent
-//		propTreeAncMatrix = getNewAncMatrix(currTreeAncMatrix, newParent, descendants, possibleparents, n, propTreeAncMatrix);   // create new ancestor matrix, TODO: avoid deepCopy of old matrix
+//		propTreeAncMatrix = getNewAncMatrix(currTreeAncMatrix, newParent, descendants, possibleparents, n, propTreeAncMatrix);   // create new ancestor matrix, TD: avoid deepCopy of old matrix
 //		propTreeParVec    = getNewParentVec(currTreeParentVec, nodeToMove, newParent, n, propTreeParVec);                     // create new parent vector
 //	}
 //    else if(movetype==2){   /* swap two node labels  */

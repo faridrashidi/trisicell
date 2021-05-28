@@ -5,8 +5,10 @@ import numpy as np
 import pandas as pd
 from pysat.examples.rc2 import RC2
 from pysat.formula import WCNF
+from scipy.stats import binom
 
 import trisicell as tsc
+from trisicell.external._betabinom import pmf_BetaBinomial
 
 
 def phiscsb(df_input, alpha, beta, experiment=False):
@@ -214,7 +216,8 @@ def phiscs_bulk(
         raise RuntimeError("Unable to import a package!")
 
     tsc.logg.info(
-        f"running PhISCS-I with alpha={alpha}, beta={beta}, time_out={time_out}"
+        f"running PhISCS-bulk with alpha={alpha}, beta={beta}, kmax={kmax}, "
+        "vaf_info={vaf_info}, delta={delta}, time_out={time_out}"
     )
 
     cells = list(df_input.index)
@@ -405,6 +408,95 @@ def phiscs_bulk(
     return df_output
 
 
-def phiscs_readcount(df_input, alpha, beta):
-    # TODO: implement
-    pass
+def phiscs_readcount(adata, alpha, beta, time_out=86400):
+    gp, gp_is_not_imported = tsc.ul.import_gurobi()
+    if gp_is_not_imported:
+        raise RuntimeError("Unable to import a package!")
+
+    tsc.logg.info(
+        f"running PhISCS-readcout with alpha={alpha}, beta={beta}, time_out={time_out}"
+    )
+
+    PROB_SEQ_ERROR = 0.001
+    BETABINOM_ALPHA = 1.0
+    BETABINOM_BETA = 1.0
+
+    def _prob_absent(v, t):
+        prob = binom.pmf(v, t, PROB_SEQ_ERROR)
+        return prob
+
+    def _prob_present(v, t):
+        prob = pmf_BetaBinomial(v, t, BETABINOM_ALPHA, BETABINOM_BETA)
+        return prob
+
+    cells = adata.obs_names
+    muts = adata.var_names
+    T = adata.layers["total"]
+    V = adata.layers["mutant"]
+
+    B_mu = np.zeros((len(cells), len(muts)), dtype=np.float64)
+    B_delta = np.zeros((len(cells), len(muts)), dtype=np.float64)
+    for i in range(len(cells)):
+        for j in range(len(muts)):
+            if T[i, j] != 0:
+                B_mu[i, j] = _prob_absent(V[i, j], T[i, j])
+                B_delta[i, j] = _prob_present(V[i, j], T[i, j])
+
+    model = gp.Model("ILP")
+    model.Params.OutputFlag = 0
+    model.Params.LogFile = ""
+    model.Params.Threads = 1
+    model.Params.TimeLimit = time_out
+    Y = {}
+    B = {}
+    for c in range(len(cells)):
+        for m in range(len(muts)):
+            Y[c, m] = model.addVar(vtype=gp.GRB.BINARY, name="Y({0},{1})".format(c, m))
+    for p in range(len(muts)):
+        for q in range(len(muts)):
+            B[p, q, 1, 1] = model.addVar(
+                vtype=gp.GRB.BINARY, obj=0, name="B[{0},{1},1,1]".format(p, q)
+            )
+            B[p, q, 1, 0] = model.addVar(
+                vtype=gp.GRB.BINARY, obj=0, name="B[{0},{1},1,0]".format(p, q)
+            )
+            B[p, q, 0, 1] = model.addVar(
+                vtype=gp.GRB.BINARY, obj=0, name="B[{0},{1},0,1]".format(p, q)
+            )
+    for p in range(len(muts)):
+        for q in range(len(muts)):
+            model.addConstr(B[p, q, 0, 1] + B[p, q, 1, 0] + B[p, q, 1, 1] <= 2)
+            for i in range(len(cells)):
+                model.addConstr(Y[i, p] + Y[i, q] - B[p, q, 1, 1] <= 1)
+                model.addConstr(-Y[i, p] + Y[i, q] - B[p, q, 0, 1] <= 0)
+                model.addConstr(Y[i, p] - Y[i, q] - B[p, q, 1, 0] <= 0)
+    objective = 0
+    for j in range(len(muts)):
+        for i in range(len(cells)):
+            if T[i, j] != 0:
+                objective += (1 - Y[i, j]) * np.log(
+                    B_mu[i, j] * (1 - alpha) + B_delta[i, j] * (alpha)
+                )
+                objective += (Y[i, j]) * np.log(
+                    B_mu[i, j] * (beta) + B_delta[i, j] * (1 - beta)
+                )
+    model.setObjective(objective, gp.GRB.MAXIMIZE)
+
+    s_time = time.time()
+    model.optimize()
+    e_time = time.time()
+    running_time = e_time - s_time
+
+    sol_Y = np.zeros((len(cells), len(muts)), dtype=np.int8)
+    for i in range(len(cells)):
+        for j in range(len(muts)):
+            sol_Y[i, j] = Y[i, j].X > 0.5
+
+    df_output = pd.DataFrame(sol_Y)
+    df_output.columns = muts
+    df_output.index = cells
+    df_output.index.name = "cellIDxmutID"
+
+    # tsc.ul.stat(df_input, df_output, alpha, beta, running_time)
+
+    return df_output

@@ -83,7 +83,7 @@ def colorectal1():
     pass
 
 
-def colorectal2():
+def colorectal2(readcount=False):
     """Human Colorectal Cancer (Patient 2).
 
     This dataset was introduced in :cite:`Leung_2017` and was used in:
@@ -94,6 +94,11 @@ def colorectal2():
     * :cite:`SCARLET` Figure 4.
 
     The size is n_cells × n_muts = 78 × 25
+
+    Parameters
+    ----------
+    readcount : :obj:`str`
+        Return the readcount information of the data.
 
     Returns
     -------
@@ -107,7 +112,12 @@ def colorectal2():
             - `.var` includes information of the bulk samples.
     """
 
-    adata = tsc.io.read(tsc.ul.get_file("trisicell.datasets/real/colorectal2.h5ad"))
+    if readcount:
+        adata = tsc.io.read(
+            tsc.ul.get_file("trisicell.datasets/real/colorectal2.rc.h5ad")
+        )
+    else:
+        adata = tsc.io.read(tsc.ul.get_file("trisicell.datasets/real/colorectal2.h5ad"))
     # TODO: (86 x 25 in B-SCITE) (182 x 36 SiCloneFit)
     return adata
 
@@ -150,7 +160,6 @@ def acute_lymphocytic_leukemia1():
     adata = tsc.io.read(
         tsc.ul.get_file("trisicell.datasets/real/acute_lymphocytic_leukemia1.h5ad")
     )
-    # TODO: extract.
     return adata
 
 
@@ -227,7 +236,6 @@ def acute_lymphocytic_leukemia4():
     adata = tsc.io.read(
         tsc.ul.get_file("trisicell.datasets/real/acute_lymphocytic_leukemia4.h5ad")
     )
-    # TODO: extract.
     return adata
 
 
@@ -250,7 +258,6 @@ def acute_lymphocytic_leukemia5():
     adata = tsc.io.read(
         tsc.ul.get_file("trisicell.datasets/real/acute_lymphocytic_leukemia5.h5ad")
     )
-    # TODO: extract.
     return adata
 
 
@@ -260,7 +267,7 @@ def acute_lymphocytic_leukemia6():
     This dataset was introduced in :cite:`Gawad_2014` and was used in:
 
     * :cite:`infSCITE` Figure S21.
-    * :cite:`Phyolin` Table 2 and Figure 5.
+    * :cite:`Phyolin` Table 2.
 
     The size is n_cells × n_muts = 146 × 10
 
@@ -273,7 +280,6 @@ def acute_lymphocytic_leukemia6():
     adata = tsc.io.read(
         tsc.ul.get_file("trisicell.datasets/real/acute_lymphocytic_leukemia6.h5ad")
     )
-    # TODO: extract.
     return adata
 
 

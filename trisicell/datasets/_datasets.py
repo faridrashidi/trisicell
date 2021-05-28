@@ -79,7 +79,9 @@ def colorectal1():
         An anndata in which `.X` is the input noisy.
     """
 
-    # TODO: extract (SiFit 178 × 16).
+    adata = tsc.io.read(tsc.ul.get_file("trisicell.datasets/real/colorectal1.rc.h5ad"))
+    # FIXME: extract (SiFit 178 × 16).
+    # https://github.com/algo-cancer/PhyloM/blob/master/Data/README.md
     pass
 
 
@@ -118,7 +120,8 @@ def colorectal2(readcount=False):
         )
     else:
         adata = tsc.io.read(tsc.ul.get_file("trisicell.datasets/real/colorectal2.h5ad"))
-    # TODO: (86 x 25 in B-SCITE) (182 x 36 SiCloneFit)
+    # FIXME: (86 x 25 in B-SCITE) (182 x 36 SiCloneFit)
+    # https://github.com/cbg-ethz/infSCITE/blob/master/pat_2.csv
     return adata
 
 
@@ -137,8 +140,9 @@ def colorectal3():
         An anndata in which `.X` is the input noisy.
     """
 
+    adata = tsc.io.read(tsc.ul.get_file("trisicell.datasets/real/colorectal3.h5ad"))
     # TODO: extract.
-    pass
+    return adata
 
 
 def acute_lymphocytic_leukemia1():
@@ -188,7 +192,7 @@ def acute_lymphocytic_leukemia2():
     adata = tsc.io.read(
         tsc.ul.get_file("trisicell.datasets/real/acute_lymphocytic_leukemia2.h5ad")
     )
-    # TODO: 115 x 16 in B-SCITE?
+    # FIXME: 115 x 16 in B-SCITE?
     return adata
 
 
@@ -212,7 +216,7 @@ def acute_lymphocytic_leukemia3():
     adata = tsc.io.read(
         tsc.ul.get_file("trisicell.datasets/real/acute_lymphocytic_leukemia3.h5ad")
     )
-    # TODO: 255 x 49 in SCIPhI and ScisTree?
+    # FIXME: 255 x 49 in SCIPhI and ScisTree?
     return adata
 
 

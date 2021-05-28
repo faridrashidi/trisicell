@@ -17,7 +17,7 @@ except ImportError:
 if platform == "linux" or platform == "linux2":
     os.environ["CC"] = "g++"
 elif platform == "darwin":
-    os.environ["CC"] = "clang++"
+    os.environ["CC"] = "g++"
 extensions = [
     Extension(
         "trisicell.external._mltd",

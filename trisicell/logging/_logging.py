@@ -17,12 +17,12 @@ def info(*args, **kwargs):
 
 
 def error(*args, **kwargs):
-    args = ("Error:",) + args
+    args = ("ERROR -",) + args
     return msg(*args, v="error", **kwargs)
 
 
 def warn(*args, **kwargs):
-    args = ("WARNING:",) + args
+    args = ("WARNING -",) + args
     return msg(*args, v="warn", **kwargs)
 
 
@@ -31,7 +31,7 @@ def hint(*args, **kwargs):
 
 
 def debug(*args, **kwargs):
-    args = ("DEBUG:",) + args
+    args = ("DEBUG -",) + args
     return msg(*args, v="debug", **kwargs)
 
 

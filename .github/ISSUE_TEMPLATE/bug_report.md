@@ -7,16 +7,16 @@ assignees: ''
 ---
 
 ### Description
-<!-- Give a clear and concise description of the bug: -->
+<!-- Give a clear and concise description of the bug -->
 ...
 
 ### Minimal reproducible example
-<!-- Put an example code with which we can reproduce the bug: -->
+<!-- Put an example code with which we can reproduce the bug -->
 ```python
 ...
 ```
 ### Traceback
-<!-- If applicable, replace `...` with an error traceback below: -->
+<!-- If applicable, replace `...` with an error traceback below -->
 <details>
 ```pytb
 ...

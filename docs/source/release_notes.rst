@@ -7,7 +7,7 @@ Release Notes
 =============
 
 
-Version 0.0.7 :small:`June 1, 2021`
+Version 0.0.7 :small:`May 29, 2021`
 -------------------------------------
 
 This version includes:

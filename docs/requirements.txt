@@ -13,3 +13,5 @@ sphinxcontrib-spelling
 sphinx_copybutton
 sphinx-click
 sphinx-paramlinks
+memory_profiler>=0.57.0
+pypandoc

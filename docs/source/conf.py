@@ -10,13 +10,18 @@
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
 import os
+import sys
 from datetime import datetime
-from glob import glob
-from shutil import copyfile
+from pathlib import Path
 
 from pybtex.plugin import register_plugin
 from pybtex.style.formatting.unsrt import Style as UnsrtStyle
 from pybtex.style.labels import BaseLabelStyle
+from sphinx_gallery.sorting import ExplicitOrder, FileNameSortKey
+
+HERE = Path(__file__).parent
+sys.path.insert(0, str(HERE.parent.parent))
+sys.path.insert(0, os.path.abspath("_ext"))
 
 import trisicell
 
@@ -66,7 +71,7 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinx.ext.napoleon",
     "sphinxcontrib.bibtex",
-    # "sphinx_gallery.gen_gallery",
+    "sphinx_gallery.gen_gallery",
     # "sphinx_last_updated_by_git",
 ]
 
@@ -167,3 +172,51 @@ class MyStyle(UnsrtStyle):
 
 
 register_plugin("pybtex.style.formatting", "mystyle", MyStyle)
+
+
+# -- sphinx gallery ------------------------------------------
+def reset_matplotlib(gallery_conf, fname):
+    import matplotlib as mpl
+
+    mpl.use("agg")
+
+    import matplotlib.pyplot as plt
+
+    plt.rcdefaults()
+    mpl.rcParams["savefig.bbox"] = "tight"
+    mpl.rcParams["savefig.transparent"] = True
+
+
+example_dir = HERE.parent.parent / "examples"
+rel_example_dir = Path("..") / ".." / "examples"
+
+
+sphinx_gallery_conf = {
+    "image_scrapers": "matplotlib",
+    "reset_modules": (
+        "seaborn",
+        reset_matplotlib,
+    ),
+    "filename_pattern": f"{os.path.sep}(plot_|compute_)",
+    "examples_dirs": example_dir,
+    "gallery_dirs": "auto_examples",  # path to where to save gallery generated output
+    "abort_on_example_error": True,
+    "show_memory": True,
+    "within_subsection_order": FileNameSortKey,
+    "subsection_order": ExplicitOrder(
+        [
+            rel_example_dir / "reconstruction",  # really must be relative
+            rel_example_dir / "comparison",
+        ]
+    ),
+    "reference_url": {
+        "sphinx_gallery": None,
+    },
+    "line_numbers": False,
+    "compress_images": ("images", "thumbnails"),
+    "inspect_global_variables": False,
+    "backreferences_dir": "gen_modules/backreferences",
+    "doc_module": "trisicell",
+    "download_all_examples": False,
+    "pypandoc": True,  # convert rST to md when downloading notebooks
+}

@@ -5,10 +5,12 @@ test:
 lint:
 	pre-commit run --all-files
 
-docs:
+doc:
 	tool=`pwd | rev | cut -d'/' -f1 | rev`
 	cd docs
 	rm -rf ./source/$tool*
+	rm -rf ./source/auto_examples
+	rm -rf ./source/gen_modules
 	make clean html
 	cd build/html
 	serve

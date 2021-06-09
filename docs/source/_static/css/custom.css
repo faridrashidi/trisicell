@@ -91,12 +91,12 @@ div.highlight > pre {
 }
 /* sphinx-gallery */
 div.sphx-glr-download a {
-	background-color: #FFC76E !important;
+	background-color: #DFDFDF !important;
 	background-image: none !important;
 	border-radius: 2px !important;
-	border: 1px solid #f49600 !important;
+	border: 1px solid #616161 !important;
 	color: #404040 !important;
-	font-weight bold !important;
+	font-weight: bold !important;
 	padding: 0.1cm !important;
 	text-align: center !important;
 }
@@ -134,7 +134,7 @@ div.sphx-glr-download code.download {
 }
 .sphx-glr-thumbcontainer {
 	background: none !important;
-	border: 1px solid #f49600 !important;
+	border: 1px solid #909090 !important;
 	text-align: center !important;
 	min-height: 240px !important;
 }

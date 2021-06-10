@@ -438,4 +438,3 @@ double* getErrorRatesArray(double fd, double ad1, double ad2, double cc){
 	array[3] = cc;
 	return array;
 }
-

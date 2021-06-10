@@ -2549,7 +2549,7 @@ void MarginalTree ::FindDiffSubtreesFrom(const MarginalTree &mtreeRef,
             set<int> nodesAnces;
             GetPath( i, GetRoot(), nodesAnces );
             UnionSets( setDiffBrs, nodesAnces );
-            
+
             // and also all the silbings
             for( set<int> :: iterator itg = nodesAnces.begin(); itg != nodesAnces.end(); ++itg )
             {

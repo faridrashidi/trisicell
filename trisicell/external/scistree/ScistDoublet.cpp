@@ -658,7 +658,7 @@ void ScistDoubletSearch ::SearchInc() {
         ScistGenGenotypeMat *pMatImpute = genosInput.Copy();
         std::map<int,std::set<int> > mapDoublets;
         FindOrigImputedGeno( *pMatRes, *pMatImpute, mapDoublets );
-        
+
         //
         cout << "Doublet genotypes (1-based)): <original dobule genotype> : <list of expanded doublet rows in imputed matrix>\n";
         for(map<int,set<int> > :: iterator it = mapDoublets.begin(); it != mapDoublets.end(); ++it)
@@ -670,11 +670,11 @@ void ScistDoubletSearch ::SearchInc() {
             }
             cout << endl;
         }
-        
+
         // also output the imputaton results
         cout << "Imputed genotypes: \n";
         pMatImpute->OutputImput();
-        
+
         set< pair<pair<int,int>, int> > listChangedPlaces;
         for(int i=0; i<genosInput.GetNumHaps(); ++i)
         {
@@ -693,7 +693,7 @@ void ScistDoubletSearch ::SearchInc() {
         {
             cout << "[ " << setw(6) << it->first.second+1 << " " << setw(6) << it->first.first+1 << " ]: " << it->second << endl;
         }
-        
+
         delete pMatImpute;
     }
 #endif
@@ -882,7 +882,7 @@ ScistGenGenotypeMat *ScistDoubletSearch ::CreateGnoesWithDouble(
         {
             hapUse=i+1;
         }
-        
+
         for(int j=0; j<genosDoubleInfer.GetNumSites(); ++j)
         {
             pResMat->SetGenotypeAt( hapUse, j, genosDoubleInfer.GetGenotypeAt(i,j) );
@@ -1299,7 +1299,7 @@ void ScistDoubletTest() {
     setTemplateRows.insert(2);
     setTemplateRows.insert(3);
     int genoDoublet = 4;
-    
+
     ScistDoublet ppInf( genoMat );
     vector<int> genoDouble1, genoDouble2;
     double minCost = ppInf.EvalGenoDoublet( setTemplateRows, genoDoublet, genoDouble1, genoDouble2 );

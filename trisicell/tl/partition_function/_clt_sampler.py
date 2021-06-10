@@ -91,11 +91,11 @@ def clt_sample_rec(
 
 
 def draw_sample_clt(P, greedy, c=1, coef=2):
-    """
-    :param P: 
-    :param greedy: 
+    r"""
+    :param P:
+    :param greedy:
     :param c: gaussian kernel parameter
-    :param coef: 
+    :param coef:
     :return: edges, subtrees, prior_prob
     prior_prob in the latex: Prob_{T\sim E}[T]
     """ ""

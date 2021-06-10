@@ -38,10 +38,11 @@ def cardelino(adata, mode, kind, tree=None):
         importr("cardelino")
     except:
         raise SystemExit(
-            "A problem was encountered importing `cardelino` in R. "
-            "To run this `cardelino` needs to be installed in R. "
-            "Use the following lines to installed them.\n\n"
-            "devtools::install_github('single-cell-genetics/cardelino',build_vignettes = FALSE)\n"
+            "A problem was encountered importing `cardelino` in R. To run this"
+            " `cardelino` needs to be installed in R. Use the following lines to"
+            " installed"
+            " them.\n\ndevtools::install_github('single-cell-genetics/cardelino',build_vignettes"
+            " = FALSE)\n"
         )
 
     tsc.logg.info(f"running Cardelino")

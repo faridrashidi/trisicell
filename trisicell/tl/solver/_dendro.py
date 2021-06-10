@@ -107,7 +107,7 @@ def dendro(adata, kind):
     info1 <- fread(file)
     info1 <- info1 %>% as.data.frame()
     tree <- hclust(dist, method='ward.D')
-    
+
     # p <- ggtree(tree, layout='fan', size=0.5) %<+% info1 +
     #     geom_tippoint(mapping=aes(color=MPS), size=5) +
     #     scale_color_gradient2(low='#E41A1C', midpoint=0, mid='white', high='#377EB8')

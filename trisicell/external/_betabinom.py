@@ -671,7 +671,7 @@ def lfbaccdif1(a, b):
                     logcf(y3, i, 1.0)
                     + (y3 - 1.25) * (1.0 / (1.0 - y3) - i * logcf(y3, i + 1.0, 1.0))
                 )
-                - scale3 / 3.0 * ((1.0 / (1.0 - x3) - i * logcf(x3, i + 1.0, 1.0)))
+                - scale3 / 3.0 * (1.0 / (1.0 - x3) - i * logcf(x3, i + 1.0, 1.0))
             )
 
         for i in range(i - 3, -1, -1):

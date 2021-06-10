@@ -53,7 +53,7 @@ def scistree(df_input, alpha, beta, experiment=False):
     file1 = f"{tmpdir.name}/scistree.input"
     df.index.name = f"HAPLOID {df.shape[0]} {df.shape[1]}"
     df.to_csv(file1, sep=" ")
-    with open(file1, "r") as ifile:
+    with open(file1) as ifile:
         data = ifile.read()
     with open(file1, "w") as ofile:
         data = data.replace('"', "")

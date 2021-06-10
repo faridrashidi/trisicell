@@ -16,7 +16,7 @@
 infq: "./Tirosh2016/raw"
 outdir: "./Tirosh2016/map"
 tmpdir: "./Tirosh2016/tmp"
-normals: [] # TODO: 
+normals: [] # TODO:
 
 ## for paired-end
 infqpre1: ""

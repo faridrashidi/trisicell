@@ -8,7 +8,7 @@ Mutation Calling
 The overview of the mutation calling pipeline that was used in Trisicell is provided below.
 
 .. raw:: html
-    
+
     <br>
     <img src="_static/images/gatk.png" align="center">
     <br>
@@ -20,7 +20,7 @@ Step 1:
 ~~~~~~~
 
 .. code-block:: bash
-    
+
     STAR \
         --runMode genomeGenerate \
         --genomeDir {outdir}/{indexing_1} \
@@ -42,7 +42,7 @@ Step 2:
         --output_dir {outdir}/{cell_id} \
         --paired \
         {cell_id}/{fastq_file_1} {cell_id}/{fastq_file_2}
-    
+
     # for every `cell_id`
     STAR \
         --runMode alignReads \

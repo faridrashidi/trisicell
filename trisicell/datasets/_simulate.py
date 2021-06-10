@@ -98,7 +98,7 @@ def splatter(noisy, ground, seed=5):
 
     params <- readRDS(file='{params}')
     sim <- splatSimulate(params, nGenes=m, batchCells=n, seed=seed, verbose=FALSE)
-    
+
     outmatrix <- inmatrix
     outmatrix[t(counts(sim)) < 10] <- 3
 

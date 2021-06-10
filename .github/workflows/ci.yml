@@ -46,7 +46,7 @@ jobs:
         -   name: Run static analysis
             run: |
                 pre-commit run --all-files --show-diff-on-failure
-    
+
     test:
         needs: lint
         runs-on: ${{ matrix.os }}

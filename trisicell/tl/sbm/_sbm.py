@@ -22,8 +22,8 @@ def sbm(data2):
         for k in range(x[0].shape[0]):
             i = x[0][k]
             j = x[1][k]
-            cell_key = "cell{}".format(i)
-            mut_key = "mut{}".format(j)
+            cell_key = f"cell{i}"
+            mut_key = f"mut{j}"
             if cell_key in label2id:
                 v = label2id[cell_key]
             else:
@@ -52,11 +52,7 @@ def sbm(data2):
             )
 
         cell_array = [
-            (
-                b[label2id["cell{}".format(i)]]
-                if "cell{}".format(i) in label2id
-                else maxblocks + 1
-            )
+            (b[label2id[f"cell{i}"]] if f"cell{i}" in label2id else maxblocks + 1)
             for i in range(n_cells)
         ]
         temp = sorted(list(Counter(cell_array).keys()))
@@ -64,11 +60,7 @@ def sbm(data2):
         cell_array = [cell_idx_to_blocknum[a] for a in cell_array]
 
         mut_array = [
-            (
-                b[label2id["mut{}".format(i)]]
-                if "mut{}".format(i) in label2id
-                else maxblocks + 1
-            )
+            (b[label2id[f"mut{i}"]] if f"mut{i}" in label2id else maxblocks + 1)
             for i in range(n_muts)
         ]
         temp = sorted(list(Counter(mut_array).keys()))

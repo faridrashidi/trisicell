@@ -1,6 +1,4 @@
-# -*- coding: utf-8 -*-
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 
 # =========================================================================================
@@ -105,7 +103,7 @@ def Reconstruct(
         )[2]
         e_time = time.time()
         running_time = e_time - s_time
-        output_file = output_file + "_optH_{}TEMP.CFMatrix".format(hist_coeff)
+        output_file = output_file + f"_optH_{hist_coeff}TEMP.CFMatrix"
         WriteTfile(output_file, matrix_recons, input_file)
     #        print(" difference ",np.sum(matrix_recons!=matrix_input))
 
@@ -222,7 +220,7 @@ def Auto_fnfp(
             h_current = h_i
             oc_current = overlapp_coeff
     print(procid, "th process finished", q.full(), h_current, oc_current)
-    output_file = out_file + "_TEMP_{}.CFMatrix".format(procid)
+    output_file = out_file + f"_TEMP_{procid}.CFMatrix"
     WriteTfile(output_file, matrix_recon, in_file)
     q.put([output_file, distance])
 

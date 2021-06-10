@@ -11,7 +11,7 @@ from ._clt_sampler import draw_sample_clt
 
 
 def cell_lineage_tree_prob(P, subtrees):
-    """
+    r"""
     Calculate Prob_{A\sim P}[A\in T]
     O(n m^2)
     :param P:
@@ -29,7 +29,7 @@ def cell_lineage_tree_prob(P, subtrees):
 
 
 def pf_cond_on_one_tree(P, subtrees, cond_c, cond_m):
-    """
+    r"""
     Prob_{A\sim P}[\subtree(c, R, A)\cap A\in G| A\in T]
     O(n^2)
     :param P:
@@ -51,7 +51,7 @@ def pf_cond_on_one_tree(P, subtrees, cond_c, cond_m):
 
 
 def get_samples(P, n_samples, disable_tqdm=True):
-    """
+    r"""
     N_s *
     :param P:
     :param n_samples:

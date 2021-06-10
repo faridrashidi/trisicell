@@ -5,7 +5,8 @@ import trisicell as tsc
 
 def huntress(df_input_filepath, alpha, beta, kind, n_threads=1):
     tsc.logg.info(
-        f"running HUNTRESS with alpha={alpha}, beta={beta}, kind={kind}, n_threads={n_threads}"
+        f"running HUNTRESS with alpha={alpha}, beta={beta}, kind={kind},"
+        f" n_threads={n_threads}"
     )
     tmpdir = tsc.ul.tmpdirsys(suffix=".huntress")
 

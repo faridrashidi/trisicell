@@ -337,5 +337,3 @@ void printScoreKimSimonTree(int n, int m, double** logScores, int** dataMatrix, 
 	cout.precision(20);
 	cout << "KimSimonScore: " << KimSimonScore << "\n";
 }
-
-

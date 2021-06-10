@@ -163,7 +163,7 @@ def prepare_dependencies(
         CF_matrices_filenames,
         ascii=True,
         ncols=100,
-        desc="DEPENDENCIES",
+        desc="DEPENDENCIES  ",
         total=max_num_submatrices,
         position=0,
         disable=disable_tqdm,

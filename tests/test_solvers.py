@@ -89,4 +89,4 @@ class TestSolvers:
             no_dependencies=False,
         )
         is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
-        assert is_cf == False
+        assert is_cf == True

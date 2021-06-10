@@ -1,9 +1,9 @@
 import os
-
-import pandas as pd
+import time
 
 import trisicell as tsc
 from trisicell.tl.solver.booster._dependencies import prepare_dependencies
+from trisicell.tl.solver.booster._reconstruct_big_tree import reconstruct_big_tree
 from trisicell.tl.solver.booster._subsamples import subsampling
 
 
@@ -75,7 +75,8 @@ def booster(
     else:
         tmpdir = tsc.ul.mkdir(os.path.join(dir_inter, base_inter))
 
-    #### subsampling matrices and solving them
+    s_time = time.time()
+    # subsampling matrices and solving them
     if not no_subsampling:
         subsampling(
             df_input,
@@ -92,7 +93,7 @@ def booster(
             disable_tqdm=disable_tqdm,
         )
 
-    #### preparing dependencies file
+    # preparing dependencies file
     if not no_dependencies:
         n_muts = df_input.shape[1]
         max_num_submatrices = int(weight * (n_muts ** 2) / (sample_size ** 2))
@@ -104,16 +105,27 @@ def booster(
             disable_tqdm,
         )
 
-    #### building the final cfmatrix
+    # building the final CFMatrix
+    tsc.io.write(df_input, f"{tmpdir}/_input.SC")
+    reconstruct_big_tree(
+        f"{tmpdir}/_booster.dependencies",
+        f"{tmpdir}/_input.SC",
+        alpha,
+        beta,
+        f"{tmpdir}/_booster",
+        disable_tqdm,
+    )
+    e_time = time.time()
+    running_time = e_time - s_time
 
-    df_output = pd.DataFrame(df_input.values)
-    df_output.columns = df_input.columns
-    df_output.index = df_input.index
-    df_output.index.name = "cellIDxmutID"
+    df_output = tsc.io.read(
+        f"{tmpdir}/_booster.dnc.CFMatrix",
+    )
+    df_output = df_output.loc[df_input.index, df_input.columns]
 
     if not save_inter:
         tsc.ul.cleanup(tmpdir)
 
-    # tsc.ul.stat(df_input, df_output, alpha, beta, running_time)
+    tsc.ul.stat(df_input, df_output, alpha, beta, running_time)
 
     return df_output

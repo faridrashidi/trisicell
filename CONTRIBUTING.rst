@@ -55,7 +55,7 @@ Code style guide
 We rely on ``black`` and ``isort`` to do the most of the formatting - both of them are integrated as pre-commit hooks.
 You can use ``pre-commit`` to check the changes::
 
-    pre-commit run --all-files --show-diff-on-failure
+    make lint
 
 Keep in mind to use tags like `TODO[colon]` and `FIXME[colon]` to make other developers aware of what to do next.
 
@@ -64,7 +64,7 @@ Testing
 -------
 We use ``pytest`` to automate our testing. To execute the tests, run::
 
-    python -m pytest --cov=trisicell
+    make test
 
 
 Writing documentation
@@ -76,9 +76,7 @@ We use ``numpy``-style docstrings for the documentation with the following addit
 
 In order to build the documentation, run::
 
-    cd docs
-    rm -rf ./source/trisicell*
-    make clean html
+    make doc
 
 
 Building c files

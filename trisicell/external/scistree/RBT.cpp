@@ -1203,7 +1203,7 @@ bool RBT ::IsOneSPRAway(const RBT &rbt) const {
             pSib = pCurNode->GetParent()->GetRightChild();
         }
 
-        
+
 
         // now detach the subtree
         // need to handle the special case when the root is removed
@@ -1325,7 +1325,7 @@ bool RBT ::IsOneSPRAway(const RBT &rbt) const {
             pSib = pCurNode->GetParent()->GetRightChild();
         }
 
-        
+
 
         // now detach the subtree
         // need to handle the special case when the root is removed

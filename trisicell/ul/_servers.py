@@ -29,16 +29,16 @@ def write_cmds_get_main(
             ]
             if afterok is not None:
                 cmd += [
-                    f"--sbatch "
-                    f'"--mail-type=END '
+                    "--sbatch "
+                    '"--mail-type=END '
                     f"--mail-user={email} "
                     f"--job-name={jobname} "
                     f'--dependency=afterok:{afterok}"'
                 ]
             else:
                 cmd += [
-                    f"--sbatch "
-                    f'"--mail-type=END '
+                    "--sbatch "
+                    '"--mail-type=END '
                     f"--mail-user={email} "
                     f'--job-name={jobname}"'
                 ]

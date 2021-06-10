@@ -331,7 +331,7 @@ def _newick_info2_mutation_list(tree):
                     "newick_label": f"Node{node+1}",
                     "nmuts_label": f"{len(tree2.nodes[node]['label'])}",
                     "nodeid_label": f"[{node+1}]",
-                    "both_label": (f"[{node+1}]: {len(tree2.nodes[node]['label'])}"),
+                    "both_label": f"[{node+1}]: {len(tree2.nodes[node]['label'])}",
                 }
             )
     info2 = pd.DataFrame(row)

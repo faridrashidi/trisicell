@@ -57,7 +57,7 @@ You can use ``pre-commit`` to check the changes::
 
     make lint
 
-Keep in mind to use tags like `TODO[colon]` and `FIXME[colon]` to make other developers aware of what to do next.
+Keep in mind to use tags like ``TODO[colon]`` and ``FIXME[colon]`` to make other developers aware of what to do next.
 
 
 Testing

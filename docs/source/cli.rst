@@ -8,7 +8,7 @@ become available in the terminal.
 typing ``trisicell --help``. You will get the following output:
 
 .. code-block:: bash
-    
+
     Usage: trisicell [OPTIONS] COMMAND [ARGS]...
 
       Scalable intratumor heterogeneity inference and validation from single-cell data

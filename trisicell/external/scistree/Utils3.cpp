@@ -1005,7 +1005,7 @@ void InsertOrderedVec(vector<int> &vec, int val) {
 	for(; pos  < (int) vec.size(); ++pos)
 	{
 		vecRes.push_back(  vec[pos] );
-	}	
+	}
 	vec = vecRes;
 #endif
 
@@ -1388,7 +1388,7 @@ int GetPartitionEnumId(int numItemsTot, const vector<int> &vec) {
 		{
 			vecDoneShift.push_back( vec[j] );
 		}
-		int numSameOrder; 
+		int numSameOrder;
 		if( numItemsTot > vec[posRight] )
 		{
 			numSameOrder = GetPartitionEnumId(numItemsTot-vec[posRight], vecDoneShift);
@@ -1424,11 +1424,11 @@ void GetPartitionEnumPartForId(int numItemsTot, int numParts, int eid,
   // vecres );
 
 #if 0
-    
+
     // YW: TMEP
     //TBD
-    
-    
+
+
     //
     //cout << "numItemsTot: " << numItemsTot << ", vec = ";
     //DumpIntVec( vec );
@@ -1476,7 +1476,7 @@ void GetPartitionEnumPartForId(int numItemsTot, int numParts, int eid,
 			numSameOrder = 0;
 		}
         //cout << "numDownShift : " << numDownShift << ", numSameOrder: " << numSameOrder << endl;
-        
+
 		//return numDownShift + numSameOrder;
 	}
 #endif

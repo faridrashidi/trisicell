@@ -463,10 +463,10 @@ bool BioSequenceMatrix :: ReadFromFilePartial( ifstream &inFile, bool fSkipFirst
 {
     // different from the previous version, read from the middle of the file and stop whenever needed
     bool res = true;
-    
+
 	// Now, we first check one row to find out how many sites
 	char buf[MAX_SITE_NUM];		// assume maximum sites allowed are 4096
-    
+
 	// first read in the matrix name first
 	const int BUF_SZ = MAX_SITE_NUM*sizeof(int);
     if( fSkipFirstLine == true )
@@ -474,7 +474,7 @@ bool BioSequenceMatrix :: ReadFromFilePartial( ifstream &inFile, bool fSkipFirst
         inFile.getline(buf, BUF_SZ);
         //	cout << "Matrix name is " << buf << endl;
     }
-    
+
 	int rowLength = 0;
 	while( !inFile.eof() )
 	{
@@ -501,7 +501,7 @@ bool BioSequenceMatrix :: ReadFromFilePartial( ifstream &inFile, bool fSkipFirst
 				break;
 			}
 		}
-        
+
 		if(rowLength == 0)
 		{
 			rowLength = curRowLen;
@@ -542,10 +542,10 @@ bool BioSequenceMatrix :: ReadFromFilePartial( ifstream &inFile, bool fSkipFirst
 		// Now put it into a list
 		rowsArray.push_back(pRow);
 	}
-    
+
 	// Now set return value
 	nCols = rowLength;
-    
+
 	return res;
 }
 #endif

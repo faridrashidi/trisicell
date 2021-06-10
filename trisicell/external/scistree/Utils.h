@@ -81,7 +81,7 @@ int ConvertToLinearEq(int r1, int r2, int nRows);
 typedef struct
 {
 	vector<int> posvec;		// indicate where are the choices are
-	vector<int> comboChoices;	// 
+	vector<int> comboChoices;	//
 } COMBO_STRUCT;
 #endif
 

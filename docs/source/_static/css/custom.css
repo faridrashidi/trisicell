@@ -1,25 +1,25 @@
 /* ReadTheDocs theme colors */
 .wy-nav-top {
-	background-color: #404040 
+	background-color: #404040
 }
 .wy-nav-content {
-	max-width: 950px 
+	max-width: 950px
 }
 .wy-side-nav-search {
-	background-color: transparent 
+	background-color: transparent
 }
 .wy-side-nav-search input[type="text"] {
-	border-width: 0 
+	border-width: 0
 }
 /* Custom classes */
 .small {
-	font-size:40% 
+	font-size:40%
 }
 .smaller, .pr, .noteversion {
-	font-size:70% 
+	font-size:70%
 }
 .noteversion::after {
-	content: "/" 
+	content: "/"
 }
 /* Code: literals and links */
 .rst-content tt.literal,.rst-content code.literal {
@@ -68,7 +68,7 @@ div.highlight > pre {
 }
 /* Add colon between return tuple element name and type */
 .rst-content dl:not(.docutils) dl > dt .classifier::before {
-	content: ' : ' 
+	content: ' : '
 }
 .rst-footer-buttons {
 	margin: 24px 0px 0px 0px;

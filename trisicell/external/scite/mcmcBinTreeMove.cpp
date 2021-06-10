@@ -85,4 +85,3 @@ int getSibling(int v, int* currTreeParVec, vector<vector<int> > &childLists){
 		return childLists.at(currTreeParVec[v]).at(1);
 	}
 }
-

@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Farid Rashidi Mehrabadi All rights reserved.
 
@@ -36,7 +35,8 @@ def run08(config, afterok):
             cmds += cmd(
                 [
                     f"{config['ANNOVAR']}/annotate_variation.pl",
-                    f"--outfile {config['outdir']}/_annotating/annovar_post/post.{os.path.basename(file)[4:]}",
+                    "--outfile"
+                    f" {config['outdir']}/_annotating/annovar_post/post.{os.path.basename(file)[4:]}",
                     f"--dbtype {config['dbtype']}",
                     f"--buildver {config['buildver']}",
                     f"{file}",

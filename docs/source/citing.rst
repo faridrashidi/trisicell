@@ -11,7 +11,7 @@ bioRxiv 2021.03.26.437185; doi: https://doi.org/10.1101/2021.03.26.437185
 BibTeX
 ~~~~~~
 .. code-block:: RST
-    
+
     @article{Trisicell,
       doi           = {10.1101/2021.03.26.437185},
       url           = {https://doi.org/10.1101/2021.03.26.437185},

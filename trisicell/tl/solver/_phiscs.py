@@ -150,17 +150,17 @@ def phiscsi(df_input, alpha, beta, time_out=86400):
     B = {}
     for c in range(num_cells):
         for m in range(num_mutations):
-            Y[c, m] = model.addVar(vtype=gp.GRB.BINARY, name="Y({0},{1})".format(c, m))
+            Y[c, m] = model.addVar(vtype=gp.GRB.BINARY, name=f"Y({c},{m})")
     for p in range(num_mutations):
         for q in range(p + 1, num_mutations):
             B[p, q, 1, 1] = model.addVar(
-                vtype=gp.GRB.BINARY, obj=0, name="B[{0},{1},1,1]".format(p, q)
+                vtype=gp.GRB.BINARY, obj=0, name=f"B[{p},{q},1,1]"
             )
             B[p, q, 1, 0] = model.addVar(
-                vtype=gp.GRB.BINARY, obj=0, name="B[{0},{1},1,0]".format(p, q)
+                vtype=gp.GRB.BINARY, obj=0, name=f"B[{p},{q},1,0]"
             )
             B[p, q, 0, 1] = model.addVar(
-                vtype=gp.GRB.BINARY, obj=0, name="B[{0},{1},0,1]".format(p, q)
+                vtype=gp.GRB.BINARY, obj=0, name=f"B[{p},{q},0,1]"
             )
     for p in range(num_mutations):
         for q in range(p + 1, num_mutations):
@@ -243,25 +243,25 @@ def phiscs_bulk(
     Y = {}
     for c in range(numCells):
         for m in range(numMutations):
-            Y[c, m] = model.addVar(vtype=gp.GRB.BINARY, name="Y({0},{1})".format(c, m))
+            Y[c, m] = model.addVar(vtype=gp.GRB.BINARY, name=f"Y({c},{m})")
 
     # --- Variables B control the existence of conflict between columns
     B = {}
     for p in range(numMutations + 1):
         for q in range(numMutations + 1):
             B[p, q, 1, 1] = model.addVar(
-                vtype=gp.GRB.BINARY, obj=0, name="B[{0},{1},1,1]".format(p, q)
+                vtype=gp.GRB.BINARY, obj=0, name=f"B[{p},{q},1,1]"
             )
             B[p, q, 1, 0] = model.addVar(
-                vtype=gp.GRB.BINARY, obj=0, name="B[{0},{1},1,0]".format(p, q)
+                vtype=gp.GRB.BINARY, obj=0, name=f"B[{p},{q},1,0]"
             )
             B[p, q, 0, 1] = model.addVar(
-                vtype=gp.GRB.BINARY, obj=0, name="B[{0},{1},0,1]".format(p, q)
+                vtype=gp.GRB.BINARY, obj=0, name=f"B[{p},{q},0,1]"
             )
 
     K = {}
     for m in range(numMutations + 1):
-        K[m] = model.addVar(vtype=gp.GRB.BINARY, name="K[{0}]".format(m))
+        K[m] = model.addVar(vtype=gp.GRB.BINARY, name=f"K[{m}]")
     model.addConstr(K[numMutations] == 0)  # null mutation can not be eliminated
 
     # --- A[p,q] = 1 if p is ancestor of q
@@ -271,9 +271,7 @@ def phiscs_bulk(
             numMutations + 1
         ):  # mutation with index numMutation is null mutation
             for q in range(numMutations + 1):
-                A[p, q] = model.addVar(
-                    vtype=gp.GRB.BINARY, obj=0, name="A[{0},{1}]".format(p, q)
-                )
+                A[p, q] = model.addVar(vtype=gp.GRB.BINARY, obj=0, name=f"A[{p},{q}]")
 
     model.update()
 
@@ -451,17 +449,17 @@ def phiscs_readcount(adata, alpha, beta, time_out=86400):
     B = {}
     for c in range(len(cells)):
         for m in range(len(muts)):
-            Y[c, m] = model.addVar(vtype=gp.GRB.BINARY, name="Y({0},{1})".format(c, m))
+            Y[c, m] = model.addVar(vtype=gp.GRB.BINARY, name=f"Y({c},{m})")
     for p in range(len(muts)):
         for q in range(len(muts)):
             B[p, q, 1, 1] = model.addVar(
-                vtype=gp.GRB.BINARY, obj=0, name="B[{0},{1},1,1]".format(p, q)
+                vtype=gp.GRB.BINARY, obj=0, name=f"B[{p},{q},1,1]"
             )
             B[p, q, 1, 0] = model.addVar(
-                vtype=gp.GRB.BINARY, obj=0, name="B[{0},{1},1,0]".format(p, q)
+                vtype=gp.GRB.BINARY, obj=0, name=f"B[{p},{q},1,0]"
             )
             B[p, q, 0, 1] = model.addVar(
-                vtype=gp.GRB.BINARY, obj=0, name="B[{0},{1},0,1]".format(p, q)
+                vtype=gp.GRB.BINARY, obj=0, name=f"B[{p},{q},0,1]"
             )
     for p in range(len(muts)):
         for q in range(len(muts)):

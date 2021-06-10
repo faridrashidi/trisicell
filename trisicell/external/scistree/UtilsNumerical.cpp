@@ -10,7 +10,7 @@
 inline int* dec2binarr(long n, int dim)
 {
     // note: res[dim] will save the sum res[0]+...+res[dim-1]
-    int* res = (int*)calloc(dim + 1, sizeof(int));   
+    int* res = (int*)calloc(dim + 1, sizeof(int));
     int pos = dim - 1;
 
     // note: this will crash if dim < log_2(n)...
@@ -18,27 +18,27 @@ inline int* dec2binarr(long n, int dim)
     {
         res[pos] = n % 2;
         res[dim] += res[pos];
-        n = n / 2; // integer division        
+        n = n / 2; // integer division
         pos--;
     }
 
     return res;
 }
 
-template<class T> 
+template<class T>
 T MatrixPermanent(const vector<T>& A, int n)
 {
-	// expects n by n matrix encoded as vector 
+	// expects n by n matrix encoded as vector
     T sum = 0;
     T rowsumprod, rowsum;
-    int* chi = new int[n + 1];    
-    double C = (double)pow((double)2, n); 
+    int* chi = new int[n + 1];
+    double C = (double)pow((double)2, n);
 
     // loop all 2^n submatrices of A
     for (int k = 1; k < C; k++)
     {
         rowsumprod = 1;
-        chi = dec2binarr(k, n); // characteristic vector        
+        chi = dec2binarr(k, n); // characteristic vector
 
         // loop columns of submatrix #k
         for (int m = 0; m < n; m++)
@@ -48,16 +48,16 @@ T MatrixPermanent(const vector<T>& A, int n)
             // loop rows and compute rowsum
             for (int p = 0; p < n; p++)
                 rowsum += chi[p] * A[m * n + p];
-        
+
             // update product of rowsums
-            rowsumprod *= rowsum;    
-        
+            rowsumprod *= rowsum;
+
             // (optional -- use for sparse matrices)
-            // if (rowsumprod == 0) break;    
-        }        
-        
-        sum += (T)pow((double)-1, n - chi[n]) * rowsumprod;        
-    }    
+            // if (rowsumprod == 0) break;
+        }
+
+        sum += (T)pow((double)-1, n - chi[n]) * rowsumprod;
+    }
 
 	//delete [] chi;
 

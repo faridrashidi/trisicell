@@ -36,7 +36,8 @@ def import_rpy2(name="base", how=""):
 
     except ImportError:
         tsc.logg.error(
-            "Unable to import `rpy2`, install it first as `pip install rpy2` version `>=3.3.0`."
+            "Unable to import `rpy2`, install it first as `pip install rpy2` version"
+            " `>=3.3.0`."
         )
         return None, True
 
@@ -44,7 +45,7 @@ def import_rpy2(name="base", how=""):
         _r_lib = importr(name)
         return _r_lib, False
     except PackageNotInstalledError:
-        tsc.logg.error(f"Install R library `{name!r}` first." f"{how}")
+        tsc.logg.error(f"Install R library `{name!r}` first.{how}")
         return None, True
 
 

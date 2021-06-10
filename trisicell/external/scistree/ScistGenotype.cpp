@@ -583,7 +583,7 @@ void ScistHaplotypeMat ::FindMaximalCompatSites(
 
 #if 0
     BinaryMatrix &matHaplotypesUse = const_cast<BinaryMatrix &>( this->matHaplotypes );
-    
+
     //
     listSetSitesCompat.clear();
     vector<vector<bool> > vecHapsFullyCompat( GetNumSites() );
@@ -591,7 +591,7 @@ void ScistHaplotypeMat ::FindMaximalCompatSites(
     {
         vecHapsFullyCompat[i].resize( GetNumSites() );
     }
-    
+
     for(int s1 = 0; s1<GetNumSites(); ++s1)
     {
         for(int s2=s1+1; s2<GetNumSites(); ++s2)
@@ -630,7 +630,7 @@ void ScistHaplotypeMat ::FindMaximalCompatSites(
 //{
 //DumpIntSet(*it);
 //}
-        
+
         set< set<int> > setMaximalCompsNext;
         // try to grow by adding one more
         for( set<set<int> > :: iterator it = setMaximalComps.begin(); it != setMaximalComps.end(); ++it )
@@ -670,14 +670,14 @@ void ScistHaplotypeMat ::FindMaximalCompatSites(
     }
     //
     //TrimCliquesMaxDiff( setMaximalComps, maxNumSets );
-    
+
     YW_ASSERT_INFO( setMaximalComps.size() > 0, "Cannot be empty" );
     for( set<set<int> > :: iterator it = setMaximalComps.begin(); it != setMaximalComps.end(); ++it )
     {
 cout << "Clique found: ";
 DumpIntSet(*it);
         map<int, std::set<int> >  setSitesCompat;
-        
+
         set<int> ssChosen = *it;
         for(set<int> :: iterator it = ssChosen.begin(); it != ssChosen.end(); ++it)
         {

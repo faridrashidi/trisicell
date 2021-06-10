@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Farid Rashidi Mehrabadi All rights reserved.
 
@@ -24,7 +23,8 @@ def run05(config, afterok):
                         f"-T MuTect2",
                         f"-R {config['ref']}",
                         f"-I:tumor {config['outdir']}/{sample}/output.bam",
-                        f"-I:normal {config['outdir']}/{config['normals'][0]}/output.bam",
+                        "-I:normal"
+                        f" {config['outdir']}/{config['normals'][0]}/output.bam",
                         f"-o {config['outdir']}/{sample}/MuTect2.g.vcf",
                         f"-dontUseSoftClippedBases",
                         f"-stand_call_conf 20",

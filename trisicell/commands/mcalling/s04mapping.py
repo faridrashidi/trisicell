@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Farid Rashidi Mehrabadi All rights reserved.
 
@@ -25,7 +24,9 @@ def run04(config, afterok):
                             f"--runMode alignReads",
                             f"--genomeDir {config['outdir']}/_indexing/2",
                             f"--readFilesCommand zcat",
-                            f"--readFilesIn {config['outdir']}/{sample}/{config['infqpre1']}{sample}{config['infqpost3']} {config['outdir']}/{sample}/{config['infqpre2']}{sample}{config['infqpost4']}",
+                            "--readFilesIn"
+                            f" {config['outdir']}/{sample}/{config['infqpre1']}{sample}{config['infqpost3']}"
+                            f" {config['outdir']}/{sample}/{config['infqpre2']}{sample}{config['infqpost4']}",
                             f"--outFileNamePrefix {config['outdir']}/{sample}/",
                             f"--limitBAMsortRAM 30000000000",
                             f"--outSAMtype BAM SortedByCoordinate",
@@ -51,7 +52,8 @@ def run04(config, afterok):
                             f"--runMode alignReads",
                             f"--genomeDir {config['outdir']}/_indexing/2",
                             f"--readFilesCommand zcat",
-                            f"--readFilesIn {config['outdir']}/{sample}/{config['infqpre']}{sample}{config['infqpost5']}",
+                            "--readFilesIn"
+                            f" {config['outdir']}/{sample}/{config['infqpre']}{sample}{config['infqpost5']}",
                             f"--outFileNamePrefix {config['outdir']}/{sample}/",
                             f"--limitBAMsortRAM 30000000000",
                             f"--outSAMtype BAM SortedByCoordinate",
@@ -77,7 +79,9 @@ def run04(config, afterok):
                             f"--runMode alignReads",
                             f"--genomeDir {config['outdir']}/_indexing/2",
                             f"--readFilesCommand zcat",
-                            f"--readFilesIn {config['infq']}/{config['infqpre1']}{sample}{config['infqpost1']} {config['infq']}/{config['infqpre2']}{sample}{config['infqpost2']}",
+                            "--readFilesIn"
+                            f" {config['infq']}/{config['infqpre1']}{sample}{config['infqpost1']}"
+                            f" {config['infq']}/{config['infqpre2']}{sample}{config['infqpost2']}",
                             f"--outFileNamePrefix {config['outdir']}/{sample}/",
                             f"--limitBAMsortRAM 30000000000",
                             f"--outSAMtype BAM SortedByCoordinate",
@@ -96,7 +100,8 @@ def run04(config, afterok):
                             f"--runMode alignReads",
                             f"--genomeDir {config['outdir']}/_indexing/2",
                             f"--readFilesCommand zcat",
-                            f"--readFilesIn {config['infq']}/{config['infqpre']}{sample}{config['infqpost']}",
+                            "--readFilesIn"
+                            f" {config['infq']}/{config['infqpre']}{sample}{config['infqpost']}",
                             f"--outFileNamePrefix {config['outdir']}/{sample}/",
                             f"--limitBAMsortRAM 30000000000",
                             f"--outSAMtype BAM SortedByCoordinate",

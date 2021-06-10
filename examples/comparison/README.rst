@@ -1,4 +1,4 @@
 Comparison
 ----------
 
-Below is a gallery of examples for :mod:`trisicell.tl`.
+Below is a gallery of examples for comparing two phylogenetic trees.

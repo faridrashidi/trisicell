@@ -7,11 +7,8 @@ lint:
 
 doc:
 	tool=`pwd | rev | cut -d'/' -f1 | rev`
-	cd docs
-	rm -rf ./source/$tool*
-	rm -rf ./source/auto_examples
-	rm -rf ./source/gen_modules
-	make clean html
-	cd build/html
-	serve
-	cd ../../..
+	rm -rf docs/source/$tool*
+	rm -rf docs/source/auto_examples
+	rm -rf docs/source/gen_modules
+	cd docs && $(MAKE) clean html
+	cd docs/build/html && python -m http.server 8080

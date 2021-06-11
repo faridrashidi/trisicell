@@ -1,4 +1,3 @@
--e .[doc]
 -r ../requirements.txt
 memory_profiler>=0.57.0
 nbsphinx>=0.8.1

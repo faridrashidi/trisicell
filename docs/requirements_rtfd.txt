@@ -1,1 +1,2 @@
--e .[doc]
+--editable '.[doc]'
+--requirement requirements.txt

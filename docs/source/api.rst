@@ -78,6 +78,7 @@ This module offers a bunch of functions for filtering and preprocessing of the d
     pp.filter_mut_reference_must_present_in_at_least
     pp.filter_mut_mutant_must_present_in_at_least
     pp.bifiltering
+    pp.consensus_combine
 
 
 Tools (tl)
@@ -112,7 +113,6 @@ and calculating the probability of mutations seeding particular cells.
 .. autosummary::
     :toctree: .
 
-    tl.consensus_combine
     tl.consensus_tree
 
 **For comparing two phylogenetic trees**

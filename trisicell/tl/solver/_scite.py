@@ -58,6 +58,8 @@ def scite(
     with open(f"{tmpdir.name}/scite.geneNames", "w") as fout:
         fout.write("\n".join(df_input.columns))
 
+    """
+    tmpdir = "/data/frashidi/test"
     cmd = [
         "scite",
         "-i",
@@ -82,9 +84,28 @@ def scite(
         "-o",
         f"{tmpdir.name}/scite.output",
     ]
+    print(" ".join(cmd))
+    run_scite(cmd)
+    """
+
+    scite = tsc.ul.get_file("trisicell.external/bin/scite")
+    cmd = (
+        f"{scite} "
+        f"-i {tmpdir.name}/scite.SC.T "
+        f"-names {tmpdir.name}/scite.geneNames "
+        f"-n {df_input.shape[1]} "
+        f"-m {df_input.shape[0]} "
+        f"-ad {beta} "
+        f"-fd {alpha} "
+        f"-r {n_restarts} "
+        "-e 0.20 "
+        "-a "
+        f"-l {n_iters} "
+        f"-o {tmpdir.name}/scite.output > {tmpdir.name}/scite.log"
+    )
 
     s_time = time.time()
-    run_scite(cmd)
+    os.system(cmd)
     e_time = time.time()
     running_time = e_time - s_time
 

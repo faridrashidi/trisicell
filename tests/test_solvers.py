@@ -77,16 +77,10 @@ class TestSolvers:
             sample_on="muts",
             sample_size=10,
             n_samples=20,
-            begin_sample=0,
+            begin_index=0,
             n_jobs=1,
-            time_out=10000,
-            save_inter=False,
-            dir_inter=".",
-            base_inter=None,
-            disable_tqdm=False,
-            weight=5,
-            no_subsampling=False,
-            no_dependencies=False,
+            n_iterations=10000,
+            dep_weight=5,
         )
         is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
-        assert is_cf == False
+        assert is_cf == True

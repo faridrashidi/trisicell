@@ -16,6 +16,7 @@ def subsampling(
     begin_sample,
     n_jobs,
     time_out,
+    n_iterations,
     tmpdir,
     disable_tqdm,
 ):
@@ -39,7 +40,7 @@ def subsampling(
             dfo.to_csv(f"{tmpdir}/{i}.CFMatrix", sep="\t")
         elif solver.lower() == "scite":
             dfo, _, _, _ = tsc.tl.scite(
-                dfn, alpha, beta, n_iters=time_out, n_restarts=1, experiment=True
+                dfn, alpha, beta, n_iters=n_iterations, n_restarts=1, experiment=True
             )
             dfo.to_csv(f"{tmpdir}/{i}.CFMatrix", sep="\t")
         elif solver.lower() == "scistree":
@@ -63,7 +64,7 @@ def subsampling(
         tqdm(
             ascii=True,
             ncols=100,
-            desc="SUBSAMPLING ",
+            desc="SUBSAMPLING    (1/3)",
             total=n_samples,
             position=0,
             disable=disable_tqdm,

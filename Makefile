@@ -1,13 +1,12 @@
 test:
-	pytest --disable-pytest-warnings --cov=`pwd | rev | cut -d'/' -f1 | rev` ./tests
+	pytest --disable-pytest-warnings --cov=trisicell ./tests
 	rm -rf .coverage*
 
 lint:
 	pre-commit run --all-files
 
 doc:
-	tool=`pwd | rev | cut -d'/' -f1 | rev`
-	rm -rf docs/source/$tool*
+	rm -rf docs/source/trisicell*
 	rm -rf docs/source/auto_examples
 	rm -rf docs/source/gen_modules
 	cd docs && $(MAKE) clean html

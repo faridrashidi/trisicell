@@ -64,7 +64,7 @@ def subsampling(
         tqdm(
             ascii=True,
             ncols=100,
-            desc="SUBSAMPLING   ",
+            desc="SUBSAMPLING    (1/3)",
             total=n_samples,
             position=0,
             disable=disable_tqdm,

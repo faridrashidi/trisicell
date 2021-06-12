@@ -483,7 +483,7 @@ def reconstruct_big_tree(
         ordered_mut_ids,
         ascii=True,
         ncols=100,
-        desc="RECONSTRUCTION",
+        desc="RECONSTRUCTION (3/3)",
         position=0,
         disable=disable_tqdm,
     ):

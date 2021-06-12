@@ -37,33 +37,33 @@ def booster(
     beta : float
         false negative rate
     solver : str, optional
-        [description], by default "SCITE"
+        which tool is boosted {"SCITE", "PhISCS"}, by default "SCITE"
     sample_on : str, optional
-        [description], by default "muts"
+        on which dimension is subsampled {"muts", "cells"}, by default "muts"
     sample_size : int, optional
-        [description], by default 10
+        number of subsampled mutations or cells depends on `sample_on`, by default 10
     n_samples : int, optional
-        [description], by default 10
+        number of samples, by default 10
     begin_index : int, optional
-        [description], by default 0
+        start index of intermediate file names, by default 0
     n_jobs : int, optional
-        [description], by default 10
+        number of jobs, by default 10
     dep_weight : int, optional
-        [description], by default 50
+        weight multiplier, by default 50
     time_out : int, optional
-        [description], by default 120
+        time out needed for PhISCS running on each instance, by default 120
     n_iterations : int, optional
-        [description], by default 500000
+        number of iterations needed for SCITE running, by default 500000
     subsample_dir : [type], optional
-        [description], by default None
+        for keeping the intermediate subsamples CFMatrices, by default None
     disable_tqdm : bool, optional
-        [description], by default False
+        disable progress bar, by default False
     no_subsampling : bool, optional
-        [description], by default False
+        subsampling (step 1/3) gets off, by default False
     no_dependencies : bool, optional
-        [description], by default False
+        dependencies calculation (step 2/3) gets off, by default False
     no_reconstruction : bool, optional
-        [description], by default False
+        reconstruction of big tree (step 3/3) gets off, by default False
 
     Returns
     -------

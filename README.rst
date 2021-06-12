@@ -12,7 +12,7 @@ Trisicell - Scalable intratumor heterogeneity inference and validation from sing
 
 Trisicell (**Tri**\ ple-toolkit for **si**\ ngle-\ **cell** intratumor heterogeneity inference),
 pronounced as "tricycle", is a new computational toolkit for scalable intratumor heterogeneity inference
-and evaluation from scRNAseq (as well as single-cell genome or exome sequencing) data. Trisicell
+and evaluation from single-cell RNA, as well as single-cell genome or exome, sequencing data. Trisicell
 utilizes expressed SNVs and Indels to infer evolutionary relationships between genomic alterations
 and the cells that harbor them.
 

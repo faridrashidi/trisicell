@@ -133,4 +133,3 @@ int* getRandomBinaryTree(int m){
 	}
 	return leafsAndInnerNodesParents;
 }
-

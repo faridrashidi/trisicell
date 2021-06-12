@@ -1148,7 +1148,7 @@ static PyObject *__pyx_codeobj__2;
 
 /* "trisicell/external/_scite.pyx":7
  * 	cdef int main_in_c(int argc, char **argv)
- * 
+ *
  * def run_scite(cmd):             # <<<<<<<<<<<<<<
  * 	cdef char **c_argv
  * 	args = [bytes(x, encoding="utf8") for x in cmd]
@@ -1340,7 +1340,7 @@ static PyObject *__pyx_pf_9trisicell_8external_6_scite_run_scite(CYTHON_UNUSED P
 
   /* "trisicell/external/_scite.pyx":7
  * 	cdef int main_in_c(int argc, char **argv)
- * 
+ *
  * def run_scite(cmd):             # <<<<<<<<<<<<<<
  * 	cdef char **c_argv
  * 	args = [bytes(x, encoding="utf8") for x in cmd]
@@ -1442,7 +1442,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 
   /* "trisicell/external/_scite.pyx":7
  * 	cdef int main_in_c(int argc, char **argv)
- * 
+ *
  * def run_scite(cmd):             # <<<<<<<<<<<<<<
  * 	cdef char **c_argv
  * 	args = [bytes(x, encoding="utf8") for x in cmd]
@@ -1735,7 +1735,7 @@ if (!__Pyx_RefNanny) {
 
   /* "trisicell/external/_scite.pyx":7
  * 	cdef int main_in_c(int argc, char **argv)
- * 
+ *
  * def run_scite(cmd):             # <<<<<<<<<<<<<<
  * 	cdef char **c_argv
  * 	args = [bytes(x, encoding="utf8") for x in cmd]
@@ -1747,8 +1747,8 @@ if (!__Pyx_RefNanny) {
 
   /* "trisicell/external/_scite.pyx":1
  * from libc.stdlib cimport free, malloc             # <<<<<<<<<<<<<<
- * 
- * 
+ *
+ *
  */
   __pyx_t_1 = __Pyx_PyDict_NewPresized(0); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 1, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
@@ -1952,8 +1952,8 @@ static PyObject* __Pyx_PyInt_AddObjC(PyObject *op1, PyObject *op2, CYTHON_UNUSED
                 llx = lla + llb;
             return PyLong_FromLongLong(llx);
 #endif
-        
-        
+
+
     }
     #endif
     if (PyFloat_CheckExact(op1)) {

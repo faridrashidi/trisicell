@@ -14,7 +14,7 @@ void DumpIntVec( const vector<int> &vec)
 	{
 		cout << "No items in the vector." << endl;
 		return;
-	}	
+	}
 	for(int i=0; i<vec.size()-1; ++i)
 	{
 		cout << vec[i] << ", ";
@@ -22,7 +22,7 @@ void DumpIntVec( const vector<int> &vec)
 	cout << vec[ vec.size()-1] << endl;
 }
 
-void DumpIntArray(const int array[], int sz) 
+void DumpIntArray(const int array[], int sz)
 {
 	for(int i=0; i<sz-1; ++i)
 	{
@@ -854,10 +854,10 @@ void DirectedGraph ::OutputGML(const char *fileName) {
 			if( IsNeighour ( i, j) )
 			{
 
-//cout << "Output an edge \n"; 
+//cout << "Output an edge \n";
 				outFile << "edge [\n";
-				outFile << "source " << i+1 << endl; 
-				outFile << "target  " << j+1 << endl; 
+				outFile << "source " << i+1 << endl;
+				outFile << "target  " << j+1 << endl;
 				outFile << "label " ;
 				OutputQuotedString( outFile,  ""  );
 				outFile << "\n";
@@ -985,7 +985,7 @@ cout << "node " << nodeid << " is assigned to compnent " << compId << endl;
             // get all its descendents in queue
             for( int ii=0; ii<(int)adjacencyList[nodeid].size(); ++ii  )
             {
-                // 
+                //
                 int v1,v2;
                 adjacencyList[nodeid][ii].GetVertexIDs( v1,v2 );
                 YW_ASSERT_INFO( v1 == nodeid, "wrong here" );

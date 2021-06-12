@@ -26,3 +26,4 @@
 
    caller
    example
+   auto_examples/index.rst

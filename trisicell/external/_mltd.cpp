@@ -1169,7 +1169,7 @@ static PyObject *__pyx_codeobj__2;
 
 /* "trisicell/external/_mltd.pyx":8
  * 	cdef MLTDResult calc_mltd(const char* tree1, const char* tree2)
- * 
+ *
  * def run_mltd(file1, file2):             # <<<<<<<<<<<<<<
  * 	cdef bytes file1_bytes = file1.encode()
  * 	cdef char* cfile1 = file1_bytes
@@ -1260,7 +1260,7 @@ static PyObject *__pyx_pf_9trisicell_8external_5_mltd_run_mltd(CYTHON_UNUSED PyO
   __Pyx_RefNannySetupContext("run_mltd", 0);
 
   /* "trisicell/external/_mltd.pyx":9
- * 
+ *
  * def run_mltd(file1, file2):
  * 	cdef bytes file1_bytes = file1.encode()             # <<<<<<<<<<<<<<
  * 	cdef char* cfile1 = file1_bytes
@@ -1394,7 +1394,7 @@ static PyObject *__pyx_pf_9trisicell_8external_5_mltd_run_mltd(CYTHON_UNUSED PyO
 
   /* "trisicell/external/_mltd.pyx":8
  * 	cdef MLTDResult calc_mltd(const char* tree1, const char* tree2)
- * 
+ *
  * def run_mltd(file1, file2):             # <<<<<<<<<<<<<<
  * 	cdef bytes file1_bytes = file1.encode()
  * 	cdef char* cfile1 = file1_bytes
@@ -1491,7 +1491,7 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
 
   /* "trisicell/external/_mltd.pyx":8
  * 	cdef MLTDResult calc_mltd(const char* tree1, const char* tree2)
- * 
+ *
  * def run_mltd(file1, file2):             # <<<<<<<<<<<<<<
  * 	cdef bytes file1_bytes = file1.encode()
  * 	cdef char* cfile1 = file1_bytes
@@ -1782,7 +1782,7 @@ if (!__Pyx_RefNanny) {
 
   /* "trisicell/external/_mltd.pyx":8
  * 	cdef MLTDResult calc_mltd(const char* tree1, const char* tree2)
- * 
+ *
  * def run_mltd(file1, file2):             # <<<<<<<<<<<<<<
  * 	cdef bytes file1_bytes = file1.encode()
  * 	cdef char* cfile1 = file1_bytes

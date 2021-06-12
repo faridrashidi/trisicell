@@ -13,7 +13,7 @@ UNDEFINED_DEPENDENCY = 4
 def read_CF_matrix_to_int_dictionary(path_CFmatrix_file):
     assert os.path.exists(path_CFmatrix_file), "ERROR. No file " + path_input_file
 
-    input_file = open(path_CFmatrix_file, "r")
+    input_file = open(path_CFmatrix_file)
     mut_ids = input_file.readline().strip().split()[1:]
     m = len(mut_ids)
     assert len(set(mut_ids)) == m, "ERROR. Repeating mutations present in column names."
@@ -21,9 +21,10 @@ def read_CF_matrix_to_int_dictionary(path_CFmatrix_file):
     E = {}
     for line in input_file.readlines():
         line_columns = line.strip().split()
-        assert (
-            len(line_columns) == m + 1
-        ), "ERROR. Input file not in desired matrix format (note that tab or empty spaces are assumed as separators)"
+        assert len(line_columns) == m + 1, (
+            "ERROR. Input file not in desired matrix format (note that tab or empty"
+            " spaces are assumed as separators)"
+        )
         cell_id = line_columns[0]
         assert cell_id not in E, "ERROR. Repeating cell id " + cell_id
         E[cell_id] = {}
@@ -105,9 +106,10 @@ def get_dependency_from_conflict_free_matrix(mut1, mut2, matrix):
         else:
             return UNDEFINED_DEPENDENCY
 
-    assert (
-        False
-    ), "ERROR. Encountered case not covered in the implementation of function get_dependency."
+    assert False, (
+        "ERROR. Encountered case not covered in the implementation of function"
+        " get_dependency."
+    )
 
 
 def is_float(value):
@@ -161,7 +163,7 @@ def prepare_dependencies(
         CF_matrices_filenames,
         ascii=True,
         ncols=100,
-        desc="DEPENDENCIES",
+        desc="DEPENDENCIES   (2/3)",
         total=max_num_submatrices,
         position=0,
         disable=disable_tqdm,

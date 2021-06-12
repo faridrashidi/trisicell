@@ -65,6 +65,24 @@ class TestCommands:
         )
         assert result.exit_code == 0
 
+    def test_booster(self):
+        runner = CliRunner()
+        result = runner.invoke(
+            cli,
+            [
+                "booster",
+                f"{tsc.ul.get_file('trisicell.datasets/test/test.tsv')}",
+                "0.0000001",
+                "0.1",
+                "--solver scite",
+                "--n_samples 100",
+                "--sample_size 15",
+                "--n_jobs 1",
+                "--n_iterations 10000",
+            ],
+        )
+        assert result.exit_code == 2
+
     def test_consensus(self):
         runner = CliRunner()
         result = runner.invoke(

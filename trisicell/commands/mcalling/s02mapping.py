@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Farid Rashidi Mehrabadi All rights reserved.
 
@@ -26,7 +25,8 @@ def run02(config, afterok):
                         f"--fastqc",
                         f"--output_dir {config['outdir']}/{sample}",
                         f"--paired",
-                        f"{config['infq']}/{config['infqpre1']}{sample}{config['infqpost1']} {config['infq']}/{config['infqpre2']}{sample}{config['infqpost2']}",
+                        f"{config['infq']}/{config['infqpre1']}{sample}{config['infqpost1']}"
+                        f" {config['infq']}/{config['infqpre2']}{sample}{config['infqpost2']}",
                     ]
                 )
                 if config["isrna"] == True:
@@ -43,7 +43,9 @@ def run02(config, afterok):
                             f"--sjdbOverhang {config['readlength']}",
                             f"--readFilesCommand zcat",
                             f"--outFileNamePrefix {config['outdir']}/{sample}/",
-                            f"--readFilesIn {config['outdir']}/{sample}/{config['infqpre1']}{sample}{config['infqpost3']} {config['outdir']}/{sample}/{config['infqpre2']}{sample}{config['infqpost4']}",
+                            "--readFilesIn"
+                            f" {config['outdir']}/{sample}/{config['infqpre1']}{sample}{config['infqpost3']}"
+                            f" {config['outdir']}/{sample}/{config['infqpre2']}{sample}{config['infqpost4']}",
                         ]
                     )
                     cmds += cmd(
@@ -58,7 +60,8 @@ def run02(config, afterok):
                             f"bwa mem",
                             f"-t 8",
                             f"{config['ref']}",
-                            f"{config['outdir']}/{sample}/{config['infqpre1']}{sample}{config['infqpost3']} {config['outdir']}/{sample}/{config['infqpre2']}{sample}{config['infqpost4']}",
+                            f"{config['outdir']}/{sample}/{config['infqpre1']}{sample}{config['infqpost3']}"
+                            f" {config['outdir']}/{sample}/{config['infqpre2']}{sample}{config['infqpost4']}",
                             f"|",
                             f"samtools sort -@8 -m 10000000000",
                             f"-o {config['outdir']}/{sample}/Aligned.sortedByCoord.out.bam -",
@@ -95,7 +98,8 @@ def run02(config, afterok):
                             f"--sjdbOverhang {config['readlength']}",
                             f"--readFilesCommand zcat",
                             f"--outFileNamePrefix {config['outdir']}/{sample}/",
-                            f"--readFilesIn {config['outdir']}/{sample}/{config['infqpre']}{sample}{config['infqpost5']}",
+                            "--readFilesIn"
+                            f" {config['outdir']}/{sample}/{config['infqpre']}{sample}{config['infqpost5']}",
                         ]
                     )
                     cmds += cmd(
@@ -138,7 +142,9 @@ def run02(config, afterok):
                             f"--sjdbOverhang {config['readlength']}",
                             f"--readFilesCommand zcat",
                             f"--outFileNamePrefix {config['outdir']}/{sample}/",
-                            f"--readFilesIn {config['infq']}/{config['infqpre1']}{sample}{config['infqpost1']} {config['infq']}/{config['infqpre2']}{sample}{config['infqpost2']}",
+                            "--readFilesIn"
+                            f" {config['infq']}/{config['infqpre1']}{sample}{config['infqpost1']}"
+                            f" {config['infq']}/{config['infqpre2']}{sample}{config['infqpost2']}",
                         ]
                     )
                     cmds += cmd(
@@ -153,7 +159,8 @@ def run02(config, afterok):
                             f"bwa mem",
                             f"-t 8",
                             f"{config['ref']}",
-                            f"{config['infq']}/{config['infqpre1']}{sample}{config['infqpost1']} {config['infq']}/{config['infqpre2']}{sample}{config['infqpost2']}",
+                            f"{config['infq']}/{config['infqpre1']}{sample}{config['infqpost1']}"
+                            f" {config['infq']}/{config['infqpre2']}{sample}{config['infqpost2']}",
                             f"|",
                             f"samtools sort -@8 -m 10000000000",
                             f"-o {config['outdir']}/{sample}/Aligned.sortedByCoord.out.bam -",
@@ -180,7 +187,8 @@ def run02(config, afterok):
                             f"--sjdbOverhang {config['readlength']}",
                             f"--readFilesCommand zcat",
                             f"--outFileNamePrefix {config['outdir']}/{sample}/",
-                            f"--readFilesIn {config['infq']}/{config['infqpre']}{sample}{config['infqpost']}",
+                            "--readFilesIn"
+                            f" {config['infq']}/{config['infqpre']}{sample}{config['infqpost']}",
                         ]
                     )
                     cmds += cmd(

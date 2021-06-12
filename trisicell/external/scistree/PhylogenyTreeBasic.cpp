@@ -590,7 +590,7 @@ cout << endl;
         {
             //
             ptreeNew->SetRootPlain( *it );
-            
+
             // if there are at least two taxa in the subtree, output it
             //set<string> listLeafLabelsSet;
             //vector<string> listLeafLabels;
@@ -601,7 +601,7 @@ cout << endl;
                 string nwTree;
                 ptreeNew->ConsNewick(nwTree, false, 1.0, true);
                 outfile << nwTree << endl;
-                
+
                 fTreeOut = true;
             //}
         }
@@ -1788,7 +1788,7 @@ string TreeNode ::GetShapeLabel(const set<int> &idTerms, bool fSort) const {
 					// when there is something under it (that is shrink the entire subtree of unknown to a symbol -
 					if(numNonEmpty >= 1 && fSpaceAdded == false)
 					{
-						// 
+						//
 						res += ",-";
 						fSpaceAdded = true;
 					}
@@ -3447,7 +3447,7 @@ void PhylogenyTreeBasic ::GetNodeParInfoNew(vector<int> &nodeIds,
     //	continue;
     //}
 #if 0
-		// 
+		//
 		//int nonleafInd = numLeaves + curNodeNum;
 		int nonleafInd = curNodeId;
 		//curNodeNum++;
@@ -4753,7 +4753,7 @@ void PhylogenyTreeBasic ::GetSubtreesWithMaxSize(set<TreeNode *> &setSTRoots,
     set<TreeNode *> setSTRootsStep;
     set<string> setLblsEmpty;
     GetSubtreesWithMaxSizeExcludeTaxa( setSTRootsStep, maxSzSubtree, setLblsEmpty );
-    
+
     // find out any missing taxa
     set<string> setLblsCovered;
     for(set<TreeNode *> :: iterator it = setSTRootsStep.begin(); it != setSTRootsStep.end(); ++it )
@@ -4761,7 +4761,7 @@ void PhylogenyTreeBasic ::GetSubtreesWithMaxSize(set<TreeNode *> &setSTRoots,
         set<string> setLblsCoveredStep;
         (*it)->GetAllDistinctLeafLabeles(setLblsCoveredStep);
         UnionSetsGen( setLblsCovered, setLblsCoveredStep );
-        
+
 cout << "setLblsCoveredStep: ";
 for(set<string> :: iterator it = setLblsCoveredStep.begin(); it != setLblsCoveredStep.end(); ++it)
 {
@@ -4778,7 +4778,7 @@ for(set<string> :: iterator it = setLblsExc.begin(); it != setLblsExc.end(); ++i
 cout << *it << "  ";
 }
 cout << endl;
-    
+
     // now do it again so to allow those with these "free" taxa
     GetSubtreesWithMaxSizeExcludeTaxa( setSTRoots, maxSzSubtree, setLblsExc);
 #endif

@@ -7,6 +7,15 @@ Release Notes
 =============
 
 
+Version 0.0.8 :small:`June 12, 2021`
+-------------------------------------
+
+This version includes:
+
+    - Trisicell-Boost function.
+    - A few more examples in the documentations.
+
+
 Version 0.0.7 :small:`May 29, 2021`
 -------------------------------------
 

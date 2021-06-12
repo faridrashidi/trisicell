@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Farid Rashidi Mehrabadi All rights reserved.
 
@@ -23,10 +22,12 @@ def after03(config):
         f"find {config['outdir']} -name \\*Aligned.out.sam -exec rm -rf {{}} \\;"
     )
     subprocess.getoutput(
-        f"find {config['outdir']} -name \\*Aligned.sortedByCoord.out.bam -exec rm -rf {{}} \\;"
+        f"find {config['outdir']} -name \\*Aligned.sortedByCoord.out.bam -exec rm -rf"
+        " {} \\;"
     )
     subprocess.getoutput(
-        f"find {config['outdir']} -name \\*Aligned.toTranscriptome.out.bam -exec rm -rf {{}} \\;"
+        f"find {config['outdir']} -name \\*Aligned.toTranscriptome.out.bam -exec rm -rf"
+        " {} \\;"
     )
     subprocess.getoutput(
         f"find {config['outdir']} -name \\*dedupped.bam -exec rm -rf {{}} \\;"

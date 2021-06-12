@@ -7,28 +7,6 @@ import pandas as pd
 import trisicell as tsc
 
 
-def consensus_combine(df):
-    """Combine the replicates/cells in genotype matrix.
-
-    This function combine the genotype of replicates/cells that are
-    in the form of `{CellA}_{id}` to `{CellA}`.
-
-    Parameters
-    ----------
-    df : :class:`pandas.DataFrame`
-        The input genotype matrix in conflict-free format.
-
-    Returns
-    -------
-    :class:`pandas.DataFrame`
-        The combine genotype matrix.
-    """
-
-    df2 = df.groupby(df.index.str.split("_").str[0]).transform("prod")
-    df2 = df2.groupby(df2.index.str.split("_").str[0]).first()
-    return df2
-
-
 def _get_cnt_tree(tree):
     cnt_tree = tree.copy()
     for u, v, l in cnt_tree.edges.data("label"):
@@ -136,7 +114,7 @@ def _add_private_muts(cnt_tree, sc_data, tree_nodes):
 
 
 def consensus_tree(sc1, sc2):
-    """Building the consensus tree between to phylogenetic trees.
+    """Building the consensus tree between two phylogenetic trees.
 
     Parameters
     ----------

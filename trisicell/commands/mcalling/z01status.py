@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 # Copyright (c) 2021, Farid Rashidi Mehrabadi All rights reserved.
 
@@ -16,7 +15,7 @@ from trisicell.ul._servers import *
 
 
 def _is_ok(name):
-    file = open(name, "r")
+    file = open(name)
     body = file.read()
     file.close()
     a = body.count("&& echo Done! )")

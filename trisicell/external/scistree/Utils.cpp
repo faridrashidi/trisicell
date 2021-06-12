@@ -450,7 +450,7 @@ bool GetNextCombo(int k, int n, vector<int> &posvec) {
 			for(int i=pos+1; i<k; ++i)
 			{
 				posvec[i] = i + (posvec[pos] - pos);
-			}	
+			}
 			return true;
 		}
 		else
@@ -489,8 +489,8 @@ int ConvComboToIndex(int numCells, const vector<int> &posvec)
 	// This function converts a position vector into an index
 	// This is useful when performing dynamic programming
 	// The idea is to check each position in vector
-	// For i-th position, if it is greater than i, then 
-	// plus C(n-posvec[i], k-i). 
+	// For i-th position, if it is greater than i, then
+	// plus C(n-posvec[i], k-i).
 	int res = 0;
 
 	return res;
@@ -598,12 +598,12 @@ int CalcCompositeBound(map<INTERVAL, int> &mapIntervalBds, int left, int right,
 	// This method outputs a composite bound for the given interval
 	int res = 0;
 
-	int lenInterval = right-left+1; 
+	int lenInterval = right-left+1;
 	vector<int> lbHelper;
 	// Initialize our lb helper data
 	for(int i=0; i<lenInterval; ++i)
 	{
-		lbHelper.push_back( 0 ); 
+		lbHelper.push_back( 0 );
 	}
 
 	// Now we scan through all the initervals in range (from 'left' to 'right')
@@ -613,16 +613,16 @@ int CalcCompositeBound(map<INTERVAL, int> &mapIntervalBds, int left, int right,
 		for(int le = left; le <re; ++le)
 		{
 			// we now consider the interval [le, re]
-			INTERVAL iv(le, re); 
+			INTERVAL iv(le, re);
 			if( mapIntervalBds.find( iv ) == mapIntervalBds.end() )
 			{
 				// nothing needs to be done, if interval is not in map
-				continue; 
+				continue;
 			}
-			int valInt = mapIntervalBds[ iv ]; 
+			int valInt = mapIntervalBds[ iv ];
 
 			// we now figure out lbHelper value based on the value
-			int lbSofar = 0; 
+			int lbSofar = 0;
 			for(int i=le; i < re; ++i)
 			{
 				lbSofar += lbHelper[  i-left  ];
@@ -630,7 +630,7 @@ int CalcCompositeBound(map<INTERVAL, int> &mapIntervalBds, int left, int right,
 			if( lbSofar < valInt)
 			{
 				// we make up the diff in the last slot
-				lbHelper[ re - left -1] += valInt - lbSofar; 
+				lbHelper[ re - left -1] += valInt - lbSofar;
 			}
 		}
 	}
@@ -645,10 +645,10 @@ int CalcCompositeBound(map<INTERVAL, int> &mapIntervalBds, int left, int right,
                 locBreakpoints.push_back( i+left );
             }
 //        #if 0
-          cout << "Between site " << i+1 << " and site " << i+2 << ", there are " << lbHelper[i]  << " recombs." << endl; 
+          cout << "Between site " << i+1 << " and site " << i+2 << ", there are " << lbHelper[i]  << " recombs." << endl;
 //        #endif
         }
-		res += lbHelper[i]; 
+		res += lbHelper[i];
 	}
 
 	return res;

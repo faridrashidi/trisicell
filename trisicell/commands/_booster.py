@@ -25,7 +25,6 @@ import trisicell as tsc
 )
 @click.option(
     "--solver",
-    "-s",
     default="scite",
     type=click.Choice(["scite", "phiscs", "scistree"]),
     show_default=True,
@@ -33,7 +32,6 @@ import trisicell as tsc
 )
 @click.option(
     "--sample_on",
-    "-so",
     default="muts",
     type=click.Choice(["muts", "cells"]),
     show_default=True,
@@ -41,7 +39,6 @@ import trisicell as tsc
 )
 @click.option(
     "--sample_size",
-    "-ss",
     default=10,
     type=int,
     show_default=True,
@@ -49,15 +46,13 @@ import trisicell as tsc
 )
 @click.option(
     "--n_samples",
-    "-ns",
     default=10,
     type=int,
     show_default=True,
     help="The number of subsamples.",
 )
 @click.option(
-    "--begin_sample",
-    "-bs",
+    "--begin_index",
     default=0,
     type=int,
     show_default=True,
@@ -65,24 +60,41 @@ import trisicell as tsc
 )
 @click.option(
     "--n_jobs",
-    "-nj",
     default=0,
     type=int,
     show_default=True,
     help="Number of parallel jobs to do subsampleing.",
 )
 @click.option(
+    "--dep_weight",
+    default=50,
+    type=int,
+    show_default=True,
+    help="""Weight for how many subsamples to be used in dependencies calculation.""",
+)
+@click.option(
     "--time_out",
-    "-to",
     default=120,
     type=int,
     show_default=True,
-    help="""Timeout of solving allowance
-    (if solver is SCITE this parameter is the number of iterations)""",
+    help="Timeout of solving allowance.",
+)
+@click.option(
+    "--n_iterations",
+    default=500000,
+    type=int,
+    show_default=True,
+    help="SCITE number of iterations.",
+)
+@click.option(
+    "--subsample_dir",
+    default=None,
+    type=str,
+    show_default=True,
+    help="A path to the subsamples directory.",
 )
 @click.option(
     "--disable_tqdm",
-    "-dt",
     is_flag=True,
     default=False,
     type=bool,
@@ -90,30 +102,28 @@ import trisicell as tsc
     help="Disable showing the tqdm progress.",
 )
 @click.option(
-    "--weight",
-    "-w",
-    default=50,
-    type=int,
-    show_default=True,
-    help="""Weight for how many subsamples to be used in dependencies calculation.""",
-)
-@click.option(
     "--no_subsampling",
-    "-nss",
     is_flag=True,
     default=False,
     type=bool,
     show_default=True,
-    help="No running of subsampling.",
+    help="No running of subsampling (step 1/3).",
 )
 @click.option(
     "--no_dependencies",
-    "-nd",
     is_flag=True,
     default=False,
     type=bool,
     show_default=True,
-    help="No running of subsampling.",
+    help="No running of subsampling (step 2/3).",
+)
+@click.option(
+    "--no_reconstruction",
+    is_flag=True,
+    default=False,
+    type=bool,
+    show_default=True,
+    help="No running of reconstruction (step 3/3).",
 )
 def booster(
     genotype_file,
@@ -123,25 +133,39 @@ def booster(
     sample_on,
     sample_size,
     n_samples,
-    begin_sample,
+    begin_index,
     n_jobs,
+    dep_weight,
     time_out,
+    n_iterations,
+    subsample_dir,
     disable_tqdm,
-    weight,
     no_subsampling,
     no_dependencies,
+    no_reconstruction,
 ):
     """Divide and Conquer
 
+    For doing all 3 steps:
+
     trisicell booster input.SC 0.001 0.1
-    -s scite -ss 40 -ns 10 -bs 0 -nj 5 -to 1000 -nd/-nss
+    --solver scite --n_samples 200 --sample_size 15
+    --n_jobs 4 --n_iterations 10000 --dep_weight 50
+    --subsample_dir . --begin_index 0
+
+    For doing only the last step:
+
+    trisicell booster input.SC 0.001 0.1
+    --dep_weight 50 --subsample_dir PATH_TO_SUBSAMPLES_FOLDER
+    --no_subsampling --no_dependencies
     """
 
     dirbase = tsc.ul.dirbase(genotype_file)
-    dirname, basename = tsc.ul.dir_base(genotype_file)
+    # dirname, basename = tsc.ul.dir_base(genotype_file)
 
     tsc.settings.verbosity = "info"
-    # tsc.settings.logfile = f'{dirbase}.booster.log'
+    if not no_reconstruction:
+        tsc.settings.logfile = f"{dirbase}.booster.log"
 
     df_in = tsc.io.read(genotype_file)
     df_out = tsc.tl.booster(
@@ -152,17 +176,18 @@ def booster(
         sample_on=sample_on,
         sample_size=sample_size,
         n_samples=n_samples,
-        begin_sample=begin_sample,
+        begin_index=begin_index,
         n_jobs=n_jobs,
+        dep_weight=dep_weight,
         time_out=time_out,
-        save_inter=True,
-        dir_inter=".",
-        base_inter=basename,
+        n_iterations=n_iterations,
+        subsample_dir=subsample_dir,
         disable_tqdm=disable_tqdm,
-        weight=weight,
         no_subsampling=no_subsampling,
         no_dependencies=no_dependencies,
+        no_reconstruction=no_reconstruction,
     )
-    # tsc.io.write(df_out, f'{dirbase}.booster.CFMatrix')
+    if not no_reconstruction:
+        tsc.io.write(df_out, f"{dirbase}.booster.CFMatrix")
 
     return None

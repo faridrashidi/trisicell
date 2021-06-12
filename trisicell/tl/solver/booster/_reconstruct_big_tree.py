@@ -610,4 +610,4 @@ def reconstruct_big_tree(
     E = get_CF_matrix_from_parent_vector(parent, D, alpha, beta)
     write_dictionary_of_dictionaries_to_file(E, output_files_prefix + ".dnc.CFMatrix")
 
-    tsc.logg.info(f"TREE_SCORE: {big_tree_score}")
+    return big_tree_score

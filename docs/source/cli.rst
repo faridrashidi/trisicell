@@ -19,7 +19,7 @@ typing ``trisicell --help``. You will get the following output:
 
     Commands:
       mcalling   Mutation calling.
-      score      Caculate scores.
+      score      Calculate scores between two trees.
       scistree   Run ScisTree.
       scite      Run SCITE.
       booster    Run Booster.
@@ -29,6 +29,8 @@ typing ``trisicell --help``. You will get the following output:
       huntress   Run HUNTRESS.
       cf2newick  Convert conflict-free to newick file.
       cf2tree    Convert conflict-free to clonal tree.
+      consensus  Calculate consensus betweeen two trees.
+      search     Grid search for all parameters.
 
 
 ``mcalling`` - Run Mutation Calling
@@ -40,8 +42,17 @@ typing ``trisicell --help``. You will get the following output:
     :nested: full
 
 
+``booster`` - Run Booster
+-------------------------
+
+.. click:: trisicell.commands.trisicell:cli
+    :prog: trisicell
+    :commands: booster
+    :nested: full
+
+
 ``scite`` - Run SCITE
----------------------------
+---------------------
 
 .. click:: trisicell.commands.trisicell:cli
     :prog: trisicell

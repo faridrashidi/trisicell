@@ -12,7 +12,7 @@ from trisicell.external._betabinom import pmf_BetaBinomial
 
 
 def phiscsb(df_input, alpha, beta, experiment=False):
-    """Solving using PhISCS-B (only SC).
+    """Solving using PhISCS-B (only in single-cell mode, no bulk).
 
     a combinatorial approach for subperfect tumor phylogeny reconstruction
     via integrative use of single-cell and bulk sequencing data :cite:`PhISCS`.

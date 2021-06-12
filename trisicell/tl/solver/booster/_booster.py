@@ -26,7 +26,7 @@ def booster(
     no_dependencies=False,
     no_reconstruction=False,
 ):
-    """Divide and Conquer Booster solver.
+    """Trisicell-Boost solver.
 
     Parameters
     ----------
@@ -36,16 +36,44 @@ def booster(
         false positive rate
     beta : float
         false negative rate
+    solver : str, optional
+        [description], by default "SCITE"
+    sample_on : str, optional
+        [description], by default "muts"
+    sample_size : int, optional
+        [description], by default 10
+    n_samples : int, optional
+        [description], by default 10
+    begin_index : int, optional
+        [description], by default 0
+    n_jobs : int, optional
+        [description], by default 10
+    dep_weight : int, optional
+        [description], by default 50
+    time_out : int, optional
+        [description], by default 120
+    n_iterations : int, optional
+        [description], by default 500000
+    subsample_dir : [type], optional
+        [description], by default None
+    disable_tqdm : bool, optional
+        [description], by default False
+    no_subsampling : bool, optional
+        [description], by default False
+    no_dependencies : bool, optional
+        [description], by default False
+    no_reconstruction : bool, optional
+        [description], by default False
 
     Returns
     -------
     :class:`pandas.DataFrame`
         [description]
 
-
     See Also
     --------
     :func:`trisicell.tl.scite`.
+    :func:`trisicell.tl.phiscsb`
     """
 
     if subsample_dir is not None:

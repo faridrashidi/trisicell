@@ -28,6 +28,8 @@ def booster(
 ):
     """Trisicell-Boost solver.
 
+    For more details of available tools that work on binary matrices, read :cite:`ReviewBinary`.
+
     Parameters
     ----------
     df_input : :class:`pandas.DataFrame`

@@ -17,13 +17,13 @@ grew, and newly born cells acquired additional mutations over time, which result
 of cells, each with its own complement of somatic mutations. Consequently, tumors are typically
 heterogeneous and are made of these different populations of cells. The heterogeneity provides the fuel for
 resistance either to the therapy or to the immune system. Single-cell sequencing (SCS) provides high
-resolution data that enables studying tumor evolution and heterogeneity at much higher details.
+resolution data that enables studying tumor lineage tree and heterogeneity at unprecedented detail.
 
 .. image:: _static/images/evolution.png
     :align: center
     :alt: Cancer Evolution
 
-After mutation calling in every cells obtained by SCS, we have a matrix where rows represent individual
+After mutation calling in every cell obtained by SCS, we have a matrix where rows represent individual
 cells and columns represent somatic mutations. The entries of the matrix show the presence/absence of
 mutations in cells. This matrix is better known as the genotype matrix. There are several types of noise
 present in the observed single-cell genotype matrix and they include:
@@ -37,11 +37,11 @@ contains a triplet of cells and a pair of columns such that in one of the three 
 reported to be present, in one of them it is reported that only the first mutation is present and in the
 remaining cell it is reported that only the second mutation is present. We say that such a triplet of cells
 and a pair of mutations form a *conflict*. These conflicts prevents us from reconstructing the tree of
-tumor evolution directly from the observed matrix and requires the development of automated computational
+tumor lineage directly from the observed matrix and requires the development of automated computational
 methods for finding the trees that best match the observed data.
 
 There are several techniques and methods to remove the noise/conflicts from the input genotype matrix. They
 are mostly based on Integer Linear Programming (ILP), Constraint Satisfaction Prgramming (CSP), Markov
 chain Monte Carlo (MCMC) sampling and Neighbor Joining (NJ). For more details, we highly recommend to read
 our `Trisicell <https://doi.org/10.1101/2021.03.26.437185>`_ and `review <https://doi.org/10.1101/2020.07.15.204081>`_ papers about
-building tumor evolution by exploring the space of binary matrices.
+building tumor lineage tree by exploring the space of binary matrices.

@@ -32,37 +32,37 @@ def booster(
     ----------
     df_input : :class:`pandas.DataFrame`
         input noisy dataframe
-    alpha : float
+    alpha : :obj:`float`
         false positive rate
-    beta : float
+    beta : :obj:`float`
         false negative rate
-    solver : str, optional
+    solver : :obj:`str`, optional
         which tool is boosted {"SCITE", "PhISCS"}, by default "SCITE"
-    sample_on : str, optional
+    sample_on : :obj:`str`, optional
         on which dimension is subsampled {"muts", "cells"}, by default "muts"
-    sample_size : int, optional
+    sample_size : :obj:`int`, optional
         number of subsampled mutations or cells depends on `sample_on`, by default 10
-    n_samples : int, optional
+    n_samples : :obj:`int`, optional
         number of samples, by default 10
-    begin_index : int, optional
+    begin_index : :obj:`int`, optional
         start index of intermediate file names, by default 0
-    n_jobs : int, optional
+    n_jobs : :obj:`int`, optional
         number of jobs, by default 10
-    dep_weight : int, optional
+    dep_weight : :obj:`int`, optional
         weight multiplier, by default 50
-    time_out : int, optional
+    time_out : :obj:`int`, optional
         time out needed for PhISCS running on each instance, by default 120
-    n_iterations : int, optional
+    n_iterations : :obj:`int`, optional
         number of iterations needed for SCITE running, by default 500000
-    subsample_dir : [type], optional
+    subsample_dir : :obj:`str`, optional
         for keeping the intermediate subsamples CFMatrices, by default None
-    disable_tqdm : bool, optional
+    disable_tqdm : :obj:`bool`, optional
         disable progress bar, by default False
-    no_subsampling : bool, optional
+    no_subsampling : :obj:`bool`, optional
         subsampling (step 1/3) gets off, by default False
-    no_dependencies : bool, optional
+    no_dependencies : :obj:`bool`, optional
         dependencies calculation (step 2/3) gets off, by default False
-    no_reconstruction : bool, optional
+    no_reconstruction : :obj:`bool`, optional
         reconstruction of big tree (step 3/3) gets off, by default False
 
     Returns

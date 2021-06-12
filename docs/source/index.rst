@@ -26,10 +26,4 @@
 
    caller
    example
-
-.. toctree::
-   :caption: Gallery
-   :maxdepth: 1
-   :hidden:
-
    auto_examples/index.rst

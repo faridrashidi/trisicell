@@ -2,11 +2,11 @@
 
 # Copyright (c) 2021, Farid Rashidi Mehrabadi All rights reserved.
 
-# =========================================================================================
+# ======================================================================================
 # Author     : Farid Rashidi Mehrabadi (farid.rashidimehrabadi@nih.gov)
 # Last Update: Aug 15, 2020
 # Description: extracting gene expression matrix and genotype matrix
-# =========================================================================================
+# ======================================================================================
 
 import os
 import shutil
@@ -14,7 +14,6 @@ import shutil
 import pandas as pd
 
 import trisicell as tsc
-from trisicell.ul._servers import *
 
 
 def after02(config):

@@ -1,9 +1,7 @@
 import copy
 import os
 import time
-from decimal import *
 
-import Bio.Phylo as bp
 import numpy as np
 import pandas as pd
 from Bio.Phylo import BaseTree
@@ -152,17 +150,17 @@ def rscistree(adata, alpha, beta, mode="haploid"):
     running_time = e_time - s_time
 
     data = []
-    mut_tree = ""
-    cell_tree = ""
+    # mut_tree = ""
+    # cell_tree = ""
     detail = {"cost": "\n"}
     with open(f"{tmpdir.name}/rscistree.output") as infile:
         now_store = False
         for line in infile:
             line = line.strip()
-            if "Mutation tree:" in line:
-                mut_tree = line.split(":")[1].replace(" ", "").replace("#", "")
-            if "Constructed single cell phylogeny:" in line:
-                cell_tree = line.split(":")[1].replace(" ", "")
+            # if "Mutation tree:" in line:
+            #     mut_tree = line.split(":")[1].replace(" ", "").replace("#", "")
+            # if "Constructed single cell phylogeny:" in line:
+            #     cell_tree = line.split(":")[1].replace(" ", "")
             if "Imputed genotypes:" in line:
                 now_store = True
             if line[:4] == "Site" and now_store:

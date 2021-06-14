@@ -2,13 +2,17 @@
 
 # Copyright (c) 2021, Farid Rashidi Mehrabadi All rights reserved.
 
-# =========================================================================================
+# ======================================================================================
 # Author     : Farid Rashidi Mehrabadi (farid.rashidimehrabadi@nih.gov)
 # Last Update: May 17, 2020
 # Description: calling mutations as a joint cohort by GATK GenotypeGVCFs for each chr
-# =========================================================================================
+# ======================================================================================
 
-from trisicell.ul._servers import *
+import os
+
+import pandas as pd
+
+from trisicell.ul._servers import cmd, write_cmds_get_main
 
 
 def run06(config, afterok):
@@ -33,16 +37,16 @@ def run06(config, afterok):
         cmds += cmd(
             [
                 f"{config['java06']} {config['GATK']}",
-                f"-T GenotypeGVCFs",
+                "-T GenotypeGVCFs",
                 f"-R {config['ref']}",
                 f"-V {files}",
                 f"-o {config['outdir']}/_calling/jointcalls.{chrom}.g.vcf",
                 f"-nt {config['threads06']}",
                 f"-L {chrom}",
-                f"--disable_auto_index_creation_and_locking_when_reading_rods",
+                "--disable_auto_index_creation_and_locking_when_reading_rods",
             ]
         )
-        cmds += cmd([f"echo Done!"], islast=True)
+        cmds += cmd(["echo Done!"], islast=True)
         return cmds
 
     df = pd.DataFrame()

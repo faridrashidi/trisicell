@@ -1,6 +1,5 @@
 import argparse
 import itertools
-import os
 import time
 from multiprocessing import Process, Queue
 
@@ -336,7 +335,7 @@ def greedyPtreeNA(
         )  # the elements that repeated few times are considered to be false positives
         cum_vector = cum_hist > cnumT
 
-        pivot_est = pivot_index
+        # pivot_est = pivot_index
 
         # ncap = np.sum(cum_vector * M_copy[:, pivot_est])
         # ndel=np.sum(M_copy[:,j]!=capj)

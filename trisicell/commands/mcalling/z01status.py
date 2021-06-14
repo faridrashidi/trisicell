@@ -2,16 +2,13 @@
 
 # Copyright (c) 2021, Farid Rashidi Mehrabadi All rights reserved.
 
-# =========================================================================================
+# ======================================================================================
 # Author     : Farid Rashidi Mehrabadi (farid.rashidimehrabadi@nih.gov)
 # Last Update: Aug 14, 2020
 # Description: cleaning
-# =========================================================================================
+# ======================================================================================
 
 import glob
-import subprocess
-
-from trisicell.ul._servers import *
 
 
 def _is_ok(name):

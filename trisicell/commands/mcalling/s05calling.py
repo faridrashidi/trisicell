@@ -2,13 +2,17 @@
 
 # Copyright (c) 2021, Farid Rashidi Mehrabadi All rights reserved.
 
-# =========================================================================================
+# ======================================================================================
 # Author     : Farid Rashidi Mehrabadi (farid.rashidimehrabadi@nih.gov)
 # Last Update: May 16, 2020
 # Description: calling mutations by GATK HaplotypeCaller
-# =========================================================================================
+# ======================================================================================
 
-from trisicell.ul._servers import *
+import os
+
+import pandas as pd
+
+from trisicell.ul._servers import cmd, write_cmds_get_main
 
 
 def run05(config, afterok):
@@ -20,37 +24,37 @@ def run05(config, afterok):
                 cmds += cmd(
                     [
                         f"{config['java05']} {config['GATK']}",
-                        f"-T MuTect2",
+                        "-T MuTect2",
                         f"-R {config['ref']}",
                         f"-I:tumor {config['outdir']}/{sample}/output.bam",
                         "-I:normal"
                         f" {config['outdir']}/{config['normals'][0]}/output.bam",
                         f"-o {config['outdir']}/{sample}/MuTect2.g.vcf",
-                        f"-dontUseSoftClippedBases",
-                        f"-stand_call_conf 20",
+                        "-dontUseSoftClippedBases",
+                        "-stand_call_conf 20",
                         f"--dbsnp {config['hgDBSNPs138']}"
-                        if buildver == "hg19"
+                        if config["buildver"] == "hg19"
                         else f"--dbsnp {config['mmDBSNPs142']}",
-                        f"-ERC GVCF",
+                        "-ERC GVCF",
                     ]
                 )
         else:
             cmds += cmd(
                 [
                     f"{config['java05']} {config['GATK']}",
-                    f"-T HaplotypeCaller",
+                    "-T HaplotypeCaller",
                     f"-R {config['ref']}",
                     f"-I {config['outdir']}/{sample}/output.bam",
                     f"-o {config['outdir']}/{sample}/HaplotypeCaller.g.vcf",
-                    f"-dontUseSoftClippedBases",
-                    f"-stand_call_conf 20",
+                    "-dontUseSoftClippedBases",
+                    "-stand_call_conf 20",
                     f"--dbsnp {config['hgDBSNPs138']}"
                     if config["buildver"] == "hg19"
                     else f"--dbsnp {config['mmDBSNPs142']}",
-                    f"-ERC GVCF",
+                    "-ERC GVCF",
                 ]
             )
-        cmds += cmd([f"echo Done!"], islast=True)
+        cmds += cmd(["echo Done!"], islast=True)
         return cmds
 
     df = pd.DataFrame()

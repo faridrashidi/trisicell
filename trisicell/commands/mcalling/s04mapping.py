@@ -2,114 +2,125 @@
 
 # Copyright (c) 2021, Farid Rashidi Mehrabadi All rights reserved.
 
-# =========================================================================================
+# ======================================================================================
 # Author     : Farid Rashidi Mehrabadi (farid.rashidimehrabadi@nih.gov)
 # Last Update: July 11, 2020
 # Description: mapping for the second pass of the STAR + GATK best practices
-# =========================================================================================
+# ======================================================================================
 
-from trisicell.ul._servers import *
+import os
+
+import pandas as pd
+
+from trisicell.ul._servers import cmd, write_cmds_get_main
 
 
 def run04(config, afterok):
     def cmds(sample):
         cmds = ""
         cmds += cmd([f"mkdir -p {config['outdir']}/{sample}"])
-        if config["isrna"] == True:
-            if config["dotrimming"] == True:
-                if config["pairedend"] == True:
+        if config["isrna"]:
+            if config["dotrimming"]:
+                if config["pairedend"]:
                     cmds += cmd(
                         [
-                            f"STAR",
-                            f"--runMode alignReads",
+                            "STAR",
+                            "--runMode alignReads",
                             f"--genomeDir {config['outdir']}/_indexing/2",
-                            f"--readFilesCommand zcat",
+                            "--readFilesCommand zcat",
                             "--readFilesIn"
-                            f" {config['outdir']}/{sample}/{config['infqpre1']}{sample}{config['infqpost3']}"
-                            f" {config['outdir']}/{sample}/{config['infqpre2']}{sample}{config['infqpost4']}",
+                            f" {config['outdir']}/{sample}/{config['infqpre1']}"
+                            + f"{sample}{config['infqpost3']}"
+                            f" {config['outdir']}/{sample}/{config['infqpre2']}"
+                            + f"{sample}{config['infqpost4']}",
                             f"--outFileNamePrefix {config['outdir']}/{sample}/",
-                            f"--limitBAMsortRAM 30000000000",
+                            "--limitBAMsortRAM 30000000000",
                             f"--outSAMtype BAM SortedByCoordinate",
                             f"--sjdbGTFfile {config['annot']}",
-                            f"--outFilterMultimapNmax 1",
-                            f"--outSAMunmapped None",
-                            f"--quantMode TranscriptomeSAM GeneCounts",
-                            f"--runThreadN 1",
+                            "--outFilterMultimapNmax 1",
+                            "--outSAMunmapped None",
+                            "--quantMode TranscriptomeSAM GeneCounts",
+                            "--runThreadN 1",
                             f"--sjdbOverhang {config['readlength']}",
                         ]
                     )
                     cmds += cmd(
                         [
                             f"rm -rf",
-                            f"{config['outdir']}/{sample}/{config['infqpre1']}{sample}{config['infqpost3']}",
-                            f"{config['outdir']}/{sample}/{config['infqpre2']}{sample}{config['infqpost4']}",
+                            f"{config['outdir']}/{sample}/{config['infqpre1']}"
+                            + f"{sample}{config['infqpost3']}",
+                            f"{config['outdir']}/{sample}/{config['infqpre2']}"
+                            + f"{sample}{config['infqpost4']}",
                         ]
                     )
                 else:
                     cmds += cmd(
                         [
-                            f"STAR",
-                            f"--runMode alignReads",
+                            "STAR",
+                            "--runMode alignReads",
                             f"--genomeDir {config['outdir']}/_indexing/2",
-                            f"--readFilesCommand zcat",
+                            "--readFilesCommand zcat",
                             "--readFilesIn"
-                            f" {config['outdir']}/{sample}/{config['infqpre']}{sample}{config['infqpost5']}",
+                            f" {config['outdir']}/{sample}/{config['infqpre']}"
+                            + f"{sample}{config['infqpost5']}",
                             f"--outFileNamePrefix {config['outdir']}/{sample}/",
-                            f"--limitBAMsortRAM 30000000000",
-                            f"--outSAMtype BAM SortedByCoordinate",
+                            "--limitBAMsortRAM 30000000000",
+                            "--outSAMtype BAM SortedByCoordinate",
                             f"--sjdbGTFfile {config['annot']}",
-                            f"--outFilterMultimapNmax 1",
-                            f"--outSAMunmapped None",
-                            f"--quantMode TranscriptomeSAM GeneCounts",
-                            f"--runThreadN 1",
+                            "--outFilterMultimapNmax 1",
+                            "--outSAMunmapped None",
+                            "--quantMode TranscriptomeSAM GeneCounts",
+                            "--runThreadN 1",
                             f"--sjdbOverhang {config['readlength']}",
                         ]
                     )
                     cmds += cmd(
                         [
                             f"rm -rf",
-                            f"{config['outdir']}/{sample}/{config['infqpre']}{sample}{config['infqpost5']}",
+                            f"{config['outdir']}/{sample}/{config['infqpre']}"
+                            + f"{sample}{config['infqpost5']}",
                         ]
                     )
             else:
-                if config["pairedend"] == True:
+                if config["pairedend"]:
                     cmds += cmd(
                         [
-                            f"STAR",
-                            f"--runMode alignReads",
+                            "STAR",
+                            "--runMode alignReads",
                             f"--genomeDir {config['outdir']}/_indexing/2",
-                            f"--readFilesCommand zcat",
-                            "--readFilesIn"
-                            f" {config['infq']}/{config['infqpre1']}{sample}{config['infqpost1']}"
-                            f" {config['infq']}/{config['infqpre2']}{sample}{config['infqpost2']}",
+                            "--readFilesCommand zcat",
+                            f"--readFilesIn {config['infq']}/{config['infqpre1']}"
+                            + f"{sample}{config['infqpost1']}"
+                            f" {config['infq']}/{config['infqpre2']}"
+                            + f"{sample}{config['infqpost2']}",
                             f"--outFileNamePrefix {config['outdir']}/{sample}/",
-                            f"--limitBAMsortRAM 30000000000",
-                            f"--outSAMtype BAM SortedByCoordinate",
+                            "--limitBAMsortRAM 30000000000",
+                            "--outSAMtype BAM SortedByCoordinate",
                             f"--sjdbGTFfile {config['annot']}",
-                            f"--outFilterMultimapNmax 1",
-                            f"--outSAMunmapped None",
-                            f"--quantMode TranscriptomeSAM GeneCounts",
-                            f"--runThreadN 1",
+                            "--outFilterMultimapNmax 1",
+                            "--outSAMunmapped None",
+                            "--quantMode TranscriptomeSAM GeneCounts",
+                            "--runThreadN 1",
                             f"--sjdbOverhang {config['readlength']}",
                         ]
                     )
                 else:
                     cmds += cmd(
                         [
-                            f"STAR",
-                            f"--runMode alignReads",
+                            "STAR",
+                            "--runMode alignReads",
                             f"--genomeDir {config['outdir']}/_indexing/2",
-                            f"--readFilesCommand zcat",
-                            "--readFilesIn"
-                            f" {config['infq']}/{config['infqpre']}{sample}{config['infqpost']}",
+                            "--readFilesCommand zcat",
+                            f"--readFilesIn {config['infq']}/{config['infqpre']}"
+                            + f"{sample}{config['infqpost']}",
                             f"--outFileNamePrefix {config['outdir']}/{sample}/",
-                            f"--limitBAMsortRAM 30000000000",
-                            f"--outSAMtype BAM SortedByCoordinate",
+                            "--limitBAMsortRAM 30000000000",
+                            "--outSAMtype BAM SortedByCoordinate",
                             f"--sjdbGTFfile {config['annot']}",
-                            f"--outFilterMultimapNmax 1",
-                            f"--outSAMunmapped None",
-                            f"--quantMode TranscriptomeSAM GeneCounts",
-                            f"--runThreadN 1",
+                            "--outFilterMultimapNmax 1",
+                            "--outSAMunmapped None",
+                            "--quantMode TranscriptomeSAM GeneCounts",
+                            "--runThreadN 1",
                             f"--sjdbOverhang {config['readlength']}",
                         ]
                     )
@@ -123,14 +134,14 @@ def run04(config, afterok):
         cmds += cmd(
             [
                 f"{config['java04']} {config['PICARD']}",
-                f"AddOrReplaceReadGroups",
+                "AddOrReplaceReadGroups",
                 f"INPUT={config['outdir']}/{sample}/Aligned.sortedByCoord.out.bam",
                 f"OUTPUT={config['outdir']}/{sample}/dedupped.bam",
-                f"SORT_ORDER=coordinate",
+                "SORT_ORDER=coordinate",
                 f"RGID={sample}",
-                f"RGLB=trancriptome" if config["isrna"] == True else f"RGLB=genome",
-                f"RGPL=ILLUMINA",
-                f"RGPU=machine",
+                f"RGLB=trancriptome" if config["isrna"] else f"RGLB=genome",
+                "RGPL=ILLUMINA",
+                "RGPU=machine",
                 f"RGSM={sample}",
             ]
         )
@@ -138,33 +149,33 @@ def run04(config, afterok):
         cmds += cmd(
             [
                 f"{config['java04']} {config['PICARD']}",
-                f"MarkDuplicates",
+                "MarkDuplicates",
                 f"INPUT={config['outdir']}/{sample}/dedupped.bam",
                 f"OUTPUT={config['outdir']}/{sample}/rg_added_sorted.bam",
                 f"METRICS_FILE={config['outdir']}/{sample}/output.metrics",
-                f"VALIDATION_STRINGENCY=SILENT",
-                f"CREATE_INDEX=true",
+                "VALIDATION_STRINGENCY=SILENT",
+                "CREATE_INDEX=true",
             ]
         )
         cmds += cmd(
             [
-                f"rm -rf",
+                "rm -rf",
                 f"{config['outdir']}/{sample}/dedupped.bam",
             ]
         )
 
-        if config["isrna"] == True:
+        if config["isrna"]:
             cmds += cmd(
                 [
                     f"{config['java04']} {config['GATK']}",
-                    f"-T SplitNCigarReads",
+                    "-T SplitNCigarReads",
                     f"-R {config['ref']}",
                     f"-I {config['outdir']}/{sample}/rg_added_sorted.bam",
                     f"-o {config['outdir']}/{sample}/split.bam",
-                    f"-rf ReassignOneMappingQuality",
-                    f"-RMQF 255",
-                    f"-RMQT 60",
-                    f"-U ALLOW_N_CIGAR_READS",
+                    "-rf ReassignOneMappingQuality",
+                    "-RMQF 255",
+                    "-RMQT 60",
+                    "-U ALLOW_N_CIGAR_READS",
                 ]
             )
 
@@ -172,25 +183,25 @@ def run04(config, afterok):
             cmds += cmd(
                 [
                     f"{config['java04']} {config['GATK']}",
-                    f"-T RealignerTargetCreator",
+                    "-T RealignerTargetCreator",
                     f"-R {config['ref']}",
                     f"-I {config['outdir']}/{sample}/split.bam"
-                    if config["isrna"] == True
+                    if config["isrna"]
                     else f"-I {config['outdir']}/{sample}/rg_added_sorted.bam",
                     f"-o {config['outdir']}/{sample}/indel.intervals",
                     f"-known {config['hgKGIndels']}",
                     f"-known {config['hgMillsIndels']}",
-                    f"-U ALLOW_SEQ_DICT_INCOMPATIBILITY",
+                    "-U ALLOW_SEQ_DICT_INCOMPATIBILITY",
                 ]
             )
 
             cmds += cmd(
                 [
                     f"{config['java04']} {config['GATK']}",
-                    f"-T IndelRealigner",
+                    "-T IndelRealigner",
                     f"-R {config['ref']}",
                     f"-I {config['outdir']}/{sample}/split.bam"
-                    if config["isrna"] == True
+                    if config["isrna"]
                     else f"-I {config['outdir']}/{sample}/rg_added_sorted.bam",
                     f"-o {config['outdir']}/{sample}/realign.bam",
                     f"-targetIntervals {config['outdir']}/{sample}/indel.intervals",
@@ -202,7 +213,7 @@ def run04(config, afterok):
             cmds += cmd(
                 [
                     f"{config['java04']} {config['GATK']}",
-                    f"-T BaseRecalibrator",
+                    "-T BaseRecalibrator",
                     f"-R {config['ref']}",
                     f"-I {config['outdir']}/{sample}/realign.bam",
                     f"-o {config['outdir']}/{sample}/recal.table",
@@ -215,24 +226,24 @@ def run04(config, afterok):
             cmds += cmd(
                 [
                     f"{config['java04']} {config['GATK']}",
-                    f"-T RealignerTargetCreator",
+                    "-T RealignerTargetCreator",
                     f"-R {config['ref']}",
                     f"-I {config['outdir']}/{sample}/split.bam"
-                    if config["isrna"] == True
+                    if config["isrna"]
                     else f"-I {config['outdir']}/{sample}/rg_added_sorted.bam",
                     f"-o {config['outdir']}/{sample}/indel.intervals",
                     f"-known {config['mmDBIndels142']}",
-                    f"-U ALLOW_SEQ_DICT_INCOMPATIBILITY",
+                    "-U ALLOW_SEQ_DICT_INCOMPATIBILITY",
                 ]
             )
 
             cmds += cmd(
                 [
                     f"{config['java04']} {config['GATK']}",
-                    f"-T IndelRealigner",
+                    "-T IndelRealigner",
                     f"-R {config['ref']}",
                     f"-I {config['outdir']}/{sample}/split.bam"
-                    if config["isrna"] == True
+                    if config["isrna"]
                     else f"-I {config['outdir']}/{sample}/rg_added_sorted.bam",
                     f"-o {config['outdir']}/{sample}/realign.bam",
                     f"-targetIntervals {config['outdir']}/{sample}/indel.intervals",
@@ -243,7 +254,7 @@ def run04(config, afterok):
             cmds += cmd(
                 [
                     f"{config['java04']} {config['GATK']}",
-                    f"-T BaseRecalibrator",
+                    "-T BaseRecalibrator",
                     f"-R {config['ref']}",
                     f"-I {config['outdir']}/{sample}/realign.bam",
                     f"-o {config['outdir']}/{sample}/recal.table",
@@ -253,7 +264,7 @@ def run04(config, afterok):
             )
         cmds += cmd(
             [
-                f"rm -rf",
+                "rm -rf",
                 f"{config['outdir']}/{sample}/rg_added_sorted.bam",
                 f"{config['outdir']}/{sample}/rg_added_sorted.bai",
                 f"{config['outdir']}/{sample}/split.bam",
@@ -263,7 +274,7 @@ def run04(config, afterok):
         cmds += cmd(
             [
                 f"{config['java04']} {config['GATK']}",
-                f"-T PrintReads",
+                "-T PrintReads",
                 f"-R {config['ref']}",
                 f"-I {config['outdir']}/{sample}/realign.bam",
                 f"-o {config['outdir']}/{sample}/output.bam",
@@ -272,7 +283,7 @@ def run04(config, afterok):
         )
         cmds += cmd(
             [
-                f"rm -rf",
+                "rm -rf",
                 f"{config['outdir']}/{sample}/realign.bam",
                 f"{config['outdir']}/{sample}/realign.bai",
                 f"{config['outdir']}/{sample}/Log.progress.out",
@@ -288,18 +299,18 @@ def run04(config, afterok):
         )
         cmds += cmd(
             [
-                f"mv",
+                "mv",
                 f"{config['outdir']}/{sample}/Aligned.sortedByCoord.out.bam",
                 f"{config['outdir']}/{sample}/{sample}.align.bam",
             ]
         )
         cmds += cmd(
             [
-                f"samtools index",
+                "samtools index",
                 f"{config['outdir']}/{sample}/{sample}.align.bam",
             ]
         )
-        cmds += cmd([f"echo Done!"], islast=True)
+        cmds += cmd(["echo Done!"], islast=True)
         return cmds
 
     df = pd.DataFrame()

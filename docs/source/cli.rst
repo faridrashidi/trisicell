@@ -3,7 +3,7 @@ CLI
 
 A command line interface (CLI) is available in Trisicell package.
 After you have trisicell correctly installed on your machine
-(see :ref:`installation tutorial <installation>`), the ``trisicell``
+(see :ref:`installation tutorial <installationguide>`), the ``trisicell``
 command will become available in the terminal. ``trisicell`` is a
 command line tool with subcomands. You can get quick info on all the
 available commands typing ``trisicell --help``. You will get the

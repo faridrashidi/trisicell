@@ -1,14 +1,14 @@
 :tocdepth: 1
 
-.. _installation:
+.. _installationguide:
 
 Installation
 ------------
 
 Trisicell requires Python 3.7 or later.
 
-PyPI
-^^^^
+Using PyPI
+^^^^^^^^^^
 
 Install trisicell from PyPI_ using::
 

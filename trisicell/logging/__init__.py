@@ -1,3 +1,5 @@
+"""Logging Module."""
+
 from trisicell.logging._logging import (
     debug,
     error,

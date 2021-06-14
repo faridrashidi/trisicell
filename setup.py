@@ -117,7 +117,7 @@ setup(
     setup_requires=["setuptools_scm"],
     python_requires=">=3.6",
     install_requires=[
-        l.strip() for l in Path("requirements.txt").read_text("utf-8").splitlines()
+        r.strip() for r in Path("requirements.txt").read_text("utf-8").splitlines()
     ],
     ext_modules=extensions,
     dependency_links=["https://pypi.gurobi.com"],
@@ -129,9 +129,9 @@ setup(
             "pytest-cov",
         ],
         docs=[
-            l.strip()
-            for l in (Path("docs") / "requirements.txt").read_text("utf-8").splitlines()
-            if not l.startswith("-r")
+            r.strip()
+            for r in (Path("docs") / "requirements.txt").read_text("utf-8").splitlines()
+            if not r.startswith("-r")
         ],
     ),
     platforms=["Linux", "MacOSX"],

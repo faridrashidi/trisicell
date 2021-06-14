@@ -1,3 +1,5 @@
+"""Utils Module."""
+
 from trisicell.ul._hclustering import (
     dist_cosine_ignore_na,
     dist_l1_ignore_na,

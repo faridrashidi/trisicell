@@ -19,11 +19,11 @@ from pybtex.style.formatting.unsrt import Style as UnsrtStyle
 from pybtex.style.labels import BaseLabelStyle
 from sphinx_gallery.sorting import ExplicitOrder, FileNameSortKey
 
+import trisicell
+
 HERE = Path(__file__).parent
 sys.path.insert(0, str(HERE.parent.parent))
 sys.path.insert(0, os.path.abspath("_ext"))
-
-import trisicell
 
 # -- Retrieve notebooks ------------------------------------------------
 # for nb in glob(os.path.join(".", "*.ipynb")):

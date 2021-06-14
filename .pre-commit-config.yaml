@@ -77,7 +77,7 @@ repos:
 #     hooks:
 #     -   id: pretty-format-yaml
 #         args: [--autofix, --indent, '4']
-# -   repo: https://gitlab.com/pycqa/flake8
+# -   repo: https://github.com/PyCQA/flake8
 #     rev: 3.9.0
 #     hooks:
 #     -   id: flake8

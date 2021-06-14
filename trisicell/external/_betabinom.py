@@ -9,7 +9,6 @@
 # at https://iandjmsmith.wordpress.com
 
 import math
-import time
 
 NonIntegralValuesAllowed_Others = False
 
@@ -497,9 +496,9 @@ def logfbit(x):
         x2 = cf_3 / (x1 + cf_4 / (x1 + cf_5 / (x1 + x2)))
         return 1.0 / (12.0 * (x1 + cf_1 / (x1 + cf_2 / (x1 + x2))))
     elif x == 0.5:
-        return logfbit0p5  #  5.481412105191765389613870234839e-02
+        return logfbit0p5  # 5.481412105191765389613870234839e-02
     elif x == -0.5:
-        return 0.15342640972002734529138393927091  #  0.15342640972002734529138393927091
+        return 0.15342640972002734529138393927091  # 0.15342640972002734529138393927091
     elif x >= -0.65:
         if x <= 0.0:
             i = len(coeffs) - 1
@@ -535,6 +534,8 @@ def logfbit(x):
             for i in range(i - 1, 0, -1):
                 lgam = coeffs[i] - x * lgam
                 # print(lgam)
+            coeffs0Minus1Third = 0
+            FiveOver3Minusln3Minuseulers_const = 0
             return (
                 (
                     x * x * (coeffs0Minus1Third - x * lgam)
@@ -551,6 +552,7 @@ def logfbit(x):
             for i in range(i - 1, 0, -1):
                 lgam = coeffs[i] - x * lgam
                 # print(lgam)
+            Forty7Over48Minusln4Minuseulers_const = 0
             return (
                 (
                     x * x * (coeffs0Minusp25 - x * lgam)

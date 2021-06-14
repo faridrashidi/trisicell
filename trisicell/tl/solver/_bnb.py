@@ -527,7 +527,6 @@ class BoundingAlgAbstract:
         self._extraInfo = {}
         self._times = {}
         self.na_support = False
-        pass
 
     def reset(self, matrix):
         raise NotImplementedError("The method not implemented")
@@ -547,7 +546,6 @@ class BoundingAlgAbstract:
 
     def set_state(self, state):
         assert state is None
-        pass
 
     def get_extra_info(self):
         """
@@ -583,6 +581,8 @@ class TwoSatBounding(BoundingAlgAbstract):
         """
         :param priority_version:
         """
+
+        super().__init__()
         assert not cluster_rows, "Not implemented yet"
         assert not cluster_cols, "Not implemented yet"
         assert not only_descendant_rows, "Not implemented yet"

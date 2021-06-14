@@ -62,16 +62,6 @@ def heatmap(adata, color_attrs=None, layer="X", figsize=(12, 7)):
     # plt.savefig(filepath, bbox_inches="tight", pad_inches=0)
 
 
-def draw(adata, figsize=(10, 2), dpi=100):
-    gspec = plt.GridSpec(1, 2, plt.figure(None, figsize, dpi=dpi))
-    ax1 = plt.subplot(gspec[0])
-
-    ax1 = plt.subplot(gspec[1])
-    ax2.margins(0)
-
-    return [ax1, ax2]
-
-
 def plot_size(df_in):
     plt.rcParams["xtick.labelsize"] = 6
     plt.rcParams["ytick.labelsize"] = 6

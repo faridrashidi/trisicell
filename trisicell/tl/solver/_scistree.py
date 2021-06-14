@@ -116,7 +116,7 @@ def scistree(df_input, alpha, beta, experiment=False):
         return df_output, running_time
 
 
-def rscistree(adata, mode="haploid"):
+def rscistree(adata, alpha, beta, mode="haploid"):
     tsc.logg.info(f"running rScisTree with mode={mode}")
     tmpdir = tsc.ul.tmpdirsys(suffix=".scistree", dirname=".")
 
@@ -160,8 +160,7 @@ def rscistree(adata, mode="haploid"):
         for line in infile:
             line = line.strip()
             if "Mutation tree:" in line:
-                mut_tree = line.split(":")[1].replace(" ", "")
-                mut_tree = mut_tree.replace("#", "")
+                mut_tree = line.split(":")[1].replace(" ", "").replace("#", "")
             if "Constructed single cell phylogeny:" in line:
                 cell_tree = line.split(":")[1].replace(" ", "")
             if "Imputed genotypes:" in line:

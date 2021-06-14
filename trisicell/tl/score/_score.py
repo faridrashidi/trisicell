@@ -139,7 +139,7 @@ def cc(df_grnd, df_sol):
     M_sol = df_sol[inter].values
 
     # TODO: implement.
-    pass
+    return None
 
 
 def mltd(df_grnd, df_sol):

@@ -1,5 +1,3 @@
-import pandas as pd
-
 import trisicell as tsc
 
 
@@ -84,7 +82,7 @@ def colorectal1():
     adata = tsc.io.read(tsc.ul.get_file("trisicell.datasets/real/colorectal1.rc.h5ad"))
     # FIXME: extract (SiFit 178 × 16).
     # https://github.com/algo-cancer/PhyloM/blob/master/Data/README.md
-    pass
+    return adata
 
 
 def colorectal2(readcount=False):

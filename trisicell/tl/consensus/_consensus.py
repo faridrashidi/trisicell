@@ -40,7 +40,6 @@ def _has_path(tree, nodes, l1, l2):
         return True, dij[0]
     except:
         return False, None
-    return False, None
 
 
 def _merge_with_parents(tree, nodes, n1, n2):

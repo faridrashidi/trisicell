@@ -1,8 +1,10 @@
-|DOI| |Stars| |PyPI| |PyPIDownloads| |Contributions Welcome| |Build Status| |Docs Status| |Pre-commit| |Code Style|
+|DOI| |Stars| |PyPI| |PyPIDownloads| |Contributions Welcome| |Build Status|
+|Docs Status| |Pre-commit| |Code Style|
 
 
-Trisicell - Scalable intratumor heterogeneity inference and validation from single-cell data
-============================================================================================
+Trisicell - Scalable intratumor heterogeneity inference and validation
+from single-cell data
+=======================================================================
 
 .. image:: https://raw.githubusercontent.com/faridrashidi/trisicell/master/docs/source/_static/images/overview.png
    :target: https://trisicell.readthedocs.io
@@ -10,11 +12,12 @@ Trisicell - Scalable intratumor heterogeneity inference and validation from sing
    :align: center
 
 
-Trisicell (**Tri**\ ple-toolkit for **si**\ ngle-\ **cell** intratumor heterogeneity inference),
-pronounced as "tricycle", is a new computational toolkit for scalable intratumor heterogeneity inference
-and evaluation from single-cell RNA, as well as single-cell genome or exome, sequencing data. Trisicell
-utilizes expressed SNVs and Indels to infer evolutionary relationships between genomic alterations
-and the cells that harbor them.
+Trisicell (**Tri**\ ple-toolkit for **si**\ ngle-\ **cell** intratumor
+heterogeneity inference), pronounced as "tricycle", is a new computational
+toolkit for scalable intratumor heterogeneity inference and evaluation from
+single-cell RNA, as well as single-cell genome or exome, sequencing data.
+Trisicell utilizes expressed SNVs and Indels to infer evolutionary
+relationships between genomic alterations and the cells that harbor them.
 
 
 Manuscript

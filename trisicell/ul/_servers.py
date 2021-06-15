@@ -1,8 +1,6 @@
 import csv
 import os
 
-import pandas as pd
-
 import trisicell as tsc
 
 
@@ -21,7 +19,7 @@ def write_cmds_get_main(
                 f"--gb-per-process {mem}",
                 f"--logdir {logdir}",
                 f"--module {module}",
-                f"--bundle 1",
+                "--bundle 1",
                 "--partition ccr,norm",
                 "--processes-per-subjob 1",
                 f"--threads-per-process {nthread}",

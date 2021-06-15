@@ -1,5 +1,4 @@
 import glob
-import operator
 import os
 import pickle
 
@@ -363,11 +362,11 @@ def read_cnvkit(folderpath):
 
     abr = np.zeros(adata.shape, dtype=int)
     tmp = cnv < 2
-    abr[tmp == True] = -1
+    abr[tmp == True] = -1  # noqa
     tmp = cnv == 2
-    abr[tmp == True] = 0
+    abr[tmp == True] = 0  # noqa
     tmp = 2 < cnv
-    abr[tmp == True] = 1
+    abr[tmp == True] = 1  # noqa
     adata.layers["abr"] = abr
 
     return adata

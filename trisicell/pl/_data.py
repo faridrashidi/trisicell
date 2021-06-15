@@ -5,8 +5,6 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
-import trisicell as tsc
-
 
 def heatmap(adata, color_attrs=None, layer="X", figsize=(12, 7)):
     if color_attrs is not None:
@@ -42,8 +40,8 @@ def heatmap(adata, color_attrs=None, layer="X", figsize=(12, 7)):
 
     sns.clustermap(
         df,
-        # vmin=0,
-        # vmax=1,
+        vmin=vmin,
+        vmax=vmax,
         metric="euclidean",
         cmap=rvb,
         row_cluster=False,

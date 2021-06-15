@@ -34,6 +34,8 @@ def import_rpy2(name="base", how=""):
         from rpy2.robjects import r
         from rpy2.robjects.packages import PackageNotInstalledError, importr
 
+        r
+
     except ImportError:
         tsc.logg.error(
             "Unable to import `rpy2`, install it first as `pip install rpy2` version"

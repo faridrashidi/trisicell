@@ -1,6 +1,3 @@
-from operator import index
-from sys import path
-
 import networkx as nx
 import numpy as np
 import pandas as pd
@@ -65,7 +62,7 @@ def to_tree(df):
             j += 1
         i += 1
 
-    rows = matrix.shape[0]
+    # rows = matrix.shape[0]
     cols = matrix.shape[1]
     dimensions = np.sum(matrix, axis=0)
     indices = np.argsort(dimensions)
@@ -290,14 +287,12 @@ def _to_apted(sl_tree):
     def apted_recursive(node):
         nodes = children(node)
         if len(nodes) == 0:
-            l = sl_tree.nodes[node]["label"]
-            return "{" + l + "}"
+            return "{" + sl_tree.nodes[node]["label"] + "}"
         else:
-            l = sl_tree.nodes[node]["label"]
             x = ""
             for node in nodes:
                 x += apted_recursive(node)
-            return "{" + l + x + "}"
+            return "{" + sl_tree.nodes[node]["label"] + x + "}"
 
     root = [node for node in sl_tree.nodes if sl_tree.in_degree(node) == 0][0]
     return apted_recursive(root)
@@ -307,15 +302,15 @@ def root_id(tree):
     return [x for x in tree.nodes if tree.in_degree(x) == 0][0]
 
 
-# def partition_cells(tree, node):
-#     nd = tree.graph["splitter_cell"].join(node)
-#     cells = []
-#     for x in list(nx.algorithms.traversal.depth_first_search.dfs_tree(tree, nd).nodes):
-#         for y in x.split(", "):
-#             if not "–" in y:
-#                 cells.append(y)
-#     cells = np.array(cells)
-#     return cells, np.setdiff1d(tree.graph["data"].index, cells)
+def partition_cells(tree, node):
+    nd = tree.graph["splitter_cell"].join(node)
+    cells = []
+    for x in list(nx.algorithms.traversal.depth_first_search.dfs_tree(tree, nd).nodes):
+        for y in x.split(", "):
+            if "–" not in y:
+                cells.append(y)
+    cells = np.array(cells)
+    return cells, np.setdiff1d(tree.graph["data"].index, cells)
 
 
 def cells_rooted_at(tree, node_id):

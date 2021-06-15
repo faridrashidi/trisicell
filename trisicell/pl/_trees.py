@@ -1,7 +1,6 @@
 import networkx as nx
-import numpy as np
 import pandas as pd
-from IPython.display import SVG, Image, display
+from IPython.display import Image, display
 
 import trisicell as tsc
 from trisicell.pl._annotation import _add_barplot, _add_chromplot, _get_tree
@@ -90,7 +89,7 @@ def clonal_tree(
                     mapping[x]
                     for x in tc.nodes[node]["label"].split(tc.graph["splitter_cell"])
                 ]
-            except:
+            except Exception:
                 freq = ["#FFFFFF"]
             freq = pd.DataFrame(freq)[0].value_counts(normalize=True)
             fillcolor = ""
@@ -204,8 +203,8 @@ def dendro_tree(
 
     ggtree, ggtree_is_not_imported = tsc.ul.import_rpy2(
         "ggtree",
-        "devtools::install_github(c('YuLab-SMU/ggtree','xiangpin/ggtreeExtra','YuLab-SMU/aplot'))\n"
-        "install.packages('cowplot')\n",
+        "devtools::install_github(c('YuLab-SMU/ggtree','xiangpin/ggtreeExtra'"
+        + ",'YuLab-SMU/aplot'))\ninstall.packages('cowplot')\n",
     )
     if ggtree_is_not_imported:
         raise RuntimeError("Unable to import a package!")
@@ -220,11 +219,11 @@ def dendro_tree(
     tree.graph["newick"] = newick
     tree.graph["type"] = "dendro"
 
-    ggplot2 = importr("ggplot2")
-    cowplot = importr("cowplot")
-    ggtree = importr("ggtree")
-    ape = importr("ape")
-    aplot = importr("aplot")
+    importr("ggplot2")
+    importr("cowplot")
+    importr("ggtree")
+    importr("ape")
+    importr("aplot")
     # ggtext = importr("ggtext")
 
     with ro.conversion.localconverter(ro.default_converter + pandas2ri.converter):

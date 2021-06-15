@@ -85,7 +85,6 @@ def dl(df_grnd, df_sol):
     inter = np.intersect1d(df_grnd.columns, df_sol.columns)
     M_grnd = df_grnd[inter].values
     M_sol = df_sol[inter].values
-    error_pairs = []
     n_dlpairs1 = 0
     n_dlpairs2 = 0
     for i in range(M_grnd.shape[1]):
@@ -190,6 +189,7 @@ def mltd(df_grnd, df_sol):
     result = run_mltd(f"{tmpdir.name}/grnd.in", f"{tmpdir.name}/sol.in")
     e_time = time.time()
     running_time = e_time - s_time
+    running_time
 
     tmpdir.cleanup()
 

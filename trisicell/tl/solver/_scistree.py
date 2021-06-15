@@ -507,15 +507,15 @@ def iscistree(df_input, alpha, beta, n_iters=np.inf):
 
     cells = list(df_input.index)
     snvs = list(df_input.columns)
-    I = df_input.values
+    I_mtr = df_input.values
 
     s_time = time.time()
-    Ip = np.vstack([I, np.zeros(I.shape[1])])  # add root with profile zero
+    Ip = np.vstack([I_mtr, np.zeros(I_mtr.shape[1])])  # add root with profile zero
     dist = tsc.ul.dist_l1_ignore_na(Ip)
     opt_tree = get_initial_tree(dist)
     # opt_subtrees = get_subtrees(opt_tree)
     # opt_O, opt_cost = denoise_quadratic(I, alpha, beta, opt_subtrees)
-    opt_O, opt_cost = denoise_linear(I, alpha, beta, opt_tree)
+    opt_O, opt_cost = denoise_linear(I_mtr, alpha, beta, opt_tree)
     tsc.logg.info("current best cost =", opt_cost, time=True)
 
     n_iter = 1
@@ -532,7 +532,7 @@ def iscistree(df_input, alpha, beta, n_iters=np.inf):
                 already_seen.add(str(nbr_tree))
             # nbr_subtrees = get_subtrees(nbr_tree)
             # nbr_O, nbr_cost = denoise_quadratic(I, alpha, beta, nbr_subtrees)
-            nbr_O, nbr_cost = denoise_linear(I, alpha, beta, nbr_tree)
+            nbr_O, nbr_cost = denoise_linear(I_mtr, alpha, beta, nbr_tree)
             if nbr_cost < opt_cost:
                 opt_tree = nbr_tree
                 # opt_subtrees = nbr_subtrees

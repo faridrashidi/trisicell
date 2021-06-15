@@ -148,11 +148,11 @@ def count_flips(I_mtr, O_mtr, na_value=3):
     return flips_0_1, flips_1_0, flips_na_0, flips_na_1
 
 
-def infer_rates(I, O, na_value=3):
-    flips_0_1, flips_1_0, flips_na_0, flips_na_1 = count_flips(I, O, na_value)
-    fn_rate = flips_0_1 / ((O == 1) & (I != na_value)).sum()
-    fp_rate = flips_1_0 / ((O == 0) & (I != na_value)).sum()
-    na_rate = (flips_na_1 + flips_na_0) / I.size
+def infer_rates(I_mtr, O_mtr, na_value=3):
+    flips_0_1, flips_1_0, flips_na_0, flips_na_1 = count_flips(I_mtr, O_mtr, na_value)
+    fn_rate = flips_0_1 / ((O_mtr == 1) & (I_mtr != na_value)).sum()
+    fp_rate = flips_1_0 / ((O_mtr == 0) & (I_mtr != na_value)).sum()
+    na_rate = (flips_na_1 + flips_na_0) / I_mtr.size
     return fn_rate, fp_rate, na_rate
 
 
@@ -308,7 +308,7 @@ def split_mut(mut):
         ens = mut.split(".chr")[0].split("_")[0]
         alt = mut.split(".")[-1]
         return ens, gene, chrom, pos, ref, alt
-    except:
+    except Exception:
         return None, None, None, None, None, None
 
 

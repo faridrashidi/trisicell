@@ -3,30 +3,43 @@ import glob
 import click
 import pandas as pd
 
+import trisicell as tsc
 from trisicell.ul._servers import *
 
 
 @click.command(short_help="Run deFuse.")
 @click.argument(
-    "fq_files",
+    "in_files",
     required=True,
     type=click.Path(
-        exists=True, file_okay=True, dir_okay=False, readable=True, resolve_path=True
+        exists=True, file_okay=False, dir_okay=True, readable=True, resolve_path=True
     ),
 )
-def defuse(fq_files):
-    def cmds(subline):
+@click.argument(
+    "out_files",
+    required=True,
+    type=click.Path(
+        exists=True, file_okay=False, dir_okay=True, readable=True, resolve_path=True
+    ),
+)
+def defuse(in_files, out_files):
+    """Run deFuse.
+
+    trisicell defuse PATH_TO_IN_DIR PATH_TO_OUT_DIR
+    """
+
+    def cmds(cell):
         cmds = ""
         cmds += cmd([f"module load defuse/0.8.1"])
-        cmds += cmd([f"mkdir -p /data/rashidimehrabf2/Fusion/map/{subline}"])
+        cmds += cmd([f"mkdir -p {out_files}/{cell}"])
         cmds += cmd(
             [
                 f"defuse.pl",
                 f"-c /home/rashidimehrabf2/config_mm10_ens84.txt",
-                f"-o /data/rashidimehrabf2/Fusion/map/{subline}",
+                f"-o {out_files}/{cell}",
                 f"-d /fdb/defuse/mm10_ens84_newgmap",
-                f"-1 {fq_files}/{subline}_R1_001.fastq",
-                f"-2 {fq_files}/{subline}_R2_001.fastq",
+                f"-1 {in_files}/{cell}_R1_001.fastq",
+                f"-2 {in_files}/{cell}_R2_001.fastq",
                 f"-s direct",
                 f"-p $SLURM_CPUS_PER_TASK",
             ]
@@ -36,19 +49,22 @@ def defuse(fq_files):
 
     df = pd.DataFrame()
     temp = []
-    for x in glob.glob(f"{fq_files}/*_R1_001.fastq"):
+    for x in glob.glob(f"{in_files}/*_R1_001.fastq"):
         temp.append(x.split("/")[-1].replace("_R1_001.fastq", ""))
-    df["subline"] = temp
-    df["cmd"] = df.apply(lambda x: cmds(x["subline"]), axis=1)
+    df["cell"] = temp
+    df["cmd"] = df.apply(lambda x: cmds(x["cell"]), axis=1)
+    tsc.logg.info(f"Number of cells: {df.shape[0]}")
 
+    jobname = os.path.basename(__file__)[:-3]
     cmdmain = write_cmds_get_main(
         df,
-        tmpdir="/data/rashidimehrabf2/Fusion/tmp",
-        jobname="rundefuse",
-        time="2-00:00:00",
-        mem="50",
-        module="defuse/0.8.1",
-        nthread=16,
+        jobname,
+        "2-00:00:00",
+        "50",
+        "defuse/0.8.1",
+        16,
+        "farid.rsh@gmail.com",
+        f"{out_files}/_tmp",
     )
     os.system(cmdmain)
 

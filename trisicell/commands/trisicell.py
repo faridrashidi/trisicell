@@ -7,6 +7,7 @@ import trisicell as tsc
 from ._bnb import bnb
 from ._booster import booster
 from ._consensus import consensus
+from ._defuse import defuse
 from ._huntress import huntress
 from ._mcalling import mcalling
 from ._phiscs import phiscsb, phiscsi
@@ -58,3 +59,4 @@ cli.add_command(cf2newick)
 cli.add_command(cf2tree)
 cli.add_command(consensus)
 cli.add_command(search)
+cli.add_command(defuse)

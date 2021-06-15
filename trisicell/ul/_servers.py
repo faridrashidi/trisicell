@@ -9,6 +9,7 @@ def write_cmds_get_main(
 ):
     cmdfile = f"{tmpdir}/cmd/{jobname}.sh"
     logdir = f"{tmpdir}/log/{jobname}"
+    tsc.ul.mkdir(f"{tmpdir}/cmd")
     tsc.ul.mkdir(logdir)
     if "biowulf" in os.uname()[1]:
         if df.shape[0] > 1:

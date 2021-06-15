@@ -84,13 +84,14 @@ class TestCommands:
         assert result.exit_code == 2
 
     def test_consensus(self):
+        path = "trisicell.datasets/test/consensus"
         runner = CliRunner()
         result = runner.invoke(
             cli,
             [
                 "consensus",
-                f"{tsc.ul.get_file('trisicell.datasets/test/consensus/biorxiv.fig3b.CFMatrix')}",
-                f"{tsc.ul.get_file('trisicell.datasets/test/consensus/biorxiv.figs18a.CFMatrix')}",
+                f"{tsc.ul.get_file(path + '/biorxiv.fig3b.CFMatrix')}",
+                f"{tsc.ul.get_file(path + '/biorxiv.figs18a.CFMatrix')}",
                 f"{tsc.ul.get_file('trisicell.datasets/test/consensus.CFMatrix')}",
             ],
         )

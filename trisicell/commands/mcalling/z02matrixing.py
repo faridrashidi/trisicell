@@ -48,7 +48,7 @@ def after02(config):
             try:
                 df = pd.read_csv(file, sep="\t", header=None)
                 data.append(df)
-            except:
+            except Exception:
                 print(file)
         df = data[0]
         for df2 in data[1:]:
@@ -250,7 +250,7 @@ def after02(config):
         df.to_csv(f"{config['outdir']}/_output/readstat.tsv", sep="\t")
 
     tsc.ul.mkdir(f"{config['outdir']}/_output")
-    if config["isrna"] == True:
+    if config["isrna"]:
         expression()
         genotype()
         readstats()

@@ -58,7 +58,7 @@ def run02(config, afterok):
                     )
                     cmds += cmd(
                         [
-                            f"rm -rf",
+                            "rm -rf",
                             f"{config['outdir']}/{sample}/Aligned.out.sam",
                         ]
                     )
@@ -240,7 +240,7 @@ def run02(config, afterok):
                             + f"{sample}/Aligned.sortedByCoord.out.bam",
                         ]
                     )
-        cmds += cmd([f"echo Done!"], islast=True)
+        cmds += cmd(["echo Done!"], islast=True)
         return cmds
 
     df = pd.DataFrame()

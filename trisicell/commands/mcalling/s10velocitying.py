@@ -21,15 +21,15 @@ def run10(config, afterok):
         cmds += cmd([f"module load velocyto/0.17"])
         cmds += cmd(
             [
-                f"velocyto run-smartseq2",
+                "velocyto run-smartseq2",
                 f"-o {config['outdir']}/_velocyto",
                 f"-m {config['velo']}",
-                f"-e velocyto",
+                "-e velocyto",
                 f"{config['outdir']}/*/*.align.bam",
                 f"{config['annot']}",
             ]
         )
-        cmds += cmd([f"echo Done!"], islast=True)
+        cmds += cmd(["echo Done!"], islast=True)
         return cmds
 
     df = pd.DataFrame()

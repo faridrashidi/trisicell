@@ -220,19 +220,19 @@ def precombination(M_in):
     return M_return
 
 
-def findclosestinter(i, M_input):
-    vec_int = np.zeros(M_input.shape[1]).astype(bool)
-    for j in range(M_input.shape[0]):
-        if (
-            i != j
-            and np.sum(M_input[j, :] > M[i, :]) > 0
-            and np.sum(M_input[j, :] * M[i, :]) > 0
-        ):
-            if np.sum(vec_int):
-                vec_int = M_input[j, :]
-            else:
-                vec_int = vec_int * M_input[j, :]
-    return vec_int
+# def findclosestinter(i, M_input):
+#     vec_int = np.zeros(M_input.shape[1]).astype(bool)
+#     for j in range(M_input.shape[0]):
+#         if (
+#             i != j
+#             and np.sum(M_input[j, :] > M[i, :]) > 0
+#             and np.sum(M_input[j, :] * M[i, :]) > 0
+#         ):
+#             if np.sum(vec_int):
+#                 vec_int = M_input[j, :]
+#             else:
+#                 vec_int = vec_int * M_input[j, :]
+#     return vec_int
 
 
 # Both algorithms take inut matrices of BOOL type.
@@ -417,8 +417,6 @@ def WriteTfile(
     df_output.to_csv(filename, sep="\t")
 
 
-##########################################################################3
-############# TESTING FUNCTIONS ##########################################
 def isPtree(matrix_in):  # brute force check if matrix_in is a pTree
     M = matrix_in.astype(bool)
     for j in range(M.shape[1]):

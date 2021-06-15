@@ -61,7 +61,7 @@ def run08(config, afterok):
                     + f"{os.path.basename(file)[5:-32]}.txt",
                 ]
             )
-        cmds += cmd([f"echo Done!"], islast=True)
+        cmds += cmd(["echo Done!"], islast=True)
         return cmds
 
     df = pd.DataFrame()

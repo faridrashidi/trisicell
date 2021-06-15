@@ -35,7 +35,7 @@ def run04(config, afterok):
                             + f"{sample}{config['infqpost4']}",
                             f"--outFileNamePrefix {config['outdir']}/{sample}/",
                             "--limitBAMsortRAM 30000000000",
-                            f"--outSAMtype BAM SortedByCoordinate",
+                            "--outSAMtype BAM SortedByCoordinate",
                             f"--sjdbGTFfile {config['annot']}",
                             "--outFilterMultimapNmax 1",
                             "--outSAMunmapped None",
@@ -46,7 +46,7 @@ def run04(config, afterok):
                     )
                     cmds += cmd(
                         [
-                            f"rm -rf",
+                            "rm -rf",
                             f"{config['outdir']}/{sample}/{config['infqpre1']}"
                             + f"{sample}{config['infqpost3']}",
                             f"{config['outdir']}/{sample}/{config['infqpre2']}"
@@ -76,7 +76,7 @@ def run04(config, afterok):
                     )
                     cmds += cmd(
                         [
-                            f"rm -rf",
+                            "rm -rf",
                             f"{config['outdir']}/{sample}/{config['infqpre']}"
                             + f"{sample}{config['infqpost5']}",
                         ]
@@ -126,7 +126,7 @@ def run04(config, afterok):
                     )
         cmds += cmd(
             [
-                f"rm -rf",
+                "rm -rf",
                 f"{config['outdir']}/{sample}/Aligned.out.sam",
             ]
         )
@@ -139,7 +139,7 @@ def run04(config, afterok):
                 f"OUTPUT={config['outdir']}/{sample}/dedupped.bam",
                 "SORT_ORDER=coordinate",
                 f"RGID={sample}",
-                f"RGLB=trancriptome" if config["isrna"] else f"RGLB=genome",
+                "RGLB=trancriptome" if config["isrna"] else "RGLB=genome",
                 "RGPL=ILLUMINA",
                 "RGPU=machine",
                 f"RGSM={sample}",

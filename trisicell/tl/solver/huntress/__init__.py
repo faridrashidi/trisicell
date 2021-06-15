@@ -17,7 +17,7 @@ def huntress(df_input_filepath, alpha, beta, kind, n_threads=1):
     if kind == "dna":
         fn_conorm = 0.1
         fp_conorm = fn_conorm * alpha / beta
-        fnfp_conorm = fn_conorm / fp_conorm
+        # fnfp_conorm = fn_conorm / fp_conorm
 
         running_time = Reconstruct(
             df_input_filepath,

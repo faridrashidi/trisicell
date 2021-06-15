@@ -48,15 +48,16 @@ def subsampling(
             dfn = dfn[dfn.columns[x]]
             if dfn.shape[1] < 2:
                 return None
-            dfo, run_time = tsc.tl.scistree(dfn, alpha, beta, False, experiment=True)
-            i0 = np.sum(dfn.values == 0)
-            i1 = np.sum(dfn.values == 1)
-            i3 = np.sum(dfn.values == 3)
-            o0 = np.sum(dfo.values == 0)
-            o1 = np.sum(dfo.values == 1)
-            f01, f10, f30, f31 = tsc.ul.count_flips(dfn.values, dfo.values)
+            dfo, _ = tsc.tl.scistree(dfn, alpha, beta, False, experiment=True)
+            # i0 = np.sum(dfn.values == 0)
+            # i1 = np.sum(dfn.values == 1)
+            # i3 = np.sum(dfn.values == 3)
+            # o0 = np.sum(dfo.values == 0)
+            # o1 = np.sum(dfo.values == 1)
+            # f01, f10, f30, f31 = tsc.ul.count_flips(dfn.values, dfo.values)
             # tsc.logg.info(
-            #     f"{i},{dfn.shape[1]},{i0},{i1},{i3},{o0},{o1},{f01},{f10},{f30},{f31},{run_time:.1f}"
+            #     f"{i},{dfn.shape[1]},{i0},{i1},{i3},{o0},{o1},{f01},{f10},{f30},"
+            #     + f"{f31},{run_time:.1f}"
             # )
             dfo.to_csv(f"{tmpdir}/{i}.CFMatrix", sep="\t")
 
@@ -69,7 +70,7 @@ def subsampling(
             position=0,
             disable=disable_tqdm,
         )
-    ) as progress_bar:
-        output = Parallel(n_jobs=n_jobs)(
+    ):
+        Parallel(n_jobs=n_jobs)(
             delayed(run)(i) for i in range(begin_sample, begin_sample + n_samples)
         )

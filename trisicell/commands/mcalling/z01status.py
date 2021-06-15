@@ -24,7 +24,7 @@ def _is_ok(name):
 
 
 def after01(config):
-    if config["isrna"] == True:
+    if config["isrna"]:
         steps = [
             "s01indexing",
             "s02mapping",

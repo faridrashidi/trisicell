@@ -82,7 +82,8 @@ def calculate_column_intersections(matrix, for_loop=False, row_by_row=False):
 
     if for_loop:
         for p in range(matrix.shape[1]):
-            # even though the diagonals are not necessary, I keep it for ease of debugging
+            # even though the diagonals are not necessary, I keep it for ease of
+            # debugging
             for q in range(p, matrix.shape[1]):
                 ret[p, q] = np.any(np.logical_and(mask_1[:, p], mask_1[:, q]))
                 ret[q, p] = ret[p, q]
@@ -109,13 +110,12 @@ def make_sure_variable_exists(
     return num_var_F
 
 
-def get_effective_matrix(I, delta01, delta_na_to_1, change_na_to_0=False):
-    x = np.array(I + delta01, dtype=np.int8)
+def get_effective_matrix(I_mtr, delta01, delta_na_to_1, change_na_to_0=False):
+    x = np.array(I_mtr + delta01, dtype=np.int8)
     if delta_na_to_1 is not None:
         na_indices = delta_na_to_1.nonzero()
-        x[
-            na_indices
-        ] = 1  # should have been (but does not accept): x[na_indices] = delta_na_to_1[na_indices]
+        x[na_indices] = 1  # should have been (but does not accept):
+        # x[na_indices] = delta_na_to_1[na_indices]
     if change_na_to_0:
         x[np.logical_and(x != 0, x != 1)] = 0
     return x
@@ -239,7 +239,7 @@ def twosat_solver(
     final_output = None
     lower_bound = 0
     if icf:
-        final_output, total_time = matrix.copy(), 0
+        final_output, _ = matrix.copy(), 0
     else:
         start_time = time.time()
         rc2 = make_twosat_model_from_np(
@@ -270,7 +270,8 @@ def twosat_solver(
         # I don't change 2s to 0s here keep them 2 for next time
 
         # For recursion I set off all sparsification parameters
-        # Also I want na->0 to stay na for the recursion regardless of original input for leave_nas_if_zero
+        # Also I want na->0 to stay na for the recursion regardless of original
+        # input for leave_nas_if_zero
         # I am also not passing eps here to wrap up the recursion soon
 
         Orec, rec_model_time, rec_opt_time = twosat_solver(
@@ -307,10 +308,12 @@ def make_constraints_np_matrix(
     compact_formulation=True,
 ):
     """
-    Returns a "C x 2 x 2" matrix where C is the number of extracted constraints each constraints is of the form:
+    Returns a "C x 2 x 2" matrix where C is the number of extracted constraints each
+    constraints is of the form:
     ((r1, c1), (r2, c2)) and correspond to Z_{r1, c1} or Z{r2, c2}
     :param matrix: A binary matrix cellsXmutations
-    :param constraints: If not None instead of evaluating the whole matrix it will only look at potential constraints
+    :param constraints: If not None instead of evaluating the whole matrix it will
+    only look at potential constraints
     :param level: The type of constraints to add
     :param na_value:
     :param row_coloring: Only constraints that has the same row coloring will be used
@@ -324,7 +327,7 @@ def make_constraints_np_matrix(
     from collections import namedtuple
 
     assert (probability_threshold is None) == (fn_rate is None)
-    descendance_analysis = probability_threshold is not None
+    # descendance_analysis = probability_threshold is not None
     assert 1 <= n_levels <= 2, "not implemented yet"
 
     # means none of scarification ideas have been used
@@ -332,11 +335,11 @@ def make_constraints_np_matrix(
         row_coloring, col_coloring, probability_threshold, fn_rate
     )
 
-    soft_cnst_num = 0
+    # soft_cnst_num = 0
     hard_constraints = [[] for _ in range(n_levels)]  # an empty list each level
-    if descendance_analysis:
-        # dictionary for lazy calculation of decadence:
-        descendent_dict = dict()
+    # if descendance_analysis:
+    #     # dictionary for lazy calculation of decadence:
+    #     descendent_dict = dict()
 
     # variables for each zero
     F = -np.ones(matrix.shape, dtype=np.int64)
@@ -347,11 +350,11 @@ def make_constraints_np_matrix(
     if compact_formulation:
         B_vars_offset = matrix.shape[0] * matrix.shape[1] + 1
         num_var_B = 0
-        map_b2ij = dict()
+        # map_b2ij = dict()
         if n_levels >= 2:
             C_vars_offset = B_vars_offset + matrix.shape[1] * matrix.shape[1] + 1
             num_var_C = 0
-            map_c2ij = dict()
+            # map_c2ij = dict()
 
     col_pair = None
     pair_cost = 0
@@ -375,7 +378,6 @@ def make_constraints_np_matrix(
                 )[0]
                 cost = min(len(r01), len(r10))
                 if cost > pair_cost:  # keep best pair to return as auxiliary info
-                    # print("------------", cost, (p, q), len(r01), len(r10), column_intersection[p, q])
                     col_pair = (p, q)
                     pair_cost = cost
                 if cost > 0:  # don't do anything if one of r01 or r10 is empty
@@ -397,8 +399,8 @@ def make_constraints_np_matrix(
                             hard_constraints[0].append(
                                 [[a, p], [b, q]]
                             )  # at least one of them should be flipped
-                    else:  # compact formulation: (r01 + r10) number of new constraints will be added
-                        # define new B variable
+                    else:  # compact formulation: (r01 + r10) number of new constraints
+                        # will be added define new B variable
                         b_pq = B_vars_offset + num_var_B
                         num_var_B += 1
                         for row_list, col, sign in zip((r01, r10), (p, q), (1, -1)):
@@ -425,12 +427,13 @@ def make_constraints_np_matrix(
                 cost = min(len(r01), len(r10))
                 if cost > 0:  # don't do anything if one of r01 or r10 is empty
                     if not compact_formulation:
-                        # len(r01) * len(r10) * (len(r01) * len(r10)) many constraints will be added
+                        # len(r01) * len(r10) * (len(r01) * len(r10)) many constraints
+                        # will be added
                         x = np.empty((r01.shape[0] + r10.shape[0], 2), dtype=np.int)
                         x[: len(r01), 0] = r01
                         x[: len(r01), 1] = p
-                        x[-len(r10) :, 0] = r10
-                        x[-len(r10) :, 1] = q
+                        x[-len(r10) :, 0] = r10  # noqa
+                        x[-len(r10) :, 1] = q  # noqa
 
                         for a, b, ind in itertools.product(r01, r10, range(x.shape[0])):
                             for row, col in [
@@ -452,7 +455,7 @@ def make_constraints_np_matrix(
                                 hard_constraints[1].append(
                                     [[a, p], [b, q], [x[ind, 0], x[ind, 1]]]
                                 )
-                    else:  #  if compact_formulation: 2(r01 + r10) will be added
+                    else:  # if compact_formulation: 2(r01 + r10) will be added
                         # define two new C variable
                         c_pq0 = C_vars_offset + num_var_C
                         num_var_C += 1
@@ -468,11 +471,12 @@ def make_constraints_np_matrix(
                                 )
                                 if sign == 1:
                                     hard_constraints[1].append([row, col, c_pq0, c_pq1])
-                                    # this will be translated to (~Z_ap or ~c_pq0 or ~c_pq1)
-                                    # and (Z_ap or c_pq0)
+                                    # this will be translated to
+                                    # (~Z_ap or ~c_pq0 or ~c_pq1) and (Z_ap or c_pq0)
                                 else:
                                     hard_constraints[1].append([row, col, c_pq1, c_pq0])
-                                    # this will be translated to (~Z_ap or ~c_pq0 or ~c_pq1) (the same)
+                                    # this will be translated to
+                                    # (~Z_ap or ~c_pq0 or ~c_pq1) (the same)
                                     # and (Z_ap or c_pq1) (different)
 
     # TD: when using this make sure to put an if to say if the model is small and
@@ -487,7 +491,7 @@ def make_constraints_np_matrix(
     )
 
 
-def is_conflict_free_gusfield_and_get_two_columns_in_coflicts(I, na_value):
+def is_conflict_free_gusfield_and_get_two_columns_in_coflicts(I_mtr, na_value):
     def sort_bin(a):
         b = np.transpose(a)
         b_view = np.ascontiguousarray(b).view(
@@ -497,7 +501,7 @@ def is_conflict_free_gusfield_and_get_two_columns_in_coflicts(I, na_value):
         c = b[idx]
         return np.transpose(c), idx
 
-    Ip = I.copy()
+    Ip = I_mtr.copy()
     Ip[Ip == na_value] = 0
     O, idx = sort_bin(Ip)
     # TD: delete duplicate columns
@@ -621,11 +625,6 @@ class TwoSatBounding(BoundingAlgAbstract):
         self._times = {"model_preparation_time": 0, "optimization_time": 0}
 
     def get_init_node(self):
-
-        # def twosat_solver(matrix, cluster_rows=False, cluster_cols=False, only_descendant_rows=False,
-        #                   na_value=None, leave_nas_if_zero=False, return_lb=False, heuristic_setting=None,
-        #                   n_levels=2, eps=0, compact_formulation=True):
-        #     pass
 
         node = pybnb.Node()
         solution, model_time, opt_time, lb = twosat_solver(

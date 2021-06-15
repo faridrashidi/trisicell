@@ -3,10 +3,10 @@ import time
 
 import networkx as nx
 import numpy as np
-import pandas as pd
 
 import trisicell as tsc
-from trisicell.external._scite import run_scite
+
+# from trisicell.external._scite import run_scite
 
 
 def scite(

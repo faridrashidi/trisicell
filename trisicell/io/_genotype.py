@@ -2,7 +2,6 @@ import glob
 import operator
 import os
 import pickle
-import sys
 
 import anndata as ad
 import numpy as np
@@ -128,10 +127,10 @@ def read_gatk(
                     continue
                 if i % 6 == 1:
                     symbol = line.split("\t")[1]
-                if i % 6 == 2:
-                    chrom = line
-                if i % 6 == 3:
-                    strand = line.split(" ")[0]
+                # if i % 6 == 2:
+                #     chrom = line
+                # if i % 6 == 3:
+                #     strand = line.split(" ")[0]
                 if i % 6 == 5:
                     details = line.split(";")
                     ensg = details[0].split("gene_id ")[1].replace('"', "")
@@ -168,7 +167,7 @@ def read_gatk(
     if not filter_dbsnp:
         germline = []
 
-    databse = get_database(species)
+    # databse = get_database(species)
     exonic = get_exonic(exonic_file, species)
     translator = exonic["gene"].to_dict()
 
@@ -194,12 +193,12 @@ def read_gatk(
                 a = v.REF
                 b = v.ALT[0]
                 if v.var_subtype == "del":
-                    a = a[len(b) :]
+                    a = a[len(b) :]  # noqa
                     b = "-"
                     index = f"{v.CHROM}.{v.start+2}.{a}.{b}"
                 elif v.var_subtype == "ins":
                     a = "-"
-                    b = b[len(a) :]
+                    b = b[len(a) :]  # noqa
                     index = f"{v.CHROM}.{v.start+1}.{a}.{b}"
                 if filter_indels_greater_than_2:
                     if len(a) > 2:
@@ -231,12 +230,12 @@ def read_gatk(
             a = v.REF
             b = v.ALT[0]
             if v.var_subtype == "del":
-                a = a[len(b) :]
+                a = a[len(b) :]  # noqa
                 b = "-"
                 index = f"{v.CHROM}.{v.start+2}.{a}.{b}"
             elif v.var_subtype == "ins":
                 a = "-"
-                b = b[len(a) :]
+                b = b[len(a) :]  # noqa
                 index = f"{v.CHROM}.{v.start+1}.{a}.{b}"
         if only_exonic:
             mut = f"{translator[index]}.{index}"
@@ -351,15 +350,15 @@ def read_cnvkit(folderpath):
 
     cnv = np.zeros(adata.shape, dtype=int)
     tmp = adata.layers["log2"] < -1.1
-    cnv[tmp == True] = 0
+    cnv[tmp == True] = 0  # noqa
     tmp = (-1.1 <= adata.layers["log2"]) & (adata.layers["log2"] < -0.25)
-    cnv[tmp == True] = 1
+    cnv[tmp == True] = 1  # noqa
     tmp = (-0.25 <= adata.layers["log2"]) & (adata.layers["log2"] < 0.2)
-    cnv[tmp == True] = 2
+    cnv[tmp == True] = 2  # noqa
     tmp = (0.2 <= adata.layers["log2"]) & (adata.layers["log2"] < 0.7)
-    cnv[tmp == True] = 3
+    cnv[tmp == True] = 3  # noqa
     tmp = 0.7 <= adata.layers["log2"]
-    cnv[tmp == True] = 4
+    cnv[tmp == True] = 4  # noqa
     adata.layers["cnv"] = cnv
 
     abr = np.zeros(adata.shape, dtype=int)
@@ -376,19 +375,19 @@ def read_cnvkit(folderpath):
 
 def read_bamreadcount(filepath):
     def get_nucleotides(line):
-        chrom = line.split()[0]
-        pos = line.split()[1]
+        # chrom = line.split()[0]
+        # pos = line.split()[1]
         ref = line.split()[2].upper()
-        depth = int(line.split()[3])
+        # depth = int(line.split()[3])
         char = {"A": 0, "C": 0, "G": 0, "T": 0, "N": 0}
         char[ref] = int(line.split()[4].split(":")[1])
         char[line.split()[5].split(":")[0]] = int(line.split()[5].split(":")[1])
         char[line.split()[6].split(":")[0]] = int(line.split()[6].split(":")[1])
         char[line.split()[7].split(":")[0]] = int(line.split()[7].split(":")[1])
         char[line.split()[8].split(":")[0]] = int(line.split()[8].split(":")[1])
-        nucleotides = " ".join([str(char[a]) for a in ["A", "C", "G", "T", "N"]])
+        # nucleotides = " ".join([str(char[a]) for a in ["A", "C", "G", "T", "N"]])
         cov = sum([char[a] for a in ["A", "C", "G", "T", "N"]])
-        sorted_char = sorted(char.items(), key=operator.itemgetter(1), reverse=True)
+        # sorted_char = sorted(char.items(), key=operator.itemgetter(1), reverse=True)
         return ref, char, cov
 
     data = []

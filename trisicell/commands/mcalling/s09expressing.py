@@ -22,12 +22,12 @@ def run09(config, afterok):
         if config["pairedend"]:
             cmds += cmd(
                 [
-                    f"rsem-calculate-expression",
-                    f"--bam",
-                    f"--no-bam-output",
-                    f"--paired-end",
-                    f"--estimate-rspd",
-                    f"--append-names",
+                    "rsem-calculate-expression",
+                    "--bam",
+                    "--no-bam-output",
+                    "--paired-end",
+                    "--estimate-rspd",
+                    "--append-names",
                     f"{config['outdir']}/{sample}/Aligned.toTranscriptome.out.bam",
                     f"{config['rsemdb']}",
                     f"{config['outdir']}/{sample}/expr",
@@ -36,11 +36,11 @@ def run09(config, afterok):
         else:
             cmds += cmd(
                 [
-                    f"rsem-calculate-expression",
-                    f"--bam",
-                    f"--no-bam-output",
-                    f"--estimate-rspd",
-                    f"--append-names",
+                    "rsem-calculate-expression",
+                    "--bam",
+                    "--no-bam-output",
+                    "--estimate-rspd",
+                    "--append-names",
                     f"{config['outdir']}/{sample}/Aligned.toTranscriptome.out.bam",
                     f"{config['rsemdb']}",
                     f"{config['outdir']}/{sample}/expr",
@@ -48,12 +48,12 @@ def run09(config, afterok):
             )
         cmds += cmd(
             [
-                f"rm -rf",
+                "rm -rf",
                 f"{config['outdir']}/{sample}/expr.stat",
                 f"{config['outdir']}/{sample}/expr.isoforms.results",
             ]
         )
-        cmds += cmd([f"echo Done!"], islast=True)
+        cmds += cmd(["echo Done!"], islast=True)
         return cmds
 
     df = pd.DataFrame()

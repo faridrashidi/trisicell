@@ -25,7 +25,8 @@ def scite(
     ----------
     df_input : :class:`pandas.DataFrame`
         Input genotype matrix in which rows are cells and columns are mutations.
-        Values inside this matrix show the presence (1), absence (0) and missing entires (3).
+        Values inside this matrix show the presence (1), absence (0) and missing
+        entires (3).
     alpha : :obj:`float`
         False positive error rate.
     beta : :obj:`float`

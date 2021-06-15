@@ -8,7 +8,7 @@ from joblib import Parallel, delayed
 
 import trisicell as tsc
 
-from ._pf import count_disticnt_matrices, get_samples, get_samples_info, process_samples
+from ._pf import get_samples, get_samples_info, process_samples
 
 
 def _save_samples(filename, edges_list, subtrees_list, tree_our_prob_list):

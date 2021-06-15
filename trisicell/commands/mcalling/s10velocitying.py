@@ -18,7 +18,7 @@ from trisicell.ul._servers import cmd, write_cmds_get_main
 def run10(config, afterok):
     def cmds():
         cmds = ""
-        cmds += cmd([f"module load velocyto/0.17"])
+        cmds += cmd(["module load velocyto/0.17"])
         cmds += cmd(
             [
                 "velocyto run-smartseq2",

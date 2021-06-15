@@ -129,21 +129,21 @@ def get_param(filename):
     return data
 
 
-def count_flips(I, O, na_value=3):
+def count_flips(I_mtr, O_mtr, na_value=3):
     flips_0_1 = 0
     flips_1_0 = 0
     flips_na_0 = 0
     flips_na_1 = 0
-    n, m = I.shape
+    n, m = I_mtr.shape
     for i in range(n):
         for j in range(m):
-            if I[i, j] == 0 and O[i, j] == 1:
+            if I_mtr[i, j] == 0 and O_mtr[i, j] == 1:
                 flips_0_1 += 1
-            elif I[i, j] == 1 and O[i, j] == 0:
+            elif I_mtr[i, j] == 1 and O_mtr[i, j] == 0:
                 flips_1_0 += 1
-            elif I[i, j] == na_value and O[i, j] == 0:
+            elif I_mtr[i, j] == na_value and O_mtr[i, j] == 0:
                 flips_na_0 += 1
-            elif I[i, j] == na_value and O[i, j] == 1:
+            elif I_mtr[i, j] == na_value and O_mtr[i, j] == 1:
                 flips_na_1 += 1
     return flips_0_1, flips_1_0, flips_na_0, flips_na_1
 

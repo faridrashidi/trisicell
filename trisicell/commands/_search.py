@@ -53,8 +53,8 @@ def search(genotype_file):
             total=n_samples,
             position=0,
         )
-    ) as progress_bar:
-        output = Parallel(n_jobs=n_samples)(
+    ):
+        Parallel(n_jobs=n_samples)(
             delayed(run_scistree)(df_in, alpha, beta, outfile)
             for alpha in alphas
             for beta in betas

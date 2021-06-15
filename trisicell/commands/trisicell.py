@@ -3,7 +3,6 @@ from collections import OrderedDict
 import click
 
 import trisicell as tsc
-from trisicell.tl import consensus
 
 from ._bnb import bnb
 from ._booster import booster
@@ -40,7 +39,9 @@ class NaturalOrderGroup(click.Group):
     context_settings=dict(max_content_width=300, terminal_width=300),
 )
 def cli():
-    f"""Scalable intratumor heterogeneity inference and validation from single-cell data."""
+    """Scalable intratumor heterogeneity inference and validation from single-cell
+    data.
+    """
     return None
 
 

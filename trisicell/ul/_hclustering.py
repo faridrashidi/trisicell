@@ -2,7 +2,7 @@ import numba
 import numpy as np
 import pandas as pd
 import scipy as sp
-from scipy.cluster.hierarchy import cut_tree, dendrogram, fcluster, linkage
+from scipy.cluster.hierarchy import fcluster, linkage
 from sklearn.metrics import pairwise_distances
 
 import trisicell as tsc

@@ -1,11 +1,7 @@
-import os
 import time
 
 import apted
-import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
-import seaborn as sns
 
 import trisicell as tsc
 from trisicell.external._mltd import run_mltd
@@ -137,6 +133,7 @@ def cc(df_grnd, df_sol):
     inter = np.intersect1d(df_grnd.columns, df_sol.columns)
     M_grnd = df_grnd[inter].values
     M_sol = df_sol[inter].values
+    M_grnd, M_sol
 
     # TODO: implement.
     return None

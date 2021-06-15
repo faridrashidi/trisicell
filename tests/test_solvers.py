@@ -12,7 +12,7 @@ class TestSolvers:
             n_cells=100, n_muts=100, n_clones=5, alpha=0.001, beta=0.4, missing=0.2
         )
         is_cf = tsc.ul.is_conflict_free_gusfield(df_in)
-        assert is_cf == False
+        assert not is_cf
 
     @pytest.mark.skip(reason="PyTest issue with redirecting the stdout!")
     def test_scistree(self):

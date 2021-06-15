@@ -414,7 +414,7 @@ def reconstruct_big_tree(
     existing_mutations = [ROOT]  # mutations added so far to the tree
     big_tree_score = 0
 
-    m = len(ordered_mut_ids)
+    # m = len(ordered_mut_ids)
 
     for mutation_to_add in tqdm(
         ordered_mut_ids,

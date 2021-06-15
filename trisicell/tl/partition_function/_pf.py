@@ -1,7 +1,6 @@
 from decimal import Decimal
 
 import numpy as np
-from sklearn.metrics.pairwise import pairwise_distances
 from tqdm import tqdm
 
 from ._clt_sampler import draw_sample_clt
@@ -66,7 +65,7 @@ def get_samples(P, n_samples, disable_tqdm=True):
     subtrees_list = []
     tree_our_prob_list = []
     for _ in tqdm(
-        range(n_samples), ascii=True, ncols=100, desc=f"Sampling", disable=disable_tqdm
+        range(n_samples), ascii=True, ncols=100, desc="Sampling", disable=disable_tqdm
     ):
         edges, subtrees, prior_prob = draw_sample_clt(P, False, c=1, coef=10)
         edges_list.append(edges)
@@ -113,7 +112,7 @@ def get_samples_info(P, my_cell, my_mut, n_samples, subtrees_list=None):
     cond_c[my_cell] = 1
 
     for i in tqdm(
-        range(n_samples), ascii=True, ncols=100, desc=f"Sampling", disable=True
+        range(n_samples), ascii=True, ncols=100, desc="Sampling", disable=True
     ):
         numerator, denominator = pf_cond_on_one_tree(
             P, subtrees_list[i], cond_c=cond_c, cond_m=my_mut

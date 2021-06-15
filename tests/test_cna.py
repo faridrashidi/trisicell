@@ -1,5 +1,3 @@
-import trisicell as tsc
-
 from ._helpers import skip_mpi4py
 
 

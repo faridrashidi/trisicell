@@ -183,7 +183,7 @@ def prepare_dependencies(
             matrix, mut_ids = read_CF_matrix_to_int_dictionary(
                 os.path.join(input_folder, filename)
             )
-        except:
+        except Exception:
             completed -= 1
 
         for i in range(len(mut_ids)):

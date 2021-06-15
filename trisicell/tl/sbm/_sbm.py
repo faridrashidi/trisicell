@@ -91,7 +91,7 @@ def sbm(data2):
     N = pd.DataFrame(
         data.values[ixgrid], index=np.sort(cell_array), columns=np.sort(mut_array)
     )
-    I = data2.loc[
+    I_mtr = data2.loc[
         data2.index[np.argsort(cell_array)], data2.columns[np.argsort(mut_array)]
     ]
 
@@ -100,8 +100,8 @@ def sbm(data2):
             if get_ratio(N.loc[n, m])[0] > 0:
                 N.loc[n, m] = 1
 
-    N.index = I.index
-    N.columns = I.columns
+    N.index = I_mtr.index
+    N.columns = I_mtr.columns
     out = N.loc[data2.index, data2.columns]
 
     return out

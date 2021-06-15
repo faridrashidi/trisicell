@@ -5,10 +5,12 @@ import time
 import numpy as np
 import pandas as pd
 from Bio.Phylo import BaseTree
-from Bio.Phylo.TreeConstruction import DistanceMatrix, DistanceTreeConstructor
+from Bio.Phylo.TreeConstruction import DistanceMatrix
 
 import trisicell as tsc
 from trisicell.external._scistree import run_scistree
+
+# from Bio.Phylo.TreeConstruction import DistanceTreeConstructor
 
 
 def scistree(df_input, alpha, beta, experiment=False):
@@ -249,7 +251,7 @@ def iscistree(df_input, alpha, beta, n_iters=np.inf):
             total_cost += costs[ind]
         return output, total_cost
 
-    def denoise_linear(I, alpha, beta, opt_tree):
+    def denoise_linear(I_mtr, alpha, beta, opt_tree):
         tree = {}
         for clade in list(opt_tree.find_clades(order="level"))[::-1]:
             children = list(clade.find_clades(order="level"))
@@ -270,15 +272,15 @@ def iscistree(df_input, alpha, beta, n_iters=np.inf):
             if "Inner" not in best:
                 cells_in_best.append(best)
 
-        output = np.zeros(I.shape, dtype=int)
+        output = np.zeros(I_mtr.shape, dtype=int)
         total_cost = 0
-        for c in range(I.shape[1]):
+        for c in range(I_mtr.shape[1]):
             qs = {}
             best = None
             best_v = 0
             for k, v in tree.items():
                 if len(v) == 0:
-                    obs = I[int(k), c] == 1
+                    obs = I_mtr[int(k), c] == 1
                     # qs[k] = (beta ** (1 - obs) + (1 - beta) ** obs) / (
                     #     alpha ** obs + (1 - alpha) ** (1 - obs)
                     # )

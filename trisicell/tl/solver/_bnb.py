@@ -755,7 +755,7 @@ class BnB(pybnb.Problem):
     def __init__(self, I_mtr, boundingAlg: BoundingAlgAbstract, na_value=None):
         self.na_value = na_value
         self.has_na = np.any(I_mtr == self.na_value)
-        self.I = I_mtr
+        self.I_mtr = I_mtr
         self.delta = sp.lil_matrix(
             I_mtr.shape, dtype=np.int8
         )  # this can be coo_matrix too
@@ -771,7 +771,9 @@ class BnB(pybnb.Problem):
         (
             self.icf,
             self.colPair,
-        ) = is_conflict_free_gusfield_and_get_two_columns_in_coflicts(self.I, na_value)
+        ) = is_conflict_free_gusfield_and_get_two_columns_in_coflicts(
+            self.I_mtr, na_value
+        )
         self.boundingAlg.reset(I_mtr)
         self.node_to_add = self.boundingAlg.get_init_node()
         self.bound_value = self.boundingAlg.get_bound(self.delta)
@@ -810,7 +812,7 @@ class BnB(pybnb.Problem):
         self.boundingAlg.set_state(boundingAlgState)
 
     def get_current_matrix(self):
-        return get_effective_matrix(self.I, self.delta, self.delta_na)
+        return get_effective_matrix(self.I_mtr, self.delta, self.delta_na)
 
     def branch(self):
         if self.icf:
@@ -862,7 +864,7 @@ class BnB(pybnb.Problem):
                     if "one_pair_of_columns" in extra_info:
                         nodecol_pair = extra_info["one_pair_of_columns"]
                 if node_icf is None:
-                    x = get_effective_matrix(self.I, nodedelta, node_na_delta)
+                    x = get_effective_matrix(self.I_mtr, nodedelta, node_na_delta)
                     (
                         node_icf,
                         nodecol_pair,

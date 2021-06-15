@@ -1,18 +1,14 @@
 """Utils Module."""
 
-from trisicell.ul._hclustering import (
-    dist_cosine_ignore_na,
-    dist_l1_ignore_na,
-    hclustering,
-)
-from trisicell.ul._packages import (
+from ._hclustering import dist_cosine_ignore_na, dist_l1_ignore_na, hclustering
+from ._packages import (
     import_graph_tool,
     import_graphviz,
     import_gurobi,
     import_mpi4py,
     import_rpy2,
 )
-from trisicell.ul._trees import (
+from ._trees import (
     cells_rooted_at,
     muts_rooted_at,
     partition_cells,
@@ -21,7 +17,7 @@ from trisicell.ul._trees import (
     to_mtree,
     to_tree,
 )
-from trisicell.ul._utils import (
+from ._utils import (
     calc_score_tree,
     cleanup,
     colorize_one,

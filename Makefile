@@ -1,5 +1,5 @@
 test:
-	pytest --disable-pytest-warnings --cov=trisicell ./tests
+	pytest --cov=trisicell ./tests
 	rm -rf .coverage*
 
 lint:

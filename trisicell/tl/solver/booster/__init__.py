@@ -1,1 +1,1 @@
-from trisicell.tl.solver.booster._booster import booster
+from ._booster import booster

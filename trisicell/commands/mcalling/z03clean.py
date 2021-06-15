@@ -2,19 +2,17 @@
 
 # Copyright (c) 2021, Farid Rashidi Mehrabadi All rights reserved.
 
-# =========================================================================================
+# ======================================================================================
 # Author     : Farid Rashidi Mehrabadi (farid.rashidimehrabadi@nih.gov)
 # Last Update: Aug 14, 2020
 # Description: cleaning
-# =========================================================================================
+# ======================================================================================
 
 import subprocess
 
-from trisicell.ul._servers import *
-
 
 def after03(config):
-    # subprocess.getoutput(f'rm -rf {config['outdir']}/_annotating')
+    # subprocess.getoutput(f"rm -rf {config['outdir']}/_annotating'"
     subprocess.getoutput(f"rm -rf {config['outdir']}/_calling")
     subprocess.getoutput(f"rm -rf {config['outdir']}/_indexing")
 
@@ -41,20 +39,30 @@ def after03(config):
     subprocess.getoutput(
         f"find {config['outdir']} -name \\*expr.stat -exec rm -rf {{}} \\;"
     )
-    # subprocess.getoutput(f'find {config['outdir']} -name \\*HaplotypeCaller.g.vcf -exec rm -rf {{}} \\;')
-    # subprocess.getoutput(f'find {config['outdir']} -name \\*HaplotypeCaller.g.vcf.idx -exec rm -rf {{}} \\;')
+    # subprocess.getoutput(
+    #     f"find {config['outdir']} -name \\*Hapl...g.vcf -exec rm -rf {{}} \\;"
+    # )
+    # subprocess.getoutput(
+    #     f"find {config['outdir']} -name \\*Hapl...g.vcf.idx -exec rm -rf {{}} \\;"
+    # )
     subprocess.getoutput(
         f"find {config['outdir']} -name \\*indel.intervals -exec rm -rf {{}} \\;"
     )
-    # subprocess.getoutput(f'find {config['outdir']} -name \\*Log.final.out -exec rm -rf {{}} \\;')
+    # subprocess.getoutput(
+    #     f"find {config['outdir']} -name \\*Log.final.out -exec rm -rf {{}} \\;"
+    # )
     subprocess.getoutput(
         f"find {config['outdir']} -name \\*Log.out -exec rm -rf {{}} \\;"
     )
     subprocess.getoutput(
         f"find {config['outdir']} -name \\*Log.progress.out -exec rm -rf {{}} \\;"
     )
-    # subprocess.getoutput(f'find {config['outdir']} -name \\*output.bai -exec rm -rf {{}} \\;')
-    # subprocess.getoutput(f'find {config['outdir']} -name \\*output.bam -exec rm -rf {{}} \\;')
+    # subprocess.getoutput(
+    #     f"find {config['outdir']} -name \\*output.bai -exec rm -rf {{}} \\;"
+    # )
+    # subprocess.getoutput(
+    #     f"find {config['outdir']} -name \\*output.bam -exec rm -rf {{}} \\;"
+    # )
     subprocess.getoutput(
         f"find {config['outdir']} -name \\*output.metrics -exec rm -rf {{}} \\;"
     )

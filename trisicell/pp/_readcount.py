@@ -44,7 +44,6 @@ def n_muts_per_cell_with_vaf(adata):
     V = adata.layers["mutant"]
     T = adata.layers["total"]
 
-    vaf = np.zeros(G.shape)
     vaf = np.divide(V, T, where=T != 0)
     vaf[(G == 1) | (G == 3)] = 0
     vaf = np.nanmean(np.where(vaf != 0, vaf, np.nan), axis=1)
@@ -358,7 +357,7 @@ def keep_cell_by_list(adata, alist):
 
 def get_germline_variants(adata, normal_cells, min_vaf=0.1, min_coverage=10):
     if not isinstance(normal_cells, list):
-        raise "normal_cells must be a list"
+        raise ValueError("normal_cells must be a list")
 
     V = adata[normal_cells, :].to_df(layer="mutant")
     T = adata[normal_cells, :].to_df(layer="total")

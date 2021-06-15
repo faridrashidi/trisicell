@@ -1,5 +1,4 @@
 import numpy as np
-from _helpers import *
 
 import trisicell as tsc
 

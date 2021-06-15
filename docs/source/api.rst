@@ -66,7 +66,8 @@ This module offers a bunch of functions for reading and writing of the data.
 
 Preprocessing (pp)
 ------------------
-This module offers a bunch of functions for filtering and preprocessing of the data.
+This module offers a bunch of functions for filtering and preprocessing of the
+data.
 
 .. module:: trisicell.pp
 .. currentmodule:: trisicell

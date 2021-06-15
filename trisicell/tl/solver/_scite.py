@@ -3,10 +3,10 @@ import time
 
 import networkx as nx
 import numpy as np
-import pandas as pd
 
 import trisicell as tsc
-from trisicell.external._scite import run_scite
+
+# from trisicell.external._scite import run_scite
 
 
 def scite(
@@ -25,7 +25,8 @@ def scite(
     ----------
     df_input : :class:`pandas.DataFrame`
         Input genotype matrix in which rows are cells and columns are mutations.
-        Values inside this matrix show the presence (1), absence (0) and missing entires (3).
+        Values inside this matrix show the presence (1), absence (0) and missing
+        entires (3).
     alpha : :obj:`float`
         False positive error rate.
     beta : :obj:`float`

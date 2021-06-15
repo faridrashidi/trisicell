@@ -2,7 +2,7 @@ import numba
 import numpy as np
 import pandas as pd
 import scipy as sp
-from scipy.cluster.hierarchy import cut_tree, dendrogram, fcluster, linkage
+from scipy.cluster.hierarchy import fcluster, linkage
 from sklearn.metrics import pairwise_distances
 
 import trisicell as tsc
@@ -16,9 +16,9 @@ def _l1_ignore_na(a, b):
     return np.nanmean(np.abs(a - b))
 
 
-def dist_l1_ignore_na(I, n_jobs=1):
+def dist_l1_ignore_na(I_mtr, n_jobs=1):
     dist = pairwise_distances(
-        I, metric=_l1_ignore_na, force_all_finite="allow-nan", n_jobs=n_jobs
+        I_mtr, metric=_l1_ignore_na, force_all_finite="allow-nan", n_jobs=n_jobs
     )
     np.fill_diagonal(dist, 0)
     return dist
@@ -48,15 +48,15 @@ def _cosine_ignore_na(u, v):
     return ratio
 
 
-def dist_cosine_ignore_na(I, n_jobs=1):
+def dist_cosine_ignore_na(I_mtr, n_jobs=1):
     dist = pairwise_distances(
-        I, metric=_cosine_ignore_na, force_all_finite="allow-nan", n_jobs=n_jobs
+        I_mtr, metric=_cosine_ignore_na, force_all_finite="allow-nan", n_jobs=n_jobs
     )
     np.fill_diagonal(dist, 0)
     return dist
 
 
-def _dist_dendro(T, V, I):
+def _dist_dendro(T, V, I_mtr):
     PROB_SEQ_ERROR = 0.001
 
     def logSum_1(x, y):
@@ -81,7 +81,7 @@ def _dist_dendro(T, V, I):
     V = V[:, ~bad_muts]
     T = T[:, ~bad_muts]
     D = D[:, ~bad_muts]
-    I = I[:, ~bad_muts]
+    I_mtr = I_mtr[:, ~bad_muts]
     a = a[~bad_muts]
     b = b[~bad_muts]
 
@@ -93,7 +93,7 @@ def _dist_dendro(T, V, I):
                 lPz0[i, j] = np.log(sp.stat.binom.pmf(V[i, j], T[i, j], PROB_SEQ_ERROR))
                 lPz1[i, j] = np.log(pmf_BetaBinomial(V[i, j], T[i, j], a[j], b[j]))
 
-    Pg = np.sum(I == 1, axis=0) / I.shape[0]
+    Pg = np.sum(I_mtr == 1, axis=0) / I_mtr.shape[0]
     lPg = np.log(Pg)
     l1Pg = np.log(1 - Pg)
     lupiall = logSum_1(lPz0 + l1Pg, lPz1 + lPg)

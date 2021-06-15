@@ -1,4 +1,5 @@
 Examples
 ========
 
-This section contains various code snippets that demonstrate :mod:`trisicell`'s usage.
+This section contains various code snippets that demonstrate :mod:`trisicell`'s
+usage.

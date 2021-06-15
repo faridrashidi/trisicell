@@ -69,7 +69,7 @@ def scite(genotype_file, alpha, beta, n_iters, n_restarts, experiment, n_hours):
     tsc.settings.verbosity = "info"
 
     df_in = tsc.io.read(genotype_file)
-    if experiment == False:
+    if not experiment:
         tsc.settings.logfile = f"{outfile}.scite.log"
         df_out = tsc.tl.scite(
             df_in,

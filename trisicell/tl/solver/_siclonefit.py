@@ -1,4 +1,5 @@
 import os
+import time
 
 import numpy as np
 import pandas as pd
@@ -19,7 +20,7 @@ def siclonefit(df_input, alpha, beta, n_iters):
         fout.write(" ".join(df_input.index))
     with open(f"{tmpdir.name}/siclonefit.genenames", "w") as fout:
         fout.write(" ".join(df_input.columns))
-    I = df_input.values
+    I_mtr = df_input.values
 
     siclonefit = tsc.ul.get_file("trisicell.external/bin/SiCloneFiTComplete.jar")
     cmd = (
@@ -30,7 +31,7 @@ def siclonefit(df_input, alpha, beta, n_iters):
         f"-fp {alpha} "
         f"-fn {beta} "
         "-df 0 "
-        f"-missing {np.sum(I == 3)/(I.size)} "
+        f"-missing {np.sum(I_mtr == 3)/(I_mtr.size)} "
         "-f 3 "
         "-recurProb 0 "
         "-delProb 0 "

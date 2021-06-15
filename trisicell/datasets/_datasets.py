@@ -1,5 +1,3 @@
-import pandas as pd
-
 import trisicell as tsc
 
 
@@ -12,7 +10,8 @@ def example(kind):
         The options are:
 
             - `'genotype'`: This option will return information about genotype matrix.
-            - `'expression'`: This option will return information about expression matrix.
+            - `'expression'`: This option will return information about expression
+                matrix.
 
     Returns
     -------
@@ -54,7 +53,8 @@ def melanoma20():
     :class:`anndata.AnnData`
         An anndata in which `.X` is the input noisy.
 
-        `.layers['solution_fig1']` is the solution presented in Figure 1 of PhISCS-BnB paper.
+        `.layers['solution_fig1']` is the solution presented in Figure 1 of PhISCS-BnB
+        paper.
     """
 
     adata = tsc.io.read(tsc.ul.get_file("trisicell.datasets/real/melanoma20.h5ad"))
@@ -82,7 +82,7 @@ def colorectal1():
     adata = tsc.io.read(tsc.ul.get_file("trisicell.datasets/real/colorectal1.rc.h5ad"))
     # FIXME: extract (SiFit 178 × 16).
     # https://github.com/algo-cancer/PhyloM/blob/master/Data/README.md
-    pass
+    return adata
 
 
 def colorectal2(readcount=False):
@@ -107,8 +107,10 @@ def colorectal2(readcount=False):
     :class:`anndata.AnnData`
         An anndata in which `.X` is the input noisy.
 
-            - `.layers['solution_fig7a']` is the solution presented in Figure 7a of PhISCS paper.
-            - `.layers['solution_fig7b']` is the solution presented in Figure 7b of PhISCS paper.
+            - `.layers['solution_fig7a']` is the solution presented in Figure 7a of
+                PhISCS paper.
+            - `.layers['solution_fig7b']` is the solution presented in Figure 7b of
+                PhISCS paper.
             - `.uns['params_fig7a']` is parameters used as input to get 'solution_7a'.
             - `.uns['params_fig7b']` is parameters used as input to get 'solution_7b'.
             - `.var` includes information of the bulk samples.
@@ -184,7 +186,8 @@ def acute_lymphocytic_leukemia2():
     :class:`anndata.AnnData`
         An anndata in which `.X` is the input noisy.
 
-            - `.layers['solution_fig9']` is the solution presented in Figure 9 of PhISCS paper.
+            - `.layers['solution_fig9']` is the solution presented in Figure 9 of PhISCS
+                paper.
             - `.uns['params_fig9']` is parameters used as input to get 'solution_fig9'.
             - `.var` includes information of the bulk samples.
     """
@@ -569,13 +572,19 @@ def high_grade_serous_ovarian_cancer_3celllines():
         An anndata in which `.X` is the input noisy
         (it is obtained based on the number of mutant/total reads).
 
-            - `.obs['clone_id']` is the clone id to which the cell is assigned in Figure 3H.
+            - `.obs['clone_id']` is the clone id to which the cell is assigned in
+                Figure 3H.
             - `.obs['group_color']` is unique colors for each 'clone_id'.
-            - `.obs['cell_name']` is a new name for each cell based on the 'group_color'.
-            - `.layers['mutant']` is the number of mutant reads at each locus in each cell.
-            - `.layers['total']` is the total number of reads at each locus in each cell.
-            - `.layers['ground']` is the solution inferred in Figure 3H of the original paper.
-            - `.uns['params_ground']` is parameters inferred by comparing ground and noisy matrices.
+            - `.obs['cell_name']` is a new name for each cell based on the
+                'group_color'.
+            - `.layers['mutant']` is the number of mutant reads at each locus in each
+                cell.
+            - `.layers['total']` is the total number of reads at each locus in each
+                cell.
+            - `.layers['ground']` is the solution inferred in Figure 3H of the original
+                paper.
+            - `.uns['params_ground']` is parameters inferred by comparing ground and
+                noisy matrices.
             - `.var` includes information of the bulk samples.
 
     Examples

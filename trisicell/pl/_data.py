@@ -5,8 +5,6 @@ import numpy as np
 import pandas as pd
 import seaborn as sns
 
-import trisicell as tsc
-
 
 def heatmap(adata, color_attrs=None, layer="X", figsize=(12, 7)):
     if color_attrs is not None:
@@ -42,8 +40,8 @@ def heatmap(adata, color_attrs=None, layer="X", figsize=(12, 7)):
 
     sns.clustermap(
         df,
-        # vmin=0,
-        # vmax=1,
+        vmin=vmin,
+        vmax=vmax,
         metric="euclidean",
         cmap=rvb,
         row_cluster=False,
@@ -60,16 +58,6 @@ def heatmap(adata, color_attrs=None, layer="X", figsize=(12, 7)):
         dendrogram_ratio=0.0001,
     )
     # plt.savefig(filepath, bbox_inches="tight", pad_inches=0)
-
-
-def draw(adata, figsize=(10, 2), dpi=100):
-    gspec = plt.GridSpec(1, 2, plt.figure(None, figsize, dpi=dpi))
-    ax1 = plt.subplot(gspec[0])
-
-    ax1 = plt.subplot(gspec[1])
-    ax2.margins(0)
-
-    return [ax1, ax2]
 
 
 def plot_size(df_in):
@@ -122,13 +110,13 @@ def plot_output(df_out):
 
 
 def plot_flips2(df_in, df_out):
-    I = df_in
-    O = df_out
+    I_mtr = df_in
+    O_mtr = df_out
     df = pd.DataFrame(0, index=["0->1", "1->0", "NA->0", "NA->1"], columns=[1])
-    df.loc["0->1", 1] = ((I == 0) & (O == 1)).sum().sum()
-    df.loc["1->0", 1] = ((I == 1) & (O == 0)).sum().sum()
-    df.loc["NA->0", 1] = ((I == 3) & (O == 0)).sum().sum()
-    df.loc["NA->1", 1] = ((I == 3) & (O == 1)).sum().sum()
+    df.loc["0->1", 1] = ((I_mtr == 0) & (O_mtr == 1)).sum().sum()
+    df.loc["1->0", 1] = ((I_mtr == 1) & (O_mtr == 0)).sum().sum()
+    df.loc["NA->0", 1] = ((I_mtr == 3) & (O_mtr == 0)).sum().sum()
+    df.loc["NA->1", 1] = ((I_mtr == 3) & (O_mtr == 1)).sum().sum()
     print(df)
 
 
@@ -140,8 +128,8 @@ def plot_flips(df_in, df_out, row_colors):
         tmp.append(".".join(x.split(".chr")[1].split(".")[:2]))
     tmp = ns.index_natsorted(tmp)
     snvs = snvs[tmp]
-    I = df_in.loc[row_colors.keys(), snvs]
-    O = df_out.loc[row_colors.keys(), snvs]
+    I_mtr = df_in.loc[row_colors.keys(), snvs]
+    O_mtr = df_out.loc[row_colors.keys(), snvs]
 
     ccolors = []
     chrs = set()
@@ -154,7 +142,9 @@ def plot_flips(df_in, df_out, row_colors):
             ccolors.append("#252525")
             chrs.add(c)
 
-    D = 1 * (I.values == 1) * (O.values == 0) + 2 * (I.values == 0) * (O.values == 1)
+    D = 1 * (I_mtr.values == 1) * (O_mtr.values == 0) + 2 * (I_mtr.values == 0) * (
+        O_mtr.values == 1
+    )
     rvb = mcolors.LinearSegmentedColormap.from_list(
         "", ["#DEDEDE", "#D92347", "#A9D0F5", "#FFFFFF"]
     )

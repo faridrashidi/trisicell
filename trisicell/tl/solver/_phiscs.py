@@ -21,7 +21,8 @@ def phiscsb(df_input, alpha, beta, experiment=False):
     ----------
     df_input : :class:`pandas.DataFrame`
         Input genotype matrix in which rows are cells and columns are mutations.
-        Values inside this matrix show the presence (1), absence (0) and missing entires (3).
+        Values inside this matrix show the presence (1), absence (0) and missing
+        entires (3).
     alpha : :obj:`float`
         False positive error rate.
     beta : :obj:`float`
@@ -42,14 +43,12 @@ def phiscsb(df_input, alpha, beta, experiment=False):
     snvs = list(df_input.columns)
     df_input = df_input.replace("?", 3)
     df_input = df_input.astype(int)
-    I = df_input.values
+    I_mtr = df_input.values
 
     rc2 = RC2(WCNF())
 
     num_cells = len(cells)
     num_mutations = len(snvs)
-    B_absent = np.zeros((num_cells, num_mutations), dtype=np.float64)
-    B_present = np.zeros((num_cells, num_mutations), dtype=np.float64)
 
     Y = np.empty((num_cells, num_mutations), dtype=np.int64)
     numVarY = 0
@@ -70,7 +69,7 @@ def phiscsb(df_input, alpha, beta, experiment=False):
     numVarZ = 0
     for i in range(num_cells):
         for j in range(num_mutations):
-            if I[i, j] == 0:
+            if I_mtr[i, j] == 0:
                 numVarZ += 1
                 Z[i, j] = numVarY + numVarB + numVarZ
 
@@ -84,21 +83,21 @@ def phiscsb(df_input, alpha, beta, experiment=False):
 
     for i in range(num_cells):
         for j in range(num_mutations):
-            ##0->1
+            # 0->1
             if alpha == 0:
-                if I[i, j] == 0:
+                if I_mtr[i, j] == 0:
                     rc2.add_clause([-Y[i, j]], weight=1)
-                if I[i, j] == 1:
+                if I_mtr[i, j] == 1:
                     rc2.add_clause([Y[i, j]])
 
-            ##0->1 and 1->0
+            # 0->1 and 1->0
             if alpha > 0:
-                if I[i, j] == 0:
+                if I_mtr[i, j] == 0:
                     rc2.add_clause([Y[i, j], Z[i, j]])
                     rc2.add_clause([-Y[i, j], -Z[i, j]])
                     rc2.add_clause([Z[i, j]], weight=math.log((1 - alpha) / beta))
 
-                if I[i, j] == 1:
+                if I_mtr[i, j] == 1:
                     rc2.add_clause([Y[i, j]], weight=math.log((1 - beta) / alpha))
 
     s_time = time.time()
@@ -136,7 +135,7 @@ def phiscsi(df_input, alpha, beta, time_out=86400):
     snvs = list(df_input.columns)
     df_input = df_input.replace("?", 3)
     df_input = df_input.astype(int)
-    I = df_input.values
+    I_mtr = df_input.values
 
     model = gp.Model("ILP")
     model.Params.OutputFlag = 0
@@ -173,10 +172,10 @@ def phiscsi(df_input, alpha, beta, time_out=86400):
     objective = 0
     for j in range(num_mutations):
         for i in range(num_cells):
-            ##0->1 & 1->0
-            if I[i, j] == 0:
+            # 0->1 & 1->0
+            if I_mtr[i, j] == 0:
                 objective += np.log(1 - alpha) + np.log(beta / (1 - alpha)) * Y[i, j]
-            if I[i, j] == 1:
+            if I_mtr[i, j] == 1:
                 objective += np.log(alpha) + np.log((1 - beta) / alpha) * Y[i, j]
 
     model.setObjective(objective, gp.GRB.MAXIMIZE)
@@ -224,7 +223,7 @@ def phiscs_bulk(
     snvs = list(df_input.columns)
     df_input = df_input.replace("?", 3)
     df_input = df_input.astype(int)
-    I = df_input.values
+    I_mtr = df_input.values
 
     model = gp.Model("ILP")
     model.Params.OutputFlag = 0
@@ -239,13 +238,13 @@ def phiscs_bulk(
         sampleIDs = vaf_info.columns
         vaf_info.loc["NULL"] = vaf_info.shape[1] * [1]
 
-    # --- Matrix Y is matrix of corrected (i.e. true) genotypes w.r.t. input SC matrix I
+    # Matrix Y is matrix of corrected (i.e. true) genotypes w.r.t. input SC matrix I
     Y = {}
     for c in range(numCells):
         for m in range(numMutations):
             Y[c, m] = model.addVar(vtype=gp.GRB.BINARY, name=f"Y({c},{m})")
 
-    # --- Variables B control the existence of conflict between columns
+    # Variables B control the existence of conflict between columns
     B = {}
     for p in range(numMutations + 1):
         for q in range(numMutations + 1):
@@ -264,7 +263,7 @@ def phiscs_bulk(
         K[m] = model.addVar(vtype=gp.GRB.BINARY, name=f"K[{m}]")
     model.addConstr(K[numMutations] == 0)  # null mutation can not be eliminated
 
-    # --- A[p,q] = 1 if p is ancestor of q
+    # A[p,q] = 1 if p is ancestor of q
     A = {}
     if vaf_info is not None:
         for p in range(
@@ -275,10 +274,10 @@ def phiscs_bulk(
 
     model.update()
 
-    # --- number of eliminated columns is upper bounded by user provided constant
+    # number of eliminated columns is upper bounded by user provided constant
     model.addConstr(gp.quicksum(K[m] for m in range(numMutations)) <= kmax)
 
-    # --- Enforce three gametes rule
+    # Enforce three gametes rule
     for i in range(numCells):
         for p in range(numMutations):
             for q in range(numMutations):
@@ -286,18 +285,18 @@ def phiscs_bulk(
                 model.addConstr(-Y[i, p] + Y[i, q] - B[p, q, 0, 1] <= 0)
                 model.addConstr(Y[i, p] - Y[i, q] - B[p, q, 1, 0] <= 0)
 
-    # --- Null mutation present in each cell
+    # Null mutation present in each cell
     for p in range(numMutations + 1):
         model.addConstr(B[p, numMutations, 1, 0] == 0)
 
-    # --- Forbid conflict between columns (three gametes rule)
+    # Forbid conflict between columns (three gametes rule)
     for p in range(numMutations):
         for q in range(numMutations):
             model.addConstr(
                 B[p, q, 0, 1] + B[p, q, 1, 0] + B[p, q, 1, 1] <= 2 + K[p] + K[q]
             )
 
-    # --- Constraints for integrating VAF obtained from bulk data into the model
+    # Constraints for integrating VAF obtained from bulk data into the model
     if vaf_info is not None:
         for p in range(numMutations):
             for q in range(p + 1, numMutations):
@@ -323,7 +322,6 @@ def phiscs_bulk(
                     VAF_q = float(vaf_info.iloc[q][sampleID])
                     model.addConstr(A[p, q] * VAF_p * (1 + delta) >= A[p, q] * VAF_q)
 
-                    #'''
                     for r in range(numMutations + 1):
                         if r == q:
                             continue
@@ -334,7 +332,6 @@ def phiscs_bulk(
                             >= VAF_q * (A[p, q] - A[r, q] - A[q, r])
                             + VAF_r * (A[p, r] - A[r, q] - A[q, r])
                         )
-                    #'''
 
                 for r in range(numMutations + 1):
                     if r == q:
@@ -354,16 +351,16 @@ def phiscs_bulk(
             else:
                 raise Exception("p index is out of range")
 
-    # --- Defining the objective function
+    # Defining the objective function
     objective = 0
     for j in range(numMutations):
         numZeros = 0
         numOnes = 0
         for i in range(numCells):
-            if I[i][j] == 0:
+            if I_mtr[i][j] == 0:
                 numZeros += 1
                 objective += np.log(beta / (1 - alpha)) * Y[i, j]
-            elif I[i][j] == 1:
+            elif I_mtr[i][j] == 1:
                 numOnes += 1
                 objective += np.log((1 - beta) / alpha) * Y[i, j]
 
@@ -427,6 +424,7 @@ def phiscs_readcount(adata, alpha, beta, time_out=86400):
         prob = pmf_BetaBinomial(v, t, BETABINOM_ALPHA, BETABINOM_BETA)
         return prob
 
+    df_input = adata.to_df()
     cells = adata.obs_names
     muts = adata.var_names
     T = adata.layers["total"]
@@ -495,6 +493,6 @@ def phiscs_readcount(adata, alpha, beta, time_out=86400):
     df_output.index = cells
     df_output.index.name = "cellIDxmutID"
 
-    # tsc.ul.stat(df_input, df_output, alpha, beta, running_time)
+    tsc.ul.stat(df_input, df_output, alpha, beta, running_time)
 
     return df_output

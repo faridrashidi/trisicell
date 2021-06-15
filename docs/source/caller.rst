@@ -5,7 +5,8 @@
 Mutation Calling
 ----------------
 
-The overview of the mutation calling pipeline that was used in Trisicell is provided below.
+The overview of the mutation calling pipeline that was used in Trisicell is provided
+below.
 
 .. raw:: html
 

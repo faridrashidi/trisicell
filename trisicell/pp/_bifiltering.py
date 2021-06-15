@@ -33,10 +33,10 @@ def bifiltering(df, cellr, mutr, time_limit=3600):
         raise RuntimeError("Unable to import a package!")
 
     M = df.values.copy()
-    #### only mutant
+    # only mutant
     # M[M != 1] = -1
 
-    #### mutant and reference
+    # mutant and reference
     M[M != 3] = 1
     M[M == 3] = -1
     n, m = M.shape

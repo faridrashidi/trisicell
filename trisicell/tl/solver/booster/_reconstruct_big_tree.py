@@ -1,12 +1,9 @@
-import argparse
 import csv
 import math
 import os
 
 import numpy as np
 from tqdm import tqdm
-
-import trisicell as tsc
 
 DIFFERENT_LINEAGES = 0
 ANCESTOR_DESCENDANT = 1
@@ -37,13 +34,13 @@ def read_matrix_from_file_into_hash(path_matrix_file):
     assert len(input_lines) > 0, "ERROR. Input file " + path_matrix_file + " is empty."
 
     header_entries = input_lines[0].strip().split()
-    column_ids = header_entries[1 : len(header_entries)]
+    column_ids = header_entries[1 : len(header_entries)]  # noqa
     num_columns = len(column_ids)
     assert num_columns != 0, (
         "ERROR. Number of columns in " + path_matrix_file + " equals zero. Exiting!!!"
     )
 
-    input_lines_without_header = input_lines[1 : len(input_lines)]
+    input_lines_without_header = input_lines[1 : len(input_lines)]  # noqa
     D = {}
     for line in input_lines_without_header:
         line_columns = line.strip().split()
@@ -118,7 +115,8 @@ def write_dictionary_of_dictionaries_to_file(D, path_output_file):
 
 def get_row_ids_from_2D_hash(D):
     """
-    This function returns IDs of rows of 2-dimensional matrix stored via dictionary of dictionaries.
+    This function returns IDs of rows of 2-dimensional matrix stored via dictionary of
+    dictionaries.
 
     Arguments:
     ---------
@@ -134,12 +132,14 @@ def get_row_ids_from_2D_hash(D):
 
 def get_column_ids_from_2D_hash(D):
     r"""
-    This function returns IDs of columns of 2-dimensional matrix stored via dictionary of dictionaries.
+    This function returns IDs of columns of 2-dimensional matrix stored via dictionary
+    of dictionaries.
 
     Arguments:
     ---------
     D: dictionary of dictionaries
-        It is assumed that this dictionary is such that D[x].keys() is the same for all x \in D.keys().
+        It is assumed that this dictionary is such that D[x].keys() is the same for
+        all x \in D.keys().
 
     Returns:
     -------
@@ -246,13 +246,16 @@ def compute_weights_from_dependencies_file(path_dependencies_file):
     Arguments:
     ---------
     path_dependencies_file: str
-        Path to file which stores dependencies counts obtained after processing folder with .CFMatrix files obtained on subsampled instances.
-        Expected header of this file can be found below in expected_header_line variable and it explains columns present in dependencies file.
+        Path to file which stores dependencies counts obtained after processing folder
+        with .CFMatrix files obtained on subsampled instances.
+        Expected header of this file can be found below in expected_header_line variable
+        and it explains columns present in dependencies file.
 
     Returns:
     -------
     3-D dictionary weights accessed as follows: weights[mut1][mut2][dependency]
-    Here, dependency can be any of ANCESTOR_DESCENDANT, DESCENDANT_ANCESTOR or DIFFERENT_LINEAGES.
+    Here, dependency can be any of ANCESTOR_DESCENDANT, DESCENDANT_ANCESTOR or
+    DIFFERENT_LINEAGES.
     Dictionary is not ragged (i.e., both [mut1][mut2] and [mut2][mut1] are populated).
     """
 
@@ -261,7 +264,8 @@ def compute_weights_from_dependencies_file(path_dependencies_file):
     )
 
     dependencies_file = open(path_dependencies_file)
-    expected_header_line = "MUT1	MUT2	DIFFERENT_LINEAGES	ANCESTOR_DESCENDANT	DESCENDANT_ANCESTOR	SAME_NODE	"
+    expected_header_line = "MUT1	MUT2	DIFFERENT_LINEAGES	ANCESTOR_DESCENDANT"
+    expected_header_line += "	DESCENDANT_ANCESTOR	SAME_NODE	"
     expected_header_line += (
         "UNDEFINED_DEPENDENCY	TOTAL	DOMINANT_DEPENDENCY	PERCENTAGE_DOMINANT"
     )
@@ -278,7 +282,7 @@ def compute_weights_from_dependencies_file(path_dependencies_file):
     )
 
     mut_ids = list({row["MUT1"] for row in dependencies_file_rows})
-    m = len(mut_ids)
+    # m = len(mut_ids)
 
     weights = {}
     weights[ROOT] = {}
@@ -325,7 +329,8 @@ def compute_weights_from_dependencies_file(path_dependencies_file):
     return weights
 
 
-# this function is used to give an order of mutations in which they will be added to the big tree
+# this function is used to give an order of mutations in which they will be added to
+# the big tree
 def get_ordered_list_of_mutations_from_input_matrix(path_noisy_SC_matrix):
     D = hash_entries_to_integers(read_matrix_from_file_into_hash(path_noisy_SC_matrix))
     cell_ids = list(D.keys())
@@ -333,7 +338,8 @@ def get_ordered_list_of_mutations_from_input_matrix(path_noisy_SC_matrix):
 
     negative_num_ones = (
         {}
-    )  # = (-1)*(number of ones in a column). Consequently, mutations having more ones will be added to tree first.
+    )  # = (-1)*(number of ones in a column). Consequently, mutations having more ones
+    # will be added to tree first.
     for mut_id in mut_ids:
         negative_num_ones[mut_id] = (-1) * len(
             [D[cell_id][mut_id] for cell_id in cell_ids if D[cell_id][mut_id] == 1]
@@ -376,75 +382,6 @@ def get_next_mutation(weights, existing_mutations):
         return best_mutation
 
 
-def get_CF_matrix_from_parent_vector(parent, D, alpha, beta):
-    cell_ids = get_row_ids_from_2D_hash(D)
-    mut_ids = get_column_ids_from_2D_hash(D)
-
-    children = {}
-    children[ROOT] = []
-    for mut_id in mut_ids:
-        children[mut_id] = []
-
-    for child_id, parent_id in parent.items():
-        if child_id != ROOT:
-            children[parent_id].append(child_id)
-
-    E = {}
-    for cell_id in cell_ids:
-        E[cell_id] = {}
-        for mut_id in mut_ids:
-            E[cell_id][mut_id] = None
-
-    for cell_id in cell_ids:
-        score = {}
-        score[ROOT] = 0
-        for mut_id in mut_ids:
-            observed = D[cell_id][mut_id]
-            if observed == 0:
-                score[ROOT] += math.log(1 - alpha)
-            if observed == 1:
-                score[ROOT] += math.log(alpha)
-        best_score = score[ROOT]
-        best_mut = ROOT
-
-        muts_to_visit = [child_id for child_id in children[ROOT]]
-        while len(muts_to_visit) > 0:
-            mut_id = muts_to_visit.pop(0)
-            parent_id = parent[mut_id]
-
-            score[mut_id] = score[
-                parent_id
-            ]  # this is only temporary. see changes below
-            observed = D[cell_id][mut_id]
-            if observed == 0:
-                score[mut_id] -= math.log(1 - alpha)
-                score[mut_id] += math.log(beta)
-            if observed == 1:
-                score[mut_id] -= math.log(alpha)
-                score[mut_id] += math.log(1 - beta)
-
-            if score[mut_id] > best_score:
-                best_score = score[mut_id]
-                best_mut = mut_id
-
-            for child_id in children[mut_id]:
-                muts_to_visit.append(child_id)
-
-        muts_present_in_true_genotype = []
-        current_mut = best_mut
-        while current_mut != ROOT:
-            muts_present_in_true_genotype.append(current_mut)
-            current_mut = parent[current_mut]
-
-        for mut_id in mut_ids:
-            if mut_id in muts_present_in_true_genotype:
-                E[cell_id][mut_id] = 1
-            else:
-                E[cell_id][mut_id] = 0
-
-    return E
-
-
 def reconstruct_big_tree(
     path_dependencies_file,
     path_noisy_SC_matrix,
@@ -477,7 +414,7 @@ def reconstruct_big_tree(
     existing_mutations = [ROOT]  # mutations added so far to the tree
     big_tree_score = 0
 
-    m = len(ordered_mut_ids)
+    # m = len(ordered_mut_ids)
 
     for mutation_to_add in tqdm(
         ordered_mut_ids,
@@ -516,9 +453,9 @@ def reconstruct_big_tree(
                 best_choice_mutation = pivot_mut
                 best_choice_move = current_move
 
-            current_move = (  # edge (parent, pivot_mut) is broken into (parent, pivot_mut) + (pivot_mut, mutation_to_add)
-                "break edge lower"
-            )
+            # edge (parent, pivot_mut) is broken into
+            # (parent, pivot_mut) + (pivot_mut, mutation_to_add)
+            current_move = "break edge lower"
             current_tree_score = big_tree_score
             for mut_id in existing_mutations:
                 if (A[mut_id][pivot_mut] == 1) or (mut_id == pivot_mut):
@@ -539,9 +476,9 @@ def reconstruct_big_tree(
                 best_choice_mutation = pivot_mut
                 best_choice_move = current_move
 
-            current_move = (  # edge (parent, pivot_mut) is broken into (parent, mutation_to_add) + (mutation_to_add, pivot_mut)
-                "break edge middle"
-            )
+            # edge (parent, pivot_mut) is broken into
+            # (parent, mutation_to_add) + (mutation_to_add, pivot_mut)
+            current_move = "break edge middle"
             if pivot_mut == ROOT:
                 continue
             # we just use previous current score with swapping pivot and mutation_to_add

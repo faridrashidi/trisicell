@@ -1,6 +1,5 @@
 import os
 
-import pandas as pd
 from tqdm import tqdm
 
 DIFFERENT_LINEAGES = 0
@@ -11,7 +10,7 @@ UNDEFINED_DEPENDENCY = 4
 
 
 def read_CF_matrix_to_int_dictionary(path_CFmatrix_file):
-    assert os.path.exists(path_CFmatrix_file), "ERROR. No file " + path_input_file
+    assert os.path.exists(path_CFmatrix_file), "ERROR. No file " + path_CFmatrix_file
 
     input_file = open(path_CFmatrix_file)
     mut_ids = input_file.readline().strip().split()[1:]
@@ -46,7 +45,8 @@ def read_CF_matrix_to_int_dictionary(path_CFmatrix_file):
 
 def get_dependency_from_conflict_free_matrix(mut1, mut2, matrix):
     """
-    This function is used to compute phylogenetic dependency between two mutations based on the conflict-free matrix.
+    This function is used to compute phylogenetic dependency between two mutations based
+    on the conflict-free matrix.
 
     Arguments:
     mut1: str
@@ -54,15 +54,21 @@ def get_dependency_from_conflict_free_matrix(mut1, mut2, matrix):
     mut2: str
         ID of the second mutation. Should be among the columns of matrix.
     matrix: dictionary of dictionarie
-        matrix is represented as dictionary of dictionaries with elements matrix[cell_id][mut_id]
+        matrix is represented as dictionary of dictionaries with elements
+        matrix[cell_id][mut_id]
 
     Returns:
     -------
-    This function can return one of the following five values or report error (unknown case encountered).
-    ANCESTOR_DESCENDANT: if there exists at least one cell where mut1=1 and mut2=0 and at least one cell where mut1=mut2=1
-    DESCENDANT_ANCESTOR: if there exists at least one cell where mut1=0 and mut2=1 and at least one cell where mut1=mut2=1
-    DIFFERENT_LINEAGES: if there exists at least one cell where mut1=1 and mut2=0 and at least one cell where mut1=0 and mut2=1
-    SAME_NODE: if there exists at least one cell where mut1=mut2=1 and no cells where mut1=1 and mut2=0 or mut1=0 and mut2=1.
+    This function can return one of the following five values or report error (unknown
+    case encountered).
+    ANCESTOR_DESCENDANT: if there exists at least one cell where mut1=1 and mut2=0 and
+        at least one cell where mut1=mut2=1
+    DESCENDANT_ANCESTOR: if there exists at least one cell where mut1=0 and mut2=1 and
+        at least one cell where mut1=mut2=1
+    DIFFERENT_LINEAGES: if there exists at least one cell where mut1=1 and mut2=0 and
+        at least one cell where mut1=0 and mut2=1
+    SAME_NODE: if there exists at least one cell where mut1=mut2=1 and no cells where
+        mut1=1 and mut2=0 or mut1=0 and mut2=1.
     UNDEFINED_DEPENDENCY: (ideally) if none of the above is returned.
     """
 
@@ -94,7 +100,8 @@ def get_dependency_from_conflict_free_matrix(mut1, mut2, matrix):
 
     if (
         pairs[1][0] > 0
-    ):  # we know that in this case pairs[0][1]  = 0 (see previous to the above if statement above)
+    ):  # we know that in this case pairs[0][1]  = 0 (see previous to the above if
+        # statement above)
         if pairs[1][1] == 0:
             return UNDEFINED_DEPENDENCY
         else:
@@ -176,7 +183,7 @@ def prepare_dependencies(
             matrix, mut_ids = read_CF_matrix_to_int_dictionary(
                 os.path.join(input_folder, filename)
             )
-        except:
+        except Exception:
             completed -= 1
 
         for i in range(len(mut_ids)):
@@ -260,9 +267,6 @@ def prepare_dependencies(
             if total_count == 0:
                 line_to_write += "\t" + "UNDEFINED"
                 line_to_write += "\t" + "UNDEFINED"
-                if mut1 < mut2:
-                    # print("WARNING. For file " + noisy_SC_file + " mutations " + mut1 + " and " + mut2 + " were never subsampled together")
-                    pass
             else:
                 line_to_write += "\t" + str(dominant_dependency)
                 line_to_write += "\t" + float_to_string(

@@ -207,7 +207,7 @@ def is_conflict_free_gusfield(df_in, na_value=3):
     :func:`trisicell.ul.is_conflict_free`.
     """
 
-    I = df_in.astype(int).values
+    I_mtr = df_in.astype(int).values
 
     def sort_bin(a):
         b = np.transpose(a)
@@ -218,23 +218,23 @@ def is_conflict_free_gusfield(df_in, na_value=3):
         c = b[idx]
         return np.transpose(c), idx
 
-    Ip = I.copy()
+    Ip = I_mtr.copy()
     # Ip[Ip == na_value] = 0
-    O, idx = sort_bin(Ip)
+    O_mtr, idx = sort_bin(Ip)
     # tsc.logg.info(O, '\n')
-    Lij = np.zeros(O.shape, dtype=int)
-    for i in range(O.shape[0]):
+    Lij = np.zeros(O_mtr.shape, dtype=int)
+    for i in range(O_mtr.shape[0]):
         maxK = 0
-        for j in range(O.shape[1]):
-            if O[i, j] == 1:
+        for j in range(O_mtr.shape[1]):
+            if O_mtr[i, j] == 1:
                 Lij[i, j] = maxK
                 maxK = j + 1
     # tsc.logg.info(Lij, '\n')
     Lj = np.amax(Lij, axis=0)
     # tsc.logg.info(Lj, '\n')
-    for i in range(O.shape[0]):
-        for j in range(O.shape[1]):
-            if O[i, j] == 1:
+    for i in range(O_mtr.shape[0]):
+        for j in range(O_mtr.shape[1]):
+            if O_mtr[i, j] == 1:
                 if Lij[i, j] != Lj[j]:
                     return False  # , (idx[j], idx[Lj[j] - 1])
     return True  # , (None, None)

@@ -1,9 +1,10 @@
 import pytest
-from _helpers import *
 from click.testing import CliRunner
 
 import trisicell as tsc
 from trisicell.commands.trisicell import cli
+
+from ._helpers import skip_graphviz
 
 
 class TestCommands:

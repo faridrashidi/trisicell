@@ -1,13 +1,10 @@
 import copy
-import time
-from decimal import *
+from decimal import Decimal
 
 import numpy as np
 import numpy.linalg as la
-import pandas as pd
 from scipy.special import softmax
 from sklearn.metrics.pairwise import pairwise_distances
-from tqdm import tqdm
 
 
 # TODO make this faster by not recalculating
@@ -136,11 +133,11 @@ def column_pairs_cost(A, Ap, unit_costs):
     return np.sum(num * unit_costs)
 
 
-def denoise_cond_clt(I, alpha, beta, subtrees):
+def denoise_cond_clt(I_mtr, alpha, beta, subtrees):
     """
     Gives a PP matrix with highest likelihood for the given  cell lineage tree.
-    O(n m^2) Can be improved to O(n m) with dynamic programming (e.g., in Scistree)
-    :param I:
+    O(n m^2) Can be improved to O(n m) with dynamic programming (e.g., in ScisTree)
+    :param I_mtr:
     :param alpha:
     :param beta:
     :param subtrees:
@@ -148,11 +145,11 @@ def denoise_cond_clt(I, alpha, beta, subtrees):
     """
     unit_prob = np.array([[1 - alpha, alpha], [beta, 1 - beta]])
     unit_costs = -np.log(unit_prob)
-    output = np.zeros(I.shape)
+    output = np.zeros(I_mtr.shape)
     total_cost = 0
-    for c in range(I.shape[1]):
+    for c in range(I_mtr.shape[1]):
         costs = [
-            column_pairs_cost(I[:, c], subtrees[st_ind], unit_costs)
+            column_pairs_cost(I_mtr[:, c], subtrees[st_ind], unit_costs)
             for st_ind in range(len(subtrees))
         ]
         ind = np.argmin(costs)

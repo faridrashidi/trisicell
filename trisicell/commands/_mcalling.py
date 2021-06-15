@@ -139,9 +139,9 @@ def mcalling(config_file, test, status, build, clean):
         if "infqpost" in config:
             config["infqpost5"] = f"{config['infqpost']}_trimmed.fq.gz"
 
-        #### STEPS
+        # STEPS
         if (not status) and (not build) and (not clean):
-            if config["isrna"] == True:
+            if config["isrna"]:
                 out01 = None
                 if config["steps"]["s01indexing"]:
                     cmd01 = run01(config)
@@ -195,12 +195,14 @@ def mcalling(config_file, test, status, build, clean):
                     cmd09 = run09(config, out05)
                     if not test:
                         out09 = subprocess.getoutput(cmd09)
+                        out09
 
                 out10 = None
                 if config["steps"]["s10velocitying"]:
                     cmd10 = run10(config, out04)
                     if not test:
                         out10 = subprocess.getoutput(cmd10)
+                        out10
             else:
                 out02 = None
                 if config["steps"]["s02mapping"]:
@@ -237,6 +239,7 @@ def mcalling(config_file, test, status, build, clean):
                     cmd08 = run08(config, out07)
                     if not test:
                         out08 = subprocess.getoutput(cmd08)
+                        out08
         else:
             if status:
                 after01(config)

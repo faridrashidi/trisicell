@@ -57,11 +57,11 @@ def partition_function(df_input, alpha, beta, n_samples, n_batches, muts, cells)
     """
     df_output = pd.DataFrame(None, index=muts, columns=range(n_batches))
     s_time = time.time()
-    I = df_input.values
-    t1 = I * (1 - beta) / (alpha + 1 - beta)
-    t2 = (1 - I) * beta / (beta + 1 - alpha)
+    I_mtr = df_input.values
+    t1 = I_mtr * (1 - beta) / (alpha + 1 - beta)
+    t2 = (1 - I_mtr) * beta / (beta + 1 - alpha)
     P = t1 + t2
-    P[I == 3] = 0.5
+    P[I_mtr == 3] = 0.5
 
     my_muts = np.where(df_input.columns.isin(muts))[0]
     my_cells = np.where(df_input.index.isin(cells))[0]

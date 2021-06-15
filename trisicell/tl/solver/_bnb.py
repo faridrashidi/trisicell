@@ -752,11 +752,13 @@ class TwoSatBounding(BoundingAlgAbstract):
 
 
 class BnB(pybnb.Problem):
-    def __init__(self, I, boundingAlg: BoundingAlgAbstract, na_value=None):
+    def __init__(self, I_mtr, boundingAlg: BoundingAlgAbstract, na_value=None):
         self.na_value = na_value
-        self.has_na = np.any(I == self.na_value)
-        self.I = I
-        self.delta = sp.lil_matrix(I.shape, dtype=np.int8)  # this can be coo_matrix too
+        self.has_na = np.any(I_mtr == self.na_value)
+        self.I = I_mtr
+        self.delta = sp.lil_matrix(
+            I_mtr.shape, dtype=np.int8
+        )  # this can be coo_matrix too
         self.boundingAlg = boundingAlg
         self.delta_na = None
         if self.has_na:
@@ -764,13 +766,13 @@ class BnB(pybnb.Problem):
                 boundingAlg.na_support
             ), "Input has N/A coordinates but bounding algorithm doesn't support it."
             self.delta_na = sp.lil_matrix(
-                I.shape, dtype=np.int8
+                I_mtr.shape, dtype=np.int8
             )  # the coordinates with na that are decided to be 1
         (
             self.icf,
             self.colPair,
         ) = is_conflict_free_gusfield_and_get_two_columns_in_coflicts(self.I, na_value)
-        self.boundingAlg.reset(I)
+        self.boundingAlg.reset(I_mtr)
         self.node_to_add = self.boundingAlg.get_init_node()
         self.bound_value = self.boundingAlg.get_bound(self.delta)
 

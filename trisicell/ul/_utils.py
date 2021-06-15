@@ -209,7 +209,7 @@ def is_conflict_free_gusfield(df_in, na_value=3):
 
     I_mtr = df_in.astype(int).values
 
-    def sort_bin(a):
+    def _sort_bin(a):
         b = np.transpose(a)
         b_view = np.ascontiguousarray(b).view(
             np.dtype((np.void, b.dtype.itemsize * b.shape[1]))
@@ -220,7 +220,7 @@ def is_conflict_free_gusfield(df_in, na_value=3):
 
     Ip = I_mtr.copy()
     # Ip[Ip == na_value] = 0
-    O_mtr, idx = sort_bin(Ip)
+    O_mtr, idx = _sort_bin(Ip)
     # tsc.logg.info(O, '\n')
     Lij = np.zeros(O_mtr.shape, dtype=int)
     for i in range(O_mtr.shape[0]):

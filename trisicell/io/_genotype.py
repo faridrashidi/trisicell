@@ -110,12 +110,12 @@ def read_gatk(
         The AnnData object which includes layers of mutant, total and genotype
     """
 
-    def get_germline(species):
+    def _get_germline(species):
         filename = f"/home/frashidi/database/{species}/dbsnp/{species}.pickle"
         obj = pickle.load(open(filename, "rb"))
         return obj
 
-    def get_database(species):
+    def _get_database(species):
         data = []
         with open(f"/home/frashidi/database/{species}/ensembl/{species}.rsem") as fin:
             i = -2
@@ -143,8 +143,8 @@ def read_gatk(
         database = pd.DataFrame(data).set_index("enst_symbol")["ensg_symbol"].to_dict()
         return database
 
-    def get_exonic(exonic_file, species):
-        database = get_database(species)
+    def _get_exonic(exonic_file, species):
+        database = _get_database(species)
         df = pd.read_table(exonic_file, header=None)
         df["muts"] = df.apply(lambda x: f"{x[1]}.{x[2]}.{x[3]}.{x[4]}", axis=1)
         df["gene"] = df[0].map(database)
@@ -158,16 +158,16 @@ def read_gatk(
     exonic_file = f"{folderpath}/exonic.tsv"
     if genome_id == "human":
         species = "hg19"
-        germline = get_germline(species)
+        germline = _get_germline(species)
     else:
         species = "mm10"
-        germline = get_germline(species)
+        germline = _get_germline(species)
 
     if not filter_dbsnp:
         germline = []
 
-    # databse = get_database(species)
-    exonic = get_exonic(exonic_file, species)
+    # databse = _get_database(species)
+    exonic = _get_exonic(exonic_file, species)
     translator = exonic["gene"].to_dict()
 
     # vcf = VCF(vcf_file, samples=list(info.index))
@@ -373,7 +373,7 @@ def read_cnvkit(folderpath):
 
 
 def read_bamreadcount(filepath):
-    def get_nucleotides(line):
+    def _get_nucleotides(line):
         # chrom = line.split()[0]
         # pos = line.split()[1]
         ref = line.split()[2].upper()
@@ -396,7 +396,7 @@ def read_bamreadcount(filepath):
             for line in fin:
                 line = line.strip()
                 a = ".".join(line.split("\t")[:3])
-                ref, char, cov = get_nucleotides(line)
+                ref, char, cov = _get_nucleotides(line)
                 res = {"name": name, "mut": a, "ref": ref, "cov": cov}
                 for k, v in char.items():
                     res[k] = v

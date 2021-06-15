@@ -196,19 +196,19 @@ def to_mtree(tree):
 
 
 def _to_newick(tree):
-    def subtree(at):
+    def _subtree(at):
         return nx.subgraph(
             tree,
             nx.algorithms.traversal.depth_first_search.dfs_tree(tree, at).nodes - [at],
         )
 
-    def children(at):
+    def _children(at):
         return [n for n in tree.neighbors(at)]
 
     root = tsc.ul.root_id(tree)
 
-    def newick_recursive(node_id):
-        node_ids = children(node_id)
+    def _newick_recursive(node_id):
+        node_ids = _children(node_id)
         if len(node_ids) == 0:
             cells = tree.nodes[node_id]["label"].split(tree.graph["splitter_cell"])
             return "(" + ":1,".join(cells) + f":1)Node{node_id+1}:1"
@@ -219,17 +219,17 @@ def _to_newick(tree):
                     "("
                     + ":1,".join(cells)
                     + ":1,"
-                    + ",".join([newick_recursive(node_id) for node_id in node_ids])
+                    + ",".join([_newick_recursive(node_id) for node_id in node_ids])
                     + f":1)Node{node_id+1}"
                 )
             else:
                 return (
                     "("
-                    + ":1,".join([newick_recursive(node_id) for node_id in node_ids])
+                    + ":1,".join([_newick_recursive(node_id) for node_id in node_ids])
                     + f":1)Node{node_id+1}:1"
                 )
 
-    newick = newick_recursive(root) + ";"
+    newick = _newick_recursive(root) + ";"
     return newick
 
 
@@ -281,21 +281,21 @@ def _split_labels(mt, mt_guide):
 
 
 def _to_apted(sl_tree):
-    def children(at):
+    def _children(at):
         return [n for n in sl_tree.neighbors(at)]
 
-    def apted_recursive(node):
-        nodes = children(node)
+    def _apted_recursive(node):
+        nodes = _children(node)
         if len(nodes) == 0:
             return "{" + sl_tree.nodes[node]["label"] + "}"
         else:
             x = ""
             for node in nodes:
-                x += apted_recursive(node)
+                x += _apted_recursive(node)
             return "{" + sl_tree.nodes[node]["label"] + x + "}"
 
     root = [node for node in sl_tree.nodes if sl_tree.in_degree(node) == 0][0]
-    return apted_recursive(root)
+    return _apted_recursive(root)
 
 
 def root_id(tree):

@@ -138,7 +138,7 @@ def column_pairs_cost(A, Ap, unit_costs):
 
 def denoise_cond_clt(I_mtr, alpha, beta, subtrees):
     """
-    Gives a PP matrix with highest likelihood for the given  cell lineage tree.
+    Give a PP matrix with highest likelihood for the given  cell lineage tree.
 
     O(n m^2) Can be improved to O(n m) with dynamic programming (e.g., in ScisTree)
 

@@ -77,10 +77,11 @@ def get_samples(P, n_samples, disable_tqdm=True):
 
 def get_samples_info(P, my_cell, my_mut, n_samples, subtrees_list=None):
     r"""
-    Runs some processes on the given samples (if not given first gets the samples)
-    and returns some raw data.
+    Run some processes on the given samples and returns some raw data.
 
-    If sampling was done internally, it outputs the full sample information
+    If not given first gets the samples.
+
+    If sampling was done internally, it outputs the full sample information.
 
     If not given_samples:
         O(N * (T_nj * T_obj))
@@ -88,6 +89,7 @@ def get_samples_info(P, my_cell, my_mut, n_samples, subtrees_list=None):
         T_nj = n^2 m^2
     Else:
         O(N * n^2)
+
     :param P: A probability matrix:
             where P_{i,j} is the probability of i\th cell having j\th mutation in
             the latent original matrix.
@@ -140,7 +142,7 @@ def process_samples(
     pf_cond_list, tree_origin_prob_list, tree_our_prob_list, n_batches=None
 ):
     """
-    Combines the data corresponding to the sampled trees and output the partition.
+    Combine the data corresponding to the sampled trees and output the partition.
 
     Estimate according to the formula in the paper. One can see this as just
     a simple weighted average.
@@ -160,7 +162,7 @@ def process_samples(
     n_samples = len(pf_cond_list)
     assert n_samples == len(tree_origin_prob_list)
     assert n_samples == len(tree_our_prob_list)
-    estimates = list()
+    estimates = []
     n_batches_internal = n_batches if n_batches is not None else 1
     interval_len = n_samples // n_batches_internal
     for batch_ind in range(n_batches_internal):

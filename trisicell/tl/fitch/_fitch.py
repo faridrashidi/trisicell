@@ -1,19 +1,16 @@
-from typing import Optional
-
-import metools as met
 import networkx as nx
 import numpy as np
 
+import trisicell as tsc
 
-def fitch(tree: nx.DiGraph, seed: Optional[int] = None):
+
+def fitch(tree: nx.DiGraph):
     """[summary].
 
     Parameters
     ----------
     tree : nx.DiGraph
-        The tree in which leaves has `'O'` attribute.
-    seed : Optional[int], optional
-        [description], by default None
+        The tree in which leaves has `'profile'` attribute.
 
     Returns
     -------
@@ -21,9 +18,9 @@ def fitch(tree: nx.DiGraph, seed: Optional[int] = None):
         [description]
     """
     tree_bu = _fitch_hartigan_bottom_up(tree)
-    tree_td = _fitch_hartigan_top_down(tree_bu, seed=seed)
+    tree_td = _fitch_hartigan_top_down(tree_bu)
     tree_fi = _parsimony_cost(tree_td)
-    return tree_fi, tree_td, tree_bu
+    return tree_fi
 
 
 def _get_consensus(a, b):
@@ -86,44 +83,42 @@ def _fitch_hartigan_bottom_up(tree2):
             children = list(tree.successors(i))
             if len(children) == 0:
                 continue
-            gc = _get_consensus(
-                tree.nodes[children[0]]["V"], tree.nodes[children[1]]["V"]
-            )
-            tree.nodes[i]["V"] = gc
-            # if len(children) > 2:
-            #     print(children)
-            #     print(tree.nodes[children[0]]["V"], tree.nodes[children[1]]["V"])
-            #     print(gc)
+            if len(children) == 1:
+                tree.nodes[i]["profile"] = tree.nodes[children[0]]["profile"]
+            else:
+                gc = _get_consensus(
+                    tree.nodes[children[0]]["profile"],
+                    tree.nodes[children[1]]["profile"],
+                )
+                tree.nodes[i]["profile"] = gc
         d -= 1
 
     return tree
 
 
-def _set_assignment(v, seed):
-    if seed is not None:
-        np.random.seed(seed)
+def _set_assignment(v):
     idx = np.where(v == 2)[0]
     for i in idx:
-        v[i] = np.random.choice([0, 1])
+        v[i] = 0
     return v
 
 
-def _fitch_hartigan_top_down(tree2, seed):
+def _fitch_hartigan_top_down(tree2):
     tree = tree2.copy()
     root = [n for n in tree.nodes() if tree.in_degree(n) == 0][0]
     # leaves = [n for n in tree.nodes() if tree.out_degree(n) == 0]
 
     tree = _set_depth(tree, root)
     md = _get_max_depth(tree, root)
-    tree.nodes[root]["V"] = _set_assignment(tree.nodes[root]["V"], seed=seed)
+    tree.nodes[root]["profile"] = _set_assignment(tree.nodes[root]["profile"])
     d = 1
 
     while d <= md:
         internal_nodes = list(_cut_tree(tree, d))
         for i in internal_nodes:
             parent = list(tree.predecessors(i))[0]
-            tree.nodes[i]["V"] = _fill_child(
-                tree.nodes[parent]["V"], tree.nodes[i]["V"]
+            tree.nodes[i]["profile"] = _fill_child(
+                tree.nodes[parent]["profile"], tree.nodes[i]["profile"]
             )
         d += 1
     return tree
@@ -134,11 +129,11 @@ def _parsimony_cost(tree):
     for e in tree.edges():
         source = e[0]
         dest = e[1]
-        s = np.sum(np.abs(tree.nodes[source]["V"] - tree.nodes[dest]["V"]))
+        s = np.sum(np.abs(tree.nodes[source]["profile"] - tree.nodes[dest]["profile"]))
         if s > 0:
             cost += s
-            tree.edges[e]["F"] = np.where(
-                tree.nodes[source]["V"] != tree.nodes[dest]["V"]
+            tree.edges[e]["event"] = np.where(
+                tree.nodes[source]["profile"] != tree.nodes[dest]["profile"]
             )[0]
-    met.logg.info(f"cost: {cost}")
+    tsc.logg.info(f"cost: {cost}")
     return tree

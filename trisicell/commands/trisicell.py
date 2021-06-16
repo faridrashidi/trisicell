@@ -42,7 +42,9 @@ class NaturalOrderGroup(click.Group):
     context_settings={"max_content_width": 300, "terminal_width": 300},
 )
 def cli():
-    """Scalable intratumor heterogeneity inference and validation from single-cell data."""
+    """
+    Scalable intratumor heterogeneity inference and validation from single-cell data.
+    """
     return None
 
 

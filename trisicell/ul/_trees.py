@@ -111,7 +111,9 @@ def to_tree(df):
         ].index
         if len(untilnow_cell) > 0:
             clusters[node] = f"{tree.graph['splitter_cell'].join(untilnow_cell)}"
-            tumor_cells += [y for y in tree.graph["splitter_cell"].join(untilnow_cell)]
+            tumor_cells += list(
+                y for y in tree.graph["splitter_cell"].join(untilnow_cell)
+            )
         else:
             clusters[node] = "––"
 
@@ -203,7 +205,7 @@ def _to_newick(tree):
         )
 
     def _children(at):
-        return [n for n in tree.neighbors(at)]
+        return list(n for n in tree.neighbors(at))
 
     root = tsc.ul.root_id(tree)
 
@@ -282,7 +284,7 @@ def _split_labels(mt, mt_guide):
 
 def _to_apted(sl_tree):
     def _children(at):
-        return [n for n in sl_tree.neighbors(at)]
+        return list(n for n in sl_tree.neighbors(at))
 
     def _apted_recursive(node):
         nodes = _children(node)
@@ -331,6 +333,6 @@ def muts_rooted_at(tree, node_id):
     nd = int(node_id.replace("[", "").replace("]", ""))
     paths = nx.algorithms.traversal.depth_first_search.dfs_tree(tree, nd).nodes
     sub_tree = nx.subgraph(tree, paths)
-    for u, v, l in sub_tree.edges.data("label"):
-        muts += l.split(tree.graph["splitter_mut"])
+    for _, _, label in sub_tree.edges.data("label"):
+        muts += label.split(tree.graph["splitter_mut"])
     return np.array(muts)

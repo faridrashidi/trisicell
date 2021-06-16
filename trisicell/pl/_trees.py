@@ -62,8 +62,11 @@ def clonal_tree(
     tc.nodes[root]["height"] = 0
 
     if muts_as_number:
-        for u, v, l in tc.edges.data("label"):
-            ll = l.split(tc.graph["splitter_mut"])
+        for u, v, label in tc.edges.data("label"):
+            if label == "":
+                ll = []
+            else:
+                ll = label.split(tc.graph["splitter_mut"])
             tc.add_edge(u, v, label=f"  {len(ll)}  ")
 
     if cells_as_number:
@@ -115,8 +118,8 @@ def clonal_tree(
             tc.nodes[node]["color"] = "gray"
 
     if show_id:
-        for u, v, l in tc.edges.data("label"):
-            tc.add_edge(u, v, label=l + f"\n[{v}]")
+        for u, v, label in tc.edges.data("label"):
+            tc.add_edge(u, v, label=label + f"\n[{v}]")
             tc.nodes[v]["label"] = tc.nodes[v]["label"] + f"\n[{v}]"
 
     tc.graph["graph"] = {"fontname": "Helvetica"}
@@ -148,7 +151,7 @@ def dendro_tree(
     inner_node_type="nmuts",
     inner_node_size=2,
     distance_labels_to_bottom=4,
-    annotation=[],
+    annotation=list(),
     output_file=None,
 ):
     """Draw the tree in dendro fromat.

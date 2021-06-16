@@ -117,7 +117,7 @@ def write_dictionary_of_dictionaries_to_file(D, path_output_file):
 
 def get_row_ids_from_2D_hash(D):
     """
-    Returns IDs of rows of 2-dimensional matrix.
+    Return IDs of rows of 2-dimensional matrix.
 
     This function returns IDs of rows of 2-dimensional matrix stored via dictionary of
     dictionaries.
@@ -136,8 +136,7 @@ def get_row_ids_from_2D_hash(D):
 
 def get_column_ids_from_2D_hash(D):
     r"""
-    This function returns IDs of columns of 2-dimensional matrix stored via dictionary
-    of dictionaries.
+    Return IDs of columns of 2-dimensional matrix stored via dictionary of dictionaries.
 
     Arguments:
     ---------
@@ -157,9 +156,7 @@ def get_column_ids_from_2D_hash(D):
 
 
 def get_CF_matrix_from_parent_vector(parent, D, alpha, beta):
-    """
-    Documentation to be added.
-    """
+    """Documentation to be added."""
 
     cell_ids = list(D.keys())
     mut_ids = list(D[cell_ids[0]].keys())

@@ -45,8 +45,7 @@ def read_CF_matrix_to_int_dictionary(path_CFmatrix_file):
 
 def get_dependency_from_conflict_free_matrix(mut1, mut2, matrix):
     """
-    This function is used to compute phylogenetic dependency between two mutations based
-    on the conflict-free matrix.
+    Compute phylogenetic dependency between two mutations based on the CFMatrix.
 
     Arguments:
     mut1: str
@@ -113,7 +112,7 @@ def get_dependency_from_conflict_free_matrix(mut1, mut2, matrix):
         else:
             return UNDEFINED_DEPENDENCY
 
-    assert False, (
+    raise AssertionError(
         "ERROR. Encountered case not covered in the implementation of function"
         " get_dependency."
     )
@@ -210,7 +209,7 @@ def prepare_dependencies(
                     dependencies[mut1][mut2][DESCENDANT_ANCESTOR] += 1
                     dependencies[mut2][mut1][ANCESTOR_DESCENDANT] += 1
                 else:
-                    assert False, (
+                    raise AssertionError(
                         "ERROR. Encountered unknown dependency in file "
                         + os.path.join(input_folder, filename)
                         + " for mutations "

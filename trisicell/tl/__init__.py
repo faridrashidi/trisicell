@@ -2,6 +2,7 @@
 
 from .cna import infercna
 from .consensus import consensus_tree
+from .fitch import fitch
 from .partition_function import partition_function
 from .sbm import sbm
 from .score import ad, cc, dl, mltd, tpted
@@ -50,4 +51,5 @@ __all__ = (
     scistree,
     scite,
     siclonefit,
+    fitch,
 )

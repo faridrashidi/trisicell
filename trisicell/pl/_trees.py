@@ -294,7 +294,7 @@ def dendro_tree(
 def _clonal_cell_mutation_list(tree):
     muts_list = []
     cells_list = []
-    for u, v, l in tree.edges.data("label"):
+    for _, v, l in tree.edges.data("label"):
         muts = l.split(tree.graph["splitter_mut"])
         if "––" not in tree.nodes[v]["label"]:
             cells = tree.nodes[v]["label"].split(tree.graph["splitter_cell"])

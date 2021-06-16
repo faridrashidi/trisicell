@@ -24,7 +24,7 @@ def _load_samples(filename):
 
 
 def partition_function(df_input, alpha, beta, n_samples, n_batches, muts, cells):
-    """Calculating the probability of a mutation seeding particular cells.
+    """Calculate the probability of a mutation seeding particular cells.
 
     Parameters
     ----------

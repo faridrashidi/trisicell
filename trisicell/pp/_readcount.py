@@ -249,7 +249,7 @@ def filter_mut_mutant_in_groups_must_present_in_at_least(
     adata, min_groups=2, group_name="group", min_cells_within_group=1
 ):
     all_good_muts = []
-    for index, subgroup in adata.obs.groupby(group_name):
+    for _, subgroup in adata.obs.groupby(group_name):
         G = adata[subgroup.index, :].layers["genotype"]
         good_muts = ((G == 1) | (G == 3)).sum(axis=0) >= min_cells_within_group
         all_good_muts.append(good_muts)
@@ -284,7 +284,7 @@ def filter_mut_reference_in_groups_must_present_in_at_least(
     adata, min_groups=2, group_name="group", min_cells_within_group=1
 ):
     all_good_muts = []
-    for index, subgroup in adata.obs.groupby(group_name):
+    for _, subgroup in adata.obs.groupby(group_name):
         G = adata[subgroup.index, :].layers["genotype"]
         good_muts = ((G == 0).sum(axis=0) >= min_cells_within_group) & (
             ((G == 1) | (G == 3)).sum(axis=0) == 0

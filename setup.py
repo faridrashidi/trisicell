@@ -121,19 +121,19 @@ setup(
     ],
     ext_modules=extensions,
     dependency_links=["https://pypi.gurobi.com"],
-    extras_require=dict(
-        dev=[
+    extras_require={
+        "dev": [
             "black==20.8b1",
             "pre-commit==2.9.3",
             "isort>=5.7.0",
             "pytest-cov",
         ],
-        docs=[
+        "docs": [
             r.strip()
             for r in (Path("docs") / "requirements.txt").read_text("utf-8").splitlines()
             if not r.startswith("-r")
         ],
-    ),
+    },
     platforms=["Linux", "MacOSX"],
     packages=find_packages(),
     author=__author__,

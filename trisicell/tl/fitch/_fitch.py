@@ -135,5 +135,7 @@ def _parsimony_cost(tree):
             tree.edges[e]["event"] = np.where(
                 tree.nodes[source]["profile"] != tree.nodes[dest]["profile"]
             )[0]
+        else:
+            tree.edges[e]["event"] = []
     tsc.logg.info(f"cost: {cost}")
     return tree

@@ -111,7 +111,7 @@ def _add_private_muts(cnt_tree, sc_data, tree_nodes):
 
 
 def consensus_tree(sc1, sc2):
-    """Building the consensus tree between two phylogenetic trees.
+    """Build the consensus tree between two phylogenetic trees.
 
     Parameters
     ----------

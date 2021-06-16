@@ -339,7 +339,7 @@ def phiscs_bulk(
                     # Constraint 1.d
                     model.addConstr(A[p, r] >= A[p, q] + A[q, r] - 1)
 
-            candidateAncestors = [i for i in range(numMutations + 1)]
+            candidateAncestors = list(range(numMutations + 1))
             candidateAncestors.remove(p)
 
             if p < numMutations:

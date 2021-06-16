@@ -311,6 +311,8 @@ def iscistree(df_input, alpha, beta, n_iters=np.inf):
 
     def get_neighbors(tree):
         """
+        Return neighbors.
+
         For a tree with n taxa, there are n - 3 internal branches.
         Thus there are 2(n - 3) NNI rearrangements for any tree
         """

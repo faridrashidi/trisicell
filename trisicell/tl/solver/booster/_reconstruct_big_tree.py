@@ -188,7 +188,7 @@ def get_CF_matrix_from_parent_vector(parent, D, alpha, beta):
         best_score = score[ROOT]
         best_mut = ROOT
 
-        muts_to_visit = [child_id for child_id in children[ROOT]]
+        muts_to_visit = children[ROOT]
         while len(muts_to_visit) > 0:
             mut_id = muts_to_visit.pop(0)
             parent_id = parent[mut_id]
@@ -242,7 +242,7 @@ def get_CF_matrix_from_parent_vector(parent, D, alpha, beta):
 
 def compute_weights_from_dependencies_file(path_dependencies_file):
     """
-    This function takes as input path to dependencies file and returns weights.
+    Return weights.
 
     Arguments:
     ---------

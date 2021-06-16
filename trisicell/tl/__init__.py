@@ -1,12 +1,12 @@
 """Tools Module."""
 
-from .cna import infercna
-from .consensus import consensus_tree
-from .fitch import fitch
-from .partition_function import partition_function
-from .sbm import sbm
-from .score import ad, cc, dl, mltd, tpted
-from .solver import (
+from trisicell.tl.cna import infercna
+from trisicell.tl.consensus import consensus_tree
+from trisicell.tl.fitch import fitch
+from trisicell.tl.partition_function import partition_function
+from trisicell.tl.sbm import sbm
+from trisicell.tl.score import ad, cc, dl, mltd, tpted
+from trisicell.tl.solver import (
     bnb,
     booster,
     cardelino,

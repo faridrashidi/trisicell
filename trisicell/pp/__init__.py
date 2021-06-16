@@ -1,14 +1,14 @@
 """Pre/Post-Processing Module."""
 
-from ._bifiltering import bifiltering
-from ._binary import (
+from trisicell.pp._bifiltering import bifiltering
+from trisicell.pp._binary import (
     binarym_filter_clonal_mutations,
     binarym_filter_nonsense_mutations,
     binarym_filter_private_mutations,
     binarym_statistics,
 )
-from ._consensus import consensus_combine
-from ._readcount import (
+from trisicell.pp._consensus import consensus_combine
+from trisicell.pp._readcount import (
     add_vaf_to_layers,
     build_scmatrix,
     bulk_total_mutant_vaf,
@@ -39,7 +39,7 @@ from ._readcount import (
     statistics,
     to_dendro,
 )
-from ._tree import collapse
+from trisicell.pp._tree import collapse
 
 __all__ = (
     bifiltering,

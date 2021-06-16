@@ -1,1 +1,1 @@
-from ._sbm import sbm
+from trisicell.tl.sbm._sbm import sbm

@@ -1,1 +1,1 @@
-from ._cna import infercna
+from trisicell.tl.cna._cna import infercna

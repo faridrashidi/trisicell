@@ -15,7 +15,7 @@ def clt_sample_rec(
     names=None,
     namecount=None,
     coef=2,
-    prior_prob=Decimal(1.0),
+    prior_prob=None,
     join_prob_matrix=None,
 ):
     """
@@ -36,6 +36,8 @@ def clt_sample_rec(
     :param prior_prob: for rec
     :return: edges, prior_prob
     """
+    if prior_prob is None:
+        prior_prob = Decimal(1.0)
     if P.shape[0] == 1:
         return [], prior_prob
     if names is None:

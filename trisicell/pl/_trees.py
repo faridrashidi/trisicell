@@ -151,7 +151,7 @@ def dendro_tree(
     inner_node_type="nmuts",
     inner_node_size=2,
     distance_labels_to_bottom=4,
-    annotation=list(),
+    annotation=None,
     output_file=None,
 ):
     """Draw the tree in dendro fromat.
@@ -200,6 +200,9 @@ def dendro_tree(
     The cell names in the tree must be identical to the index of `cell_info`
     dataframe if it was provided.
     """
+
+    if annotation is None:
+        annotation = []
 
     if inner_node_type.lower() not in ["nmuts", "nodeid", "both"]:
         raise ValueError("Wrong `inner_node_type` choice!")

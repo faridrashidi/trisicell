@@ -3,7 +3,7 @@ from decimal import Decimal
 import numpy as np
 from tqdm import tqdm
 
-from ._clt_sampler import draw_sample_clt
+from trisicell.tl.partition_function._clt_sampler import draw_sample_clt
 
 
 def cell_lineage_tree_prob(P, subtrees):

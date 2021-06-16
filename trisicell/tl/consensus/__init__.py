@@ -1,1 +1,1 @@
-from ._consensus import consensus_tree
+from trisicell.tl.consensus._consensus import consensus_tree

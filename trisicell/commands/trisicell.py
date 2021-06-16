@@ -3,19 +3,18 @@ from collections import OrderedDict
 import click
 
 import trisicell as tsc
-
-from ._bnb import bnb
-from ._booster import booster
-from ._consensus import consensus
-from ._defuse import defuse
-from ._huntress import huntress
-from ._mcalling import mcalling
-from ._phiscs import phiscsb, phiscsi
-from ._scistree import scistree
-from ._scite import scite
-from ._score import score
-from ._search import search
-from ._trees import cf2newick, cf2tree
+from trisicell.commands._bnb import bnb
+from trisicell.commands._booster import booster
+from trisicell.commands._consensus import consensus
+from trisicell.commands._defuse import defuse
+from trisicell.commands._huntress import huntress
+from trisicell.commands._mcalling import mcalling
+from trisicell.commands._phiscs import phiscsb, phiscsi
+from trisicell.commands._scistree import scistree
+from trisicell.commands._scite import scite
+from trisicell.commands._score import score
+from trisicell.commands._search import search
+from trisicell.commands._trees import cf2newick, cf2tree
 
 
 class NaturalOrderGroup(click.Group):

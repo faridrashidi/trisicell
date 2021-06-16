@@ -1,6 +1,6 @@
 """Datasets Module."""
 
-from ._datasets import (
+from trisicell.datasets._datasets import (
     acute_lymphocytic_leukemia1,
     acute_lymphocytic_leukemia2,
     acute_lymphocytic_leukemia3,
@@ -25,8 +25,8 @@ from ._datasets import (
     test,
     tnbc,
 )
-from ._signatures import get_markers, get_signatures
-from ._simulate import add_noise, create_splatter, simulate, splatter
+from trisicell.datasets._signatures import get_markers, get_signatures
+from trisicell.datasets._simulate import add_noise, create_splatter, simulate, splatter
 
 __all__ = (
     acute_lymphocytic_leukemia1,

@@ -1,7 +1,7 @@
 """Input/Output Module."""
 
-from ._fusion import read_defuse
-from ._genotype import (
+from trisicell.io._fusion import read_defuse
+from trisicell.io._genotype import (
     read,
     read_bamreadcount,
     read_cnvkit,
@@ -12,7 +12,7 @@ from ._genotype import (
     read_vep,
     write,
 )
-from ._tree import to_png
+from trisicell.io._tree import to_png
 
 __all__ = (
     read_defuse,

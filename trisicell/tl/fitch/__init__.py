@@ -1,1 +1,1 @@
-from ._fitch import fitch
+from trisicell.tl.fitch._fitch import fitch

@@ -198,11 +198,13 @@ def to_mtree(tree):
 
 
 def _to_newick(tree):
-    def _subtree(at):
-        return nx.subgraph(
-            tree,
-            nx.algorithms.traversal.depth_first_search.dfs_tree(tree, at).nodes - [at],
-        )
+    # def _subtree(at):
+    #     return nx.subgraph(
+    #         tree,
+    #         nx.algorithms.traversal.depth_first_search.dfs_tree(
+    #             tree, at
+    #         ).nodes - [at],
+    #     )
 
     def _children(at):
         return list(n for n in tree.neighbors(at))

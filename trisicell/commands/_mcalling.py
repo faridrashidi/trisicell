@@ -188,6 +188,7 @@ def mcalling(config_file, test, status, build, clean):
                     cmd08 = run08(config, out07)
                     if not test:
                         out08 = subprocess.getoutput(cmd08)
+                        out08
 
                 out09 = None
                 if config["steps"]["s09expressing"]:

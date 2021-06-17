@@ -1,10 +1,11 @@
 import glob
+import os
 
 import click
 import pandas as pd
 
 import trisicell as tsc
-from trisicell.ul._servers import *
+from trisicell.ul._servers import cmd, write_cmds_get_main
 
 
 @click.command(short_help="Run deFuse.")
@@ -30,21 +31,21 @@ def defuse(in_files, out_files):
 
     def cmds(cell):
         cmds = ""
-        cmds += cmd([f"module load defuse/0.8.1"])
+        cmds += cmd(["module load defuse/0.8.1"])
         cmds += cmd([f"mkdir -p {out_files}/{cell}"])
         cmds += cmd(
             [
-                f"defuse.pl",
-                f"-c /home/rashidimehrabf2/config_mm10_ens84.txt",
+                "defuse.pl",
+                "-c /home/rashidimehrabf2/config_mm10_ens84.txt",
                 f"-o {out_files}/{cell}",
-                f"-d /fdb/defuse/mm10_ens84_newgmap",
+                "-d /fdb/defuse/mm10_ens84_newgmap",
                 f"-1 {in_files}/{cell}_R1_001.fastq",
                 f"-2 {in_files}/{cell}_R2_001.fastq",
-                f"-s direct",
-                f"-p $SLURM_CPUS_PER_TASK",
+                "-s direct",
+                "-p $SLURM_CPUS_PER_TASK",
             ]
         )
-        cmds += cmd([f"echo Done!"], islast=True)
+        cmds += cmd(["echo Done!"], islast=True)
         return cmds
 
     df = pd.DataFrame()

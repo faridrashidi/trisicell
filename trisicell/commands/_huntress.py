@@ -40,7 +40,7 @@ import trisicell as tsc
     help="Number of threads.",
 )
 def huntress(genotype_file, alpha, beta, method, n_threads):
-    """HUNTRESS
+    """HUNTRESS.
 
     trisicell huntress input.SC 0.0001 0.1 -m dna -p 8
     """

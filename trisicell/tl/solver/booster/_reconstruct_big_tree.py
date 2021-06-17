@@ -16,7 +16,7 @@ ROOT = ROOT_NODE_ID
 
 def read_matrix_from_file_into_hash(path_matrix_file):
     """
-    This function reads tab or space delimited file into 2D-dictionary.
+    Read tab or space delimited file into 2D-dictionary.
 
     TO DO
     -----
@@ -57,7 +57,7 @@ def read_matrix_from_file_into_hash(path_matrix_file):
 
 def hash_entries_to_integers(D):
     """
-    This function simply converts all entries of a given dictionary to integers.
+    Convert all entries of a given dictionary to integers.
 
     Arguments:
     ---------
@@ -76,6 +76,8 @@ def hash_entries_to_integers(D):
 
 def write_dictionary_of_dictionaries_to_file(D, path_output_file):
     """
+    Write dictionary of dictionaries D to a file.
+
     The function below can be used to write dictionary of dictionaries D to a file.
     D is in most applications single-cell matrix, e.g. D[cell_id][mut_id] = 1
 
@@ -115,6 +117,8 @@ def write_dictionary_of_dictionaries_to_file(D, path_output_file):
 
 def get_row_ids_from_2D_hash(D):
     """
+    Return IDs of rows of 2-dimensional matrix.
+
     This function returns IDs of rows of 2-dimensional matrix stored via dictionary of
     dictionaries.
 
@@ -132,8 +136,7 @@ def get_row_ids_from_2D_hash(D):
 
 def get_column_ids_from_2D_hash(D):
     r"""
-    This function returns IDs of columns of 2-dimensional matrix stored via dictionary
-    of dictionaries.
+    Return IDs of columns of 2-dimensional matrix stored via dictionary of dictionaries.
 
     Arguments:
     ---------
@@ -153,9 +156,7 @@ def get_column_ids_from_2D_hash(D):
 
 
 def get_CF_matrix_from_parent_vector(parent, D, alpha, beta):
-    """
-    Documentation to be added.
-    """
+    """Documentation to be added."""
 
     cell_ids = list(D.keys())
     mut_ids = list(D[cell_ids[0]].keys())
@@ -187,7 +188,7 @@ def get_CF_matrix_from_parent_vector(parent, D, alpha, beta):
         best_score = score[ROOT]
         best_mut = ROOT
 
-        muts_to_visit = [child_id for child_id in children[ROOT]]
+        muts_to_visit = children[ROOT]
         while len(muts_to_visit) > 0:
             mut_id = muts_to_visit.pop(0)
             parent_id = parent[mut_id]
@@ -241,7 +242,7 @@ def get_CF_matrix_from_parent_vector(parent, D, alpha, beta):
 
 def compute_weights_from_dependencies_file(path_dependencies_file):
     """
-    This function takes as input path to dependencies file and returns weights.
+    Return weights.
 
     Arguments:
     ---------

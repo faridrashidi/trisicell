@@ -12,8 +12,8 @@ def collapse(tree):
         d_out = tc2.out_degree(tc2)
         for node in tc2.nodes():
             if d_out[node] == 1 and d_in[node] == 1:
-                parent = [x for x in tc2.predecessors(node)][0]
-                child = [x for x in tc2.successors(node)][0]
+                parent = list(x for x in tc2.predecessors(node))[0]
+                child = list(x for x in tc2.successors(node))[0]
                 if d_out[parent] < 2 and d_in[parent] == 1:
                     new_node = root + nnodes
                     nnodes += 1
@@ -41,9 +41,9 @@ def collapse(tree):
         if d_out[node] == 0:
             nodes.append(node)
     for node in nodes:
-        parent = [x for x in tc2.predecessors(node)][0]
+        parent = list(x for x in tc2.predecessors(node))[0]
         if d_out[parent] == 1 and d_in[parent] == 1:
-            grandparent = [x for x in tc2.predecessors(parent)][0]
+            grandparent = list(x for x in tc2.predecessors(parent))[0]
 
             new_node = root + nnodes
             nnodes += 1

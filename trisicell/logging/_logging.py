@@ -96,7 +96,7 @@ def msg(*msg, v, time=False, end="\n"):
 
 
 def _write_log(*msg, end="\n"):
-    from ..settings import logfile
+    from trisicell.settings import logfile
 
     if logfile == "":
         print(*msg, end=end, flush=True)
@@ -110,7 +110,7 @@ def _write_log(*msg, end="\n"):
 
 
 def _settings_verbosity_greater_or_equal_than(v):
-    from ..settings import verbosity
+    from trisicell.settings import verbosity
 
     if isinstance(verbosity, str):
         settings_v = _VERBOSITY_LEVELS_FROM_STRINGS[verbosity]

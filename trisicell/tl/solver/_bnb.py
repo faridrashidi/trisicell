@@ -308,9 +308,11 @@ def make_constraints_np_matrix(
     compact_formulation=True,
 ):
     """
-    Returns a "C x 2 x 2" matrix where C is the number of extracted constraints each
-    constraints is of the form:
+    Return a "C x 2 x 2" matrix where C is the number of extracted constraints.
+
+    Each constraints is of the form:
     ((r1, c1), (r2, c2)) and correspond to Z_{r1, c1} or Z{r2, c2}
+
     :param matrix: A binary matrix cellsXmutations
     :param constraints: If not None instead of evaluating the whole matrix it will
     only look at potential constraints
@@ -344,9 +346,9 @@ def make_constraints_np_matrix(
     # variables for each zero
     F = -np.ones(matrix.shape, dtype=np.int64)
     num_var_F = 0
-    map_f2ij = dict()
-    zero_vars = list()
-    na_vars = list()
+    map_f2ij = {}
+    zero_vars = []
+    na_vars = []
     if compact_formulation:
         B_vars_offset = matrix.shape[0] * matrix.shape[1] + 1
         num_var_B = 0
@@ -537,8 +539,9 @@ class BoundingAlgAbstract:
 
     def get_bound(self, delta):
         """
-        This bound should include the flips done so far too
-        delta: a sparse matrix with fliped ones
+        Include the flips done so far too.
+
+        delta: a sparse matrix with flipped ones
         """
         raise NotImplementedError("The method not implemented")
 
@@ -553,7 +556,8 @@ class BoundingAlgAbstract:
 
     def get_extra_info(self):
         """
-        Some bounding algorithms can provide extra information after calling bounding.
+        Provide extra information after calling bounding.
+
         E.g.,
         return {"icf":True, "bestPair":(a,b)}
         """
@@ -583,6 +587,8 @@ class TwoSatBounding(BoundingAlgAbstract):
         compact_formulation=False,
     ):
         """
+        TwoSatBounding.
+
         :param priority_version:
         """
 
@@ -748,7 +754,7 @@ class TwoSatBounding(BoundingAlgAbstract):
                 return sgn * (till_here + this_step)
             elif pv_abs == 7:
                 return 0
-        assert False, "get_priority did not return anything!"
+        raise AssertionError("get_priority did not return anything!")
 
 
 class BnB(pybnb.Problem):

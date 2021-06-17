@@ -1,8 +1,8 @@
 """Trisicell Module."""
 
-from . import datasets, io
-from . import logging as logg
-from . import pl, pp, settings, tl, ul
+from trisicell import datasets, io
+from trisicell import logging as logg
+from trisicell import pl, pp, settings, tl, ul
 
 __author__ = ", ".join(["Farid Rashidi"])
 __maintainer__ = ", ".join(["Farid Rashidi"])

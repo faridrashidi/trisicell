@@ -55,7 +55,7 @@ def sbm(data2):
             (b[label2id[f"cell{i}"]] if f"cell{i}" in label2id else maxblocks + 1)
             for i in range(n_cells)
         ]
-        temp = sorted(list(Counter(cell_array).keys()))
+        temp = sorted(Counter(cell_array).keys())
         cell_idx_to_blocknum = {temp[i]: i + 1 for i in range(len(temp))}
         cell_array = [cell_idx_to_blocknum[a] for a in cell_array]
 
@@ -63,7 +63,7 @@ def sbm(data2):
             (b[label2id[f"mut{i}"]] if f"mut{i}" in label2id else maxblocks + 1)
             for i in range(n_muts)
         ]
-        temp = sorted(list(Counter(mut_array).keys()))
+        temp = sorted(Counter(mut_array).keys())
         mut_idx_to_blocknum = {temp[i]: i + 1 for i in range(len(temp))}
         mut_array = [mut_idx_to_blocknum[a] for a in mut_array]
         return cell_array, mut_array

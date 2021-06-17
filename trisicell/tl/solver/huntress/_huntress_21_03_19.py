@@ -35,9 +35,9 @@ def Reconstruct(
     matrix_input_raw = ReadFasis(input_file)
     matrix_NA_est = Estimated_Matrix(input_file)
     print(np.sum(matrix_input), np.sum(matrix_NA_est), file=Flog)
-    h_range = [x for x in range(1, 100, 2)]
+    h_range = list(range(1, 100, 2))
     oc_range = [x / 10 for x in range(1, 5)]
-    tune_var = [x for x in itertools.product(h_range, oc_range)]
+    tune_var = itertools.product(h_range, oc_range)
 
     running_time = 0
 

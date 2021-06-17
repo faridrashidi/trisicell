@@ -2,7 +2,7 @@ import trisicell as tsc
 
 
 def example(kind):
-    """A toy example for sanity checking and playing with Trisicell.
+    """Return an example for sanity checking and playing with Trisicell.
 
     Parameters
     ----------

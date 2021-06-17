@@ -408,8 +408,7 @@ def read_bamreadcount(filepath):
 
 
 def read_sc_bulk_simulation(sc_file, bulk_file):
-    """Read single-cell and bulk daat from Salem's simulation
-    and merge them as an AnnData object.
+    """Read single-cell and bulk data from simulation.
 
     Parameters
     ----------

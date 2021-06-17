@@ -7,8 +7,11 @@ import pandas as pd
 from joblib import Parallel, delayed
 
 import trisicell as tsc
-
-from ._pf import get_samples, get_samples_info, process_samples
+from trisicell.tl.partition_function._pf import (
+    get_samples,
+    get_samples_info,
+    process_samples,
+)
 
 
 def _save_samples(filename, edges_list, subtrees_list, tree_our_prob_list):
@@ -24,7 +27,7 @@ def _load_samples(filename):
 
 
 def partition_function(df_input, alpha, beta, n_samples, n_batches, muts, cells):
-    """Calculating the probability of a mutation seeding particular cells.
+    """Calculate the probability of a mutation seeding particular cells.
 
     Parameters
     ----------

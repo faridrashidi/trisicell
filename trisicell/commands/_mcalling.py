@@ -8,20 +8,19 @@ import yaml
 from natsort import natsorted
 
 import trisicell as tsc
-
-from .mcalling.s01indexing import run01
-from .mcalling.s02mapping import run02
-from .mcalling.s03indexing import run03
-from .mcalling.s04mapping import run04
-from .mcalling.s05calling import run05
-from .mcalling.s06jointcalling import run06
-from .mcalling.s07merging import run07
-from .mcalling.s08annotating import run08
-from .mcalling.s09expressing import run09
-from .mcalling.s10velocitying import run10
-from .mcalling.z01status import after01
-from .mcalling.z02matrixing import after02
-from .mcalling.z03clean import after03
+from trisicell.commands.mcalling.s01indexing import run01
+from trisicell.commands.mcalling.s02mapping import run02
+from trisicell.commands.mcalling.s03indexing import run03
+from trisicell.commands.mcalling.s04mapping import run04
+from trisicell.commands.mcalling.s05calling import run05
+from trisicell.commands.mcalling.s06jointcalling import run06
+from trisicell.commands.mcalling.s07merging import run07
+from trisicell.commands.mcalling.s08annotating import run08
+from trisicell.commands.mcalling.s09expressing import run09
+from trisicell.commands.mcalling.s10velocitying import run10
+from trisicell.commands.mcalling.z01status import after01
+from trisicell.commands.mcalling.z02matrixing import after02
+from trisicell.commands.mcalling.z03clean import after03
 
 
 def find_samples_readlength(config):

@@ -62,8 +62,11 @@ def clonal_tree(
     tc.nodes[root]["height"] = 0
 
     if muts_as_number:
-        for u, v, l in tc.edges.data("label"):
-            ll = l.split(tc.graph["splitter_mut"])
+        for u, v, label in tc.edges.data("label"):
+            if label == "":
+                ll = []
+            else:
+                ll = label.split(tc.graph["splitter_mut"])
             tc.add_edge(u, v, label=f"  {len(ll)}  ")
 
     if cells_as_number:
@@ -115,8 +118,8 @@ def clonal_tree(
             tc.nodes[node]["color"] = "gray"
 
     if show_id:
-        for u, v, l in tc.edges.data("label"):
-            tc.add_edge(u, v, label=l + f"\n[{v}]")
+        for u, v, label in tc.edges.data("label"):
+            tc.add_edge(u, v, label=label + f"\n[{v}]")
             tc.nodes[v]["label"] = tc.nodes[v]["label"] + f"\n[{v}]"
 
     tc.graph["graph"] = {"fontname": "Helvetica"}
@@ -148,7 +151,7 @@ def dendro_tree(
     inner_node_type="nmuts",
     inner_node_size=2,
     distance_labels_to_bottom=4,
-    annotation=[],
+    annotation=None,
     output_file=None,
 ):
     """Draw the tree in dendro fromat.
@@ -197,6 +200,9 @@ def dendro_tree(
     The cell names in the tree must be identical to the index of `cell_info`
     dataframe if it was provided.
     """
+
+    if annotation is None:
+        annotation = []
 
     if inner_node_type.lower() not in ["nmuts", "nodeid", "both"]:
         raise ValueError("Wrong `inner_node_type` choice!")
@@ -294,7 +300,7 @@ def dendro_tree(
 def _clonal_cell_mutation_list(tree):
     muts_list = []
     cells_list = []
-    for u, v, l in tree.edges.data("label"):
+    for _, v, l in tree.edges.data("label"):
         muts = l.split(tree.graph["splitter_mut"])
         if "––" not in tree.nodes[v]["label"]:
             cells = tree.nodes[v]["label"].split(tree.graph["splitter_cell"])

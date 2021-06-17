@@ -2,30 +2,34 @@
 
 # Copyright (c) 2021, Farid Rashidi Mehrabadi All rights reserved.
 
-# =========================================================================================
+# ======================================================================================
 # Author     : Farid Rashidi Mehrabadi (farid.rashidimehrabadi@nih.gov)
 # Last Update: Dec 31, 2020
 # Description: using velocyto for RNA velocity
-# =========================================================================================
+# ======================================================================================
 
-from trisicell.ul._servers import *
+import os
+
+import pandas as pd
+
+from trisicell.ul._servers import cmd, write_cmds_get_main
 
 
 def run10(config, afterok):
     def cmds():
         cmds = ""
-        cmds += cmd([f"module load velocyto/0.17"])
+        cmds += cmd(["module load velocyto/0.17"])
         cmds += cmd(
             [
-                f"velocyto run-smartseq2",
+                "velocyto run-smartseq2",
                 f"-o {config['outdir']}/_velocyto",
                 f"-m {config['velo']}",
-                f"-e velocyto",
+                "-e velocyto",
                 f"{config['outdir']}/*/*.align.bam",
                 f"{config['annot']}",
             ]
         )
-        cmds += cmd([f"echo Done!"], islast=True)
+        cmds += cmd(["echo Done!"], islast=True)
         return cmds
 
     df = pd.DataFrame()

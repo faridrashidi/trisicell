@@ -2,11 +2,11 @@
 
 # Copyright (c) 2021, Farid Rashidi Mehrabadi All rights reserved.
 
-# =========================================================================================
+# ======================================================================================
 # Author     : Farid Rashidi Mehrabadi (farid.rashidimehrabadi@nih.gov)
 # Last Update: Aug 15, 2020
 # Description: extracting gene expression matrix and genotype matrix
-# =========================================================================================
+# ======================================================================================
 
 import os
 import shutil
@@ -14,7 +14,6 @@ import shutil
 import pandas as pd
 
 import trisicell as tsc
-from trisicell.ul._servers import *
 
 
 def after02(config):
@@ -49,7 +48,7 @@ def after02(config):
             try:
                 df = pd.read_csv(file, sep="\t", header=None)
                 data.append(df)
-            except:
+            except Exception:
                 print(file)
         df = data[0]
         for df2 in data[1:]:
@@ -251,7 +250,7 @@ def after02(config):
         df.to_csv(f"{config['outdir']}/_output/readstat.tsv", sep="\t")
 
     tsc.ul.mkdir(f"{config['outdir']}/_output")
-    if config["isrna"] == True:
+    if config["isrna"]:
         expression()
         genotype()
         readstats()

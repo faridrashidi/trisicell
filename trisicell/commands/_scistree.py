@@ -24,8 +24,11 @@ import trisicell as tsc
     type=float,
 )
 def scistree(genotype_file, alpha, beta):
-    """Accurate and efficient cell lineage tree inference from noisy
-    single cell data: the maximum likelihood perfect phylogeny approach :cite:`ScisTree`.
+    """ScisTree.
+
+    Accurate and efficient cell lineage tree inference from noisy
+    single cell data: the maximum likelihood perfect phylogeny approach
+    :cite:`ScisTree`.
 
     trisicell scistree input.SC 0.0001 0.1
     """

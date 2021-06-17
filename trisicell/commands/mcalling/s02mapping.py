@@ -2,220 +2,245 @@
 
 # Copyright (c) 2021, Farid Rashidi Mehrabadi All rights reserved.
 
-# =========================================================================================
+# ======================================================================================
 # Author     : Farid Rashidi Mehrabadi (farid.rashidimehrabadi@nih.gov)
 # Last Update: Aug 14, 2020
 # Description: mapping for the first pass of the STAR
-# =========================================================================================
+# ======================================================================================
 
-from trisicell.ul._servers import *
+import os
+
+import pandas as pd
+
+from trisicell.ul._servers import cmd, write_cmds_get_main
 
 
 def run02(config, afterok):
     def cmds(sample):
         cmds = ""
         cmds += cmd([f"mkdir -p {config['outdir']}/{sample}"])
-        if config["dotrimming"] == True:
-            if config["pairedend"] == True:
+        if config["dotrimming"]:
+            if config["pairedend"]:
                 cmds += cmd(
                     [
-                        f"trim_galore",
-                        f"--gzip",
-                        f"--length 30",
-                        f"--fastqc",
+                        "trim_galore",
+                        "--gzip",
+                        "--length 30",
+                        "--fastqc",
                         f"--output_dir {config['outdir']}/{sample}",
-                        f"--paired",
-                        f"{config['infq']}/{config['infqpre1']}{sample}{config['infqpost1']}"
-                        f" {config['infq']}/{config['infqpre2']}{sample}{config['infqpost2']}",
+                        "--paired",
+                        f"{config['infq']}/{config['infqpre1']}"
+                        + f"{sample}{config['infqpost1']}"
+                        f" {config['infq']}/{config['infqpre2']}"
+                        + f"{sample}{config['infqpost2']}",
                     ]
                 )
-                if config["isrna"] == True:
+                if config["isrna"]:
                     cmds += cmd(
                         [
-                            f"STAR",
-                            f"--runMode alignReads",
+                            "STAR",
+                            "--runMode alignReads",
                             f"--genomeDir {config['outdir']}/_indexing/1",
                             f"--sjdbGTFfile {config['annot']}",
-                            f"--outFilterMultimapNmax 1",
-                            f"--outSAMunmapped None",
-                            f"--quantMode TranscriptomeSAM GeneCounts",
-                            f"--runThreadN 1",
+                            "--outFilterMultimapNmax 1",
+                            "--outSAMunmapped None",
+                            "--quantMode TranscriptomeSAM GeneCounts",
+                            "--runThreadN 1",
                             f"--sjdbOverhang {config['readlength']}",
-                            f"--readFilesCommand zcat",
+                            "--readFilesCommand zcat",
                             f"--outFileNamePrefix {config['outdir']}/{sample}/",
                             "--readFilesIn"
-                            f" {config['outdir']}/{sample}/{config['infqpre1']}{sample}{config['infqpost3']}"
-                            f" {config['outdir']}/{sample}/{config['infqpre2']}{sample}{config['infqpost4']}",
+                            f" {config['outdir']}/{sample}/{config['infqpre1']}"
+                            + f"{sample}{config['infqpost3']}"
+                            f" {config['outdir']}/{sample}/{config['infqpre2']}"
+                            + f"{sample}{config['infqpost4']}",
                         ]
                     )
                     cmds += cmd(
                         [
-                            f"rm -rf",
+                            "rm -rf",
                             f"{config['outdir']}/{sample}/Aligned.out.sam",
                         ]
                     )
                 else:
                     cmds += cmd(
                         [
-                            f"bwa mem",
-                            f"-t 8",
+                            "bwa mem",
+                            "-t 8",
                             f"{config['ref']}",
-                            f"{config['outdir']}/{sample}/{config['infqpre1']}{sample}{config['infqpost3']}"
-                            f" {config['outdir']}/{sample}/{config['infqpre2']}{sample}{config['infqpost4']}",
-                            f"|",
-                            f"samtools sort -@8 -m 10000000000",
-                            f"-o {config['outdir']}/{sample}/Aligned.sortedByCoord.out.bam -",
+                            f"{config['outdir']}/{sample}/{config['infqpre1']}"
+                            + f"{sample}{config['infqpost3']}"
+                            f" {config['outdir']}/{sample}/{config['infqpre2']}"
+                            + f"{sample}{config['infqpost4']}",
+                            "|",
+                            "samtools sort -@8 -m 10000000000",
+                            f"-o {config['outdir']}/"
+                            + f"{sample}/Aligned.sortedByCoord.out.bam -",
                         ]
                     )
                     cmds += cmd(
                         [
-                            f"samtools index",
-                            f"{config['outdir']}/{sample}/Aligned.sortedByCoord.out.bam",
+                            "samtools index",
+                            f"{config['outdir']}/"
+                            + f"{sample}/Aligned.sortedByCoord.out.bam",
                         ]
                     )
             else:
                 cmds += cmd(
                     [
-                        f"trim_galore",
-                        f"--gzip",
-                        f"--length 30",
-                        f"--fastqc",
+                        "trim_galore",
+                        "--gzip",
+                        "--length 30",
+                        "--fastqc",
                         f"--output_dir {config['outdir']}/{sample}",
-                        f"{config['infq']}/{config['infqpre']}{sample}{config['infqpost']}",
+                        f"{config['infq']}/{config['infqpre']}"
+                        + f"{sample}{config['infqpost']}",
                     ]
                 )
-                if config["isrna"] == True:
+                if config["isrna"]:
                     cmds += cmd(
                         [
-                            f"STAR",
-                            f"--runMode alignReads",
+                            "STAR",
+                            "--runMode alignReads",
                             f"--genomeDir {config['outdir']}/_indexing/1",
                             f"--sjdbGTFfile {config['annot']}",
-                            f"--outFilterMultimapNmax 1",
-                            f"--outSAMunmapped None",
-                            f"--quantMode TranscriptomeSAM GeneCounts",
-                            f"--runThreadN 1",
+                            "--outFilterMultimapNmax 1",
+                            "--outSAMunmapped None",
+                            "--quantMode TranscriptomeSAM GeneCounts",
+                            "--runThreadN 1",
                             f"--sjdbOverhang {config['readlength']}",
-                            f"--readFilesCommand zcat",
+                            "--readFilesCommand zcat",
                             f"--outFileNamePrefix {config['outdir']}/{sample}/",
                             "--readFilesIn"
-                            f" {config['outdir']}/{sample}/{config['infqpre']}{sample}{config['infqpost5']}",
+                            f" {config['outdir']}/{sample}/{config['infqpre']}"
+                            + f"{sample}{config['infqpost5']}",
                         ]
                     )
                     cmds += cmd(
                         [
-                            f"rm -rf",
+                            "rm -rf",
                             f"{config['outdir']}/{sample}/Aligned.out.sam",
                         ]
                     )
                 else:
                     cmds += cmd(
                         [
-                            f"bwa mem",
-                            f"-t 8",
+                            "bwa mem",
+                            "-t 8",
                             f"{config['ref']}",
-                            f"{config['outdir']}/{sample}/{config['infqpre']}{sample}{config['infqpost5']}",
-                            f"|",
-                            f"samtools sort -@8 -m 10000000000",
-                            f"-o {config['outdir']}/{sample}/Aligned.sortedByCoord.out.bam -",
+                            f"{config['outdir']}/{sample}/{config['infqpre']}"
+                            + f"{sample}{config['infqpost5']}",
+                            "|",
+                            "samtools sort -@8 -m 10000000000",
+                            f"-o {config['outdir']}/"
+                            + f"{sample}/Aligned.sortedByCoord.out.bam -",
                         ]
                     )
                     cmds += cmd(
                         [
-                            f"samtools index",
-                            f"{config['outdir']}/{sample}/Aligned.sortedByCoord.out.bam",
+                            "samtools index",
+                            f"{config['outdir']}/"
+                            + f"{sample}/Aligned.sortedByCoord.out.bam",
                         ]
                     )
         else:
-            if config["pairedend"] == True:
-                if config["isrna"] == True:
+            if config["pairedend"]:
+                if config["isrna"]:
                     cmds += cmd(
                         [
-                            f"STAR",
-                            f"--runMode alignReads",
+                            "STAR",
+                            "--runMode alignReads",
                             f"--genomeDir {config['outdir']}/_indexing/1",
                             f"--sjdbGTFfile {config['annot']}",
-                            f"--outFilterMultimapNmax 1",
-                            f"--outSAMunmapped None",
-                            f"--quantMode TranscriptomeSAM GeneCounts",
-                            f"--runThreadN 1",
+                            "--outFilterMultimapNmax 1",
+                            "--outSAMunmapped None",
+                            "--quantMode TranscriptomeSAM GeneCounts",
+                            "--runThreadN 1",
                             f"--sjdbOverhang {config['readlength']}",
-                            f"--readFilesCommand zcat",
+                            "--readFilesCommand zcat",
                             f"--outFileNamePrefix {config['outdir']}/{sample}/",
-                            "--readFilesIn"
-                            f" {config['infq']}/{config['infqpre1']}{sample}{config['infqpost1']}"
-                            f" {config['infq']}/{config['infqpre2']}{sample}{config['infqpost2']}",
+                            f"--readFilesIn {config['infq']}/{config['infqpre1']}"
+                            + f"{sample}{config['infqpost1']}"
+                            f" {config['infq']}/{config['infqpre2']}"
+                            + f"{sample}{config['infqpost2']}",
                         ]
                     )
                     cmds += cmd(
                         [
-                            f"rm -rf",
+                            "rm -rf",
                             f"{config['outdir']}/{sample}/Aligned.out.sam",
                         ]
                     )
                 else:
                     cmds += cmd(
                         [
-                            f"bwa mem",
-                            f"-t 8",
+                            "bwa mem",
+                            "-t 8",
                             f"{config['ref']}",
-                            f"{config['infq']}/{config['infqpre1']}{sample}{config['infqpost1']}"
-                            f" {config['infq']}/{config['infqpre2']}{sample}{config['infqpost2']}",
-                            f"|",
-                            f"samtools sort -@8 -m 10000000000",
-                            f"-o {config['outdir']}/{sample}/Aligned.sortedByCoord.out.bam -",
+                            f"{config['infq']}/{config['infqpre1']}"
+                            + f"{sample}{config['infqpost1']}"
+                            f" {config['infq']}/{config['infqpre2']}"
+                            + f"{sample}{config['infqpost2']}",
+                            "|",
+                            "samtools sort -@8 -m 10000000000",
+                            f"-o {config['outdir']}/"
+                            + f"{sample}/Aligned.sortedByCoord.out.bam -",
                         ]
                     )
                     cmds += cmd(
                         [
-                            f"samtools index",
-                            f"{config['outdir']}/{sample}/Aligned.sortedByCoord.out.bam",
+                            "samtools index",
+                            f"{config['outdir']}/"
+                            + f"{sample}/Aligned.sortedByCoord.out.bam",
                         ]
                     )
             else:
-                if config["isrna"] == True:
+                if config["isrna"]:
                     cmds += cmd(
                         [
-                            f"STAR",
-                            f"--runMode alignReads",
+                            "STAR",
+                            "--runMode alignReads",
                             f"--genomeDir {config['outdir']}/_indexing/1",
                             f"--sjdbGTFfile {config['annot']}",
-                            f"--outFilterMultimapNmax 1",
-                            f"--outSAMunmapped None",
-                            f"--quantMode TranscriptomeSAM GeneCounts",
-                            f"--runThreadN 1",
+                            "--outFilterMultimapNmax 1",
+                            "--outSAMunmapped None",
+                            "--quantMode TranscriptomeSAM GeneCounts",
+                            "--runThreadN 1",
                             f"--sjdbOverhang {config['readlength']}",
-                            f"--readFilesCommand zcat",
+                            "--readFilesCommand zcat",
                             f"--outFileNamePrefix {config['outdir']}/{sample}/",
-                            "--readFilesIn"
-                            f" {config['infq']}/{config['infqpre']}{sample}{config['infqpost']}",
+                            f"--readFilesIn {config['infq']}/{config['infqpre']}"
+                            + f"{sample}{config['infqpost']}",
                         ]
                     )
                     cmds += cmd(
                         [
-                            f"rm -rf",
+                            "rm -rf",
                             f"{config['outdir']}/{sample}/Aligned.out.sam",
                         ]
                     )
                 else:
                     cmds += cmd(
                         [
-                            f"bwa mem",
-                            f"-t 8",
+                            "bwa mem",
+                            "-t 8",
                             f"{config['ref']}",
-                            f"{config['infq']}/{config['infqpre']}{sample}{config['infqpost']}",
-                            f"|",
-                            f"samtools sort -@8 -m 10000000000",
-                            f"-o {config['outdir']}/{sample}/Aligned.sortedByCoord.out.bam -",
+                            f"{config['infq']}/{config['infqpre']}"
+                            + f"{sample}{config['infqpost']}",
+                            "|",
+                            "samtools sort -@8 -m 10000000000",
+                            f"-o {config['outdir']}/"
+                            + f"{sample}/Aligned.sortedByCoord.out.bam -",
                         ]
                     )
                     cmds += cmd(
                         [
-                            f"samtools index",
-                            f"{config['outdir']}/{sample}/Aligned.sortedByCoord.out.bam",
+                            "samtools index",
+                            f"{config['outdir']}/"
+                            + f"{sample}/Aligned.sortedByCoord.out.bam",
                         ]
                     )
-        cmds += cmd([f"echo Done!"], islast=True)
+        cmds += cmd(["echo Done!"], islast=True)
         return cmds
 
     df = pd.DataFrame()
@@ -223,7 +248,7 @@ def run02(config, afterok):
     df["cmd"] = df.apply(lambda x: cmds(x["sample"]), axis=1)
 
     jobname = os.path.basename(__file__)[:-3]
-    if config["isrna"] == True:
+    if config["isrna"]:
         cmdmain = write_cmds_get_main(
             df,
             jobname,
@@ -241,7 +266,8 @@ def run02(config, afterok):
             jobname,
             config["time02"],
             config["mem02"],
-            "bwa/0.7.17,samtools/1.11,trimmomatic/0.39,trimgalore/0.6.5,cutadapt/2.9,fastqc/0.11.9",
+            "bwa/0.7.17,samtools/1.11,trimmomatic/0.39,trimgalore/0.6.5,cutadapt/2.9,"
+            + "fastqc/0.11.9",
             8,
             config["email"],
             config["tmpdir"],

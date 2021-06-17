@@ -2,7 +2,6 @@ import itertools
 
 import networkx as nx
 import numpy as np
-import pandas as pd
 
 import trisicell as tsc
 
@@ -38,18 +37,16 @@ def _has_path(tree, nodes, l1, l2):
         n2 = nodes[l2]
         dij = nx.bidirectional_dijkstra(tree, n1, n2, weight="label")
         return True, dij[0]
-    except:
+    except Exception:
         return False, None
-    return False, None
 
 
 def _merge_with_parents(tree, nodes, n1, n2):
     lca = nx.lowest_common_ancestor(tree, n1, n2)
     costs, paths = nx.bidirectional_dijkstra(tree, lca, n1, weight="label")
     paths = paths[::-1]
-    labels = []
     for p in paths[1:]:
-        #### merge-with-parent, n1 -> n2 (n2 is going to be replaced by n1)
+        # merge-with-parent, n1 -> n2 (n2 is going to be replaced by n1)
         if "––" not in tree.nodes[p]["label"]:
             if "––" not in tree.nodes[n1]["label"]:
                 tree.nodes[n1]["label"] += tree.nodes[p]["label"]
@@ -57,9 +54,9 @@ def _merge_with_parents(tree, nodes, n1, n2):
                 tree.nodes[n1]["label"] = tree.nodes[p]["label"]
             for x in tree.nodes[p]["label"]:
                 nodes[x] = n1
-        cost = tree.edges[p, n1]["label"]
+        # cost = tree.edges[p, n1]["label"]
 
-        #### add the mutations of this edge to the grandparent edge
+        # add the mutations of this edge to the grandparent edge
         grandparent = list(tree.predecessors(p))[0]
         tree.edges[(grandparent, p)]["mutations"] += tree.edges[(p, n1)]["mutations"]
         tree.edges[(grandparent, p)]["label"] += tree.edges[(p, n1)]["label"]
@@ -96,7 +93,7 @@ def _add_private_muts(cnt_tree, sc_data, tree_nodes):
                 private = (sc_data.loc[cell] == 1) & (
                     sc_data.loc[np.setdiff1d(sc_data.index, cell)].sum() == 0
                 )
-                private = list(private[private == True].index)
+                private = list(private[private == True].index)  # noqa
                 if len(private) > 0:
                     has_expanded_all.append(cell)
                     has_expanded.append(cell)
@@ -114,7 +111,7 @@ def _add_private_muts(cnt_tree, sc_data, tree_nodes):
 
 
 def consensus_tree(sc1, sc2):
-    """Building the consensus tree between two phylogenetic trees.
+    """Build the consensus tree between two phylogenetic trees.
 
     Parameters
     ----------
@@ -129,7 +126,7 @@ def consensus_tree(sc1, sc2):
         Two trees derived by building the consensus procedure.
     """
 
-    #### remove private mutations and build the trees
+    # remove private mutations and build the trees
     sc1_c = sc1.loc[:, sc1.sum() > 1].copy()
     sc2_c = sc2.loc[:, sc2.sum() > 1].copy()
 
@@ -146,7 +143,7 @@ def consensus_tree(sc1, sc2):
 
     total_cost = 0
 
-    #### step 1,2
+    # step 1,2
     for x, y in itertools.permutations(common_cells, 2):
         hp1, cost1 = _has_path(cnt_tree1, nodes1, x, y)
         if hp1:
@@ -180,7 +177,7 @@ def consensus_tree(sc1, sc2):
                 tsc.logg.info(f"merge in tree2: `{x}` to `{y}` and cost={cost2}")
                 total_cost += cost2
 
-    #### step 3
+    # step 3
     labels1 = _get_labels(cnt_tree1)
     labels2 = _get_labels(cnt_tree2)
 
@@ -209,7 +206,7 @@ def consensus_tree(sc1, sc2):
         )
         total_cost += cost2
 
-    #### add private mutations back
+    # add private mutations back
     cnt_tree1, nodes1, has_expanded1 = _add_private_muts(cnt_tree1, sc1, nodes1)
     cnt_tree2, nodes2, has_expanded2 = _add_private_muts(cnt_tree2, sc2, nodes2)
 
@@ -235,7 +232,7 @@ def consensus_tree(sc1, sc2):
 
     tsc.logg.info("    ---> total cost:", total_cost)
 
-    if nx.is_isomorphic(cnt_tree1, cnt_tree2) == False:
+    if not nx.is_isomorphic(cnt_tree1, cnt_tree2):
         raise RuntimeError("Error: Two trees are not isomorphic!")
 
     final_tree = cnt_tree1.copy()

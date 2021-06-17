@@ -22,7 +22,9 @@ import trisicell as tsc
     help="Number of threads.",
 )
 def bnb(genotype_file, bounding):
-    """PhISCS-BnB: a fast branch and bound algorithm for
+    """PhISCS-BnB.
+
+    A fast branch and bound algorithm for
     the perfect tumor phylogeny reconstruction problem :cite:`PhISCS-BnB`.
 
     trisicell bnb input.SC 0.0001 0.1 -b real

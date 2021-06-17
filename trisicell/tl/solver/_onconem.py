@@ -1,6 +1,4 @@
-import os
 import time
-from logging import root
 
 import numpy as np
 import pandas as pd
@@ -30,13 +28,14 @@ def onconem(df_input, alpha, beta):
 
     onconem, onconem_is_not_imported = tsc.ul.import_rpy2(
         "oncoNEM",
-        "BiocManager::install('graph')\ndevtools::install_bitbucket('edith_ross/oncoNEM')\n",
+        "BiocManager::install('graph')\n"
+        + "devtools::install_bitbucket('edith_ross/oncoNEM')\n",
     )
     if onconem_is_not_imported:
         raise RuntimeError("Unable to import a package!")
 
     import rpy2.robjects as ro
-    from rpy2.robjects import numpy2ri, pandas2ri
+    from rpy2.robjects import numpy2ri
     from rpy2.robjects.packages import importr
 
     igraph = importr("igraph")
@@ -54,7 +53,7 @@ def onconem(df_input, alpha, beta):
         onem, epsilon=10, delta=200, checkMax=10000, app=True
     )
     onco_tree = onconem.clusterOncoNEM(oNEM=onem_expanded, epsilon=10)
-    edges = igraph.get_edgelist(onco_tree.rx2["g"])
+    igraph.get_edgelist(onco_tree.rx2["g"])
     post = onconem.oncoNEMposteriors(
         tree=onco_tree.rx2["g"],
         clones=onco_tree.rx2["clones"],

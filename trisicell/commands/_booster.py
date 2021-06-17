@@ -1,5 +1,3 @@
-import os
-
 import click
 
 import trisicell as tsc
@@ -144,7 +142,7 @@ def booster(
     no_dependencies,
     no_reconstruction,
 ):
-    """Divide and Conquer
+    """Trisicell-Boost.
 
     For doing all 3 steps:
 

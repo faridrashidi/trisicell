@@ -1,6 +1,7 @@
 import pandas as pd
 
 import trisicell as tsc
+from trisicell.tl.solver.huntress._huntress_21_03_19 import Reconstruct
 
 
 def huntress(df_input_filepath, alpha, beta, kind, n_threads=1):
@@ -10,14 +11,11 @@ def huntress(df_input_filepath, alpha, beta, kind, n_threads=1):
     )
     tmpdir = tsc.ul.tmpdirsys(suffix=".huntress")
 
-    # TODO remove tmpdir and directly work with python api.
-    from ._huntress_21_03_19 import Reconstruct
-
     running_time = 0
     if kind == "dna":
         fn_conorm = 0.1
         fp_conorm = fn_conorm * alpha / beta
-        fnfp_conorm = fn_conorm / fp_conorm
+        # fnfp_conorm = fn_conorm / fp_conorm
 
         running_time = Reconstruct(
             df_input_filepath,

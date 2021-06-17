@@ -1,13 +1,10 @@
 import copy
-import time
-from decimal import *
+from decimal import Decimal
 
 import numpy as np
 import numpy.linalg as la
-import pandas as pd
 from scipy.special import softmax
 from sklearn.metrics.pairwise import pairwise_distances
-from tqdm import tqdm
 
 
 # TODO make this faster by not recalculating
@@ -18,10 +15,12 @@ def clt_sample_rec(
     names=None,
     namecount=None,
     coef=2,
-    prior_prob=Decimal(1.0),
+    prior_prob=None,
     join_prob_matrix=None,
 ):
     """
+    Clt sample recursion.
+
     O(n^2 m^2)
 
     n: depth of the recursion two edges at each call
@@ -37,8 +36,10 @@ def clt_sample_rec(
     :param prior_prob: for rec
     :return: edges, prior_prob
     """
+    if prior_prob is None:
+        prior_prob = Decimal(1.0)
     if P.shape[0] == 1:
-        return list(), prior_prob
+        return [], prior_prob
     if names is None:
         names = list(range(P.shape[0]))
         namecount = P.shape[0]
@@ -54,7 +55,7 @@ def clt_sample_rec(
 
         # This block adjusts c if dist/2c is too big for sotfmax.
         c_rec = c
-        for i in range(10):
+        for _ in range(10):
             sim = softmax(-dist / (2 * c_rec))
             if not np.any(np.isnan(sim)):
                 break
@@ -92,6 +93,8 @@ def clt_sample_rec(
 
 def draw_sample_clt(P, greedy, c=1, coef=2):
     r"""
+    Draw sample clt.
+
     :param P:
     :param greedy:
     :param c: gaussian kernel parameter
@@ -116,14 +119,13 @@ def draw_sample_clt(P, greedy, c=1, coef=2):
 
 
 def row_leafness_score(row_a, row_b):
-    """
-    :return:
-    """
     return np.sum(np.minimum(row_a, row_b))
 
 
 def column_pairs_cost(A, Ap, unit_costs):
     """
+    Column pairs cost.
+
     :param A:
     :param Ap:
     :param unit_costs: 2D-matrix: cost of each combination
@@ -136,11 +138,13 @@ def column_pairs_cost(A, Ap, unit_costs):
     return np.sum(num * unit_costs)
 
 
-def denoise_cond_clt(I, alpha, beta, subtrees):
+def denoise_cond_clt(I_mtr, alpha, beta, subtrees):
     """
-    Gives a PP matrix with highest likelihood for the given  cell lineage tree.
-    O(n m^2) Can be improved to O(n m) with dynamic programming (e.g., in Scistree)
-    :param I:
+    Give a PP matrix with highest likelihood for the given  cell lineage tree.
+
+    O(n m^2) Can be improved to O(n m) with dynamic programming (e.g., in ScisTree)
+
+    :param I_mtr:
     :param alpha:
     :param beta:
     :param subtrees:
@@ -148,11 +152,11 @@ def denoise_cond_clt(I, alpha, beta, subtrees):
     """
     unit_prob = np.array([[1 - alpha, alpha], [beta, 1 - beta]])
     unit_costs = -np.log(unit_prob)
-    output = np.zeros(I.shape)
+    output = np.zeros(I_mtr.shape)
     total_cost = 0
-    for c in range(I.shape[1]):
+    for c in range(I_mtr.shape[1]):
         costs = [
-            column_pairs_cost(I[:, c], subtrees[st_ind], unit_costs)
+            column_pairs_cost(I_mtr[:, c], subtrees[st_ind], unit_costs)
             for st_ind in range(len(subtrees))
         ]
         ind = np.argmin(costs)

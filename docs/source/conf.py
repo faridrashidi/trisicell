@@ -19,11 +19,11 @@ from pybtex.style.formatting.unsrt import Style as UnsrtStyle
 from pybtex.style.labels import BaseLabelStyle
 from sphinx_gallery.sorting import ExplicitOrder, FileNameSortKey
 
+import trisicell
+
 HERE = Path(__file__).parent
 sys.path.insert(0, str(HERE.parent.parent))
 sys.path.insert(0, os.path.abspath("_ext"))
-
-import trisicell
 
 # -- Retrieve notebooks ------------------------------------------------
 # for nb in glob(os.path.join(".", "*.ipynb")):
@@ -113,17 +113,17 @@ default_role = "literal"
 pygments_style = "sphinx"
 todo_include_todos = False
 
-intersphinx_mapping = dict(
-    python=("https://docs.python.org/3", None),
-    numpy=("https://docs.scipy.org/doc/numpy/", None),
-    scipy=("https://docs.scipy.org/doc/scipy/reference/", None),
-    networkx=("https://networkx.github.io/documentation/stable/", None),
-    pandas=("https://pandas.pydata.org/pandas-docs/stable/", None),
-    matplotlib=("https://matplotlib.org/", None),
-    sklearn=("https://scikit-learn.org/stable/", None),
-    seaborn=("https://seaborn.pydata.org/", None),
-    anndata=("https://anndata.readthedocs.io/en/latest/", None),
-)
+intersphinx_mapping = {
+    "python": ("https://docs.python.org/3", None),
+    "numpy": ("https://docs.scipy.org/doc/numpy/", None),
+    "scipy": ("https://docs.scipy.org/doc/scipy/reference/", None),
+    "networkx": ("https://networkx.github.io/documentation/stable/", None),
+    "pandas": ("https://pandas.pydata.org/pandas-docs/stable/", None),
+    "matplotlib": ("https://matplotlib.org/", None),
+    "sklearn": ("https://scikit-learn.org/stable/", None),
+    "seaborn": ("https://seaborn.pydata.org/", None),
+    "anndata": ("https://anndata.readthedocs.io/en/latest/", None),
+}
 
 
 # -- Options for HTML output -------------------------------------------------

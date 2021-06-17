@@ -1,14 +1,13 @@
-import numpy as np
 import pandas as pd
-from IPython.display import SVG, Image, display
+from IPython.display import Image, display
 
 import trisicell as tsc
 
 
 def infercna(expr, ref_cells, genome="hg19", show_heatmap=False):
-    """Calling copy number profiles from scRNAseq.
+    """Call copy number profiles from scRNAseq.
 
-    This function is a wraper to run
+    This function is a wrapper to run
     `InferCNA <https://github.com/jlaffy/infercna>`_
 
     Parameters
@@ -52,7 +51,7 @@ def infercna(expr, ref_cells, genome="hg19", show_heatmap=False):
 
     base = importr("base")
 
-    tsc.logg.info(f"running inferCNA")
+    tsc.logg.info("running inferCNA")
 
     rc = {key: ro.StrVector(value) for key, value in ref_cells.items()}
     rc = ro.ListVector(rc)

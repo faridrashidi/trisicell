@@ -24,7 +24,9 @@ import trisicell as tsc
     type=float,
 )
 def phiscsb(genotype_file, alpha, beta):
-    """PhISCS: a combinatorial approach for subperfect
+    """PhISCS-B.
+
+    A combinatorial approach for subperfect
     tumor phylogeny reconstructionvia integrative use of
     single-cell and bulk sequencing data :cite:`PhISCS`.
 
@@ -70,7 +72,9 @@ def phiscsb(genotype_file, alpha, beta):
     help="Timelimit of the program.",
 )
 def phiscsi(genotype_file, alpha, beta, time_out):
-    """PhISCS: a combinatorial approach for subperfect
+    """PhISCS-I.
+
+    A combinatorial approach for subperfect
     tumor phylogeny reconstructionvia integrative use of
     single-cell and bulk sequencing data :cite:`PhISCS`.
 

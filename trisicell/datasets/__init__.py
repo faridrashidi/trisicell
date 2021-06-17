@@ -1,3 +1,61 @@
-from trisicell.datasets._datasets import *
+"""Datasets Module."""
+
+from trisicell.datasets._datasets import (
+    acute_lymphocytic_leukemia1,
+    acute_lymphocytic_leukemia2,
+    acute_lymphocytic_leukemia3,
+    acute_lymphocytic_leukemia4,
+    acute_lymphocytic_leukemia5,
+    acute_lymphocytic_leukemia6,
+    colorectal1,
+    colorectal2,
+    colorectal3,
+    erbc,
+    example,
+    high_grade_serous_ovarian_cancer1,
+    high_grade_serous_ovarian_cancer2,
+    high_grade_serous_ovarian_cancer3,
+    high_grade_serous_ovarian_cancer_3celllines,
+    melanoma20,
+    muscle_invasive_bladder,
+    myeloproliferative_neoplasms18,
+    myeloproliferative_neoplasms78,
+    myeloproliferative_neoplasms712,
+    renal_cell_carcinoma,
+    test,
+    tnbc,
+)
 from trisicell.datasets._signatures import get_markers, get_signatures
-from trisicell.datasets._simulate import *
+from trisicell.datasets._simulate import add_noise, create_splatter, simulate, splatter
+
+__all__ = (
+    acute_lymphocytic_leukemia1,
+    acute_lymphocytic_leukemia2,
+    acute_lymphocytic_leukemia3,
+    acute_lymphocytic_leukemia4,
+    acute_lymphocytic_leukemia5,
+    acute_lymphocytic_leukemia6,
+    colorectal1,
+    colorectal2,
+    colorectal3,
+    erbc,
+    example,
+    high_grade_serous_ovarian_cancer1,
+    high_grade_serous_ovarian_cancer2,
+    high_grade_serous_ovarian_cancer3,
+    high_grade_serous_ovarian_cancer_3celllines,
+    melanoma20,
+    muscle_invasive_bladder,
+    myeloproliferative_neoplasms18,
+    myeloproliferative_neoplasms78,
+    myeloproliferative_neoplasms712,
+    renal_cell_carcinoma,
+    test,
+    tnbc,
+    get_markers,
+    get_signatures,
+    add_noise,
+    create_splatter,
+    simulate,
+    splatter,
+)

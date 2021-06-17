@@ -6,7 +6,7 @@ def import_gurobi():
         import gurobipy as gp
 
         return gp, False
-    except:
+    except Exception:
         tsc.logg.error(
             "Unable to import `gurobipy`!",
             "Make sure `Gurobi` is already installed in your system.",
@@ -20,7 +20,7 @@ def import_mpi4py():
         import mpi4py
 
         return mpi4py, False
-    except:
+    except Exception:
         tsc.logg.error(
             "Unable to import `mpi4py`!",
             "Make sure `mpi/mpich-x86_64` is already installed in your system.",
@@ -33,6 +33,8 @@ def import_rpy2(name="base", how=""):
     try:
         from rpy2.robjects import r
         from rpy2.robjects.packages import PackageNotInstalledError, importr
+
+        r
 
     except ImportError:
         tsc.logg.error(
@@ -54,7 +56,7 @@ def import_graphviz():
         import pygraphviz
 
         return pygraphviz, False
-    except:
+    except Exception:
         tsc.logg.error(
             "Unable to import `pygraphviz`!",
             "Make sure `Graphviz` is already installed in your system.",
@@ -68,7 +70,7 @@ def import_graph_tool():
         import graph_tool
 
         return graph_tool, False
-    except:
+    except Exception:
         tsc.logg.error(
             "Unable to import `graph_tool`!",
             "Make sure `graph_tool` is installed in your system.",

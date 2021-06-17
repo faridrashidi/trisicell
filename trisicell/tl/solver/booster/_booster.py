@@ -1,4 +1,3 @@
-import os
 import time
 
 import trisicell as tsc
@@ -28,7 +27,8 @@ def booster(
 ):
     """Trisicell-Boost solver.
 
-    For more details of available tools that work on binary matrices, read :cite:`ReviewBinary`.
+    For more details of available tools that work on binary matrices, read
+    :cite:`ReviewBinary`.
 
     Parameters
     ----------

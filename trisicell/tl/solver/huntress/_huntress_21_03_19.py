@@ -1,58 +1,12 @@
-#!/usr/bin/env python
-
-
-# =========================================================================================
-# Written by : Can Kizilkale (CanKizilkale@lbl.gov) and Aydin Buluc (abuluc@lbl.gov)
-# Last Update: Jan 31, 2021
-# =========================================================================================
-
-"""
-Created on Thu Feb 13 19:18:26 2020
-
-@author: Can KIZILKALE
-"""
-
-# Approximate Error Correction for phylogenetic tree matrices.
-# Can Kizilkale
-
 import argparse
-import copy
 import itertools
-import multiprocessing as mp
-import os
 import time
-from argparse import ArgumentParser
-from datetime import datetime
 from multiprocessing import Process, Queue
 
-import networkx as nx
 import numpy as np
 import pandas as pd
 
-os.environ["PATH"] += os.pathsep + "C:/Program Files (x86)/Graphviz2.38/bin/"
-np.set_printoptions(threshold=np.inf)
-
-# ---------------------READ ME ---------------------------
-# Call this function like:
-#
-# \python huntress.py "Noisy_matrix_filename" "Output_filename" --nofcpus 8 --algorithmchoice "FPNA" --fn_fpratio 100 --fp_coeff 0.0001 --fn_coeff 0.1
-# Output is written on Output_filename.CFMATRIX
-#
-# The path and name of the the noisy matrix is given in Noisy_matrix_filename
-# The reconstructed error free matrix is written in Output_filename with the extension ".CFMatrix"
-# The optional inputs are as follows:
-# --nofcpus defines the number of cpus to be used for tuning in parallel. Default is 7
-# --algorithmchoice defines the version of the algorithm to be used.
-#           = "FN" for matrices that only have false negatives
-#           = "FPNA" for matrices that have false positives , false negatives and NA (entries that could not be read) entries. These entries must be given as 3 in the input matrix
-# --fn_fpratio is the ratio of the weights of 0->1 switches over 1->0 switches that is used by the algorithm to tune the parameters.
-# Default=100
-# --fp_coeff false positive probability coefficient used for postprocessing.
-# Default: 0.0001
-# --fn_coeff false negative probability coefficient used for postprocessing.
-# Default: 0.1
-#
-# ------------------- END README ---------------------------------------
+__author__ = "Can KIZILKALE"
 
 prfp = 5
 
@@ -81,9 +35,9 @@ def Reconstruct(
     matrix_input_raw = ReadFasis(input_file)
     matrix_NA_est = Estimated_Matrix(input_file)
     print(np.sum(matrix_input), np.sum(matrix_NA_est), file=Flog)
-    h_range = [x for x in range(1, 100, 2)]
+    h_range = list(range(1, 100, 2))
     oc_range = [x / 10 for x in range(1, 5)]
-    tune_var = [x for x in itertools.product(h_range, oc_range)]
+    tune_var = itertools.product(h_range, oc_range)
 
     running_time = 0
 
@@ -207,16 +161,15 @@ def Auto_fnfp(
         matrix_rec_Temp = deleteNas(m_input_raw, matrix_rec_i)
         n_10 = np.sum(matrix_rec_Temp < m_input, dtype="int64")
         n_01 = np.sum(matrix_rec_Temp > m_input, dtype="int64")
-        #        print("Opt h = ",h_current,"Opt_O = ",oc_current,"H,OC coefficient = ",h_i,overlapp_coeff," 01 switches : ",n_01,"10 switches = ", n_10 , "best :",distance)
         print(procid, h_i, overlapp_coeff)
-        #           distance_i=np.square(n_10)+n_01
+        # distance_i=np.square(n_10)+n_01
         distance_i = fnfp * n_10 + fnc * n_01
-        #        distance_i=-fnfp**n_10*fnc**n_01
-        #            if n_10<np.sum(matrix_recons<matrix_input):
+        # distance_i=-fnfp**n_10*fnc**n_01
+        # if n_10<np.sum(matrix_recons<matrix_input):
         if distance_i < distance:
             matrix_recon = matrix_rec_i.copy()
             distance = distance_i
-            #                WriteTfile(output_file,matrix_recons,input_file)
+            # WriteTfile(output_file,matrix_recons,input_file)
             h_current = h_i
             oc_current = overlapp_coeff
     print(procid, "th process finished", q.full(), h_current, oc_current)
@@ -238,7 +191,8 @@ def deleteNas(M_in, M_out):
 
 def deletemutations(
     M_in, M_out
-):  # Finds the rows which are too far from the input, just replicates them to their closest neighbour.
+):  # Finds the rows which are too far from the input, just replicates them to their
+    # closest neighbour.
     x = M_in.shape
     M_return = M_out.copy()
     treshold_cut = 0.5
@@ -266,19 +220,19 @@ def precombination(M_in):
     return M_return
 
 
-def findclosestinter(i, M_input):
-    vec_int = np.zeros(M_input.shape[1]).astype(bool)
-    for j in range(M_input.shape[0]):
-        if (
-            i != j
-            and np.sum(M_input[j, :] > M[i, :]) > 0
-            and np.sum(M_input[j, :] * M[i, :]) > 0
-        ):
-            if np.sum(vec_int):
-                vec_int = M_input[j, :]
-            else:
-                vec_int = vec_int * M_input[j, :]
-    return vec_int
+# def findclosestinter(i, M_input):
+#     vec_int = np.zeros(M_input.shape[1]).astype(bool)
+#     for j in range(M_input.shape[0]):
+#         if (
+#             i != j
+#             and np.sum(M_input[j, :] > M[i, :]) > 0
+#             and np.sum(M_input[j, :] * M[i, :]) > 0
+#         ):
+#             if np.sum(vec_int):
+#                 vec_int = M_input[j, :]
+#             else:
+#                 vec_int = vec_int * M_input[j, :]
+#     return vec_int
 
 
 # Both algorithms take inut matrices of BOOL type.
@@ -289,7 +243,7 @@ def greedyPtreeNew(
     # Returns
     # M_copy(reconstructed matrix),
     # bret (list of positions of assumed false negatives)
-    #    M_apprx=greedy_row_rec(M_input)[1]
+    # M_apprx=greedy_row_rec(M_input)[1]
     M_copy = M_input.copy()
 
     ISet1 = np.argsort(sum(M_copy))
@@ -321,13 +275,10 @@ def greedyPtreeNew(
 
                 if np.any(
                     cap_j
-                ):  # continue as long as there is a column having non-empty intersection
+                ):  # continue as long as there is a column having non-empty intersect
                     cum_vector = cum_vector + M_copy[:, j]
                     while_cont = 1
                     Sremaining.remove(j)
-        #                    print("pivot ", pivot_index, j, sum(cap_j),sum(cum_vector),sum(M_copy[:,j]))
-        #        print(len(Si))
-        #        print(sum(pivot_vector),sum(cum_vector))
         M_copy[:, pivot_index] = cum_vector
         ISet.remove(pivot_index)
         bret = np.argwhere(M_copy.astype(int) > M_input.astype(int))
@@ -346,9 +297,6 @@ def greedyPtreeNA(
     hist_coeff = hc  # 25
 
     M_copy = M_input.copy()
-    #    ISet1=np.argsort(sum((M_copy.T.dot(M_copy)>0).T))    # Set of indices of columns sorted wrt. number of overlapping vectors
-    #    ISet1=np.argsort(sum(M_copy))         # Set of indices of columns sorted wrt. the number of ones they contain
-    # ISet1=np.argsort(sum(M_NA))
     ISet1 = np.argsort(approx_order)
     ISet = []
     for i in range(M_copy.shape[1]):
@@ -358,7 +306,7 @@ def greedyPtreeNA(
     pret = []  # Location of detected false positives
 
     while len(ISet) > 1:
-        #        pivot_index=ISet[np.argmax(sum((M_copy[:,ISet].T.dot(M_copy[:,ISet])>0).T))]
+        # pivot_index=ISet[np.argmax(sum((M_copy[:,ISet].T.dot(M_copy[:,ISet])>0).T))]
         pivot_index = ISet[-1]  # index of the pivot vector
         Sremaining = ISet.copy()  # set of indices that are not included in the union
         pivot_vector = M_copy[
@@ -374,7 +322,6 @@ def greedyPtreeNA(
                 cap_i = pivot_vector * M_copy[:, j]
                 min_vec_size = np.min([np.sum(M_copy[:, j]), np.sum(pivot_vector)])
                 cap_size = np.sum(cap_i)
-                #               print(np.sum(M_copy[:,j]),np.sum(pivot_vector),np.sum(cap_i),cap_size, min_vec_size,np.floor(cap_size/min_vec_size))
 
                 if (
                     cap_size / min_vec_size > overlap_coeff
@@ -388,13 +335,13 @@ def greedyPtreeNA(
         )  # the elements that repeated few times are considered to be false positives
         cum_vector = cum_hist > cnumT
 
-        pivot_est = pivot_index
+        # pivot_est = pivot_index
 
-        ncap = np.sum(cum_vector * M_copy[:, pivot_est])
-        #        ndel=np.sum(M_copy[:,j]!=capj)
+        # ncap = np.sum(cum_vector * M_copy[:, pivot_est])
+        # ndel=np.sum(M_copy[:,j]!=capj)
         for j in ISet:  # clean up the false positives wrt. the established pivot
             capj = cum_vector * M_copy[:, j]  # intersection of union with column j
-            #            difj=M_copy[:,j]!=capj                        # difference of column j from the union
+            # difj=M_copy[:,j]!=capj # difference of column j from the union
             difj = M_copy[:, j] > capj  # difference of column j from the union
             if np.sum(capj) > np.sum(difj):
                 M_copy[:, j] = capj
@@ -406,7 +353,7 @@ def greedyPtreeNA(
             :, pivot_index
         ] = cum_vector  # correcting the false negatives in the pivot
         ISet.remove(pivot_index)  # removing the pivot from the search space
-    #        print(len(ISet),np.sum(M_copy[:,pivot_index]),np.sum(M_input[:,pivot_index]))
+        # print(len(ISet),np.sum(M_copy[:,pivot_index]),np.sum(M_input[:,pivot_index]))
 
     bret = np.argwhere(M_copy.astype(int) > M_input.astype(int))
     pret = np.argwhere(np.argwhere(M_copy.astype(int) < M_input.astype(int)))
@@ -441,7 +388,8 @@ def ReadFileNA(filename):  # reads the file and fills the NA with 0's.
 
 def Estimated_Matrix(
     filename,
-):  # Creates an estimate of the matrix such that each element is given the expectation wrt the column 1/0 frequencies.
+):  # Creates an estimate of the matrix such that each element is given the expectation
+    # wrt the column 1/0 frequencies.
     df = pd.read_csv(filename, sep="\t", index_col=0)
     M = df.values.astype(float)
 
@@ -469,8 +417,6 @@ def WriteTfile(
     df_output.to_csv(filename, sep="\t")
 
 
-##########################################################################3
-############# TESTING FUNCTIONS ##########################################
 def isPtree(matrix_in):  # brute force check if matrix_in is a pTree
     M = matrix_in.astype(bool)
     for j in range(M.shape[1]):
@@ -572,24 +518,23 @@ def compute_fnfp(M_n, M_r):
 
 
 def find_dist(node_piv, M_samples):
-    #    distances=np.zeros(M_nodes.shape[0])
-    #    for i in range(M_nodes.shape[0]):
-    ##        distances[i]=np.sum(M_nodes[i,:]!=node_piv)
-    ##        distances[i]=np.sum(M_nodes[i,:]<node_piv)
-    ##        distances[i]=np.linalg.norm(M_nodes[i,:]-node_piv)
-    #        distances[i]=0
-    #        d_10=0
-    #        d_01=0
-    #        for j in range(M_nodes.shape[1]):
-    #
-    #            if node_piv[j]!=3:
-    #                if node_piv[j]>M_nodes[i,j]:
-    #                    d_10=d_10+1
-    #                if node_piv[j]<M_nodes[i,j]:
-    #                    d_01=d_01+1
-    #        distances[i]= np.square(d_10) +d_01
-    ##            else:
-    ##                distances[i]=1-M_nodes[i,j]+distances[i]
+    # distances=np.zeros(M_nodes.shape[0])
+    # for i in range(M_nodes.shape[0]):
+    #     distances[i]=np.sum(M_nodes[i,:]!=node_piv)
+    #     distances[i]=np.sum(M_nodes[i,:]<node_piv)
+    #     distances[i]=np.linalg.norm(M_nodes[i,:]-node_piv)
+    #     distances[i]=0
+    #     d_10=0
+    #     d_01=0
+    #     for j in range(M_nodes.shape[1]):
+    #         if node_piv[j]!=3:
+    #             if node_piv[j]>M_nodes[i,j]:
+    #                 d_10=d_10+1
+    #             if node_piv[j]<M_nodes[i,j]:
+    #                 d_01=d_01+1
+    #     distances[i]= np.square(d_10) +d_01
+    #         else:
+    #             distances[i]=1-M_nodes[i,j]+distances[i]
     M_nodes = M_samples.copy()
     for j in range(M_nodes.shape[1]):
         if node_piv[j] == 3:
@@ -614,10 +559,9 @@ def find_dist_col(node_piv, M_samples):
     for i in range(M_nodes.shape[1]):
         d_10 = np.sum(node_piv > M_nodes[:, i], dtype="int64")
         d_01 = np.sum(node_piv < M_nodes[:, i], dtype="int64")
-        #        distances[i]=np.square(d_10) + d_01
-        #        distances[i]=d_10 + d_01
+        # distances[i]=np.square(d_10) + d_01
+        # distances[i]=d_10 + d_01
         distances[i] = prfp * d_10 + d_01
-        #        distances[i]=np.sum(M_nodes[:,i]*node_piv)/np.sqrt(np.sum(M_nodes[:,i])*np.sum(node_piv))
         distances[i] = -((0.005) ** d_10) * (0.1) ** d_01
     return distances
 
@@ -629,14 +573,13 @@ def closest_matrix(M_input, M_nodes, M_rec):
         distance_i = find_dist(pivot_v, M_nodes)
 
         min_index = np.argmin(distance_i)
-        #        print("Current distance ",np.sum(M_input[i,:]>M_rec[i,:]),"minimum possible ",np.min(distance_i),min_index)
         M_out[i, :] = M_nodes[min_index, :]
-    #        if np.sum(M_input[i,:]>M_rec[i,:])>2*np.min(distance_i):
-    #            min_index=np.argmin(distance_i)
-    #            M_out[i,:]=M_nodes[min_index,:]
-    #        else:
-    #            M_out[i,:]=M_rec[i,:]
-    #        print("M input :", sum(M_input[i,:]),sum(M_out[i,:]))
+        # if np.sum(M_input[i,:]>M_rec[i,:])>2*np.min(distance_i):
+        #     min_index=np.argmin(distance_i)
+        #     M_out[i,:]=M_nodes[min_index,:]
+        # else:
+        #     M_out[i,:]=M_rec[i,:]
+        # print("M input :", sum(M_input[i,:]),sum(M_out[i,:]))
     return M_out
 
 
@@ -647,7 +590,6 @@ def closest_matrix_col(M_input, M_nodes, M_rec):
         distance_i = find_dist_col(pivot_v, M_nodes)
 
         min_index = np.argmin(distance_i)
-        #        print("Old New difference ",np.sum(M_nodes[:,i]!=M_nodes[:,min_index]),i)
         M_out[:, i] = M_nodes[:, min_index]
 
     return M_out
@@ -662,15 +604,15 @@ def postprocess_col(input_file, out_file, pfn, pfp):
 
     Mtemp = c_m_col(ReadFasis(input_file), M_nds, pc_fn=pfn, pc_fp=pfp)
     Mtemp2 = Mtemp.copy()
-    #    Mtemp=c_m_row(ReadFasis(input_file),Mtemp,1)
+    # Mtemp=c_m_row(ReadFasis(input_file),Mtemp,1)
     d10min = np.sum(Mtemp < (M_noisy == 1))
-    d10c = d10min
+    # d10c = d10min
     imp = 1
     while imp:
         Mtemp2 = c_m_row(ReadFasis(input_file), Mtemp2, pc_fn=pfn, pc_fp=pfp)
         Mtemp2 = c_m_col(ReadFasis(input_file), Mtemp2, pc_fn=pfn, pc_fp=pfp)
 
-        #        Mtemp=c_m_col(ReadFasis(input_file),Mtemp,1)
+        # Mtemp=c_m_col(ReadFasis(input_file),Mtemp,1)
         d10c = np.sum(Mtemp2 < (M_noisy == 1))
         print(d10c)
         if d10c < d10min:
@@ -679,12 +621,12 @@ def postprocess_col(input_file, out_file, pfn, pfp):
         else:
             imp = 0
 
-    #    M_postprocessed=closest_matrix_col(M_noisy,M_nds,ReadFfile(out_file))
+    # M_postprocessed=closest_matrix_col(M_noisy,M_nds,ReadFfile(out_file))
     M_postprocessed = Mtemp
     processed_file = out_file[:-13] + ".CFMatrix"
-    #    print("Writing to file ",processed_file,file=Flog)
+    # print("Writing to file ",processed_file,file=Flog)
     WriteTfile(processed_file, M_postprocessed, input_file)
-    #    print(np.sum(M_noisy),np.sum(M_noisy==1))
+    # print(np.sum(M_noisy),np.sum(M_noisy==1))
     e = time.time()
     print(
         "Postprocessed 1->0 : ",
@@ -695,9 +637,6 @@ def postprocess_col(input_file, out_file, pfn, pfp):
         np.sum(M_postprocessed > (M_n_copy == 1)) - np.sum(M_postprocessed > M_n_copy),
     )
     print("Post processing time : ", e - s)
-
-
-#    draw_tree(processed_file)
 
 
 def preproc_row(M_o, c=0.8):
@@ -720,21 +659,10 @@ def f_d_col(node_piv, M_samples, p_fp=0.005, p_fn=0.1):
     D11 = (M_nodes.T == 1).astype(int).dot(node_piv == 1)
     D00 = (M_nodes.T == 0).astype(int).dot(node_piv == 0)
     D01 = (M_nodes.T == 1).astype(int).dot(node_piv == 0)
-    distances = np.zeros(M_nodes.shape[1])
+    # distances = np.zeros(M_nodes.shape[1])
     distances = -np.multiply(np.power(p_fp, D10), np.power(1 - p_fp, D00))
     distances = np.multiply(distances, np.power(p_fn, D01))
     distances = np.multiply(distances, np.power(1 - p_fn, D11))
-    #    for i in range(M_nodes.shape[1]):
-    #        d_10=D10[i]
-    #        d_11=D11[i]
-    #        d_00=D00[i]
-    #        d_01=D01[i]
-    ##        d_10=np.sum((M_nodes[:,i]==0)*(node_piv==1),dtype='int64')
-    ##        d_11=np.sum((M_nodes[:,i]==1)*(node_piv==1),dtype='int64')
-    ##        d_00=np.sum((M_nodes[:,i]==0)*(node_piv==0),dtype='int64')
-    ##        d_01=np.sum((M_nodes[:,i]==1)*(node_piv==0),dtype='int64')
-    #
-    #        distances[i]=-(p_fp)**d_10*(1-p_fp)**d_00*(p_fn)**d_01*(1-p_fn)**d_11
     return distances
 
 
@@ -747,7 +675,6 @@ def c_m_col(M_input, M_nodes, pc_fp=0.0001, pc_fn=0.1):
         distance_i = f_d_col(pivot_v, M_nodes, p_fn=pc_fn, p_fp=pc_fp)
 
         min_index = np.argmin(distance_i)
-        #        print("Old New difference ",np.sum(M_nodes[:,i]!=M_nodes[:,min_index]),i)
         M_out[:, i] = M_nodes[:, min_index]
 
     return M_out
@@ -765,18 +692,6 @@ def f_d_row(node_piv, M_samples, p_fp=0.005, p_fn=0.1):
     distances = -np.multiply(np.power(p_fp, D10), np.power(1 - p_fp, D00))
     distances = np.multiply(distances, np.power(p_fn, D01))
     distances = np.multiply(distances, np.power(1 - p_fn, D11))
-    #    for i in range(M_nodes.shape[0]):
-    #        d_10=D10[i]
-    #        d_11=D11[i]
-    #        d_00=D00[i]
-    #        d_01=D01[i]
-    ##
-    ##        d_10=np.sum((M_nodes[i,:]==0)*(node_piv==1),dtype='int64')
-    ##        d_11=np.sum((M_nodes[i,:]==1)*(node_piv==1),dtype='int64')
-    ##        d_00=np.sum((M_nodes[i,:]==0)*(node_piv==0),dtype='int64')
-    ##        d_01=np.sum((M_nodes[i,:]==1)*(node_piv==0),dtype='int64')
-    #
-    #        distances[i]=-(p_fp)**d_10*(1-p_fp)**d_00*(p_fn)**d_01*(1-p_fn)**d_11
     return distances
 
 
@@ -788,7 +703,6 @@ def c_m_row(M_input, M_nodes, pc_fp=0.0001, pc_fn=0.1):
         distance_i = f_d_row(pivot_v, M_nodes, p_fn=pc_fn, p_fp=pc_fp)
 
         min_index = np.argmin(distance_i)
-        #        print("Old New difference ",np.sum(M_nodes[:,i]!=M_nodes[:,min_index]),i)
         M_out[i, :] = M_nodes[min_index, :]
 
     return M_out
@@ -807,8 +721,6 @@ if __name__ == "__main__":
 
     fn_conorm = 0.1
     fp_conorm = fn_conorm * args.fp_coeff / args.fn_coeff
-    #    fnfp_conorm = fn_conorm / fp_conorm
-    #    Reconstruct(args.inputfile,args.outputfile,Algchoice=args.algorithmchoice,n_proc=args.nofcpus,fnfp=args.fn_fpratio,post_fn=args.fn_coeff,post_fp=args.fp_coeff)
     Reconstruct(
         args.inputfile,
         args.outputfile,

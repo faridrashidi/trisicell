@@ -24,7 +24,7 @@ import trisicell as tsc
     type=click.Path(exists=False),
 )
 def consensus(first_tree, second_tree, consensus_path):
-    """The consensus tree between two phylogenetic trees.
+    """Build consensus tree between two phylogenetic trees.
 
     It writes the conflict-free matrix representing the consensus tree
     into the `consensus_path` filepath.

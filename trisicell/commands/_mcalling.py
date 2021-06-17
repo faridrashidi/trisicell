@@ -1,31 +1,26 @@
-import csv
 import glob
 import gzip
-import math
 import os
-import shutil
 import subprocess
 
 import click
-import pandas as pd
 import yaml
 from natsort import natsorted
 
 import trisicell as tsc
-
-from .mcalling.s01indexing import run01
-from .mcalling.s02mapping import run02
-from .mcalling.s03indexing import run03
-from .mcalling.s04mapping import run04
-from .mcalling.s05calling import run05
-from .mcalling.s06jointcalling import run06
-from .mcalling.s07merging import run07
-from .mcalling.s08annotating import run08
-from .mcalling.s09expressing import run09
-from .mcalling.s10velocitying import run10
-from .mcalling.z01status import after01
-from .mcalling.z02matrixing import after02
-from .mcalling.z03clean import after03
+from trisicell.commands.mcalling.s01indexing import run01
+from trisicell.commands.mcalling.s02mapping import run02
+from trisicell.commands.mcalling.s03indexing import run03
+from trisicell.commands.mcalling.s04mapping import run04
+from trisicell.commands.mcalling.s05calling import run05
+from trisicell.commands.mcalling.s06jointcalling import run06
+from trisicell.commands.mcalling.s07merging import run07
+from trisicell.commands.mcalling.s08annotating import run08
+from trisicell.commands.mcalling.s09expressing import run09
+from trisicell.commands.mcalling.s10velocitying import run10
+from trisicell.commands.mcalling.z01status import after01
+from trisicell.commands.mcalling.z02matrixing import after02
+from trisicell.commands.mcalling.z03clean import after03
 
 
 def find_samples_readlength(config):
@@ -143,9 +138,9 @@ def mcalling(config_file, test, status, build, clean):
         if "infqpost" in config:
             config["infqpost5"] = f"{config['infqpost']}_trimmed.fq.gz"
 
-        #### STEPS
+        # STEPS
         if (not status) and (not build) and (not clean):
-            if config["isrna"] == True:
+            if config["isrna"]:
                 out01 = None
                 if config["steps"]["s01indexing"]:
                     cmd01 = run01(config)
@@ -199,12 +194,14 @@ def mcalling(config_file, test, status, build, clean):
                     cmd09 = run09(config, out05)
                     if not test:
                         out09 = subprocess.getoutput(cmd09)
+                        out09
 
                 out10 = None
                 if config["steps"]["s10velocitying"]:
                     cmd10 = run10(config, out04)
                     if not test:
                         out10 = subprocess.getoutput(cmd10)
+                        out10
             else:
                 out02 = None
                 if config["steps"]["s02mapping"]:
@@ -241,6 +238,7 @@ def mcalling(config_file, test, status, build, clean):
                     cmd08 = run08(config, out07)
                     if not test:
                         out08 = subprocess.getoutput(cmd08)
+                        out08
         else:
             if status:
                 after01(config)

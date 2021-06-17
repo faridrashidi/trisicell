@@ -1,8 +1,6 @@
 import datetime
 from platform import python_version
 
-from trisicell import settings
-
 _VERBOSITY_LEVELS_FROM_STRINGS = {
     "error": 0,
     "warn": 1,
@@ -13,29 +11,75 @@ _VERBOSITY_LEVELS_FROM_STRINGS = {
 
 
 def info(*args, **kwargs):
+    """[summary].
+
+    Returns
+    -------
+    [type]
+        [description]
+    """
     return msg(*args, v="info", **kwargs)
 
 
 def error(*args, **kwargs):
-    args = ("ERROR -",) + args
+    """[summary].
+
+    Returns
+    -------
+    [type]
+        [description]
+    """
+    args = ("Error:",) + args
     return msg(*args, v="error", **kwargs)
 
 
 def warn(*args, **kwargs):
-    args = ("WARNING -",) + args
+    """[summary].
+
+    Returns
+    -------
+    [type]
+        [description]
+    """
+    args = ("WARNING:",) + args
     return msg(*args, v="warn", **kwargs)
 
 
 def hint(*args, **kwargs):
+    """[summary].
+
+    Returns
+    -------
+    [type]
+        [description]
+    """
     return msg(*args, v="hint", **kwargs)
 
 
 def debug(*args, **kwargs):
-    args = ("DEBUG -",) + args
+    """[summary].
+
+    Returns
+    -------
+    [type]
+        [description]
+    """
+    args = ("DEBUG:",) + args
     return msg(*args, v="debug", **kwargs)
 
 
 def msg(*msg, v, time=False, end="\n"):
+    r"""[summary].
+
+    Parameters
+    ----------
+    v : [type]
+        [description]
+    time : bool, optional
+        [description], by default False
+    end : str, optional
+        [description], by default "\n"
+    """
     if v is None:
         v = 4
     if isinstance(v, str):
@@ -75,31 +119,15 @@ def _settings_verbosity_greater_or_equal_than(v):
     return settings_v >= v
 
 
-def _check_if_latest_version():
-    from trisicell import __version__
-
-    latest_version = timeout(
-        get_latest_pypi_version, timeout_duration=2, default="0.0.0"
-    )
-    if __version__.rsplit(".dev")[0] < latest_version.rsplit(".dev")[0]:
-        warn(
-            "There is a newer trisicell version available on PyPI:\n",
-            "Your version: \t\t",
-            __version__,
-            "\nLatest version: \t",
-            latest_version,
-        )
-
-
 def _get_date_string():
     return datetime.datetime.now().strftime("%Y-%m-%d %H:%M")
 
 
 def print_version():
-    from trisicell import __version__
+    """[summary]."""
+    from metools import __version__
 
     _write_log(
-        f"Running trisicell {__version__} "
+        f"Running metools {__version__} "
         f"(python {python_version()}) on {_get_date_string()}.",
     )
-    # _check_if_latest_version()

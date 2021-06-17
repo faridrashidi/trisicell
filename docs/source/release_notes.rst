@@ -7,6 +7,15 @@ Release Notes
 =============
 
 
+Version 0.0.9 :small:`June 17, 2021`
+-------------------------------------
+
+This version includes:
+
+    - Fix some typos.
+    - Add flake8 support.
+
+
 Version 0.0.8 :small:`June 12, 2021`
 -------------------------------------
 

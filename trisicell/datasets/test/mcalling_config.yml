@@ -3,14 +3,14 @@
 
 # Copyright (c) 2021, Farid Rashidi Mehrabadi All rights reserved.
 
-# =========================================================================================
+# ======================================================================================
 # Author     : Farid Rashidi Mehrabadi (farid.rashidimehrabadi@nih.gov)
 # Last Update: July 11, 2020
 # Description: config file includes paths, directories, formats and parameters
 #
 # **NOTICE**:  for mouse: 'mmDBSNPs142' and 'mmDBIndels142'
 #              for human: 'hgMillsIndels', 'hgKGIndels' and 'hgDBSNPs138'
-# =========================================================================================
+# ======================================================================================
 
 ## PATHS
 infq: "./Tirosh2016/raw"

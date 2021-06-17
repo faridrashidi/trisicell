@@ -7,8 +7,11 @@ import pandas as pd
 from joblib import Parallel, delayed
 
 import trisicell as tsc
-
-from ._pf import count_disticnt_matrices, get_samples, get_samples_info, process_samples
+from trisicell.tl.partition_function._pf import (
+    get_samples,
+    get_samples_info,
+    process_samples,
+)
 
 
 def _save_samples(filename, edges_list, subtrees_list, tree_our_prob_list):
@@ -24,7 +27,7 @@ def _load_samples(filename):
 
 
 def partition_function(df_input, alpha, beta, n_samples, n_batches, muts, cells):
-    """Calculating the probability of a mutation seeding particular cells.
+    """Calculate the probability of a mutation seeding particular cells.
 
     Parameters
     ----------
@@ -57,11 +60,11 @@ def partition_function(df_input, alpha, beta, n_samples, n_batches, muts, cells)
     """
     df_output = pd.DataFrame(None, index=muts, columns=range(n_batches))
     s_time = time.time()
-    I = df_input.values
-    t1 = I * (1 - beta) / (alpha + 1 - beta)
-    t2 = (1 - I) * beta / (beta + 1 - alpha)
+    I_mtr = df_input.values
+    t1 = I_mtr * (1 - beta) / (alpha + 1 - beta)
+    t2 = (1 - I_mtr) * beta / (beta + 1 - alpha)
     P = t1 + t2
-    P[I == 3] = 0.5
+    P[I_mtr == 3] = 0.5
 
     my_muts = np.where(df_input.columns.isin(muts))[0]
     my_cells = np.where(df_input.index.isin(cells))[0]

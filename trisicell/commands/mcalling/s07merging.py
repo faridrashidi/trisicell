@@ -2,19 +2,23 @@
 
 # Copyright (c) 2021, Farid Rashidi Mehrabadi All rights reserved.
 
-# =========================================================================================
+# ======================================================================================
 # Author     : Farid Rashidi Mehrabadi (farid.rashidimehrabadi@nih.gov)
 # Last Update: Aug 03, 2020
 # Description: merging joint mutations called
-# =========================================================================================
+# ======================================================================================
 
-from trisicell.ul._servers import *
+import os
+
+import pandas as pd
+
+from trisicell.ul._servers import cmd, write_cmds_get_main
 
 
 def run07(config, afterok):
     def cmds():
         cmds = ""
-        cmds += cmd([f"module load bcftools/1.9"])
+        cmds += cmd(["module load bcftools/1.9"])
         files = " ".join(
             [
                 f"{config['outdir']}/_calling/jointcalls.{chrom}.g.vcf"
@@ -23,12 +27,12 @@ def run07(config, afterok):
         )
         cmds += cmd(
             [
-                f"bcftools concat",
+                "bcftools concat",
                 f"-o {config['outdir']}/_calling/jointcalls.g.vcf",
                 f"{files}",
             ]
         )
-        cmds += cmd([f"echo Done!"], islast=True)
+        cmds += cmd(["echo Done!"], islast=True)
         return cmds
 
     df = pd.DataFrame()

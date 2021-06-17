@@ -129,30 +129,30 @@ def get_param(filename):
     return data
 
 
-def count_flips(I, O, na_value=3):
+def count_flips(I_mtr, O_mtr, na_value=3):
     flips_0_1 = 0
     flips_1_0 = 0
     flips_na_0 = 0
     flips_na_1 = 0
-    n, m = I.shape
+    n, m = I_mtr.shape
     for i in range(n):
         for j in range(m):
-            if I[i, j] == 0 and O[i, j] == 1:
+            if I_mtr[i, j] == 0 and O_mtr[i, j] == 1:
                 flips_0_1 += 1
-            elif I[i, j] == 1 and O[i, j] == 0:
+            elif I_mtr[i, j] == 1 and O_mtr[i, j] == 0:
                 flips_1_0 += 1
-            elif I[i, j] == na_value and O[i, j] == 0:
+            elif I_mtr[i, j] == na_value and O_mtr[i, j] == 0:
                 flips_na_0 += 1
-            elif I[i, j] == na_value and O[i, j] == 1:
+            elif I_mtr[i, j] == na_value and O_mtr[i, j] == 1:
                 flips_na_1 += 1
     return flips_0_1, flips_1_0, flips_na_0, flips_na_1
 
 
-def infer_rates(I, O, na_value=3):
-    flips_0_1, flips_1_0, flips_na_0, flips_na_1 = count_flips(I, O, na_value)
-    fn_rate = flips_0_1 / ((O == 1) & (I != na_value)).sum()
-    fp_rate = flips_1_0 / ((O == 0) & (I != na_value)).sum()
-    na_rate = (flips_na_1 + flips_na_0) / I.size
+def infer_rates(I_mtr, O_mtr, na_value=3):
+    flips_0_1, flips_1_0, flips_na_0, flips_na_1 = count_flips(I_mtr, O_mtr, na_value)
+    fn_rate = flips_0_1 / ((O_mtr == 1) & (I_mtr != na_value)).sum()
+    fp_rate = flips_1_0 / ((O_mtr == 0) & (I_mtr != na_value)).sum()
+    na_rate = (flips_na_1 + flips_na_0) / I_mtr.size
     return fn_rate, fp_rate, na_rate
 
 
@@ -207,9 +207,9 @@ def is_conflict_free_gusfield(df_in, na_value=3):
     :func:`trisicell.ul.is_conflict_free`.
     """
 
-    I = df_in.astype(int).values
+    I_mtr = df_in.astype(int).values
 
-    def sort_bin(a):
+    def _sort_bin(a):
         b = np.transpose(a)
         b_view = np.ascontiguousarray(b).view(
             np.dtype((np.void, b.dtype.itemsize * b.shape[1]))
@@ -218,23 +218,23 @@ def is_conflict_free_gusfield(df_in, na_value=3):
         c = b[idx]
         return np.transpose(c), idx
 
-    Ip = I.copy()
+    Ip = I_mtr.copy()
     # Ip[Ip == na_value] = 0
-    O, idx = sort_bin(Ip)
+    O_mtr, idx = _sort_bin(Ip)
     # tsc.logg.info(O, '\n')
-    Lij = np.zeros(O.shape, dtype=int)
-    for i in range(O.shape[0]):
+    Lij = np.zeros(O_mtr.shape, dtype=int)
+    for i in range(O_mtr.shape[0]):
         maxK = 0
-        for j in range(O.shape[1]):
-            if O[i, j] == 1:
+        for j in range(O_mtr.shape[1]):
+            if O_mtr[i, j] == 1:
                 Lij[i, j] = maxK
                 maxK = j + 1
     # tsc.logg.info(Lij, '\n')
     Lj = np.amax(Lij, axis=0)
     # tsc.logg.info(Lj, '\n')
-    for i in range(O.shape[0]):
-        for j in range(O.shape[1]):
-            if O[i, j] == 1:
+    for i in range(O_mtr.shape[0]):
+        for j in range(O_mtr.shape[1]):
+            if O_mtr[i, j] == 1:
                 if Lij[i, j] != Lj[j]:
                     return False  # , (idx[j], idx[Lj[j] - 1])
     return True  # , (None, None)
@@ -308,7 +308,7 @@ def split_mut(mut):
         ens = mut.split(".chr")[0].split("_")[0]
         alt = mut.split(".")[-1]
         return ens, gene, chrom, pos, ref, alt
-    except:
+    except Exception:
         return None, None, None, None, None, None
 
 

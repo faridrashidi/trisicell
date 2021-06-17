@@ -12,7 +12,7 @@ except ImportError:
     __author__ = ", ".join(["Farid Rashidi"])
     __maintainer__ = ", ".join(["Farid Rashidi"])
     __email__ = ", ".join(["farid.rsh@gmail.com"])
-    __version__ = "0.0.8"
+    __version__ = "0.0.9"
 
 if platform == "linux" or platform == "linux2":
     os.environ["CC"] = "g++"
@@ -117,23 +117,23 @@ setup(
     setup_requires=["setuptools_scm"],
     python_requires=">=3.6",
     install_requires=[
-        l.strip() for l in Path("requirements.txt").read_text("utf-8").splitlines()
+        r.strip() for r in Path("requirements.txt").read_text("utf-8").splitlines()
     ],
     ext_modules=extensions,
     dependency_links=["https://pypi.gurobi.com"],
-    extras_require=dict(
-        dev=[
+    extras_require={
+        "dev": [
             "black==20.8b1",
             "pre-commit==2.9.3",
             "isort>=5.7.0",
             "pytest-cov",
         ],
-        docs=[
-            l.strip()
-            for l in (Path("docs") / "requirements.txt").read_text("utf-8").splitlines()
-            if not l.startswith("-r")
+        "docs": [
+            r.strip()
+            for r in (Path("docs") / "requirements.txt").read_text("utf-8").splitlines()
+            if not r.startswith("-r")
         ],
-    ),
+    },
     platforms=["Linux", "MacOSX"],
     packages=find_packages(),
     author=__author__,

@@ -1,8 +1,6 @@
 import csv
 import os
 
-import pandas as pd
-
 import trisicell as tsc
 
 
@@ -11,21 +9,22 @@ def write_cmds_get_main(
 ):
     cmdfile = f"{tmpdir}/cmd/{jobname}.sh"
     logdir = f"{tmpdir}/log/{jobname}"
+    tsc.ul.mkdir(f"{tmpdir}/cmd")
     tsc.ul.mkdir(logdir)
     if "biowulf" in os.uname()[1]:
         if df.shape[0] > 1:
             cmd = [
-                f"swarm",
+                "swarm",
                 f"--file {cmdfile}",
                 f"--time {time}",
                 f"--gb-per-process {mem}",
                 f"--logdir {logdir}",
                 f"--module {module}",
-                f"--bundle 1",
-                f"--partition ccr,norm",
-                f"--processes-per-subjob 1",
+                "--bundle 1",
+                "--partition ccr,norm",
+                "--processes-per-subjob 1",
                 f"--threads-per-process {nthread}",
-                f"--noht",
+                "--noht",
             ]
             if afterok is not None:
                 cmd += [
@@ -45,18 +44,18 @@ def write_cmds_get_main(
 
         else:
             cmd = [
-                f"sbatch",
-                f"--ntasks=1",
+                "sbatch",
+                "--ntasks=1",
                 f"--cpus-per-task={nthread}",
-                f"--ntasks-per-core=1",
+                "--ntasks-per-core=1",
                 f"--time={time}",
                 f"--mem={mem}g",
                 f"--job-name={jobname}",
-                f"--partition=ccr,norm",
+                "--partition=ccr,norm",
                 f"--chdir={tmpdir}",
                 f"--output={logdir}/log.o",
                 f"--error={logdir}/log.e",
-                f"--mail-type=END",
+                "--mail-type=END",
                 f"--mail-user={email}",
             ]
             if afterok is not None:

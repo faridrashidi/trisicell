@@ -3,23 +3,23 @@ from collections import OrderedDict
 import click
 
 import trisicell as tsc
-from trisicell.tl import consensus
-
-from ._bnb import bnb
-from ._booster import booster
-from ._consensus import consensus
-from ._huntress import huntress
-from ._mcalling import mcalling
-from ._phiscs import phiscsb, phiscsi
-from ._scistree import scistree
-from ._scite import scite
-from ._score import score
-from ._search import search
-from ._trees import cf2newick, cf2tree
+from trisicell.commands._bnb import bnb
+from trisicell.commands._booster import booster
+from trisicell.commands._consensus import consensus
+from trisicell.commands._defuse import defuse
+from trisicell.commands._huntress import huntress
+from trisicell.commands._mcalling import mcalling
+from trisicell.commands._phiscs import phiscsb, phiscsi
+from trisicell.commands._scistree import scistree
+from trisicell.commands._scite import scite
+from trisicell.commands._score import score
+from trisicell.commands._search import search
+from trisicell.commands._trees import cf2newick, cf2tree
 
 
 class NaturalOrderGroup(click.Group):
     """Command group trying to list subcommands in the order they were added.
+
     Make sure you initialize the `self.commands` with OrderedDict instance.
     With decorator, use::
         @click.group(cls=NaturalOrderGroup, commands=OrderedDict())
@@ -27,6 +27,7 @@ class NaturalOrderGroup(click.Group):
 
     def list_commands(self, ctx):
         """List command names as they are in commands dict.
+
         If the dict is OrderedDict, it will preserve the order commands
         were added.
         """
@@ -37,10 +38,13 @@ class NaturalOrderGroup(click.Group):
 @click.group(
     cls=NaturalOrderGroup,
     commands=OrderedDict(),
-    context_settings=dict(max_content_width=300, terminal_width=300),
+    context_settings={"max_content_width": 300, "terminal_width": 300},
 )
 def cli():
-    f"""Scalable intratumor heterogeneity inference and validation from single-cell data."""
+    """Trisicell.
+
+    Scalable intratumor heterogeneity inference and validation from single-cell data.
+    """
     return None
 
 
@@ -57,3 +61,4 @@ cli.add_command(cf2newick)
 cli.add_command(cf2tree)
 cli.add_command(consensus)
 cli.add_command(search)
+cli.add_command(defuse)

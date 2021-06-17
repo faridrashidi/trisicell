@@ -1,19 +1,21 @@
 # Copyright Ian Smith 2002-2018
-# Above only included as I am told that without it, others may claim copyright and stop me from editting my own copies of my own code! No idea how true this is.
+# Above only included as I am told that without it, others may claim copyright and stop
+# me from editting my own copies of my own code! No idea how true this is.
 # Beyond that, I am happy for anyone to make any edits they like to this code.
-# For example, raising ValueError in pmf, cdf and sf functions should perhaps only be done when the distribution objects are created
+# For example, raising ValueError in pmf, cdf and sf functions should perhaps only be
+# done when the distribution objects are created
 
-# This code is basically translated from the VBA code available at https://iandjmsmith.wordpress.com
+# This code is basically translated from the VBA code available
+# at https://iandjmsmith.wordpress.com
 
 import math
-import time
 
 NonIntegralValuesAllowed_Others = False
 
 OneOverSqrTwoPi = 0.39894228040143267793994605993438
 cfSmall = 0.00000000000001
 cfVSmall = 0.000000000000001
-scalefactor = 1.1579208923731619542357098500869e77  # 2**256  ' used for rescaling calcs w/o impacting accuracy, to avoid over/underflow
+scalefactor = 1.1579208923731619542357098500869e77  # 2**256
 scalefactor2 = 8.6361685550944446253863518628004e-78  # 2**-256
 max_discrete = 9007199254740991.0
 minLog1Value = -0.79149064
@@ -22,7 +24,8 @@ HalfMinusEulers_const = -0.07721566490153286060651209011
 Onep25Minusln2Minuseulers_const = -0.020362845461478170023744211558177
 coeffs0Minusp25 = 0.07246703342411321823620758332301
 
-# For logfbit functions                      # Stieltjes' continued fraction
+# For logfbit functions
+# Stieltjes' continued fraction
 cf_0 = 1.0 / 12.0
 cf_1 = 1.0 / 30.0
 cf_2 = 53.0 / 210.0
@@ -200,7 +203,8 @@ lfb_3 = 2.0790672103765093111522771767849e-02  # logfbit(3.0)
 lfb_4 = 1.6644691189821192163194865373593e-02  # logfbit(4.0)
 lfb_5 = 1.3876128823070747998745727023763e-02  # logfbit(5.0)
 
-# For logfbit functions                   #Stirling's series for ln(Gamma(x)), A046968/A046969
+# For logfbit functions
+# Stirling's series for ln(Gamma(x)), A046968/A046969
 lfbc1 = 1.0 / 12.0
 lfbc2 = 1.0 / 30.0  # lfbc2 on are Sloane's ratio times 12
 lfbc3 = 1.0 / 105.0
@@ -216,7 +220,8 @@ ha1, hprob, hswap = 0.0, 0.0, False
 
 
 def AlterForIntegralChecks_Others(value):
-    # If non integral values are allowed then returns math.floor(value) otherwise only allows value if it equals math.floor(value)
+    # If non integral values are allowed then returns math.floor(value) otherwise only
+    # allows value if it equals math.floor(value)
     if NonIntegralValuesAllowed_Others:
         return math.floor(value)
     elif value != math.floor(value):
@@ -262,7 +267,8 @@ def logfbit2dif(x):
 
 
 def logfbit2(x):
-    # Second derivative of error part of Stirling's formula where log(x!) = log(sqrt(twopi))+(x+0.5)*log(x+1)-(x+1)+logfbit(x).
+    # Second derivative of error part of Stirling's formula where
+    # log(x!) = log(sqrt(twopi))+(x+0.5)*log(x+1)-(x+1)+logfbit(x).
     if x >= 10000000000.0:
         return 2.0 * lfbc1 * ((x + 1.0) ** -3)
     elif x >= 7.0:
@@ -290,7 +296,8 @@ def logfbit4dif(x):
 
 
 def logfbit4(x):
-    # Fourth derivative of error part of Stirling's formula where log(x!) = log(sqrt(twopi))+(x+0.5)*log(x+1)-(x+1)+logfbit(x).
+    # Fourth derivative of error part of Stirling's formula where
+    # log(x!) = log(sqrt(twopi))+(x+0.5)*log(x+1)-(x+1)+logfbit(x).
     if x >= 10000000000.0:
         return -0.5 * ((x + 1.0) ** -4)
     elif x >= 7.0:
@@ -314,7 +321,8 @@ def logfbit4(x):
 
 
 def log0(x):
-    # Accurate and quicker calculation of log(1+x), particularly for small x. Code from Wolfgang Ehrhardt.
+    # Accurate and quicker calculation of log(1+x), particularly for small x.
+    # Code from Wolfgang Ehrhardt.
     if x > 4.0:
         return math.log(1.0 + x)
     else:
@@ -326,7 +334,8 @@ def log0(x):
 
 
 def logcf(x, i, d):
-    # Continued fraction for calculation of 1/i + x/(i+d) + x*x/(i+2*d) + x*x*x/(i+3d) + ...
+    # Continued fraction for calculation of
+    # 1/i + x/(i+d) + x*x/(i+2*d) + x*x*x/(i+3d) + ...
     c1 = 2.0 * d
     c2 = i + d
     c4 = c2 + d
@@ -388,8 +397,10 @@ def logfbitdif(x):
 
 
 def logfbita(x):
-    # Error part of Stirling's formula where math.log(x!) = math.log(math.sqrtt(twopi))+(x+0.5)*math.log(x+1)-(x+1)+logfbita(x).
-    # Are we ever concerned about the relative error involved in this function? I don't think so.
+    # Error part of Stirling's formula where math.log(x!) =
+    # math.log(math.sqrtt(twopi))+(x+0.5)*math.log(x+1)-(x+1)+logfbita(x).
+    # Are we ever concerned about the relative error involved in this function?
+    # I don't think so.
     if x >= 100000000.0:
         return lfbc1 / (x + 1.0)
     elif x >= 6.0:  # Abramowitz & Stegun's series 6.1.41
@@ -424,11 +435,14 @@ def logfbita(x):
 
 def logfbit(x):
     # Calculates log of x factorial - log(sqrt(2*pi)) +(x+1) -(x+0.5)*log(x+1)
-    # using the error part of Stirling's formula (see Abramowitz & Stegun# s series 6.1.41)
+    # using the error part of Stirling's formula
+    # (see Abramowitz & Stegun# s series 6.1.41)
     # and Stieltjes' continued fraction for the gamma function.
-    # For x < 1.5, uses expansion of log(x!) and log((x+1)!) from Abramowitz & Stegun# s series 6.1.33
+    # For x < 1.5, uses expansion of log(x!) and log((x+1)!)
+    # from Abramowitz & Stegun# s series 6.1.33
     # We are primarily concerned about the absolute error in this function.
-    # Due to cancellation errors in calculating 1+x as x tends to -1, the function loses accuracy and should not be used!
+    # Due to cancellation errors in calculating 1+x as x tends to -1,
+    # the function loses accuracy and should not be used!
     if x >= 6.0:
         x1 = x + 1.0
         if x >= 1000.0:
@@ -467,10 +481,8 @@ def logfbit(x):
     elif x > 1.5:
         x1 = x + 1.0
         if x >= 2.5:
-            # x2 = 0.25 * ((math.sqrt(x1 * x1 + 81.0) - x1) + 81.0 / (x1 + math.sqrt(x1 * x1 + 90.25)))
             x2 = 40.5 / (x1 + math.sqrt(x1 * x1 + 81.0))
         else:
-            # x2 = 0.25 * ((math.sqrt(x1 * x1 + 225.0) - x1) + 225.0 / (x1 + math.sqrt(x1 * x1 + 240.25)))
             x2 = 112.5 / (x1 + math.sqrt(x1 * x1 + 225.0))
             x2 = cf_27 / (x1 + cf_28 / (x1 + cf_29 / (x1 + x2)))
             x2 = cf_24 / (x1 + cf_25 / (x1 + cf_26 / (x1 + x2)))
@@ -482,14 +494,11 @@ def logfbit(x):
         x2 = cf_9 / (x1 + cf_10 / (x1 + cf_11 / (x1 + x2)))
         x2 = cf_6 / (x1 + cf_7 / (x1 + cf_8 / (x1 + x2)))
         x2 = cf_3 / (x1 + cf_4 / (x1 + cf_5 / (x1 + x2)))
-        # return cf_0 / (x1 + cf_1 / (x1 + cf_2 / (x1 + x2)))
         return 1.0 / (12.0 * (x1 + cf_1 / (x1 + cf_2 / (x1 + x2))))
-    # elif (x == 1.5):
-    #    return 3.316287351993628748511050974106e-02   #  3.316287351993628748511050974106e-02
     elif x == 0.5:
-        return logfbit0p5  #  5.481412105191765389613870234839e-02
+        return logfbit0p5  # 5.481412105191765389613870234839e-02
     elif x == -0.5:
-        return 0.15342640972002734529138393927091  #  0.15342640972002734529138393927091
+        return 0.15342640972002734529138393927091  # 0.15342640972002734529138393927091
     elif x >= -0.65:
         if x <= 0.0:
             i = len(coeffs) - 1
@@ -525,6 +534,8 @@ def logfbit(x):
             for i in range(i - 1, 0, -1):
                 lgam = coeffs[i] - x * lgam
                 # print(lgam)
+            coeffs0Minus1Third = 0
+            FiveOver3Minusln3Minuseulers_const = 0
             return (
                 (
                     x * x * (coeffs0Minus1Third - x * lgam)
@@ -541,6 +552,7 @@ def logfbit(x):
             for i in range(i - 1, 0, -1):
                 lgam = coeffs[i] - x * lgam
                 # print(lgam)
+            Forty7Over48Minusln4Minuseulers_const = 0
             return (
                 (
                     x * x * (coeffs0Minusp25 - x * lgam)
@@ -558,7 +570,8 @@ def logfbit(x):
 
 
 def lfbaccdif1(a, b):
-    # Calculates logfbit(b)-logfbit(a+b) accurately for a > 0 & b >= 0. Reasonably accurate for a >=0 & b < 0.
+    # Calculates logfbit(b)-logfbit(a+b) accurately for a > 0 & b >= 0.
+    # Reasonably accurate for a >=0 & b < 0.
     if a < 0.0:
         return -lfbaccdif1(-a, b + a)
     elif b >= 8.0:
@@ -650,8 +663,6 @@ def lfbaccdif1(a, b):
         i = len(coeffs2) + 2
         scale2 = 2.0 ** -i
         scale3 = 3.0 ** -i
-        # y2 = ((y1 + 2.5) * logcf(-y1 / 2.0, i, 1.0) - (2.0 / (i - 1.0))) * scale2 + (scale3 * logcf(-y1 / 3.0, i, 1.0) + scale2 * scale2 * logcf(-y1 / 4.0, i, 1.0))
-        # x2 = ((x1 + 2.5) * logcf(-x1 / 2.0, i, 1.0) - (2.0 / (i - 1.0))) * scale2 + (scale3 * logcf(-x1 / 3.0, i, 1.0) + scale2 * scale2 * logcf(-x1 / 4.0, i, 1.0))
         y2 = (
             (y1 + 2.5) * logcf(-y1 / 2.0, i, 1.0) - (2.0 / (i - 1.0))
         ) * scale2 + scale3 * logcf(-y1 / 3.0, i, 1.0)
@@ -661,7 +672,8 @@ def lfbaccdif1(a, b):
         if a > 0.000006:
             acc = (
                 y2 - x2
-            )  # This calculation is not accurate enough for b < 0 and a small - hence if b < 0 code above and derivative code below for small a
+            )  # This calculation is not accurate enough for b < 0 and a small -
+            # hence if b < 0 code above and derivative code below for small a
         else:
             y3 = -(y1 + a / 2.0) / 2.0
             x3 = -(y1 + a / 2.0) / 3.0
@@ -686,7 +698,8 @@ def lfbaccdif1(a, b):
 
 
 def hypergeometricTerm(ai, aji, aki, amkji):
-    # Probability that hypergeometric variate from a population with total type Is of aki+ai, total type IIs of amkji+aji, has ai type Is and aji type IIs selected.
+    # Probability that hypergeometric variate from a population with total type Is of
+    # aki+ai, total type IIs of amkji+aji, has ai type Is and aji type IIs selected.
     # Parameterised this way for use with the Beta Negative Binomial distribution.
     ak = aki + ai
     amk = amkji + aji
@@ -702,7 +715,6 @@ def hypergeometricTerm(ai, aji, aki, amkji):
     elif (ai >= 0.0) and (amkji > -1.0) and (aki > -1.0) and (aji >= 0.0):
         c1 = logfbit(amkji) + logfbit(aki) + logfbit(aji) + logfbit(am) + logfbit(ai)
         c1 = logfbit(amk) + logfbit(ak) + logfbit(aj) + logfbit(amj) - c1
-        # c1 = lfbaccdif1(ak, amk) - lfbaccdif1(ai, aki) - lfbaccdif1(ai, aji) - lfbaccdif1(aki, amkji) - logfbit(ai)
         ai1 = ai + 1.0
         aj1 = aj + 1.0
         ak1 = ak + 1.0
@@ -753,7 +765,9 @@ def hypergeometricTerm(ai, aji, aki, amkji):
 
 
 def hypergeometric(ai, aji, aki, amkji, comp):  # , ha1, hprob, hswap):
-    # Probability that hypergeometric variate from a population with total type Is of aki+ai, total type IIs of amkji+aji, has up to ai type Is selected in a sample of size aji+ai.
+    # Probability that hypergeometric variate from a population with total type Is of
+    # aki+ai, total type IIs of amkji+aji, has up to ai type Is selected in a sample
+    # of size aji+ai.
     # Parameterised this way for use with the Beta Negative Binomial distribution.
     global ha1, hprob, hswap
     if (amkji > -1.0) and (amkji < 0.0):
@@ -912,7 +926,8 @@ def hypergeometric(ai, aji, aki, amkji, comp):  # , ha1, hprob, hswap):
                 b2 = b2 * scalefactor2
 
         if b1 < 0.0 or b2 < 0.0:
-            raise ValueError  # Actually, something unexpected has happened here - although it will be to do with the values input.
+            raise ValueError  # Actually, something unexpected has happened here -
+            # although it will be to do with the values input.
         else:
             a1 = a2 / b2 * s
 
@@ -937,7 +952,8 @@ def hypergeometric(ai, aji, aki, amkji, comp):  # , ha1, hprob, hswap):
         return a1
     else:
         if a1 > 0.99:
-            raise ValueError  # Similarly, if we end up here then something unexpected has happened - although it will be to do with the values input.
+            raise ValueError  # Similarly, if we end up here then something unexpected
+            # has happened - although it will be to do with the values input.
         else:
             return 1.0 - a1
 
@@ -1180,7 +1196,8 @@ def sf_BetaNegativeBinomial(i, r, beta_shape1, beta_shape2):
                 if mnib1 > mxib1:
                     mxib1, mnib1 = mnib1, mxib1
 
-                # Block below not required if hypergeometric block included above and therefore other guaranteed < 1 <= mrb2
+                # Block below not required if hypergeometric block included above and
+                # therefore other guaranteed < 1 <= mrb2
                 # if mrb2 < other:
                 #    other, mrb2 = mrb2, other
                 #
@@ -1236,7 +1253,8 @@ def sf_BetaNegativeBinomial(i, r, beta_shape1, beta_shape2):
 def pmf_BetaBinomial(i, sample_size, beta_shape1, beta_shape2):
     i = AlterForIntegralChecks_Others(i)
     sample_size = AlterForIntegralChecks_Others(sample_size)
-    # These probably should be checked once, when creating a BetaBinomial distribution object
+    # These probably should be checked once, when creating a BetaBinomial distribution
+    # object
     if (beta_shape1 <= 0.0) or (beta_shape2 <= 0.0) or (sample_size < 0.0):
         raise ValueError
     elif (i < 0) or (i > sample_size):

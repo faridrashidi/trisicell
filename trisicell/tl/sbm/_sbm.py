@@ -55,7 +55,7 @@ def sbm(data2):
             (b[label2id[f"cell{i}"]] if f"cell{i}" in label2id else maxblocks + 1)
             for i in range(n_cells)
         ]
-        temp = sorted(list(Counter(cell_array).keys()))
+        temp = sorted(Counter(cell_array).keys())
         cell_idx_to_blocknum = {temp[i]: i + 1 for i in range(len(temp))}
         cell_array = [cell_idx_to_blocknum[a] for a in cell_array]
 
@@ -63,7 +63,7 @@ def sbm(data2):
             (b[label2id[f"mut{i}"]] if f"mut{i}" in label2id else maxblocks + 1)
             for i in range(n_muts)
         ]
-        temp = sorted(list(Counter(mut_array).keys()))
+        temp = sorted(Counter(mut_array).keys())
         mut_idx_to_blocknum = {temp[i]: i + 1 for i in range(len(temp))}
         mut_array = [mut_idx_to_blocknum[a] for a in mut_array]
         return cell_array, mut_array
@@ -91,7 +91,7 @@ def sbm(data2):
     N = pd.DataFrame(
         data.values[ixgrid], index=np.sort(cell_array), columns=np.sort(mut_array)
     )
-    I = data2.loc[
+    I_mtr = data2.loc[
         data2.index[np.argsort(cell_array)], data2.columns[np.argsort(mut_array)]
     ]
 
@@ -100,8 +100,8 @@ def sbm(data2):
             if get_ratio(N.loc[n, m])[0] > 0:
                 N.loc[n, m] = 1
 
-    N.index = I.index
-    N.columns = I.columns
+    N.index = I_mtr.index
+    N.columns = I_mtr.columns
     out = N.loc[data2.index, data2.columns]
 
     return out

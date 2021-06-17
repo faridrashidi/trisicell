@@ -101,6 +101,7 @@ Building c files
 ----------------
 For building ``.cpp`` files from ``.pyx`` files you need to execute::
 
+    pip install -r requirements.txt
     CYTHONIZE=1 python setup.py install
     pip install -e .
 

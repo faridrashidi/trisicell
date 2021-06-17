@@ -44,5 +44,6 @@ else
 fi
 
 python -m pip install --upgrade pip
+CYTHONIZE=1 python setup.py install
 pip install -e .
 pip install pytest pytest-cov

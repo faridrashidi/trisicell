@@ -1,5 +1,5 @@
 |DOI| |Stars| |PyPI| |PyPIDownloads| |Contributions Welcome| |Build Status|
-|Docs Status| |Pre-commit| |Code Style| |Code Score|
+|Docs Status| |Pre-commit| |Code Score| |Code Style|
 
 
 Trisicell - |subst|

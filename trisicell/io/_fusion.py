@@ -20,8 +20,18 @@ def read_defuse(dirpath, min_span_count=10):
         #     + "_"
         #     + df["genomic_break_pos2"].astype(str)
         # )
+        df["fusion_id"] = (
+            df["gene_name1"]
+            + "_"
+            + df["gene_name2"]
+            + "_"
+            + df["genomic_break_pos1"].astype(str)
+            + "_"
+            + df["genomic_break_pos2"].astype(str)
+        )
         df["cell_name"] = name
         df = df[df["span_count"] >= min_span_count]
+        df = df[df["adjacent"] == "N"]
         data.append(df)
     df = pd.concat(data)
 

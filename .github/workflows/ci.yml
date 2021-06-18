@@ -84,6 +84,12 @@ jobs:
         -   name: Unit tests
             run: |
                 python -m pytest --cov=trisicell ./tests
+        -   name: Upload coverage
+            if: success()
+            env:
+                CODECOV_NAME: ${{ matrix.python }}-${{ matrix.os }}
+            run: |
+                codecov --no-color --required --flags unittests
 
     deploy:
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')

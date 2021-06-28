@@ -64,7 +64,7 @@ repos:
     hooks:
     -   id: python-no-eval
     -   id: python-use-type-annotations
-    -   id: python-check-blanket-noqa
+    # -   id: python-check-blanket-noqa
     -   id: rst-backticks
     -   id: rst-directive-colons
     -   id: rst-inline-touching-normal

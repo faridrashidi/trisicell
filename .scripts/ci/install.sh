@@ -10,7 +10,6 @@ if [[ "$OS" == "macos-latest" ]]; then
   brew install graph-tool
   brew install mpich
   pip install mpi4py
-  brew install llvm
 elif [[ "$OS" == "ubuntu-latest" ]]; then
   curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
 
@@ -50,6 +49,3 @@ python setup.py build
 python setup.py build_ext --inplace
 pip install -e .
 pip install pytest pytest-cov codecov
-
-# CYTHONIZE=1 python setup.py install
-# pip install -e .

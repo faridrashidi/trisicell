@@ -106,11 +106,10 @@ def _set_assignment(v):
 def _fitch_hartigan_top_down(tree2):
     tree = tree2.copy()
     root = [n for n in tree.nodes() if tree.in_degree(n) == 0][0]
-    # leaves = [n for n in tree.nodes() if tree.out_degree(n) == 0]
 
     tree = _set_depth(tree, root)
     md = _get_max_depth(tree, root)
-    tree.nodes[root]["profile"] = _set_assignment(tree.nodes[root]["profile"])
+    tree.nodes[root]["profile"] = [0] * tree.nodes[root]["profile"].shape[0]
     d = 1
 
     while d <= md:

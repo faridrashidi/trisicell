@@ -1,5 +1,5 @@
 |DOI| |Stars| |PyPI| |PyPIDownloads| |Contributions Welcome| |Build Status|
-|Docs Status| |Pre-commit| |Code Score| |Code Style|
+|Docs Status| |Pre-commit| |Code Score| |Code Style| |Codecov|
 
 
 Trisicell - |subst|
@@ -75,6 +75,10 @@ Trisicell was developed in collaboration between the `Cancer Data Science Labora
 
 .. |Code Score| image:: https://img.shields.io/lgtm/grade/python/github/faridrashidi/trisicell.svg?logo=lgtm&logoWidth=18&style=flat-square
     :target: https://lgtm.com/projects/g/faridrashidi/trisicell/context:python
-    :alt: Code Style
+    :alt: Code Score
+
+.. |Codecov| image:: https://img.shields.io/codecov/c/github/faridrashidi/trisicell?logo=codecov&logoColor=white&style=flat-square
+    :target: https://codecov.io/gh/faridrashidi/trisicell
+    :alt: Codecov
 
 .. _preprint: https://doi.org/10.1101/2021.03.26.437185

@@ -73,7 +73,7 @@ extensions = [
             "trisicell/external/scite/findBestTrees.cpp",
         ],
         include_dirs=["trisicell/external/scite"],
-        extra_compile_args=[],
+        extra_compile_args=["-std=c++11"],
         language="c++",
     ),
 ]

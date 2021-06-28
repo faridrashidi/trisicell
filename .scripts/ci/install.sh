@@ -46,7 +46,10 @@ fi
 
 python -m pip install --upgrade pip
 pip install -r requirements.txt
-python setup.py install
+python setup.py build
 python setup.py build_ext --inplace
-python -m pip install .
+pip install -e .
 pip install pytest pytest-cov codecov
+
+# CYTHONIZE=1 python setup.py install
+# pip install -e .

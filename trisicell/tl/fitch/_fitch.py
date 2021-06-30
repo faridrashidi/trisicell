@@ -35,10 +35,16 @@ def _get_consensus(a, b):
     return 2
 
 
+_get_consensus = np.vectorize(_get_consensus)
+
+
 def _fill_child(a, b):
     if b == 2:
         return a
     return b
+
+
+_fill_child = np.vectorize(_fill_child)
 
 
 def _set_depth(G, root):
@@ -64,10 +70,6 @@ def _get_max_depth(G, root):
     return md
 
 
-_get_consensus = np.vectorize(_get_consensus)
-_fill_child = np.vectorize(_fill_child)
-
-
 def _fitch_hartigan_bottom_up(tree2):
     tree = tree2.copy()
     root = [n for n in tree.nodes() if tree.in_degree(n) == 0][0]
@@ -86,21 +88,16 @@ def _fitch_hartigan_bottom_up(tree2):
             if len(children) == 1:
                 tree.nodes[i]["profile"] = tree.nodes[children[0]]["profile"]
             else:
-                gc = _get_consensus(
-                    tree.nodes[children[0]]["profile"],
-                    tree.nodes[children[1]]["profile"],
-                )
+                gc = tree.nodes[children[0]]["profile"]
+                for child in children[1:]:
+                    gc = _get_consensus(
+                        gc,
+                        tree.nodes[child]["profile"],
+                    )
                 tree.nodes[i]["profile"] = gc
         d -= 1
 
     return tree
-
-
-def _set_assignment(v):
-    idx = np.where(v == 2)[0]
-    for i in idx:
-        v[i] = 0
-    return v
 
 
 def _fitch_hartigan_top_down(tree2):

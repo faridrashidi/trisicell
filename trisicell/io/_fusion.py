@@ -41,6 +41,7 @@ def read_defuse(dirpath):
         data.append(df)
     data = pd.concat(data)
     raw = pd.concat(raw)
+    raw
 
     data = (
         data.pivot_table(index="cell_name", columns="fusion_id", values="span_count")

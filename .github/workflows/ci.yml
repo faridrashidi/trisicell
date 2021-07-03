@@ -49,13 +49,14 @@ jobs:
 
     test:
         needs: lint
+        name: test on ${{ matrix.os }} with python ${{ matrix.python }}
         runs-on: ${{ matrix.os }}
         strategy:
             fail-fast: false
             max-parallel: 20
             matrix:
                 python: [3.7, 3.8, 3.9]
-                os: [ubuntu-latest]
+                os: [ubuntu-latest, macos-latest]
         env:
             OS: ${{ matrix.os }}
             PYTHON: ${{ matrix.python }}
@@ -92,11 +93,13 @@ jobs:
                 codecov --no-color --required --flags unittests
 
     build_wheels:
-        name: Build wheels on ${{ matrix.os }}
+        name: build wheels on ${{ matrix.os }}
         runs-on: ${{ matrix.os }}
         strategy:
+            fail-fast: false
+            max-parallel: 20
             matrix:
-                os: [ubuntu-20.04, macos-10.15]
+                os: [ubuntu-latest, macos-latest]
 
         steps:
         -   uses: actions/checkout@v2
@@ -114,7 +117,7 @@ jobs:
                 path: ./wheelhouse/*.whl
 
     build_sdist:
-        name: Build source distribution
+        name: build source distribution
         runs-on: ubuntu-latest
         steps:
         -   uses: actions/checkout@v2

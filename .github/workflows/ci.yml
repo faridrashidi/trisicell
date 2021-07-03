@@ -136,25 +136,16 @@ jobs:
 
     deploy:
         if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')
-        needs: test
+        needs: [test, build_wheels, build_sdist]
         runs-on: ubuntu-latest
         steps:
-        -   uses: actions/checkout@v2
-        -   name: Set up Python 3.7
-            uses: actions/setup-python@v2
+        -   name: Artifact
+            uses: actions/download-artifact@v2
             with:
-                python-version: 3.7
-        -   name: Install dependencies
-            run: |
-                python -m pip install --upgrade pip
-                pip install twine
-        -   name: Build a binary wheel and a source tarball
-            uses: RalfG/python-wheels-manylinux-build@v0.3.3
-            with:
-              python-versions: 'cp37-cp37m'
+                path: dist
+
         -   name: Publish wheels to PyPI
-            env:
-                TWINE_USERNAME: __token__
-                TWINE_PASSWORD: ${{ secrets.PYPI_TOKEN }}
-            run: |
-                twine upload dist/*-manylinux*.whl
+            uses: pypa/gh-action-pypi-publish@v1.4.2
+            with:
+                user: __token__
+                password: ${{ secrets.PYPI_TOKEN }}

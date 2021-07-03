@@ -1,0 +1,7 @@
+prune docs
+prune .scripts
+prune .github
+include requirements.txt
+include docs/requirements.txt
+include LICENSE
+include trisicell/datasets/*

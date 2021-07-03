@@ -75,7 +75,7 @@ import trisicell as tsc
     default=120,
     type=int,
     show_default=True,
-    help="Timeout of solving allowance.",
+    help="Timeout of solving allowance (in second).",
 )
 @click.option(
     "--n_iterations",

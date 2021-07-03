@@ -14,7 +14,8 @@ Table of Contents
 - `Code style guide`_
 - `Testing`_
 - `Writing documentation`_
-- `Building c files`_
+- `Building on a new machine`_
+- `Building cpp files`_
 - `Submitting a PR`_
 - `Creating a new release`_
 
@@ -97,10 +98,21 @@ In order to build the documentation, run::
     make doc
 
 
-Building c files
-----------------
+Building on a new machine
+-------------------------
+For building the ``.so`` files you need to execute::
+
+    pip install -r requirements.txt
+    python setup.py build
+    python setup.py build_ext --inplace
+    pip install -e .
+
+
+Building cpp files
+------------------
 For building ``.cpp`` files from ``.pyx`` files you need to execute::
 
+    pip install -r requirements.txt
     CYTHONIZE=1 python setup.py install
     pip install -e .
 

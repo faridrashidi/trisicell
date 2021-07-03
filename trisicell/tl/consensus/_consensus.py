@@ -139,7 +139,11 @@ def consensus_tree(sc1, sc2):
     nodes1 = _get_node_labels(cnt_tree1)
     nodes2 = _get_node_labels(cnt_tree2)
 
-    common_cells = list(np.intersect1d(nodes1.keys(), nodes2.keys())[0])
+    common_cells = np.intersect1d(nodes1.keys(), nodes2.keys())
+    if len(common_cells) == 0:
+        raise RuntimeError("No common cells found in the two matrices!")
+    else:
+        common_cells = list(common_cells[0])
 
     total_cost = 0
 

@@ -1,5 +1,5 @@
 |DOI| |Stars| |PyPI| |PyPIDownloads| |Contributions Welcome| |Build Status|
-|Docs Status| |Pre-commit| |Code Style| |Code Score|
+|Docs Status| |Pre-commit| |Code Score| |Code Style|
 
 
 Trisicell - |subst|
@@ -53,7 +53,7 @@ Trisicell was developed in collaboration between the `Cancer Data Science Labora
     :target: https://github.com/faridrashidi/trisicell
     :alt: Stars
 
-.. |Contributions Welcome| image:: https://img.shields.io/static/v1.svg?label=Contributions&message=Welcome&color=0059b3&style=flat-square
+.. |Contributions Welcome| image:: https://img.shields.io/static/v1.svg?label=contributions&message=welcome&color=0059b3&style=flat-square
     :target: https://github.com/faridrashidi/trisicell/blob/master/CONTRIBUTING.rst
     :alt: Contributions Welcome
 
@@ -75,6 +75,10 @@ Trisicell was developed in collaboration between the `Cancer Data Science Labora
 
 .. |Code Score| image:: https://img.shields.io/lgtm/grade/python/github/faridrashidi/trisicell.svg?logo=lgtm&logoWidth=18&style=flat-square
     :target: https://lgtm.com/projects/g/faridrashidi/trisicell/context:python
-    :alt: Code Style
+    :alt: Code Score
+
+.. |Codecov| image:: https://img.shields.io/codecov/c/github/faridrashidi/trisicell?logo=codecov&logoColor=white&style=flat-square
+    :target: https://codecov.io/gh/faridrashidi/trisicell
+    :alt: Codecov
 
 .. _preprint: https://doi.org/10.1101/2021.03.26.437185

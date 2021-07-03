@@ -192,6 +192,8 @@ def mltd(df_grnd, df_sol):
     running_time
 
     tmpdir.cleanup()
+    if result is None:
+        raise RuntimeError("MLTD core failed!")
 
     return result
 

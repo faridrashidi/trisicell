@@ -215,41 +215,41 @@ def iscistree(df_input, alpha, beta, n_iters=np.inf):
         tree.prune(f"{D.shape[0]-1}")
         return tree
 
-    def get_subtrees(tree):
-        subtrees = []
-        for clade in tree.find_clades():
-            gen = np.zeros(tree.count_terminals(), dtype=int)
-            cel = [
-                int(clade2.name)
-                for clade2 in clade.find_clades()
-                if "Inner" not in clade2.name
-            ]
-            gen[cel] = 1
-            subtrees.append(gen)
-        subtrees = np.array(subtrees)
-        return subtrees
+    # def get_subtrees(tree):
+    #     subtrees = []
+    #     for clade in tree.find_clades():
+    #         gen = np.zeros(tree.count_terminals(), dtype=int)
+    #         cel = [
+    #             int(clade2.name)
+    #             for clade2 in clade.find_clades()
+    #             if "Inner" not in clade2.name
+    #         ]
+    #         gen[cel] = 1
+    #         subtrees.append(gen)
+    #     subtrees = np.array(subtrees)
+    #     return subtrees
 
-    def denoise_quadratic(I_mtr, alpha, beta, subtrees):
-        def column_pairs_cost(A, Ap, unit_costs):
-            num = np.zeros((2, 2), dtype=np.int)
-            for i in range(2):
-                for j in range(2):
-                    num[i, j] = np.count_nonzero(np.logical_and(A == i, Ap == j))
-            return np.sum(num * unit_costs)
+    # def denoise_quadratic(I_mtr, alpha, beta, subtrees):
+    #     def column_pairs_cost(A, Ap, unit_costs):
+    #         num = np.zeros((2, 2), dtype=np.int)
+    #         for i in range(2):
+    #             for j in range(2):
+    #                 num[i, j] = np.count_nonzero(np.logical_and(A == i, Ap == j))
+    #         return np.sum(num * unit_costs)
 
-        unit_prob = np.array([[1 - beta, beta], [alpha, 1 - alpha]])
-        unit_costs = -np.log(unit_prob)
-        output = np.zeros(I_mtr.shape, dtype=int)
-        total_cost = 0
-        for c in range(I_mtr.shape[1]):
-            costs = [
-                column_pairs_cost(I_mtr[:, c], subtrees[st_ind], unit_costs)
-                for st_ind in range(len(subtrees))
-            ]
-            ind = np.argmin(costs)
-            output[:, c] = subtrees[ind]
-            total_cost += costs[ind]
-        return output, total_cost
+    #     unit_prob = np.array([[1 - beta, beta], [alpha, 1 - alpha]])
+    #     unit_costs = -np.log(unit_prob)
+    #     output = np.zeros(I_mtr.shape, dtype=int)
+    #     total_cost = 0
+    #     for c in range(I_mtr.shape[1]):
+    #         costs = [
+    #             column_pairs_cost(I_mtr[:, c], subtrees[st_ind], unit_costs)
+    #             for st_ind in range(len(subtrees))
+    #         ]
+    #         ind = np.argmin(costs)
+    #         output[:, c] = subtrees[ind]
+    #         total_cost += costs[ind]
+    #     return output, total_cost
 
     def denoise_linear(I_mtr, alpha, beta, opt_tree):
         tree = {}
@@ -303,11 +303,11 @@ def iscistree(df_input, alpha, beta, n_iters=np.inf):
             total_cost += -best_v
         return output, total_cost
 
-    def draw_helper(x):
-        if x.is_terminal():
-            return f"{int(x.name)+1}"
-        else:
-            return None
+    # def draw_helper(x):
+    #     if x.is_terminal():
+    #         return f"{int(x.name)+1}"
+    #     else:
+    #         return None
 
     def get_neighbors(tree):
         """

@@ -5,7 +5,7 @@ set -ev
 echo "Installing APT dependencies"
 if [[ "$OS" == "macos-latest" ]]; then
   brew install R
-  pip install rpy2>=3.3.0
+  # pip install rpy2>=3.3.0
   # Rscript -e 'install.packages("devtools")'
   # Rscript -e 'install.packages("BiocManager")'
   # Rscript -e 'install.packages("tidyverse")'

@@ -14,14 +14,13 @@ class TestSolvers:
         is_cf = tsc.ul.is_conflict_free_gusfield(df_in)
         assert not is_cf
 
-    @pytest.mark.skip(reason="PyTest issue with redirecting the stdout!")
+    @pytest.mark.skip(reason="PyTest issue with redirecting the stdout!")  # TODO:
     def test_scistree(self):
         df_in = tsc.datasets.test()
         df_out = tsc.tl.scistree(df_in, alpha=0.0000001, beta=0.1)
         is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
         assert is_cf
 
-    @pytest.mark.skip(reason="SCITE compilation issue!")
     def test_scite(self):
         df_in = tsc.datasets.test()
         df_out = tsc.tl.scite(
@@ -69,13 +68,31 @@ class TestSolvers:
         is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
         assert is_cf
 
-    def test_booster(self):
+    def test_booster_phiscs(self):
         df_in = tsc.datasets.test()
         df_out = tsc.tl.booster(
             df_in,
             alpha=0.0000001,
             beta=0.1,
             solver="PhISCS",
+            sample_on="muts",
+            sample_size=10,
+            n_samples=20,
+            begin_index=0,
+            n_jobs=1,
+            time_out=120,
+            dep_weight=5,
+        )
+        is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
+        assert is_cf
+
+    def test_booster_scite(self):
+        df_in = tsc.datasets.test()
+        df_out = tsc.tl.booster(
+            df_in,
+            alpha=0.0000001,
+            beta=0.1,
+            solver="SCITE",
             sample_on="muts",
             sample_size=10,
             n_samples=20,

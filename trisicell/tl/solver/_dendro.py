@@ -19,15 +19,15 @@ def dendro(adata, kind):
     try:
         import rpy2.robjects as robjects
         from rpy2.robjects.packages import importr
-    except:
-        raise SystemExit(
+    except Exception:
+        tsc.logg.error(
             "A problem was encountered importing `rpy2`. "
             "To run this `rpy2` and `R` need to be installed."
         )
     try:
         importr("DENDRO")
-    except:
-        raise SystemExit(
+    except Exception:
+        tsc.logg.error(
             "A problem was encountered importing `DENDRO` in R. "
             "To run this `DENDRO` needs to be installed in R. "
             "Use the following lines to installed them.\n\n"

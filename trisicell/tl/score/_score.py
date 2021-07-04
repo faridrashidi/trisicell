@@ -33,6 +33,8 @@ def ad(df_grnd, df_sol):
     """
 
     inter = np.intersect1d(df_grnd.columns, df_sol.columns)
+    if len(inter) == 0:
+        tsc.logg.error("No common mutations found between two trees!")
     M_grnd = df_grnd[inter].values
     M_sol = df_sol[inter].values
     error_pairs = []
@@ -83,6 +85,8 @@ def dl(df_grnd, df_sol):
     """
 
     inter = np.intersect1d(df_grnd.columns, df_sol.columns)
+    if len(inter) == 0:
+        tsc.logg.error("No common mutations found between two trees!")
     M_grnd = df_grnd[inter].values
     M_sol = df_sol[inter].values
     n_dlpairs1 = 0
@@ -130,6 +134,8 @@ def cc(df_grnd, df_sol):
     """
 
     inter = np.intersect1d(df_grnd.columns, df_sol.columns)
+    if len(inter) == 0:
+        tsc.logg.error("No common mutations found between two trees!")
     M_grnd = df_grnd[inter].values
     M_sol = df_sol[inter].values
     M_grnd, M_sol
@@ -176,6 +182,8 @@ def mltd(df_grnd, df_sol):
     df_grnd.columns = df_grnd.columns.str.replace(":", "_").str.replace("=", "_")
     df_sol.columns = df_sol.columns.str.replace(":", "_").str.replace("=", "_")
     inter = np.intersect1d(df_grnd.columns, df_sol.columns)
+    if len(inter) == 0:
+        tsc.logg.error("No common mutations found between two trees!")
     df_grnd1 = df_grnd[inter]
     df_sol1 = df_sol[inter]
 
@@ -193,7 +201,7 @@ def mltd(df_grnd, df_sol):
 
     tmpdir.cleanup()
     if result is None:
-        raise RuntimeError("MLTD core failed!")
+        tsc.logg.error("MLTD core failed!")
 
     return result
 
@@ -220,6 +228,8 @@ def tpted(df_grnd, df_sol):
     """
 
     inter = np.intersect1d(df_grnd.columns, df_sol.columns)
+    if len(inter) == 0:
+        tsc.logg.error("No common mutations found between two trees!")
     df_grnd1 = df_grnd[inter]
     df_sol1 = df_sol[inter]
 

@@ -48,7 +48,7 @@ def clonal_tree(
 
     _, graphviz_is_not_imporeted = tsc.ul.import_graphviz()
     if graphviz_is_not_imporeted:
-        raise RuntimeError("Unable to import a package!")
+        tsc.logg.error("Unable to import a package!")
 
     tc = tree.copy()
     root = tsc.ul.root_id(tree)
@@ -205,7 +205,7 @@ def dendro_tree(
         annotation = []
 
     if inner_node_type.lower() not in ["nmuts", "nodeid", "both"]:
-        raise ValueError("Wrong `inner_node_type` choice!")
+        tsc.logg.error("Wrong `inner_node_type` choice!")
 
     ggtree, ggtree_is_not_imported = tsc.ul.import_rpy2(
         "ggtree",
@@ -213,7 +213,7 @@ def dendro_tree(
         + ",'YuLab-SMU/aplot'))\ninstall.packages('cowplot')\n",
     )
     if ggtree_is_not_imported:
-        raise RuntimeError("Unable to import a package!")
+        tsc.logg.error("Unable to import a package!")
 
     import rpy2.robjects as ro
     from rpy2.robjects import pandas2ri

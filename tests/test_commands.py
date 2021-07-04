@@ -21,7 +21,6 @@ class TestCommands:
         )
         assert result.exit_code == 0
 
-    @pytest.mark.skip(reason="SCITE compilation issue!")
     def test_scite(self):
         runner = CliRunner()
         result = runner.invoke(
@@ -37,7 +36,6 @@ class TestCommands:
         )
         assert result.exit_code == 0
 
-    @pytest.mark.skip(reason="SCITE compilation issue!")
     def test_scite_experiment(self):
         runner = CliRunner()
         result = runner.invoke(
@@ -68,7 +66,7 @@ class TestCommands:
         )
         assert result.exit_code == 0
 
-    @pytest.mark.skip(reason="PyTest issue with multithreading!")
+    @pytest.mark.skip(reason="PyTest issue with multithreading!")  # TODO:
     def test_booster(self):
         runner = CliRunner()
         result = runner.invoke(

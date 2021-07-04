@@ -145,7 +145,10 @@ jobs:
                 path: dist
 
         -   name: Publish wheels to PyPI
-            uses: pypa/gh-action-pypi-publish@v1.4.2
+            uses: pypa/gh-action-pypi-publish@master
             with:
                 user: __token__
                 password: ${{ secrets.PYPI_TOKEN }}
+                packages_dir: dist/artifact/
+                skip_existing: true
+                verbose: true

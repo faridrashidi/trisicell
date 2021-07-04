@@ -18,7 +18,7 @@ def info(*args, **kwargs):
     [type]
         [description]
     """
-    return msg(*args, v="info", **kwargs)
+    msg(*args, v="info", **kwargs)
 
 
 def error(*args, **kwargs):
@@ -30,7 +30,8 @@ def error(*args, **kwargs):
         [description]
     """
     args = ("Error:",) + args
-    return msg(*args, v="error", **kwargs)
+    msg(*args, v="error", **kwargs)
+    exit(1)
 
 
 def warn(*args, **kwargs):
@@ -42,7 +43,7 @@ def warn(*args, **kwargs):
         [description]
     """
     args = ("WARNING:",) + args
-    return msg(*args, v="warn", **kwargs)
+    msg(*args, v="warn", **kwargs)
 
 
 def hint(*args, **kwargs):
@@ -53,7 +54,7 @@ def hint(*args, **kwargs):
     [type]
         [description]
     """
-    return msg(*args, v="hint", **kwargs)
+    msg(*args, v="hint", **kwargs)
 
 
 def debug(*args, **kwargs):
@@ -65,7 +66,7 @@ def debug(*args, **kwargs):
         [description]
     """
     args = ("DEBUG:",) + args
-    return msg(*args, v="debug", **kwargs)
+    msg(*args, v="debug", **kwargs)
 
 
 def msg(*msg, v, time=False, end="\n"):

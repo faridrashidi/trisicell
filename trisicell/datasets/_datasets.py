@@ -17,11 +17,6 @@ def example(kind):
     -------
     :class:`anndata.AnnData`
         An object that cells are in `.obs` and mutations are in `.var`.
-
-    Raises
-    ------
-    ValueError
-        If `kind` is not `genotype` or `expression`.
     """
 
     if kind.lower() == "genotype":
@@ -31,7 +26,7 @@ def example(kind):
             tsc.ul.get_file("trisicell.datasets/data/expression.h5ad.gz")
         )
     else:
-        raise ValueError("kind must be either genotype or expression")
+        tsc.logg.error("kind must be either genotype or expression")
 
 
 def test():

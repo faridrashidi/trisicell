@@ -9,7 +9,7 @@ import trisicell as tsc
 def sbm(data2):
     graph_tool, graph_tool_is_not_imported = tsc.ul.import_graph_tool()
     if graph_tool_is_not_imported:
-        raise RuntimeError("Unable to import a package!")
+        tsc.logg.error("Unable to import a package!")
 
     from graph_tool.inference import minimize as gt_min
 

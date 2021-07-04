@@ -26,23 +26,18 @@ def read(filepath):
     -------
     :class:`pandas.DataFrame` or :class:`anndata.AnnData`
         Depends on the format of the input file the output type is different.
-
-    Raises
-    ------
-    ValueError
-        If the extension is not one of the above.
     """
 
     ext = os.path.splitext(filepath)[-1]
     if ext in [".SC", ".CFMatrix", ".before_FP_FN_NA", ".tsv"]:
         sc = pd.read_table(filepath, index_col=0)
         if len(sc.columns) != len(set(sc.columns)):
-            raise RuntimeError("Mutation ids must be unique!")
+            tsc.logg.error("Mutation ids must be unique!")
         return sc
     elif ext in [".h5ad", ".gz"]:
         return ad.read(filepath)
     else:
-        raise ValueError("Extension is wrong!")
+        tsc.logg.error("Extension is wrong!")
 
 
 def write(obj, filepath):
@@ -54,13 +49,6 @@ def write(obj, filepath):
         The input object which is going to be written in a file.
     filepath : :obj:`str`
         The file path where the `obj` must be written in.
-
-    Raises
-    ------
-    ValueError
-        If `obj` is not an instance of:
-            :class:`pandas.DataFrame`
-            :class:`anndata.AnnData`
     """
 
     if isinstance(obj, pd.DataFrame):
@@ -69,7 +57,7 @@ def write(obj, filepath):
     elif isinstance(obj, ad.AnnData):
         obj.write(filepath + ".h5ad.gz", compression="gzip")
     else:
-        raise ValueError("Object instance is wrong!")
+        tsc.logg.error("Object instance is wrong!")
 
 
 def read_gatk(

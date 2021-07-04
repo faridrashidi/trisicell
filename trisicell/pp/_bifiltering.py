@@ -30,7 +30,7 @@ def bifiltering(df, cellr, mutr, time_limit=3600):
 
     gp, gp_is_not_imported = tsc.ul.import_gurobi()
     if gp_is_not_imported:
-        raise RuntimeError("Unable to import a package!")
+        tsc.logg.error("Unable to import a package!")
 
     M = df.values.copy()
     # only mutant

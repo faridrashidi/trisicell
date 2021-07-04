@@ -29,15 +29,15 @@ def cardelino(adata, mode, kind, tree=None):
     try:
         import rpy2.robjects as robjects
         from rpy2.robjects.packages import importr
-    except:
-        raise SystemExit(
+    except Exception:
+        tsc.logg.error(
             "A problem was encountered importing `rpy2`. "
             "To run this `rpy2` and `R` need to be installed."
         )
     try:
         importr("cardelino")
-    except:
-        raise SystemExit(
+    except Exception:
+        tsc.logg.error(
             "A problem was encountered importing `cardelino` in R. To run this"
             " `cardelino` needs to be installed in R. Use the following lines to"
             " installed"
@@ -88,7 +88,7 @@ def cardelino(adata, mode, kind, tree=None):
         assignments <- clone_id(A, D, Config=Config)
         """
     else:
-        raise ValueError("Wrong mode")
+        tsc.logg.error("Wrong mode")
 
     cmd += f"""
     result <- assign_cells_to_clones(assignments$prob)

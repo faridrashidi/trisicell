@@ -37,12 +37,12 @@ def read(filepath):
     if ext in [".SC", ".CFMatrix", ".before_FP_FN_NA", ".tsv"]:
         sc = pd.read_table(filepath, index_col=0)
         if len(sc.columns) != len(set(sc.columns)):
-            raise RuntimeError("Mutation ids must be unique!")
+            tsc.logg.error("Mutation ids must be unique!")
         return sc
     elif ext in [".h5ad", ".gz"]:
         return ad.read(filepath)
     else:
-        raise ValueError("Extension is wrong!")
+        tsc.logg.error("Extension is wrong!")
 
 
 def write(obj, filepath):
@@ -69,7 +69,7 @@ def write(obj, filepath):
     elif isinstance(obj, ad.AnnData):
         obj.write(filepath + ".h5ad.gz", compression="gzip")
     else:
-        raise ValueError("Object instance is wrong!")
+        tsc.logg.error("Object instance is wrong!")
 
 
 def read_gatk(

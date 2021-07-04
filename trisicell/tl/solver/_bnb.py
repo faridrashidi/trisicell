@@ -17,7 +17,7 @@ rec_num = 0
 def bnb(df_input, bounding):
     mpi4py, mpi4py_is_not_imporeted = tsc.ul.import_mpi4py()
     if mpi4py_is_not_imporeted:
-        raise RuntimeError("Unable to import a package!")
+        tsc.logg.error("Unable to import a package!")
 
     tsc.logg.info(f"running BnB with bounding={bounding}")
     matrix_input = df_input.values

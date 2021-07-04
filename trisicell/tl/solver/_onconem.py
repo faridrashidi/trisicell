@@ -32,7 +32,7 @@ def onconem(df_input, alpha, beta):
         + "devtools::install_bitbucket('edith_ross/oncoNEM')\n",
     )
     if onconem_is_not_imported:
-        raise RuntimeError("Unable to import a package!")
+        tsc.logg.error("Unable to import a package!")
 
     import rpy2.robjects as ro
     from rpy2.robjects import numpy2ri

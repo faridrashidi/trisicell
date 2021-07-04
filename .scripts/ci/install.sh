@@ -5,9 +5,23 @@ set -ev
 echo "Installing APT dependencies"
 if [[ "$OS" == "macos-latest" ]]; then
   brew install R
+  pip install rpy2>=3.3.0
+  Rscript -e 'install.packages("devtools")'
+  Rscript -e 'install.packages("BiocManager")'
+  Rscript -e 'install.packages("tidyverse")'
+  Rscript -e 'install.packages("cowplot")'
+  Rscript -e 'devtools::install_github("YuLab-SMU/ggtree")'
+  Rscript -e 'devtools::install_github("YuLab-SMU/aplot")'
+  Rscript -e 'devtools::install_github("xiangpin/ggtreeExtra")'
+  Rscript -e 'devtools::install_github("zhouzilu/DENDRO")'
+  Rscript -e 'BiocManager::install("graph")'
+  Rscript -e 'devtools::install_bitbucket("edith_ross/oncoNEM")'
+
   brew install graphviz
   pip install pygraphviz
+
   brew install graph-tool
+
   brew install mpich
   pip install mpi4py
 elif [[ "$OS" == "ubuntu-latest" ]]; then

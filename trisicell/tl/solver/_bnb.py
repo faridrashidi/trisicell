@@ -535,7 +535,7 @@ class BoundingAlgAbstract:
         self.na_support = False
 
     def reset(self, matrix):
-        raise NotImplementedError("The method not implemented")
+        tsc.logg.error("The method not implemented")
 
     def get_bound(self, delta):
         """
@@ -543,7 +543,7 @@ class BoundingAlgAbstract:
 
         delta: a sparse matrix with flipped ones
         """
-        raise NotImplementedError("The method not implemented")
+        tsc.logg.error("The method not implemented")
 
     def get_name(self):
         return type(self).__name__
@@ -754,7 +754,7 @@ class TwoSatBounding(BoundingAlgAbstract):
                 return sgn * (till_here + this_step)
             elif pv_abs == 7:
                 return 0
-        raise AssertionError("get_priority did not return anything!")
+        tsc.logg.error("get_priority did not return anything!")
 
 
 class BnB(pybnb.Problem):

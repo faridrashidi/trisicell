@@ -349,7 +349,7 @@ def phiscs_bulk(
             elif p == numMutations:
                 model.addConstr(gp.quicksum(A[s, p] for s in candidateAncestors) == 0)
             else:
-                raise Exception("p index is out of range")
+                tsc.logg.error("p index is out of range")
 
     # Defining the objective function
     objective = 0

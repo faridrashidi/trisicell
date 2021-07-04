@@ -7,7 +7,7 @@ def import_gurobi():
 
         return gp, False
     except Exception:
-        tsc.logg.error(
+        tsc.logg.warn(
             "Unable to import `gurobipy`!",
             "Make sure `Gurobi` is already installed in your system.",
             "Then install `gurobipy`.",
@@ -21,7 +21,7 @@ def import_mpi4py():
 
         return mpi4py, False
     except Exception:
-        tsc.logg.error(
+        tsc.logg.warn(
             "Unable to import `mpi4py`!",
             "Make sure `mpi/mpich-x86_64` is already installed in your system.",
             "Then install `mpi4py` using `pip`.",
@@ -37,7 +37,7 @@ def import_rpy2(name="base", how=""):
         r
 
     except ImportError:
-        tsc.logg.error(
+        tsc.logg.warn(
             "Unable to import `rpy2`, install it first as `pip install rpy2` version"
             " `>=3.3.0`."
         )
@@ -47,7 +47,7 @@ def import_rpy2(name="base", how=""):
         _r_lib = importr(name)
         return _r_lib, False
     except PackageNotInstalledError:
-        tsc.logg.error(f"Install R library `{name!r}` first.{how}")
+        tsc.logg.warn(f"Install R library `{name!r}` first.{how}")
         return None, True
 
 
@@ -57,7 +57,7 @@ def import_graphviz():
 
         return pygraphviz, False
     except Exception:
-        tsc.logg.error(
+        tsc.logg.warn(
             "Unable to import `pygraphviz`!",
             "Make sure `Graphviz` is already installed in your system.",
             "Then install `pygraphviz` using `pip`.",
@@ -71,7 +71,7 @@ def import_graph_tool():
 
         return graph_tool, False
     except Exception:
-        tsc.logg.error(
+        tsc.logg.warn(
             "Unable to import `graph_tool`!",
             "Make sure `graph_tool` is installed in your system.",
         )

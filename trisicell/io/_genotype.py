@@ -26,11 +26,6 @@ def read(filepath):
     -------
     :class:`pandas.DataFrame` or :class:`anndata.AnnData`
         Depends on the format of the input file the output type is different.
-
-    Raises
-    ------
-    ValueError
-        If the extension is not one of the above.
     """
 
     ext = os.path.splitext(filepath)[-1]
@@ -54,13 +49,6 @@ def write(obj, filepath):
         The input object which is going to be written in a file.
     filepath : :obj:`str`
         The file path where the `obj` must be written in.
-
-    Raises
-    ------
-    ValueError
-        If `obj` is not an instance of:
-            :class:`pandas.DataFrame`
-            :class:`anndata.AnnData`
     """
 
     if isinstance(obj, pd.DataFrame):

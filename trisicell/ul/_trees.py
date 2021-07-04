@@ -25,15 +25,10 @@ def to_tree(df):
     -------
     :class:`networkx.DiGraph`
         A perfect phylogenetic tree.
-
-    Raises
-    ------
-    Exception
-        If the input dataframe is not conflict-free.
     """
 
     if not tsc.ul.is_conflict_free_gusfield(df):
-        raise Exception("The input is not conflict-free!")
+        tsc.logg.error("The input is not conflict-free!")
 
     def _contains(col1, col2):
         for i in range(len(col1)):

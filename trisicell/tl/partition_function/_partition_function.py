@@ -50,13 +50,6 @@ def partition_function(df_input, alpha, beta, n_samples, n_batches, muts, cells)
     -------
     :class:`pandas.DataFrame`
         A table of probabilities for every mutation and every batch.
-
-    Raises
-    ------
-    ValueError
-        Mutations must be present in the input data.
-    ValueError
-        Cells must be present in the input data.
     """
     df_output = pd.DataFrame(None, index=muts, columns=range(n_batches))
     s_time = time.time()

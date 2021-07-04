@@ -188,7 +188,7 @@ def local_cluster_cells_then_merge_muts_pseudo_bulk(
     elif by == "cna":
         clusters = tsc.ul.hclustering(adata.obsm["cna"], metric="cosine")
     else:
-        raise ValueError("Wrong `by` choice!")
+        tsc.logg.error("Wrong `by` choice!")
 
     cluster = clusters[n_clusters]
     count = cluster.value_counts()
@@ -357,7 +357,7 @@ def keep_cell_by_list(adata, alist):
 
 def get_germline_variants(adata, normal_cells, min_vaf=0.1, min_coverage=10):
     if not isinstance(normal_cells, list):
-        raise ValueError("normal_cells must be a list")
+        tsc.logg.error("normal_cells must be a list")
 
     V = adata[normal_cells, :].to_df(layer="mutant")
     T = adata[normal_cells, :].to_df(layer="total")

@@ -42,7 +42,7 @@ def infercna(expr, ref_cells, genome="hg19", show_heatmap=False):
         "devtools::install_github(c('jlaffy/scalop','jlaffy/infercna'))\n",
     )
     if infercna_is_not_imported:
-        raise RuntimeError("Unable to import a package!")
+        tsc.logg.error("Unable to import a package!")
 
     import rpy2.robjects as ro
     from rpy2.robjects import pandas2ri

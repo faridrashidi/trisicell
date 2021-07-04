@@ -130,7 +130,7 @@ def consensus_tree(sc1, sc2):
     good_cells2 = sc2.index[(sc2 != 0).sum(axis=1) > 0]
     common_cells = np.intersect1d(good_cells1, good_cells2)
     if len(common_cells) == 0:
-        raise RuntimeError("No common cells found in two inputs!")
+        tsc.logg.error("No common cells found in two inputs!")
     sc1_p = sc1.loc[common_cells, :]
     sc2_p = sc2.loc[common_cells, :]
 
@@ -240,7 +240,7 @@ def consensus_tree(sc1, sc2):
     tsc.logg.info("    ---> total cost:", total_cost)
 
     if not nx.is_isomorphic(cnt_tree1, cnt_tree2):
-        raise RuntimeError("Error: Two trees are not isomorphic!")
+        tsc.logg.error("Error: Two trees are not isomorphic!")
 
     final_tree = cnt_tree1.copy()
     root1 = [x for x in cnt_tree1.nodes if cnt_tree1.in_degree(x) == 0][0]

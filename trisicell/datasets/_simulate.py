@@ -38,7 +38,7 @@ def simulate(n_cells=10, n_muts=10, n_clones=3, alpha=0.00001, beta=0.1, missing
         "BiocManager::install('graph')\ndevtools::install_bitbucket('edith_ross/oncoNEM')\n",
     )
     if onconem_is_not_imported:
-        raise RuntimeError("Unable to import a package!")
+        tsc.logg.error("Unable to import a package!")
 
     import rpy2.robjects as ro
     from rpy2.robjects import pandas2ri
@@ -73,7 +73,7 @@ def splatter(noisy, ground, seed=5):
         "BiocManager::install('splatter')\n",
     )
     if splatter_is_not_imported:
-        raise RuntimeError("Unable to import a package!")
+        tsc.logg.error("Unable to import a package!")
 
     import rpy2.robjects as ro
 
@@ -166,7 +166,7 @@ def create_splatter():
         "BiocManager::install('splatter')\n",
     )
     if splatter_is_not_imported:
-        raise RuntimeError("Unable to import a package!")
+        tsc.logg.error("Unable to import a package!")
 
     import rpy2.robjects as ro
 

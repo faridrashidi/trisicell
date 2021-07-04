@@ -126,7 +126,7 @@ def phiscsb(df_input, alpha, beta, experiment=False):
 def phiscsi(df_input, alpha, beta, time_out=86400):
     gp, gp_is_not_imported = tsc.ul.import_gurobi()
     if gp_is_not_imported:
-        raise RuntimeError("Unable to import a package!")
+        tsc.logg.error("Unable to import a package!")
 
     tsc.logg.info(
         f"running PhISCS-I with alpha={alpha}, beta={beta}, time_out={time_out}"
@@ -212,7 +212,7 @@ def phiscs_bulk(
 
     gp, gp_is_not_imported = tsc.ul.import_gurobi()
     if gp_is_not_imported:
-        raise RuntimeError("Unable to import a package!")
+        tsc.logg.error("Unable to import a package!")
 
     tsc.logg.info(
         f"running PhISCS-bulk with alpha={alpha}, beta={beta}, kmax={kmax}, "
@@ -406,7 +406,7 @@ def phiscs_bulk(
 def phiscs_readcount(adata, alpha, beta, time_out=86400):
     gp, gp_is_not_imported = tsc.ul.import_gurobi()
     if gp_is_not_imported:
-        raise RuntimeError("Unable to import a package!")
+        tsc.logg.error("Unable to import a package!")
 
     tsc.logg.info(
         f"running PhISCS-readcout with alpha={alpha}, beta={beta}, time_out={time_out}"

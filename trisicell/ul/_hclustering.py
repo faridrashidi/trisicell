@@ -147,7 +147,7 @@ def hclustering(df, metric="l1", method="ward"):
     elif metric == "cosine":
         dist = dist_cosine_ignore_na(df.values)
     else:
-        raise ValueError("Wroing `metric` choice!")
+        tsc.logg.error("Wroing `metric` choice!")
     clust = linkage(dist[np.triu_indices(dist.shape[0], 1)], method=method)
     clusters = {}
 

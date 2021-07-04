@@ -53,7 +53,7 @@ int m;                // number of samples
 char scoreType = 'm';
 int rep;            // number of repetitions of the MCMC
 int loops;          // number of loops within a MCMC
-double gamma = 1;
+double gammaParam = 1;
 double fd;          // rate of false discoveries (false positives 0->1)
 double ad1;          // rate of allelic dropout (false negatives 1->0)
 double ad2 = 0.0;         // rate of allelic dropout (2->1)
@@ -105,7 +105,7 @@ int main_in_c(int argc, char **argv)
 	if(trueTreeComp==true){ trueParentVec = getParentVectorFromGVfile(trueTreeFileName, n); }
 
 	/**  Find best scoring trees by MCMC  **/
-	sampleOutput = runMCMCbeta(optimalTrees, errorRates, rep, loops, gamma, moveProbs, n, m, dataMatrix, scoreType, trueParentVec, sampleStep, sample, chi, priorSd, useTreeList, treeType);
+	sampleOutput = runMCMCbeta(optimalTrees, errorRates, rep, loops, gammaParam, moveProbs, n, m, dataMatrix, scoreType, trueParentVec, sampleStep, sample, chi, priorSd, useTreeList, treeType);
 
 
 	/***  output results  ***/
@@ -274,7 +274,7 @@ int readParameters(int argc, char* argv[]){
 		} else if(strcmp(argv[i], "-l")==0) {
 			if (i + 1 < argc) { loops = atoi(argv[++i]);}
 		} else if(strcmp(argv[i], "-g")==0) {
-			if (i + 1 < argc) { gamma = atof(argv[++i]);}
+			if (i + 1 < argc) { gammaParam = atof(argv[++i]);}
 		} else if(strcmp(argv[i], "-fd")==0) {
 			if (i + 1 < argc) { fd = atof(argv[++i]);}
 		} else if(strcmp(argv[i],"-ad")==0) {

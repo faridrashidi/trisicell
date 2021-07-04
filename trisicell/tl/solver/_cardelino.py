@@ -29,14 +29,14 @@ def cardelino(adata, mode, kind, tree=None):
     try:
         import rpy2.robjects as robjects
         from rpy2.robjects.packages import importr
-    except:
+    except Exception:
         tsc.logg.error(
             "A problem was encountered importing `rpy2`. "
             "To run this `rpy2` and `R` need to be installed."
         )
     try:
         importr("cardelino")
-    except:
+    except Exception:
         tsc.logg.error(
             "A problem was encountered importing `cardelino` in R. To run this"
             " `cardelino` needs to be installed in R. Use the following lines to"

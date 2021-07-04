@@ -7,6 +7,16 @@ Release Notes
 =============
 
 
+Version 0.0.11 :small:`July 4, 2021`
+-------------------------------------
+
+This version includes:
+
+    - Fix some typos.
+    - Fix some bugs.
+    - Fix SCITE cythonizing issue.
+
+
 Version 0.0.10 :small:`July 3, 2021`
 -------------------------------------
 

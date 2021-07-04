@@ -80,7 +80,7 @@ def _dist_dendro(T, V, I_mtr):
     )
     V = V[:, ~bad_muts]
     T = T[:, ~bad_muts]
-    D = D[:, ~bad_muts]
+    # D = D[:, ~bad_muts]
     I_mtr = I_mtr[:, ~bad_muts]
     a = a[~bad_muts]
     b = b[~bad_muts]

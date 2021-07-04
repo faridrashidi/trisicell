@@ -312,7 +312,7 @@ def greedyPtreeNA(
         pivot_vector = M_copy[
             :, pivot_index
         ]  # vector used for pivoting the current iteration
-        cum_vector = np.copy(pivot_vector)  # holds the union vector
+        # cum_vector = np.copy(pivot_vector)  # holds the union vector
         while_cont = 1
         cum_hist = np.zeros(M_input.shape[0])  # holds the histogram for the union
 
@@ -683,7 +683,7 @@ def c_m_col(M_input, M_nodes, pc_fp=0.0001, pc_fn=0.1):
 def f_d_row(node_piv, M_samples, p_fp=0.005, p_fn=0.1):
     M_nodes = M_samples.copy()
 
-    distances = np.zeros(M_nodes.shape[0])
+    # distances = np.zeros(M_nodes.shape[0])
     D10 = (M_nodes == 0).astype(int).dot(node_piv == 1)
     D11 = (M_nodes == 1).astype(int).dot(node_piv == 1)
     D00 = (M_nodes == 0).astype(int).dot(node_piv == 0)

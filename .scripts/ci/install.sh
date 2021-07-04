@@ -43,6 +43,8 @@ else
   exit 42
 fi
 
+python setup.py build
+python setup.py build_ext --inplace
 python -m pip install --upgrade pip
 pip install -e .
-pip install pytest pytest-cov
+pip install pytest pytest-cov codecov

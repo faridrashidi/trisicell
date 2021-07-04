@@ -7,6 +7,15 @@ Release Notes
 =============
 
 
+Version 0.0.10 :small:`July 3, 2021`
+-------------------------------------
+
+This version includes:
+
+    - Fix some typos.
+    - Fix some bugs.
+
+
 Version 0.0.9 :small:`June 17, 2021`
 -------------------------------------
 

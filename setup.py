@@ -136,6 +136,7 @@ setup(
     },
     platforms=["Linux", "MacOSX"],
     packages=find_packages(),
+    include_package_data=True,
     author=__author__,
     author_email=__email__,
     email=__email__,

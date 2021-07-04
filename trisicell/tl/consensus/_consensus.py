@@ -126,9 +126,17 @@ def consensus_tree(sc1, sc2):
         Two trees derived by building the consensus procedure.
     """
 
+    good_cells1 = sc1.index[(sc1 != 0).sum(axis=1) > 0]
+    good_cells2 = sc2.index[(sc2 != 0).sum(axis=1) > 0]
+    common_cells = np.intersect1d(good_cells1, good_cells2)
+    if len(common_cells) == 0:
+        raise RuntimeError("No common cells found in two inputs!")
+    sc1_p = sc1.loc[common_cells, :]
+    sc2_p = sc2.loc[common_cells, :]
+
     # remove private mutations and build the trees
-    sc1_c = sc1.loc[:, sc1.sum() > 1].copy()
-    sc2_c = sc2.loc[:, sc2.sum() > 1].copy()
+    sc1_c = sc1_p.loc[:, sc1.sum() > 1].copy()
+    sc2_c = sc2_p.loc[:, sc2.sum() > 1].copy()
 
     tree1 = tsc.ul.to_tree(sc1_c)
     tree2 = tsc.ul.to_tree(sc2_c)
@@ -139,12 +147,7 @@ def consensus_tree(sc1, sc2):
     nodes1 = _get_node_labels(cnt_tree1)
     nodes2 = _get_node_labels(cnt_tree2)
 
-    common_cells = np.intersect1d(nodes1.keys(), nodes2.keys())
-    if len(common_cells) == 0:
-        raise RuntimeError("No common cells found in the two matrices!")
-    else:
-        common_cells = list(common_cells[0])
-
+    common_cells = list(np.intersect1d(list(nodes1.keys()), list(nodes2.keys())[0]))
     total_cost = 0
 
     # step 1,2

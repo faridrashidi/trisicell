@@ -1,5 +1,5 @@
-|DOI| |Stars| |PyPI| |PyPIDownloads| |Contributions Welcome| |Build Status|
-|Docs Status| |Pre-commit| |Code Score| |Code Style|
+|DOI| |Stars| |Compatible| |PyPI| |PyPiDownloads| |Contributions Welcome| |Build Status|
+|Docs Status| |Pre-commit| |Code Score| |License| |Code Style|
 
 
 Trisicell - |subst|
@@ -37,7 +37,7 @@ Trisicell was developed in collaboration between the `Cancer Data Science Labora
 .. |subst| replace:: Scalable intratumor heterogeneity inference and validation
                     from single-cell data
 
-.. |DOI| image:: https://img.shields.io/badge/DOI-10.1101/2021.03.26.437185-orange?style=flat-square
+.. |DOI| image:: https://img.shields.io/badge/DOI-10.1101/2021.03.26.437185-orange?logo=gitbook&logoColor=FFFFFF&style=flat-square
     :target: https://doi.org/10.1101/2021.03.26.437185
     :alt: DOI
 
@@ -45,23 +45,31 @@ Trisicell was developed in collaboration between the `Cancer Data Science Labora
     :target: https://pypi.org/project/trisicell
     :alt: PyPI
 
-.. |PyPIDownloads| image:: https://img.shields.io/badge/dynamic/json?logo=PyPi&logoColor=FFFFFF&style=flat-square&color=blue&label=downloads&query=%24.total_downloads&url=https%3A%2F%2Fapi.pepy.tech%2Fapi%2Fprojects%2Ftrisicell
+.. |PyPyDownloads| image:: https://img.shields.io/badge/dynamic/json?logo=PyPi&logoColor=FFFFFF&style=flat-square&color=blue&label=downloads&query=%24.total_downloads&url=https%3A%2F%2Fapi.pepy.tech%2Fapi%2Fprojects%2Ftrisicell
     :target: https://pepy.tech/project/trisicell
-    :alt: PyPIDownloads
+    :alt: PyPyDownloads
+
+.. |PyPiDownloads| image:: https://img.shields.io/pypi/dm/trisicell.svg?logo=docusign&logoColor=FFFFFF&style=flat-square&color=blue
+    :target: https://pepy.tech/project/trisicell
+    :alt: PyPiDownloads
 
 .. |Stars| image:: https://img.shields.io/github/stars/faridrashidi/trisicell?logo=GitHub&color=yellow&style=flat-square
     :target: https://github.com/faridrashidi/trisicell
     :alt: Stars
 
-.. |Contributions Welcome| image:: https://img.shields.io/static/v1.svg?label=contributions&message=welcome&color=0059b3&style=flat-square
+.. |Contributions Welcome| image:: https://img.shields.io/static/v1.svg?label=contributions&message=welcome&color=0059b3&logo=handshake&logoColor=FFFFFF&style=flat-square
     :target: https://github.com/faridrashidi/trisicell/blob/master/CONTRIBUTING.rst
     :alt: Contributions Welcome
 
-.. |Build Status| image:: https://img.shields.io/github/workflow/status/faridrashidi/trisicell/CI/master?label=build&logo=github&style=flat-square
+.. |Compatible| image:: https://img.shields.io/pypi/pyversions/trisicell.svg?logo=python&logoColor=FFFFFF&style=flat-square&color=blue
+    :target: https://pypi.org/project/trisicell
+    :alt: Compatible
+
+.. |Build Status| image:: https://img.shields.io/github/workflow/status/faridrashidi/trisicell/CI/master?label=build&logo=githubactions&logoColor=FFFFFF&style=flat-square
     :target: https://github.com/faridrashidi/trisicell/actions?query=workflow%3ACI
     :alt: Build Status
 
-.. |Docs Status| image:: https://readthedocs.org/projects/trisicell/badge/?version=latest&style=flat-square
+.. |Docs Status| image:: https://img.shields.io/readthedocs/trisicell/latest?logo=readthedocs&logoColor=FFFFFF&style=flat-square
     :target: https://trisicell.readthedocs.io
     :alt: Docs Status
 
@@ -69,7 +77,7 @@ Trisicell was developed in collaboration between the `Cancer Data Science Labora
     :target: https://github.com/pre-commit/pre-commit
     :alt: Pre-commit
 
-.. |Code Style| image:: https://img.shields.io/badge/code%20style-black-000000.svg?style=flat-square
+.. |Code Style| image:: https://img.shields.io/badge/code%20style-black-000000.svg?logo=visualstudiocode&logoColor=FFFFFF&style=flat-square
     :target: https://github.com/python/black
     :alt: Code Style
 
@@ -80,5 +88,10 @@ Trisicell was developed in collaboration between the `Cancer Data Science Labora
 .. |Codecov| image:: https://img.shields.io/codecov/c/github/faridrashidi/trisicell?logo=codecov&logoColor=white&style=flat-square
     :target: https://codecov.io/gh/faridrashidi/trisicell
     :alt: Codecov
+
+.. |License| image:: https://img.shields.io/pypi/l/trisicell.svg?logo=creativecommons&logoColor=FFFFFF&style=flat-square&color=blueviolet
+    :target: https://github.com/faridrashidi/trisicell/blob/master/LICENSE
+    :alt: License
+
 
 .. _preprint: https://doi.org/10.1101/2021.03.26.437185

@@ -123,13 +123,14 @@ def phiscsb(df_input, alpha, beta, experiment=False):
     return df_output
 
 
-def phiscsi(df_input, alpha, beta, time_out=86400):
+def phiscsi(df_input, alpha, beta, time_out=86400, n_threads=1):
     gp, gp_is_not_imported = tsc.ul.import_gurobi()
     if gp_is_not_imported:
         tsc.logg.error("Unable to import a package!")
 
     tsc.logg.info(
-        f"running PhISCS-I with alpha={alpha}, beta={beta}, time_out={time_out}"
+        f"running PhISCS-I with alpha={alpha}, beta={beta}, time_out={time_out}, "
+        f"n_threads={n_threads}"
     )
     cells = list(df_input.index)
     snvs = list(df_input.columns)
@@ -140,7 +141,7 @@ def phiscsi(df_input, alpha, beta, time_out=86400):
     model = gp.Model("ILP")
     model.Params.OutputFlag = 0
     model.Params.LogFile = ""
-    model.Params.Threads = 1
+    model.Params.Threads = n_threads
     model.Params.TimeLimit = time_out
 
     num_cells = len(cells)

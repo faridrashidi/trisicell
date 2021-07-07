@@ -34,7 +34,13 @@ class NaturalOrderGroup(click.Group):
         return self.commands.keys()
 
 
+def citation(ctx, param, value):
+    print("Please check https://trisicell.readthedocs.io/citing.html")
+    ctx.exit(0)
+
+
 @click.version_option(version=tsc.__version__)
+@click.option("--cite", is_flag=True, callback=citation, help="Show citation bib.")
 @click.group(
     cls=NaturalOrderGroup,
     commands=OrderedDict(),

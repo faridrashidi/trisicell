@@ -69,7 +69,7 @@ def phiscsb(genotype_file, alpha, beta):
     default=86400,
     type=int,
     show_default=True,
-    help="Timelimit of the program.",
+    help="Timelimit of the program (in second).",
 )
 @click.option(
     "--n_threads",
@@ -86,7 +86,7 @@ def phiscsi(genotype_file, alpha, beta, time_out, n_threads):
     tumor phylogeny reconstructionvia integrative use of
     single-cell and bulk sequencing data :cite:`PhISCS`.
 
-    trisicell phiscsi input.SC 0.0001 0.1 -to 3600
+    trisicell phiscsi input.SC 0.0001 0.1 -t 3600 -p 8
     """
 
     outfile = os.path.splitext(genotype_file)[0]

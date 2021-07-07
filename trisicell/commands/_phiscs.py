@@ -65,13 +65,21 @@ def phiscsb(genotype_file, alpha, beta):
 )
 @click.option(
     "--time_out",
-    "-to",
+    "-t",
     default=86400,
     type=int,
     show_default=True,
     help="Timelimit of the program.",
 )
-def phiscsi(genotype_file, alpha, beta, time_out):
+@click.option(
+    "--n_threads",
+    "-p",
+    default=1,
+    type=int,
+    show_default=True,
+    help="Number of threads.",
+)
+def phiscsi(genotype_file, alpha, beta, time_out, n_threads):
     """PhISCS-I.
 
     A combinatorial approach for subperfect
@@ -87,7 +95,9 @@ def phiscsi(genotype_file, alpha, beta, time_out):
     tsc.settings.logfile = f"{outfile}.phiscsi.log"
 
     df_in = tsc.io.read(genotype_file)
-    df_out = tsc.tl.phiscsi(df_in, alpha=alpha, beta=beta, time_out=time_out)
+    df_out = tsc.tl.phiscsi(
+        df_in, alpha=alpha, beta=beta, time_out=time_out, n_threads=n_threads
+    )
     tsc.io.write(df_out, f"{outfile}.phiscsi.CFMatrix")
 
     return None

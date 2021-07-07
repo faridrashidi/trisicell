@@ -27,6 +27,9 @@ def subsampling(
     # )
     # tsc.logg.info(f"id,m,i0,i1,i3,o0,o1,f01,f10,f30,f31,r")
 
+    if solver.lower() == "scite":
+        time_out = n_iterations
+
     @tsc.ul.with_timeout(time_out)
     def run(i):
         if sample_on == "muts":

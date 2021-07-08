@@ -13,7 +13,7 @@ def booster(
     solver="SCITE",
     sample_on="muts",
     sample_size=10,
-    n_samples=10,
+    n_samples=None,
     begin_index=0,
     n_jobs=10,
     dep_weight=50,
@@ -85,6 +85,10 @@ def booster(
         # tmpdir = tmpdir.name
         tmpdir = tsc.ul.tmpdir(suffix=".booster")
 
+    n_muts = df_input.shape[1]
+    if sample_size is None:
+        sample_size = int(dep_weight * (n_muts ** 2) / (sample_size ** 2))
+
     detail = {}
 
     s_time = time.time()
@@ -108,7 +112,6 @@ def booster(
 
     # preparing dependencies file
     if not no_dependencies:
-        n_muts = df_input.shape[1]
         max_num_submatrices = int(dep_weight * (n_muts ** 2) / (sample_size ** 2))
         prepare_dependencies(
             df_input.columns,

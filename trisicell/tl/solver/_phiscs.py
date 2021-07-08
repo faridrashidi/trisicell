@@ -209,6 +209,7 @@ def phiscs_bulk(
     vaf_info=None,
     delta=0.2,
     time_out=86400,
+    n_threads=1,
 ):
 
     gp, gp_is_not_imported = tsc.ul.import_gurobi()
@@ -217,7 +218,8 @@ def phiscs_bulk(
 
     tsc.logg.info(
         f"running PhISCS-bulk with alpha={alpha}, beta={beta}, kmax={kmax}, "
-        "vaf_info={vaf_info}, delta={delta}, time_out={time_out}"
+        f"vaf_info={vaf_info}, delta={delta}, time_out={time_out}, "
+        f"n_threads={n_threads}"
     )
 
     cells = list(df_input.index)
@@ -229,7 +231,7 @@ def phiscs_bulk(
     model = gp.Model("ILP")
     model.Params.OutputFlag = 0
     model.Params.LogFile = ""
-    model.Params.Threads = 1
+    model.Params.Threads = n_threads
     model.Params.TimeLimit = time_out
 
     numCells = len(cells)

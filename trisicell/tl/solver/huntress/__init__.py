@@ -4,7 +4,7 @@ import trisicell as tsc
 from trisicell.tl.solver.huntress._huntress_21_03_19 import Reconstruct
 
 
-def huntress(df_input_filepath, alpha, beta, kind, n_threads=1):
+def huntress(df_input_filepath, alpha, beta, kind="dna", n_threads=1):
     tsc.logg.info(
         f"running HUNTRESS with alpha={alpha}, beta={beta}, kind={kind},"
         f" n_threads={n_threads}"

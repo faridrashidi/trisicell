@@ -21,6 +21,30 @@ class TestCommands:
         )
         assert result.exit_code == 0
 
+    def test_huntress(self):
+        runner = CliRunner()
+        result = runner.invoke(
+            cli,
+            [
+                "huntress",
+                f"{tsc.ul.get_file('trisicell.datasets/test/test.tsv')}",
+                "0.0000001",
+                "0.1",
+            ],
+        )
+        assert result.exit_code == 0
+
+    def test_search(self):
+        runner = CliRunner()
+        result = runner.invoke(
+            cli,
+            [
+                "search",
+                f"{tsc.ul.get_file('trisicell.datasets/test/test.tsv')}",
+            ],
+        )
+        assert result.exit_code == 0
+
     def test_scite(self):
         runner = CliRunner()
         result = runner.invoke(
@@ -130,6 +154,8 @@ def cleanup(request):
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.scistree.log"))
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.scite.CFMatrix"))
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.scite.log"))
+        tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.huntress.CFMatrix"))
+        tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.huntress.log"))
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.CFMatrix"))
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.log"))
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.booster.CFMatrix"))
@@ -138,5 +164,6 @@ def cleanup(request):
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.info2"))
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.newick"))
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.png"))
+        tsc.ul.cleanup(tsc.ul.get_file("trisicell.datasets/test/test"))
 
     request.addfinalizer(remove_test_dir)

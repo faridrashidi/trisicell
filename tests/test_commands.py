@@ -90,25 +90,6 @@ class TestCommands:
         )
         assert result.exit_code == 0
 
-    @pytest.mark.skip(reason="PyTest issue with multithreading!")
-    def test_booster(self):
-        runner = CliRunner()
-        result = runner.invoke(
-            cli,
-            [
-                "booster",
-                tsc.ul.get_file("trisicell.datasets/test/test.tsv"),
-                "0.0000001",
-                "0.1",
-                "--solver phiscs",
-                "--n_samples 100",
-                "--sample_size 15",
-                "--n_jobs 1",
-                "--n_iterations 10000",
-            ],
-        )
-        assert result.exit_code == 0
-
     def test_consensus(self):
         path = "trisicell.datasets/test/consensus"
         runner = CliRunner()
@@ -134,7 +115,20 @@ class TestCommands:
         )
         assert result.exit_code == 0
 
-    def test_scpre(self):
+    @skip_graphviz
+    def test_cf2tree(self):
+        runner = CliRunner()
+        result = runner.invoke(
+            cli,
+            [
+                "cf2tree",
+                tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.CFMatrix"),
+            ],
+        )
+        assert result.exit_code == 0
+
+    @pytest.mark.skip(reason="Using MLTD in two test is taking so long in test_scores!")
+    def test_score(self):
         runner = CliRunner()
         result = runner.invoke(
             cli,
@@ -150,14 +144,21 @@ class TestCommands:
         )
         assert result.exit_code == 0
 
-    @skip_graphviz
-    def test_cf2tree(self):
+    @pytest.mark.skip(reason="PyTest issue with multithreading!")
+    def test_booster(self):
         runner = CliRunner()
         result = runner.invoke(
             cli,
             [
-                "cf2tree",
-                tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.CFMatrix"),
+                "booster",
+                tsc.ul.get_file("trisicell.datasets/test/test.tsv"),
+                "0.0000001",
+                "0.1",
+                "--solver phiscs",
+                "--n_samples 100",
+                "--sample_size 15",
+                "--n_jobs 1",
+                "--n_iterations 10000",
             ],
         )
         assert result.exit_code == 0

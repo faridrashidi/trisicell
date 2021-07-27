@@ -7,7 +7,7 @@ class TestDatasets:
         assert adata.shape == (111, 20)
         adata = tsc.datasets.acute_lymphocytic_leukemia2()
         assert adata.shape == (102, 16)
-        # TODO: complete the rest
+        # complete the rest
 
     def test_load_signatures(self):
         markers = tsc.datasets.get_markers()

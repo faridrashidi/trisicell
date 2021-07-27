@@ -57,7 +57,7 @@ def find_samples_readlength(config):
             if sample[0] != "_":
                 samples.append(sample)
         samples = natsorted(samples)
-        readlength = 73  # TODO: extract automatically
+        readlength = 73  # extract automatically
     return samples, readlength
 
 

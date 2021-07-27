@@ -14,7 +14,7 @@ class TestCommands:
             cli,
             [
                 "scistree",
-                f"{tsc.ul.get_file('trisicell.datasets/test/test.tsv')}",
+                tsc.ul.get_file("trisicell.datasets/test/test.tsv"),
                 "0.0000001",
                 "0.1",
             ],
@@ -27,7 +27,7 @@ class TestCommands:
             cli,
             [
                 "huntress",
-                f"{tsc.ul.get_file('trisicell.datasets/test/test.tsv')}",
+                tsc.ul.get_file("trisicell.datasets/test/test.tsv"),
                 "0.0000001",
                 "0.1",
             ],
@@ -40,7 +40,7 @@ class TestCommands:
             cli,
             [
                 "search",
-                f"{tsc.ul.get_file('trisicell.datasets/test/test.tsv')}",
+                tsc.ul.get_file("trisicell.datasets/test/test.tsv"),
             ],
         )
         assert result.exit_code == 0
@@ -51,7 +51,7 @@ class TestCommands:
             cli,
             [
                 "scite",
-                f"{tsc.ul.get_file('trisicell.datasets/test/test.tsv')}",
+                tsc.ul.get_file("trisicell.datasets/test/test.tsv"),
                 "0.0000001",
                 "0.1",
                 "-r 3",
@@ -66,7 +66,7 @@ class TestCommands:
             cli,
             [
                 "scite",
-                f"{tsc.ul.get_file('trisicell.datasets/test/test.tsv')}",
+                tsc.ul.get_file("trisicell.datasets/test/test.tsv"),
                 "0.0000001",
                 "0.1",
                 "-r 3",
@@ -83,21 +83,21 @@ class TestCommands:
             cli,
             [
                 "phiscsb",
-                f"{tsc.ul.get_file('trisicell.datasets/test/test.tsv')}",
+                tsc.ul.get_file("trisicell.datasets/test/test.tsv"),
                 "0.0000001",
                 "0.1",
             ],
         )
         assert result.exit_code == 0
 
-    @pytest.mark.skip(reason="PyTest issue with multithreading!")  # TODO:
+    @pytest.mark.skip(reason="PyTest issue with multithreading!")
     def test_booster(self):
         runner = CliRunner()
         result = runner.invoke(
             cli,
             [
                 "booster",
-                f"{tsc.ul.get_file('trisicell.datasets/test/test.tsv')}",
+                tsc.ul.get_file("trisicell.datasets/test/test.tsv"),
                 "0.0000001",
                 "0.1",
                 "--solver phiscs",
@@ -116,9 +116,9 @@ class TestCommands:
             cli,
             [
                 "consensus",
-                f"{tsc.ul.get_file(path + '/biorxiv.fig3b.CFMatrix')}",
-                f"{tsc.ul.get_file(path + '/biorxiv.figs18a.CFMatrix')}",
-                f"{tsc.ul.get_file('trisicell.datasets/test/consensus.CFMatrix')}",
+                tsc.ul.get_file(path + "/biorxiv.fig3b.CFMatrix"),
+                tsc.ul.get_file(path + "/biorxiv.figs18a.CFMatrix"),
+                tsc.ul.get_file("trisicell.datasets/test/consensus.CFMatrix"),
             ],
         )
         assert result.exit_code == 0
@@ -129,7 +129,23 @@ class TestCommands:
             cli,
             [
                 "cf2newick",
-                f"{tsc.ul.get_file('trisicell.datasets/test/test.phiscsb.CFMatrix')}",
+                tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.CFMatrix"),
+            ],
+        )
+        assert result.exit_code == 0
+
+    def test_scpre(self):
+        runner = CliRunner()
+        result = runner.invoke(
+            cli,
+            [
+                "score",
+                tsc.ul.get_file(
+                    "trisicell.datasets/test/fp_0-fn_0-na_0.ground.CFMatrix"
+                ),
+                tsc.ul.get_file(
+                    "trisicell.datasets/test/fp_0-fn_0-na_0.ground.CFMatrix"
+                ),
             ],
         )
         assert result.exit_code == 0
@@ -141,7 +157,7 @@ class TestCommands:
             cli,
             [
                 "cf2tree",
-                f"{tsc.ul.get_file('trisicell.datasets/test/test.phiscsb.CFMatrix')}",
+                tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.CFMatrix"),
             ],
         )
         assert result.exit_code == 0

@@ -7,6 +7,15 @@ Release Notes
 =============
 
 
+Version 0.0.12 :small:`July 7, 2021`
+-------------------------------------
+
+This version includes:
+
+    - Fix some bugs and typos.
+    - Add partition function command to the CLI.
+
+
 Version 0.0.11 :small:`July 4, 2021`
 -------------------------------------
 

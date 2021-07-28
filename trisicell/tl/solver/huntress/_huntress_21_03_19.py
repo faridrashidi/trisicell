@@ -62,6 +62,7 @@ def Reconstruct(
     #        print(" difference ",np.sum(matrix_recons!=matrix_input))
 
     if Algchoice == "FPNA" and auto_tune == 1:
+        tune_var = list(tune_var)
         proc_size = np.ceil(len(tune_var) / n_proc).astype(int)
         print(proc_size)
         cpu_range = []

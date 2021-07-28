@@ -3,7 +3,9 @@ import click
 import trisicell as tsc
 
 
-@click.command(short_help="Calculate consensus betweeen two trees.")
+@click.command(
+    short_help="Build consensus tree between two phylogenetic trees (Trisicell-Cons)."
+)
 @click.argument(
     "first_tree",
     required=True,

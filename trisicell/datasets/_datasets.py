@@ -477,7 +477,7 @@ def myeloproliferative_neoplasms18():
 
 
 def high_grade_serous_ovarian_cancer1():
-    """Triple-negative Breast Cancer (Patient 2).
+    """High Grade Serous Ovarian Cancer (Patient 2).
 
     This dataset was introduced in :cite:`McPherson_2016` and was used in:
 
@@ -501,7 +501,7 @@ def high_grade_serous_ovarian_cancer1():
 
 
 def high_grade_serous_ovarian_cancer2():
-    """Triple-negative Breast Cancer (Patient 3).
+    """High Grade Serous Ovarian Cancer (Patient 3).
 
     This dataset was introduced in :cite:`McPherson_2016` and was used in:
 
@@ -525,11 +525,12 @@ def high_grade_serous_ovarian_cancer2():
 
 
 def high_grade_serous_ovarian_cancer3():
-    """Triple-negative Breast Cancer (Patient 9).
+    """High Grade Serous Ovarian Cancer (Patient 9).
 
     This dataset was introduced in :cite:`McPherson_2016` and was used in:
 
     * :cite:`infSCITE` Figure S24.
+    * :cite:`scVILP` Figure 5.
 
     The size is n_cells × n_muts = 420 × 37
 
@@ -545,11 +546,12 @@ def high_grade_serous_ovarian_cancer3():
         )
     )
     # TODO: extract.
+    # FIXME: 370 x 43 in scVILP?
     return adata
 
 
 def high_grade_serous_ovarian_cancer_3celllines():
-    """Triple-negative Breast Cancer ().
+    """High Grade Serous Ovarian Cancer (3 cell lines).
 
     This dataset was introduced in :cite:`Laks_2019`
     and preprocessed in :cite:`McPherson_2019`.
@@ -594,3 +596,43 @@ def high_grade_serous_ovarian_cancer_3celllines():
 
     adata = tsc.io.read(tsc.ul.get_file("trisicell.datasets/real/ovarian.h5ad.gz"))
     return adata
+
+
+def oligodendroglioma_idh_mutated_tumor():
+    """Oligodendroglioma IDH-mutated tumor.
+
+    This dataset was introduced in :cite:`Tirosh_2016` and was used in:
+
+    * :cite:`SASC` Figure 5.
+
+    The size is n_cells × n_muts = 579 × 77
+
+    Returns
+    -------
+    :class:`anndata.AnnData`
+        An anndata in which `.X` is the input noisy.
+    """
+
+    adata = tsc.io.read(
+        tsc.ul.get_file(
+            "trisicell.datasets/real/oligodendroglioma_idh_mutated_tumor.h5ad"
+        )
+    )
+    return adata
+
+
+def acute_lymphocytic_leukemia_many():
+    """Human Acute Lymphocytic Leukemia datasets.
+
+    This dataset was introduced in :cite:`Morita_2020` and was used in:
+
+    * :cite:`Phyolin` Figure 3 and Table 1.
+
+    Returns
+    -------
+    :class:`anndata.AnnData`
+        An anndata in which `.X` is the input noisy.
+    """
+
+    # TODO: extract all
+    return None

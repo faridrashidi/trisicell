@@ -182,6 +182,6 @@ def cleanup(request):
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.info2"))
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.newick"))
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.png"))
-        tsc.ul.cleanup(tsc.ul.get_file("trisicell.datasets/test/test"))
+        # tsc.ul.cleanup(tsc.ul.get_file("trisicell.datasets/test/test"))
 
     request.addfinalizer(remove_test_dir)

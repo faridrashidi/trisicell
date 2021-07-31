@@ -14,6 +14,7 @@ from trisicell.commands._scistree import scistree
 from trisicell.commands._scite import scite
 from trisicell.commands._score import score
 from trisicell.commands._search import search
+from trisicell.commands._sra import sra
 from trisicell.commands._trees import cf2newick, cf2tree
 
 
@@ -68,3 +69,4 @@ cli.add_command(cf2tree)
 cli.add_command(consensus)
 cli.add_command(search)
 cli.add_command(defuse)
+cli.add_command(sra)

@@ -1,4 +1,3 @@
-import glob
 import os
 
 import click
@@ -8,7 +7,7 @@ import trisicell as tsc
 from trisicell.ul._servers import cmd, write_cmds_get_main
 
 
-@click.command(short_help="Run deFuse.")
+@click.command(short_help="Run SRA.")
 @click.argument(
     "sra_file",
     required=True,
@@ -34,61 +33,61 @@ def sra(sra_file, out_dir):
         if layout == "PAIRED":
             cmds += cmd(
                 [
-                    f"fastq-dump",
-                    f"--split-files",
+                    "fastq-dump",
+                    "--split-files",
                     f"--outdir {out_dir}",
                     f"{srr_id}",
                 ]
             )
             cmds += cmd(
                 [
-                    f"mv",
+                    "mv",
                     f"{out_dir}/{srr_id}_1.fastq",
                     f"{out_dir}/{name}_1.fastq",
                 ]
             )
             cmds += cmd(
                 [
-                    f"mv",
+                    "mv",
                     f"{out_dir}/{srr_id}_2.fastq",
                     f"{out_dir}/{name}_2.fastq",
                 ]
             )
             cmds += cmd(
                 [
-                    f"gzip",
+                    "gzip",
                     f"{out_dir}/{name}_1.fastq",
                 ]
             )
             cmds += cmd(
                 [
-                    f"gzip",
+                    "gzip",
                     f"{out_dir}/{name}_2.fastq",
                 ]
             )
         elif layout == "SINGLE":
             cmds += cmd(
                 [
-                    f"fastq-dump",
+                    "fastq-dump",
                     f"--outdir {out_dir}",
                     f"{srr_id}",
                 ]
             )
             cmds += cmd(
                 [
-                    f"mv",
+                    "mv",
                     f"{out_dir}/{srr_id}.fastq",
                     f"{out_dir}/{name}.fastq",
                 ]
             )
             cmds += cmd(
                 [
-                    f"gzip",
+                    "gzip",
                     f"{out_dir}/{name}.fastq",
                 ]
             )
 
-        cmds += cmd([f"echo Done!"], islast=True)
+        cmds += cmd(["echo Done!"], islast=True)
         return cmds
 
     df = pd.read_csv(sra_file, low_memory=False)

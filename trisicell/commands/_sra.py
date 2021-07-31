@@ -1,4 +1,6 @@
+import glob
 import os
+import subprocess
 
 import click
 import pandas as pd
@@ -22,7 +24,15 @@ from trisicell.ul._servers import cmd, write_cmds_get_main
         exists=True, file_okay=False, dir_okay=True, readable=True, resolve_path=True
     ),
 )
-def sra(sra_file, out_dir):
+@click.option(
+    "--check",
+    is_flag=True,
+    default=False,
+    type=bool,
+    show_default=True,
+    help="Check the unfinished jobs on biowulf.",
+)
+def sra(sra_file, out_dir, check):
     """Run SRA.
 
     trisicell sra path/to/SraRunTable.csv path/to/output/directory
@@ -90,28 +100,43 @@ def sra(sra_file, out_dir):
         cmds += cmd(["echo Done!"], islast=True)
         return cmds
 
-    df = pd.read_csv(sra_file, low_memory=False)
-    tsc.logg.info(f"There are {df.shape[0]} samples.")
+    if not check:
+        df = pd.read_csv(sra_file, low_memory=False)
+        tsc.logg.info(f"There are {df.shape[0]} samples.")
 
-    if df["Library Name"].nunique() != df.shape[0]:
-        tsc.logg.error(
-            "Number of unique `Library Name` and total samples are not equal!"
+        if df["Library Name"].nunique() != df.shape[0]:
+            tsc.logg.error(
+                "Number of unique `Library Name` and total samples are not equal!"
+            )
+
+        df["cmd"] = df.apply(
+            lambda x: cmds(x["Run"], x["Library Name"], x["LibraryLayout"]), axis=1
         )
-
-    df["cmd"] = df.apply(
-        lambda x: cmds(x["Run"], x["Library Name"], x["LibraryLayout"]), axis=1
-    )
-    jobname = os.path.basename(__file__)[:-3]
-    cmdmain = write_cmds_get_main(
-        df,
-        jobname,
-        "12:00:00",
-        "10",
-        "python/3.7,sratoolkit/2.10.8",
-        1,
-        "farid.rsh@gmail.com",
-        f"{out_dir}/_tmp",
-    )
-    os.system(cmdmain)
+        jobname = os.path.basename(__file__)[:-3]
+        cmdmain = write_cmds_get_main(
+            df,
+            jobname,
+            "12:00:00",
+            "10",
+            "python/3.7,sratoolkit/2.10.8",
+            1,
+            "farid.rsh@gmail.com",
+            f"{out_dir}/_tmp",
+        )
+        os.system(cmdmain)
+    else:
+        n = 0
+        for file in glob.glob(f"{out_dir}/_tmp/log/_sra/*.o"):
+            out = subprocess.getoutput(f"cat {file}")
+            if out.count("\nDone!") != out.count("(") and out.count(
+                "\nDone!"
+            ) != out.count(")"):
+                with open(file) as fin:
+                    tsc.logg.info(
+                        fin.readlines()[1].replace(")", "").replace("(", "").strip()
+                        + "\n"
+                    )
+                    n += 1
+        tsc.logg.info(f"There are {n} unfinished jobs.")
 
     return None

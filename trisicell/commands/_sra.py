@@ -1,4 +1,6 @@
+import glob
 import os
+import subprocess
 
 import click
 import pandas as pd
@@ -123,6 +125,18 @@ def sra(sra_file, out_dir, check):
         )
         os.system(cmdmain)
     else:
-        tsc.logg.info("checking.")
+        n = 0
+        for file in glob.glob(f"{out_dir}/_tmp/log/_sra/*.o"):
+            out = subprocess.getoutput(f"cat {file}")
+            if out.count("\nDone!") != out.count("(") and out.count(
+                "\nDone!"
+            ) != out.count(")"):
+                with open(file) as fin:
+                    tsc.logg.info(
+                        fin.readlines()[1].replace(")", "").replace("(", "").strip()
+                        + "\n"
+                    )
+                    n += 1
+        tsc.logg.info(f"There are {n} unfinished jobs.")
 
     return None

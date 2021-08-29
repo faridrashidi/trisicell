@@ -156,7 +156,8 @@ def infer_rates(I_mtr, O_mtr, na_value=3):
     return fn_rate, fp_rate, na_rate
 
 
-def is_conflict_free(D, na_value=3):
+def is_conflict_free(df_in):
+    D = df_in.astype(int).values
     conflict_free = True
     for p in range(D.shape[1]):
         for q in range(p + 1, D.shape[1]):
@@ -176,7 +177,7 @@ def is_conflict_free(D, na_value=3):
     return conflict_free
 
 
-def is_conflict_free_gusfield(df_in, na_value=3):
+def is_conflict_free_gusfield(df_in):
     """Check conflict-free criteria via Gusfield algorithm.
 
     This is an implementation of algorithm 1.1 in :cite:`Gusfield_1991`.
@@ -188,8 +189,6 @@ def is_conflict_free_gusfield(df_in, na_value=3):
     ----------
     df_in : :class:`pandas.DataFrame`
         Input genotype matrix.
-    na_value : :obj:`int`, optional
-        Missing value representation in the input data, by default 3.
 
     Returns
     -------
@@ -219,9 +218,7 @@ def is_conflict_free_gusfield(df_in, na_value=3):
         return np.transpose(c), idx
 
     Ip = I_mtr.copy()
-    # Ip[Ip == na_value] = 0
     O_mtr, idx = _sort_bin(Ip)
-    # tsc.logg.info(O, '\n')
     Lij = np.zeros(O_mtr.shape, dtype=int)
     for i in range(O_mtr.shape[0]):
         maxK = 0
@@ -229,15 +226,13 @@ def is_conflict_free_gusfield(df_in, na_value=3):
             if O_mtr[i, j] == 1:
                 Lij[i, j] = maxK
                 maxK = j + 1
-    # tsc.logg.info(Lij, '\n')
     Lj = np.amax(Lij, axis=0)
-    # tsc.logg.info(Lj, '\n')
     for i in range(O_mtr.shape[0]):
         for j in range(O_mtr.shape[1]):
             if O_mtr[i, j] == 1:
                 if Lij[i, j] != Lj[j]:
-                    return False  # , (idx[j], idx[Lj[j] - 1])
-    return True  # , (None, None)
+                    return False
+    return True
 
 
 def tmpdir(prefix="trisicell.", suffix=".trisicell", dirname="."):

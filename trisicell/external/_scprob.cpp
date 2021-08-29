@@ -4,35 +4,23 @@
 {
     "distutils": {
         "depends": [
-            "trisicell/external/scite/findBestTrees.h"
+            "trisicell/external/scprob/main.h"
         ],
         "extra_compile_args": [
-            "-O3",
-            "-std=c++11",
-            "-c"
+            "-std=c++11"
         ],
         "include_dirs": [
             "trisicell/external",
-            "trisicell/external/scite"
+            "trisicell/external/scprob"
         ],
         "language": "c++",
-        "name": "trisicell.external._scite",
+        "name": "trisicell.external._scprob",
         "sources": [
-            "trisicell/external/_scite.pyx",
-            "trisicell/external/scite/matrices.cpp",
-            "trisicell/external/scite/mcmcBinTreeMove.cpp",
-            "trisicell/external/scite/mcmc.cpp",
-            "trisicell/external/scite/mcmcTreeMove.cpp",
-            "trisicell/external/scite/output.cpp",
-            "trisicell/external/scite/rand.cpp",
-            "trisicell/external/scite/scoreBinTree.cpp",
-            "trisicell/external/scite/scoreTree.cpp",
-            "trisicell/external/scite/treelist.cpp",
-            "trisicell/external/scite/trees.cpp",
-            "trisicell/external/scite/findBestTrees.cpp"
+            "trisicell/external/_scprob.pyx",
+            "trisicell/external/scprob/main.cpp"
         ]
     },
-    "module_name": "trisicell.external._scite"
+    "module_name": "trisicell.external._scprob"
 }
 END: Cython Metadata */
 
@@ -662,12 +650,12 @@ static CYTHON_INLINE float __PYX_NAN() {
   #endif
 #endif
 
-#define __PYX_HAVE__trisicell__external___scite
-#define __PYX_HAVE_API__trisicell__external___scite
+#define __PYX_HAVE__trisicell__external___scprob
+#define __PYX_HAVE_API__trisicell__external___scprob
 /* Early includes */
 #include <string.h>
 #include <stdlib.h>
-#include "scite/findBestTrees.h"
+#include "scprob/main.h"
 #ifdef _OPENMP
 #include <omp.h>
 #endif /* _OPENMP */
@@ -876,7 +864,7 @@ static const char *__pyx_filename;
 
 
 static const char *__pyx_f[] = {
-  "trisicell/external/_scite.pyx",
+  "trisicell/external/_scprob.pyx",
 };
 
 /*--- Type declarations ---*/
@@ -1113,12 +1101,12 @@ static int __Pyx_InitStrings(__Pyx_StringTabEntry *t);
 
 /* Module declarations from 'libc.stdlib' */
 
-/* Module declarations from 'trisicell.external._scite' */
-#define __Pyx_MODULE_NAME "trisicell.external._scite"
-extern int __pyx_module_is_main_trisicell__external___scite;
-int __pyx_module_is_main_trisicell__external___scite = 0;
+/* Module declarations from 'trisicell.external._scprob' */
+#define __Pyx_MODULE_NAME "trisicell.external._scprob"
+extern int __pyx_module_is_main_trisicell__external___scprob;
+int __pyx_module_is_main_trisicell__external___scprob = 0;
 
-/* Implementation of 'trisicell.external._scite' */
+/* Implementation of 'trisicell.external._scprob' */
 static PyObject *__pyx_builtin_enumerate;
 static const char __pyx_k_s[] = "s";
 static const char __pyx_k_x[] = "x";
@@ -1132,10 +1120,10 @@ static const char __pyx_k_utf8[] = "utf8";
 static const char __pyx_k_c_argv[] = "c_argv";
 static const char __pyx_k_encoding[] = "encoding";
 static const char __pyx_k_enumerate[] = "enumerate";
-static const char __pyx_k_run_scite[] = "run_scite";
+static const char __pyx_k_run_scprob[] = "run_scprob";
 static const char __pyx_k_cline_in_traceback[] = "cline_in_traceback";
-static const char __pyx_k_trisicell_external__scite[] = "trisicell.external._scite";
-static const char __pyx_k_trisicell_external__scite_pyx[] = "trisicell/external/_scite.pyx";
+static const char __pyx_k_trisicell_external__scprob[] = "trisicell.external._scprob";
+static const char __pyx_k_trisicell_external__scprob_pyx[] = "trisicell/external/_scprob.pyx";
 static PyObject *__pyx_n_s_args;
 static PyObject *__pyx_n_s_c_argv;
 static PyObject *__pyx_n_s_cline_in_traceback;
@@ -1145,44 +1133,44 @@ static PyObject *__pyx_n_s_enumerate;
 static PyObject *__pyx_n_s_idx;
 static PyObject *__pyx_n_s_main;
 static PyObject *__pyx_n_s_name;
-static PyObject *__pyx_n_s_run_scite;
+static PyObject *__pyx_n_s_run_scprob;
 static PyObject *__pyx_n_s_s;
 static PyObject *__pyx_n_s_test;
-static PyObject *__pyx_n_s_trisicell_external__scite;
-static PyObject *__pyx_kp_s_trisicell_external__scite_pyx;
+static PyObject *__pyx_n_s_trisicell_external__scprob;
+static PyObject *__pyx_kp_s_trisicell_external__scprob_pyx;
 static PyObject *__pyx_n_s_utf8;
 static PyObject *__pyx_n_s_x;
-static PyObject *__pyx_pf_9trisicell_8external_6_scite_run_scite(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_cmd); /* proto */
+static PyObject *__pyx_pf_9trisicell_8external_7_scprob_run_scprob(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_cmd); /* proto */
 static PyObject *__pyx_int_0;
 static PyObject *__pyx_int_1;
 static PyObject *__pyx_tuple_;
 static PyObject *__pyx_codeobj__2;
 /* Late includes */
 
-/* "trisicell/external/_scite.pyx":7
+/* "trisicell/external/_scprob.pyx":7
  * 	cdef int main_in_c(int argc, char **argv)
  *
- * def run_scite(cmd):             # <<<<<<<<<<<<<<
+ * def run_scprob(cmd):             # <<<<<<<<<<<<<<
  * 	cdef char **c_argv
  * 	args = [bytes(x, encoding="utf8") for x in cmd]
  */
 
 /* Python wrapper */
-static PyObject *__pyx_pw_9trisicell_8external_6_scite_1run_scite(PyObject *__pyx_self, PyObject *__pyx_v_cmd); /*proto*/
-static char __pyx_doc_9trisicell_8external_6_scite_run_scite[] = "run_scite(cmd)";
-static PyMethodDef __pyx_mdef_9trisicell_8external_6_scite_1run_scite = {"run_scite", (PyCFunction)__pyx_pw_9trisicell_8external_6_scite_1run_scite, METH_O, __pyx_doc_9trisicell_8external_6_scite_run_scite};
-static PyObject *__pyx_pw_9trisicell_8external_6_scite_1run_scite(PyObject *__pyx_self, PyObject *__pyx_v_cmd) {
+static PyObject *__pyx_pw_9trisicell_8external_7_scprob_1run_scprob(PyObject *__pyx_self, PyObject *__pyx_v_cmd); /*proto*/
+static char __pyx_doc_9trisicell_8external_7_scprob_run_scprob[] = "run_scprob(cmd)";
+static PyMethodDef __pyx_mdef_9trisicell_8external_7_scprob_1run_scprob = {"run_scprob", (PyCFunction)__pyx_pw_9trisicell_8external_7_scprob_1run_scprob, METH_O, __pyx_doc_9trisicell_8external_7_scprob_run_scprob};
+static PyObject *__pyx_pw_9trisicell_8external_7_scprob_1run_scprob(PyObject *__pyx_self, PyObject *__pyx_v_cmd) {
   PyObject *__pyx_r = 0;
   __Pyx_RefNannyDeclarations
-  __Pyx_RefNannySetupContext("run_scite (wrapper)", 0);
-  __pyx_r = __pyx_pf_9trisicell_8external_6_scite_run_scite(__pyx_self, ((PyObject *)__pyx_v_cmd));
+  __Pyx_RefNannySetupContext("run_scprob (wrapper)", 0);
+  __pyx_r = __pyx_pf_9trisicell_8external_7_scprob_run_scprob(__pyx_self, ((PyObject *)__pyx_v_cmd));
 
   /* function exit code */
   __Pyx_RefNannyFinishContext();
   return __pyx_r;
 }
 
-static PyObject *__pyx_pf_9trisicell_8external_6_scite_run_scite(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_cmd) {
+static PyObject *__pyx_pf_9trisicell_8external_7_scprob_run_scprob(CYTHON_UNUSED PyObject *__pyx_self, PyObject *__pyx_v_cmd) {
   char **__pyx_v_c_argv;
   PyObject *__pyx_v_args = NULL;
   PyObject *__pyx_v_idx = NULL;
@@ -1202,10 +1190,10 @@ static PyObject *__pyx_pf_9trisicell_8external_6_scite_run_scite(CYTHON_UNUSED P
   int __pyx_lineno = 0;
   const char *__pyx_filename = NULL;
   int __pyx_clineno = 0;
-  __Pyx_RefNannySetupContext("run_scite", 0);
+  __Pyx_RefNannySetupContext("run_scprob", 0);
 
-  /* "trisicell/external/_scite.pyx":9
- * def run_scite(cmd):
+  /* "trisicell/external/_scprob.pyx":9
+ * def run_scprob(cmd):
  * 	cdef char **c_argv
  * 	args = [bytes(x, encoding="utf8") for x in cmd]             # <<<<<<<<<<<<<<
  * 	c_argv = <char**>malloc(sizeof(char*) * len(args))
@@ -1273,7 +1261,7 @@ static PyObject *__pyx_pf_9trisicell_8external_6_scite_run_scite(CYTHON_UNUSED P
   __pyx_v_args = ((PyObject*)__pyx_t_1);
   __pyx_t_1 = 0;
 
-  /* "trisicell/external/_scite.pyx":10
+  /* "trisicell/external/_scprob.pyx":10
  * 	cdef char **c_argv
  * 	args = [bytes(x, encoding="utf8") for x in cmd]
  * 	c_argv = <char**>malloc(sizeof(char*) * len(args))             # <<<<<<<<<<<<<<
@@ -1283,7 +1271,7 @@ static PyObject *__pyx_pf_9trisicell_8external_6_scite_run_scite(CYTHON_UNUSED P
   __pyx_t_3 = PyList_GET_SIZE(__pyx_v_args); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 10, __pyx_L1_error)
   __pyx_v_c_argv = ((char **)malloc(((sizeof(char *)) * __pyx_t_3)));
 
-  /* "trisicell/external/_scite.pyx":11
+  /* "trisicell/external/_scprob.pyx":11
  * 	args = [bytes(x, encoding="utf8") for x in cmd]
  * 	c_argv = <char**>malloc(sizeof(char*) * len(args))
  * 	for idx, s in enumerate(args):             # <<<<<<<<<<<<<<
@@ -1311,7 +1299,7 @@ static PyObject *__pyx_pf_9trisicell_8external_6_scite_run_scite(CYTHON_UNUSED P
     __pyx_t_1 = __pyx_t_7;
     __pyx_t_7 = 0;
 
-    /* "trisicell/external/_scite.pyx":12
+    /* "trisicell/external/_scprob.pyx":12
  * 	c_argv = <char**>malloc(sizeof(char*) * len(args))
  * 	for idx, s in enumerate(args):
  * 		c_argv[idx] = s             # <<<<<<<<<<<<<<
@@ -1322,7 +1310,7 @@ static PyObject *__pyx_pf_9trisicell_8external_6_scite_run_scite(CYTHON_UNUSED P
     __pyx_t_9 = __Pyx_PyIndex_AsSsize_t(__pyx_v_idx); if (unlikely((__pyx_t_9 == (Py_ssize_t)-1) && PyErr_Occurred())) __PYX_ERR(0, 12, __pyx_L1_error)
     (__pyx_v_c_argv[__pyx_t_9]) = __pyx_t_8;
 
-    /* "trisicell/external/_scite.pyx":11
+    /* "trisicell/external/_scprob.pyx":11
  * 	args = [bytes(x, encoding="utf8") for x in cmd]
  * 	c_argv = <char**>malloc(sizeof(char*) * len(args))
  * 	for idx, s in enumerate(args):             # <<<<<<<<<<<<<<
@@ -1333,7 +1321,7 @@ static PyObject *__pyx_pf_9trisicell_8external_6_scite_run_scite(CYTHON_UNUSED P
   __Pyx_DECREF(__pyx_t_2); __pyx_t_2 = 0;
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "trisicell/external/_scite.pyx":13
+  /* "trisicell/external/_scprob.pyx":13
  * 	for idx, s in enumerate(args):
  * 		c_argv[idx] = s
  * 	main_in_c(len(args), c_argv)             # <<<<<<<<<<<<<<
@@ -1342,7 +1330,7 @@ static PyObject *__pyx_pf_9trisicell_8external_6_scite_run_scite(CYTHON_UNUSED P
   __pyx_t_3 = PyList_GET_SIZE(__pyx_v_args); if (unlikely(__pyx_t_3 == ((Py_ssize_t)-1))) __PYX_ERR(0, 13, __pyx_L1_error)
   (void)(main_in_c(__pyx_t_3, __pyx_v_c_argv));
 
-  /* "trisicell/external/_scite.pyx":14
+  /* "trisicell/external/_scprob.pyx":14
  * 		c_argv[idx] = s
  * 	main_in_c(len(args), c_argv)
  * 	return None             # <<<<<<<<<<<<<<
@@ -1351,10 +1339,10 @@ static PyObject *__pyx_pf_9trisicell_8external_6_scite_run_scite(CYTHON_UNUSED P
   __pyx_r = Py_None; __Pyx_INCREF(Py_None);
   goto __pyx_L0;
 
-  /* "trisicell/external/_scite.pyx":7
+  /* "trisicell/external/_scprob.pyx":7
  * 	cdef int main_in_c(int argc, char **argv)
  *
- * def run_scite(cmd):             # <<<<<<<<<<<<<<
+ * def run_scprob(cmd):             # <<<<<<<<<<<<<<
  * 	cdef char **c_argv
  * 	args = [bytes(x, encoding="utf8") for x in cmd]
  */
@@ -1366,7 +1354,7 @@ static PyObject *__pyx_pf_9trisicell_8external_6_scite_run_scite(CYTHON_UNUSED P
   __Pyx_XDECREF(__pyx_t_5);
   __Pyx_XDECREF(__pyx_t_6);
   __Pyx_XDECREF(__pyx_t_7);
-  __Pyx_AddTraceback("trisicell.external._scite.run_scite", __pyx_clineno, __pyx_lineno, __pyx_filename);
+  __Pyx_AddTraceback("trisicell.external._scprob.run_scprob", __pyx_clineno, __pyx_lineno, __pyx_filename);
   __pyx_r = NULL;
   __pyx_L0:;
   __Pyx_XDECREF(__pyx_v_args);
@@ -1385,17 +1373,17 @@ static PyMethodDef __pyx_methods[] = {
 #if PY_MAJOR_VERSION >= 3
 #if CYTHON_PEP489_MULTI_PHASE_INIT
 static PyObject* __pyx_pymod_create(PyObject *spec, PyModuleDef *def); /*proto*/
-static int __pyx_pymod_exec__scite(PyObject* module); /*proto*/
+static int __pyx_pymod_exec__scprob(PyObject* module); /*proto*/
 static PyModuleDef_Slot __pyx_moduledef_slots[] = {
   {Py_mod_create, (void*)__pyx_pymod_create},
-  {Py_mod_exec, (void*)__pyx_pymod_exec__scite},
+  {Py_mod_exec, (void*)__pyx_pymod_exec__scprob},
   {0, NULL}
 };
 #endif
 
 static struct PyModuleDef __pyx_moduledef = {
     PyModuleDef_HEAD_INIT,
-    "_scite",
+    "_scprob",
     0, /* m_doc */
   #if CYTHON_PEP489_MULTI_PHASE_INIT
     0, /* m_size */
@@ -1433,11 +1421,11 @@ static __Pyx_StringTabEntry __pyx_string_tab[] = {
   {&__pyx_n_s_idx, __pyx_k_idx, sizeof(__pyx_k_idx), 0, 0, 1, 1},
   {&__pyx_n_s_main, __pyx_k_main, sizeof(__pyx_k_main), 0, 0, 1, 1},
   {&__pyx_n_s_name, __pyx_k_name, sizeof(__pyx_k_name), 0, 0, 1, 1},
-  {&__pyx_n_s_run_scite, __pyx_k_run_scite, sizeof(__pyx_k_run_scite), 0, 0, 1, 1},
+  {&__pyx_n_s_run_scprob, __pyx_k_run_scprob, sizeof(__pyx_k_run_scprob), 0, 0, 1, 1},
   {&__pyx_n_s_s, __pyx_k_s, sizeof(__pyx_k_s), 0, 0, 1, 1},
   {&__pyx_n_s_test, __pyx_k_test, sizeof(__pyx_k_test), 0, 0, 1, 1},
-  {&__pyx_n_s_trisicell_external__scite, __pyx_k_trisicell_external__scite, sizeof(__pyx_k_trisicell_external__scite), 0, 0, 1, 1},
-  {&__pyx_kp_s_trisicell_external__scite_pyx, __pyx_k_trisicell_external__scite_pyx, sizeof(__pyx_k_trisicell_external__scite_pyx), 0, 0, 1, 0},
+  {&__pyx_n_s_trisicell_external__scprob, __pyx_k_trisicell_external__scprob, sizeof(__pyx_k_trisicell_external__scprob), 0, 0, 1, 1},
+  {&__pyx_kp_s_trisicell_external__scprob_pyx, __pyx_k_trisicell_external__scprob_pyx, sizeof(__pyx_k_trisicell_external__scprob_pyx), 0, 0, 1, 0},
   {&__pyx_n_s_utf8, __pyx_k_utf8, sizeof(__pyx_k_utf8), 0, 0, 1, 1},
   {&__pyx_n_s_x, __pyx_k_x, sizeof(__pyx_k_x), 0, 0, 1, 1},
   {0, 0, 0, 0, 0, 0, 0}
@@ -1453,17 +1441,17 @@ static CYTHON_SMALL_CODE int __Pyx_InitCachedConstants(void) {
   __Pyx_RefNannyDeclarations
   __Pyx_RefNannySetupContext("__Pyx_InitCachedConstants", 0);
 
-  /* "trisicell/external/_scite.pyx":7
+  /* "trisicell/external/_scprob.pyx":7
  * 	cdef int main_in_c(int argc, char **argv)
  *
- * def run_scite(cmd):             # <<<<<<<<<<<<<<
+ * def run_scprob(cmd):             # <<<<<<<<<<<<<<
  * 	cdef char **c_argv
  * 	args = [bytes(x, encoding="utf8") for x in cmd]
  */
   __pyx_tuple_ = PyTuple_Pack(6, __pyx_n_s_cmd, __pyx_n_s_c_argv, __pyx_n_s_args, __pyx_n_s_idx, __pyx_n_s_s, __pyx_n_s_x); if (unlikely(!__pyx_tuple_)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_tuple_);
   __Pyx_GIVEREF(__pyx_tuple_);
-  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_trisicell_external__scite_pyx, __pyx_n_s_run_scite, 7, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_codeobj__2 = (PyObject*)__Pyx_PyCode_New(1, 0, 6, 0, CO_OPTIMIZED|CO_NEWLOCALS, __pyx_empty_bytes, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_tuple_, __pyx_empty_tuple, __pyx_empty_tuple, __pyx_kp_s_trisicell_external__scprob_pyx, __pyx_n_s_run_scprob, 7, __pyx_empty_bytes); if (unlikely(!__pyx_codeobj__2)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_RefNannyFinishContext();
   return 0;
   __pyx_L1_error:;
@@ -1563,11 +1551,11 @@ static int __Pyx_modinit_function_import_code(void) {
 
 
 #if PY_MAJOR_VERSION < 3
-__Pyx_PyMODINIT_FUNC init_scite(void) CYTHON_SMALL_CODE; /*proto*/
-__Pyx_PyMODINIT_FUNC init_scite(void)
+__Pyx_PyMODINIT_FUNC init_scprob(void) CYTHON_SMALL_CODE; /*proto*/
+__Pyx_PyMODINIT_FUNC init_scprob(void)
 #else
-__Pyx_PyMODINIT_FUNC PyInit__scite(void) CYTHON_SMALL_CODE; /*proto*/
-__Pyx_PyMODINIT_FUNC PyInit__scite(void)
+__Pyx_PyMODINIT_FUNC PyInit__scprob(void) CYTHON_SMALL_CODE; /*proto*/
+__Pyx_PyMODINIT_FUNC PyInit__scprob(void)
 #if CYTHON_PEP489_MULTI_PHASE_INIT
 {
   return PyModuleDef_Init(&__pyx_moduledef);
@@ -1634,7 +1622,7 @@ bad:
 }
 
 
-static CYTHON_SMALL_CODE int __pyx_pymod_exec__scite(PyObject *__pyx_pyinit_module)
+static CYTHON_SMALL_CODE int __pyx_pymod_exec__scprob(PyObject *__pyx_pyinit_module)
 #endif
 #endif
 {
@@ -1646,7 +1634,7 @@ static CYTHON_SMALL_CODE int __pyx_pymod_exec__scite(PyObject *__pyx_pyinit_modu
   #if CYTHON_PEP489_MULTI_PHASE_INIT
   if (__pyx_m) {
     if (__pyx_m == __pyx_pyinit_module) return 0;
-    PyErr_SetString(PyExc_RuntimeError, "Module '_scite' has already been imported. Re-initialisation is not supported.");
+    PyErr_SetString(PyExc_RuntimeError, "Module '_scprob' has already been imported. Re-initialisation is not supported.");
     return -1;
   }
   #elif PY_MAJOR_VERSION >= 3
@@ -1661,7 +1649,7 @@ if (!__Pyx_RefNanny) {
       Py_FatalError("failed to import 'refnanny' module");
 }
 #endif
-  __Pyx_RefNannySetupContext("__Pyx_PyMODINIT_FUNC PyInit__scite(void)", 0);
+  __Pyx_RefNannySetupContext("__Pyx_PyMODINIT_FUNC PyInit__scprob(void)", 0);
   if (__Pyx_check_binary_version() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #ifdef __Pxy_PyFrame_Initialize_Offsets
   __Pxy_PyFrame_Initialize_Offsets();
@@ -1698,7 +1686,7 @@ if (!__Pyx_RefNanny) {
   Py_INCREF(__pyx_m);
   #else
   #if PY_MAJOR_VERSION < 3
-  __pyx_m = Py_InitModule4("_scite", __pyx_methods, 0, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
+  __pyx_m = Py_InitModule4("_scprob", __pyx_methods, 0, 0, PYTHON_API_VERSION); Py_XINCREF(__pyx_m);
   #else
   __pyx_m = PyModule_Create(&__pyx_moduledef);
   #endif
@@ -1716,14 +1704,14 @@ if (!__Pyx_RefNanny) {
   #if PY_MAJOR_VERSION < 3 && (__PYX_DEFAULT_STRING_ENCODING_IS_ASCII || __PYX_DEFAULT_STRING_ENCODING_IS_DEFAULT)
   if (__Pyx_init_sys_getdefaultencoding_params() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
-  if (__pyx_module_is_main_trisicell__external___scite) {
+  if (__pyx_module_is_main_trisicell__external___scprob) {
     if (PyObject_SetAttr(__pyx_m, __pyx_n_s_name, __pyx_n_s_main) < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   }
   #if PY_MAJOR_VERSION >= 3
   {
     PyObject *modules = PyImport_GetModuleDict(); if (unlikely(!modules)) __PYX_ERR(0, 1, __pyx_L1_error)
-    if (!PyDict_GetItemString(modules, "trisicell.external._scite")) {
-      if (unlikely(PyDict_SetItemString(modules, "trisicell.external._scite", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
+    if (!PyDict_GetItemString(modules, "trisicell.external._scprob")) {
+      if (unlikely(PyDict_SetItemString(modules, "trisicell.external._scprob", __pyx_m) < 0)) __PYX_ERR(0, 1, __pyx_L1_error)
     }
   }
   #endif
@@ -1744,19 +1732,19 @@ if (!__Pyx_RefNanny) {
   if (__Pyx_patch_abc() < 0) __PYX_ERR(0, 1, __pyx_L1_error)
   #endif
 
-  /* "trisicell/external/_scite.pyx":7
+  /* "trisicell/external/_scprob.pyx":7
  * 	cdef int main_in_c(int argc, char **argv)
  *
- * def run_scite(cmd):             # <<<<<<<<<<<<<<
+ * def run_scprob(cmd):             # <<<<<<<<<<<<<<
  * 	cdef char **c_argv
  * 	args = [bytes(x, encoding="utf8") for x in cmd]
  */
-  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_9trisicell_8external_6_scite_1run_scite, NULL, __pyx_n_s_trisicell_external__scite); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
+  __pyx_t_1 = PyCFunction_NewEx(&__pyx_mdef_9trisicell_8external_7_scprob_1run_scprob, NULL, __pyx_n_s_trisicell_external__scprob); if (unlikely(!__pyx_t_1)) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_GOTREF(__pyx_t_1);
-  if (PyDict_SetItem(__pyx_d, __pyx_n_s_run_scite, __pyx_t_1) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
+  if (PyDict_SetItem(__pyx_d, __pyx_n_s_run_scprob, __pyx_t_1) < 0) __PYX_ERR(0, 7, __pyx_L1_error)
   __Pyx_DECREF(__pyx_t_1); __pyx_t_1 = 0;
 
-  /* "trisicell/external/_scite.pyx":1
+  /* "trisicell/external/_scprob.pyx":1
  * from libc.stdlib cimport free, malloc             # <<<<<<<<<<<<<<
  *
  *
@@ -1773,11 +1761,11 @@ if (!__Pyx_RefNanny) {
   __Pyx_XDECREF(__pyx_t_1);
   if (__pyx_m) {
     if (__pyx_d) {
-      __Pyx_AddTraceback("init trisicell.external._scite", __pyx_clineno, __pyx_lineno, __pyx_filename);
+      __Pyx_AddTraceback("init trisicell.external._scprob", __pyx_clineno, __pyx_lineno, __pyx_filename);
     }
     Py_CLEAR(__pyx_m);
   } else if (!PyErr_Occurred()) {
-    PyErr_SetString(PyExc_ImportError, "init trisicell.external._scite");
+    PyErr_SetString(PyExc_ImportError, "init trisicell.external._scprob");
   }
   __pyx_L0:;
   __Pyx_RefNannyFinishContext();

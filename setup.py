@@ -27,6 +27,16 @@ extensions = [
         language="c++",
     ),
     Extension(
+        "trisicell.external._scprob",
+        sources=[
+            "trisicell/external/_scprob.pyx",
+            "trisicell/external/scprob/main.cpp",
+        ],
+        include_dirs=["trisicell/external/scprob"],
+        extra_compile_args=["-std=c++11"],
+        language="c++",
+    ),
+    Extension(
         "trisicell.external._scistree",
         sources=[
             "trisicell/external/_scistree.pyx",

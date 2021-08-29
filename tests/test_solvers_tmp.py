@@ -8,6 +8,13 @@ class TestSolversTmp:
         is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
         assert is_cf
 
+    def test_rscistree(self):
+        # adata = tsc.datasets.colorectal2(readcount=True)
+        # df_out = tsc.tl.rscistree(adata, mode="haploid")
+        # is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
+        # assert is_cf
+        assert 1 == 1
+
     def test_siclonefit(self):
         assert 1 == 1
 

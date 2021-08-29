@@ -110,7 +110,7 @@ def scistree(df_input, alpha, beta, experiment=False):
 
 def rscistree(adata, alpha=0, beta=0, mode="haploid"):
     tsc.logg.info(f"running rScisTree with mode={mode}")
-    tmpdir = tsc.ul.tmpdirsys(suffix=".scistree", dirname=".")
+    tmpdir = tsc.ul.tmpdirsys(suffix=".rscistree", dirname=".")
 
     cells = adata.obs_names
     snvs = adata.var_names

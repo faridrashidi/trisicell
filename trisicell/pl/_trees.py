@@ -27,10 +27,10 @@ def clonal_tree(
         The input tree.
     muts_as_number : :obj:`bool`, optional
         Change the mutation list to a number at edges, by default False
-    show_cells : :obj:`bool`, optional
-        Whether to show cells or not, by default True
-    collapsed_path : :obj:`bool`, optional
-        Collapsed linear path in the tree , by default False
+    cells_as_number : :obj:`bool`, optional
+        Change the cell list to a number at edges, by default False
+    show_id : :obj:`bool`, optional
+        Whether to show IDs of nodes and edges or not, by default True
     cell_info : :class:`pandas.DataFrame`, optional
         Information of cells for coloring the nodes by a pie chart, by default None
     output_file : :obj:`str`, optional

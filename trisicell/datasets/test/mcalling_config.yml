@@ -13,9 +13,9 @@
 # ======================================================================================
 
 ## PATHS
-infq: "./Tirosh2016/raw"
-outdir: "./Tirosh2016/map"
-tmpdir: "./Tirosh2016/tmp"
+infq: "./trisicell/datasets/test/mcalling"
+outdir: "./trisicell/datasets/test/_map"
+tmpdir: "./trisicell/datasets/test/_tmp"
 normals: [] # normal cells
 
 ## for paired-end
@@ -30,10 +30,10 @@ infqpost2: "_2.fastq.gz"
 
 ## PARAMETERS
 isrna: True
-buildver: "hg19" #[mm10 for mouse | hg19 for human]
+buildver: "mm10" #[mm10 for mouse | hg19 for human]
 dotrimming: True
 pairedend: True
-email: "frashidi@iu.edu"
+email: "myemail@gmail.com"
 
 ## STEPS
 steps:

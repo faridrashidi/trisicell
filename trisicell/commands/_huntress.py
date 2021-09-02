@@ -27,7 +27,7 @@ import trisicell as tsc
     "--method",
     "-m",
     default="both",
-    type=click.Choice(["both", "fn", "rna"]),
+    type=click.Choice(["both", "fn"]),
     show_default=True,
     help="Method of the HUNTRESS",
 )

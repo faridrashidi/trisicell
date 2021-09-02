@@ -7,6 +7,16 @@ Release Notes
 =============
 
 
+Version 0.0.13 :small:`September 2, 2021`
+-----------------------------------------
+
+This version includes:
+
+    - Lots of bug fixes and typos.
+    - Add more test.
+    - Add more datasets.
+
+
 Version 0.0.12 :small:`July 7, 2021`
 -------------------------------------
 

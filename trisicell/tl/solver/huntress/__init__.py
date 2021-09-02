@@ -27,12 +27,6 @@ def huntress(df_input, alpha, beta, kind="both", n_threads=1):
             Algchoice="FN",
             n_proc=n_threads,
         )
-    elif kind == "rna":
-        matrix_out, running_time = Reconstruct(
-            df_input,
-            postprocessing=1,
-            n_proc=n_threads,
-        )
 
     df_output = pd.DataFrame(matrix_out)
     df_output.columns = df_input.columns

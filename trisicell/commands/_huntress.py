@@ -26,8 +26,8 @@ import trisicell as tsc
 @click.option(
     "--method",
     "-m",
-    default="dna",
-    type=click.Choice(["dna", "fn", "rna"]),
+    default="both",
+    type=click.Choice(["both", "fn", "rna"]),
     show_default=True,
     help="Method of the HUNTRESS",
 )
@@ -42,7 +42,7 @@ import trisicell as tsc
 def huntress(genotype_file, alpha, beta, method, n_threads):
     """HUNTRESS.
 
-    trisicell huntress input.SC 0.0001 0.1 -m dna -p 8
+    trisicell huntress input.SC 0.0001 0.1 -m both -p 8
     """
 
     outfile = os.path.splitext(genotype_file)[0]
@@ -50,8 +50,9 @@ def huntress(genotype_file, alpha, beta, method, n_threads):
     tsc.settings.verbosity = "info"
     tsc.settings.logfile = f"{outfile}.huntress.log"
 
+    df_in = tsc.io.read(genotype_file)
     df_out = tsc.tl.huntress(
-        genotype_file, alpha=alpha, beta=beta, kind=method, n_threads=n_threads
+        df_in, alpha=alpha, beta=beta, kind=method, n_threads=n_threads
     )
     tsc.io.write(df_out, f"{outfile}.huntress.CFMatrix")
 

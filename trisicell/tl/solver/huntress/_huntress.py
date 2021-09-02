@@ -3,7 +3,6 @@ import time
 from multiprocessing import Process, Queue
 
 import numpy as np
-import pandas as pd
 
 __author__ = "Can Kizilkale"
 __date__ = "3/19/21"
@@ -12,8 +11,7 @@ prfp = 5
 
 
 def Reconstruct(
-    input_file,
-    output_file,
+    df_input,
     Algchoice="FPNA",
     auto_tune=1,
     overlapp_coeff=0.3,
@@ -28,9 +26,9 @@ def Reconstruct(
     global prfp
     prfp = postprcoef
     q = Queue()
-    matrix_input = ReadFileNA(input_file)
-    matrix_input_raw = ReadFasis(input_file)
-    matrix_NA_est = Estimated_Matrix(input_file)
+    matrix_input = ReadFileNA(df_input.copy())
+    matrix_input_raw = ReadFasis(df_input.copy())
+    matrix_NA_est = Estimated_Matrix(df_input.copy())
     h_range = list(range(1, 100, 2))
     oc_range = [x / 10 for x in range(1, 5)]
     tune_var = itertools.product(h_range, oc_range)
@@ -42,7 +40,6 @@ def Reconstruct(
         matrix_recons = greedyPtreeNew(matrix_input.astype(bool))[1]
         e_time = time.time()
         running_time = e_time - s_time
-        WriteTfile(output_file, matrix_recons, input_file)
 
     if Algchoice == "FPNA" and auto_tune == 0:
         s_time = time.time()
@@ -52,8 +49,6 @@ def Reconstruct(
         )[2]
         e_time = time.time()
         running_time = e_time - s_time
-        output_file = output_file + f"_optH_{hist_coeff}TEMP.CFMatrix"
-        WriteTfile(output_file, matrix_recons, input_file)
 
     if Algchoice == "FPNA" and auto_tune == 1:
         tune_var = list(tune_var)
@@ -78,12 +73,9 @@ def Reconstruct(
                     matrix_input_raw,
                     fnfp,
                     fnc,
-                    i,
-                    input_file,
-                    output_file,
                 ),
             )
-            for i in range(len(cpu_range))
+            for _ in range(len(cpu_range))
         ]
         for i in p:
             i.start()
@@ -94,28 +86,22 @@ def Reconstruct(
             ret.append(q.get())
 
         [m_r, d_min] = ret[0]
-        matrix_recons = ReadFfile(m_r)
+        matrix_recons = m_r
         for i in range(1, len(ret)):
             [m, d] = ret[i]
-            print(d_min)
             if d < d_min:
-                matrix_recons = ReadFfile(m)
-                print(d_min)
+                matrix_recons = m
                 d_min = d
 
         e_time = time.time()
         running_time = e_time - s_time
-        output_file = output_file + "_optH_TEMP.CFMatrix"
-        WriteTfile(output_file, matrix_recons, input_file)
 
-    postprocess_col(input_file, output_file, pfn=post_fn, pfp=post_fp)
+    matrix_recons = postprocess_col(df_input, matrix_recons, pfn=post_fn, pfp=post_fp)
 
-    return running_time
+    return matrix_recons, running_time
 
 
-def Auto_fnfp(
-    q, tune_ran, m_input, m_NA_est, m_input_raw, fnfp, fnc, procid, in_file, out_file
-):
+def Auto_fnfp(q, tune_ran, m_input, m_NA_est, m_input_raw, fnfp, fnc):
     apprx_ordr = sum(m_NA_est)
 
     matrix_recon = greedyPtreeNA(
@@ -138,9 +124,7 @@ def Auto_fnfp(
         if distance_i < distance:
             matrix_recon = matrix_rec_i.copy()
             distance = distance_i
-    output_file = out_file + f"_TEMP_{procid}.CFMatrix"
-    WriteTfile(output_file, matrix_recon, in_file)
-    q.put([output_file, distance])
+    q.put([matrix_recon, distance])
 
 
 def deleteNas(M_in, M_out):
@@ -235,14 +219,12 @@ def greedyPtreeNA(M_input, approx_order, oc, hc):
     return [bret, pret, M_copy]
 
 
-def ReadFfile(filename):
-    df = pd.read_csv(filename, sep="\t", index_col=0)
+def ReadFfile(df):
     M = df.values.astype(bool)
     return M
 
 
-def ReadFileNA(filename):
-    df = pd.read_csv(filename, sep="\t", index_col=0)
+def ReadFileNA(df):
     M = df.values
     NA_position = np.argwhere(M == 3)
     for j in NA_position:
@@ -250,8 +232,7 @@ def ReadFileNA(filename):
     return M.astype(bool)
 
 
-def Estimated_Matrix(filename):
-    df = pd.read_csv(filename, sep="\t", index_col=0)
+def Estimated_Matrix(df):
     M = df.values.astype(float)
     for i in range(M.shape[1]):
         if np.sum(M[:, i] != 3) == 0:
@@ -264,45 +245,29 @@ def Estimated_Matrix(filename):
     return M
 
 
-def WriteTfile(filename, matrix, filename2):
-    df_input = pd.read_csv(filename2, sep="\t", index_col=0)
-    matrix_output = matrix.astype(int)
-    df_output = pd.DataFrame(matrix_output)
-    df_output.columns = df_input.columns
-    df_output.index = df_input.index
-    df_output.index.name = "cellIDxmutID"
-    df_output.to_csv(filename, sep="\t")
-
-
-def ReadFasis(filename):
-    df = pd.read_csv(filename, sep="\t", index_col=0)
+def ReadFasis(df):
     M = df.values
     return M
 
 
-def postprocess_col(input_file, out_file, pfn, pfp):
-    M_noisy = ReadFasis(input_file)
-    M_nds = ReadFfile(out_file)
-
-    Mtemp = c_m_col(ReadFasis(input_file), M_nds, pc_fn=pfn, pc_fp=pfp)
+def postprocess_col(df_input, matrix_recons, pfn, pfp):
+    M_noisy = ReadFasis(df_input.copy())
+    M_nds = matrix_recons.copy().astype(bool)
+    Mtemp = c_m_col(ReadFasis(df_input.copy()), M_nds, pc_fn=pfn, pc_fp=pfp)
     Mtemp2 = Mtemp.copy()
     d10min = np.sum(Mtemp < (M_noisy == 1))
     imp = 1
     while imp:
-        Mtemp2 = c_m_row(ReadFasis(input_file), Mtemp2, pc_fn=pfn, pc_fp=pfp)
-        Mtemp2 = c_m_col(ReadFasis(input_file), Mtemp2, pc_fn=pfn, pc_fp=pfp)
+        Mtemp2 = c_m_row(ReadFasis(df_input.copy()), Mtemp2, pc_fn=pfn, pc_fp=pfp)
+        Mtemp2 = c_m_col(ReadFasis(df_input.copy()), Mtemp2, pc_fn=pfn, pc_fp=pfp)
 
         d10c = np.sum(Mtemp2 < (M_noisy == 1))
-        print(d10c)
         if d10c < d10min:
             d10min = d10c
             Mtemp = Mtemp2.copy()
         else:
             imp = 0
-
-    M_postprocessed = Mtemp
-    processed_file = out_file[:-13] + ".CFMatrix"
-    WriteTfile(processed_file, M_postprocessed, input_file)
+    return Mtemp
 
 
 def f_d_col(node_piv, M_samples, p_fp=0.005, p_fn=0.1):

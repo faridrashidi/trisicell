@@ -123,7 +123,7 @@ def consensus_tree(sc1, sc2):
     Returns
     -------
     :class:`networkx.DiGraph`
-        Two trees derived by building the consensus procedure.
+        The consensus tree in which cells are in edges and mutations are in edges.
     """
 
     good_cells1 = sc1.index[(sc1 != 0).sum(axis=1) > 0]

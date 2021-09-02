@@ -35,6 +35,18 @@ class TestSolvers:
         is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
         assert is_cf
 
+    def test_huntress_both(self):
+        df_in = tsc.datasets.test()
+        df_out = tsc.tl.huntress(df_in, alpha=0.0000001, beta=0.1, kind="both")
+        is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
+        assert is_cf
+
+    def test_huntress_fn(self):
+        df_in = tsc.datasets.test()
+        df_out = tsc.tl.huntress(df_in, alpha=0, beta=0, kind="fn")
+        is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
+        assert is_cf
+
     @skip_rpy2
     def test_onconem(self):
         df_in = tsc.datasets.test()

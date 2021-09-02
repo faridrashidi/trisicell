@@ -21,7 +21,7 @@ class TestCommands:
         )
         assert result.exit_code == 0
 
-    def test_huntress(self):
+    def test_huntress_both(self):
         runner = CliRunner()
         result = runner.invoke(
             cli,

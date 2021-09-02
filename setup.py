@@ -12,7 +12,7 @@ except ImportError:
     __author__ = ", ".join(["Farid Rashidi"])
     __maintainer__ = ", ".join(["Farid Rashidi"])
     __email__ = ", ".join(["farid.rsh@gmail.com"])
-    __version__ = "0.0.12"
+    __version__ = "0.0.13"
 
 if platform == "linux" or platform == "linux2":
     os.environ["CC"] = "g++"
@@ -23,6 +23,16 @@ extensions = [
         "trisicell.external._mltd",
         sources=["trisicell/external/_mltd.pyx", "trisicell/external/mltd/mltd.cpp"],
         include_dirs=["trisicell/external/mltd"],
+        extra_compile_args=["-std=c++11"],
+        language="c++",
+    ),
+    Extension(
+        "trisicell.external._scprob",
+        sources=[
+            "trisicell/external/_scprob.pyx",
+            "trisicell/external/scprob/main.cpp",
+        ],
+        include_dirs=["trisicell/external/scprob"],
         extra_compile_args=["-std=c++11"],
         language="c++",
     ),

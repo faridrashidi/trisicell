@@ -1,5 +1,4 @@
 import copy
-import os
 import time
 
 import numpy as np
@@ -9,6 +8,7 @@ from Bio.Phylo.TreeConstruction import DistanceMatrix
 
 import trisicell as tsc
 from trisicell.external._scistree import run_scistree
+from trisicell.external._scprob import run_scprob
 
 # from Bio.Phylo.TreeConstruction import DistanceTreeConstructor
 
@@ -45,7 +45,6 @@ def scistree(df_input, alpha, beta, experiment=False):
     tmpdir = tsc.ul.tmpdirsys(suffix=".scistree")
     cells = df_input.index
     snvs = df_input.columns
-    # matrix_input = df_input.values
     df = df_input.transpose()
 
     df = df.replace(3, 0.5)
@@ -77,18 +76,11 @@ def scistree(df_input, alpha, beta, experiment=False):
     running_time = e_time - s_time
 
     data = []
-    mut_tree = ""
-    # cell_tree = ""
     detail = {"cost": "\n"}
     with open(f"{tmpdir.name}/scistree.output") as infile:
         now_store = False
         for line in infile:
             line = line.strip()
-            if "Mutation tree:" in line:
-                mut_tree = line.split(":")[1].replace(" ", "")
-                mut_tree = mut_tree.replace("#", "")
-            # if "Constructed single cell phylogeny:" in line:
-            #     cell_tree = line.split(":")[1].replace(" ", "")
             if "Imputed genotypes:" in line:
                 now_store = True
             if line[:4] == "Site" and now_store:
@@ -111,20 +103,17 @@ def scistree(df_input, alpha, beta, experiment=False):
 
     if not experiment:
         tsc.ul.stat(df_input, df_output, alpha, beta, running_time)
-        # for k, v in detail.items():
-        #     tsc.logg.info(f"{k}: {v}")
         return df_output
     else:
         return df_output, running_time
 
 
-def rscistree(adata, alpha, beta, mode="haploid"):
+def rscistree(adata, alpha=0, beta=0, mode="haploid"):
     tsc.logg.info(f"running rScisTree with mode={mode}")
-    tmpdir = tsc.ul.tmpdirsys(suffix=".scistree", dirname=".")
+    tmpdir = tsc.ul.tmpdirsys(suffix=".rscistree", dirname=".")
 
     cells = adata.obs_names
     snvs = adata.var_names
-    tsc.pp.build_scmatrix(adata)
     df_input = adata.to_df()
 
     V = adata.layers["mutant"]
@@ -135,36 +124,40 @@ def rscistree(adata, alpha, beta, mode="haploid"):
             for i in range(len(cells)):
                 fout.write(f"{R[i,j]} {V[i,j]}     ")
             fout.write("\n")
-    cmd = f"/home/frashidi/software/temp/scistree/scprob/scprob_{mode.upper()} "
-    cmd += f"{tmpdir.name}/rscistree.counts > {tmpdir.name}/rscistree.input"
-    os.system(cmd)
 
-    scistree = tsc.ul.get_file("trisicell.external/bin/scistree")
-    cmd = (
-        f"{scistree} "
-        "-v "
-        "-d 0 "
-        "-e "
-        f"-o {tmpdir.name}/rscistree.gml "
-        f"{tmpdir.name}/rscistree.input > {tmpdir.name}/rscistree.output"
-    )
+    cmd = [
+        "scprob",
+        f"{tmpdir.name}/rscistree.counts",
+    ]
+    if mode.lower() == "haploid":
+        cmd += ["0"]
+    elif mode.lower() == "ternary":
+        cmd += ["1"]
+    else:
+        tsc.logg.error("Wrong mode!")
+    run_scprob(cmd)
+
+    cmd = [
+        "scistree",
+        "-v",
+        "-d",
+        "0",
+        "-e",
+        "-o",
+        f"{tmpdir.name}/rscistree.gml",
+        f"{tmpdir.name}/rscistree.input",
+    ]
     s_time = time.time()
-    os.system(cmd)
+    run_scistree(cmd)
     e_time = time.time()
     running_time = e_time - s_time
 
     data = []
-    # mut_tree = ""
-    # cell_tree = ""
     detail = {"cost": "\n"}
     with open(f"{tmpdir.name}/rscistree.output") as infile:
         now_store = False
         for line in infile:
             line = line.strip()
-            # if "Mutation tree:" in line:
-            #     mut_tree = line.split(":")[1].replace(" ", "").replace("#", "")
-            # if "Constructed single cell phylogeny:" in line:
-            #     cell_tree = line.split(":")[1].replace(" ", "")
             if "Imputed genotypes:" in line:
                 now_store = True
             if line[:4] == "Site" and now_store:
@@ -186,9 +179,6 @@ def rscistree(adata, alpha, beta, mode="haploid"):
     tmpdir.cleanup()
 
     tsc.ul.stat(df_input, df_output, alpha, beta, running_time)
-    # for k, v in detail.items():
-    #     tsc.logg.info(f"{k}: {v}")
-
     return df_output
 
 

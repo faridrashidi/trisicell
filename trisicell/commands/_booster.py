@@ -3,7 +3,7 @@ import click
 import trisicell as tsc
 
 
-@click.command(short_help="Run Booster.")
+@click.command(short_help="Boost available tree reconstruction tool (Trisicell-Boost).")
 @click.argument(
     "genotype_file",
     required=True,
@@ -142,7 +142,7 @@ def booster(
     no_dependencies,
     no_reconstruction,
 ):
-    """Trisicell-Boost.
+    """Boost available tree reconstruction tool.
 
     For doing all 3 steps:
 

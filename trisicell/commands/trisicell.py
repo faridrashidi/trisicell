@@ -6,7 +6,6 @@ import trisicell as tsc
 from trisicell.commands._bnb import bnb
 from trisicell.commands._booster import booster
 from trisicell.commands._consensus import consensus
-from trisicell.commands._defuse import defuse
 from trisicell.commands._huntress import huntress
 from trisicell.commands._mcalling import mcalling
 from trisicell.commands._phiscs import phiscsb, phiscsi
@@ -34,7 +33,13 @@ class NaturalOrderGroup(click.Group):
         return self.commands.keys()
 
 
+# def citation(ctx, param, value):
+#     print("Please check https://trisicell.readthedocs.io/citing.html")
+#     ctx.exit(0)
+
+
 @click.version_option(version=tsc.__version__)
+# @click.option("--cite", is_flag=True, callback=citation, help="Show citation bib.")
 @click.group(
     cls=NaturalOrderGroup,
     commands=OrderedDict(),
@@ -49,16 +54,15 @@ def cli():
 
 
 cli.add_command(mcalling)
-cli.add_command(score)
-cli.add_command(scistree)
-cli.add_command(scite)
 cli.add_command(booster)
 cli.add_command(phiscsb)
 cli.add_command(phiscsi)
+cli.add_command(scite)
+cli.add_command(scistree)
 cli.add_command(bnb)
 cli.add_command(huntress)
 cli.add_command(cf2newick)
 cli.add_command(cf2tree)
+cli.add_command(score)
 cli.add_command(consensus)
 cli.add_command(search)
-cli.add_command(defuse)

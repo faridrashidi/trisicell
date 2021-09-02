@@ -14,7 +14,20 @@ class TestCommands:
             cli,
             [
                 "scistree",
-                f"{tsc.ul.get_file('trisicell.datasets/test/test.tsv')}",
+                tsc.ul.get_file("trisicell.datasets/test/test.tsv"),
+                "0.0000001",
+                "0.1",
+            ],
+        )
+        assert result.exit_code == 0
+
+    def test_huntress_both(self):
+        runner = CliRunner()
+        result = runner.invoke(
+            cli,
+            [
+                "huntress",
+                tsc.ul.get_file("trisicell.datasets/test/test.tsv"),
                 "0.0000001",
                 "0.1",
             ],
@@ -27,7 +40,7 @@ class TestCommands:
             cli,
             [
                 "scite",
-                f"{tsc.ul.get_file('trisicell.datasets/test/test.tsv')}",
+                tsc.ul.get_file("trisicell.datasets/test/test.tsv"),
                 "0.0000001",
                 "0.1",
                 "-r 3",
@@ -42,7 +55,7 @@ class TestCommands:
             cli,
             [
                 "scite",
-                f"{tsc.ul.get_file('trisicell.datasets/test/test.tsv')}",
+                tsc.ul.get_file("trisicell.datasets/test/test.tsv"),
                 "0.0000001",
                 "0.1",
                 "-r 3",
@@ -59,28 +72,9 @@ class TestCommands:
             cli,
             [
                 "phiscsb",
-                f"{tsc.ul.get_file('trisicell.datasets/test/test.tsv')}",
+                tsc.ul.get_file("trisicell.datasets/test/test.tsv"),
                 "0.0000001",
                 "0.1",
-            ],
-        )
-        assert result.exit_code == 0
-
-    @pytest.mark.skip(reason="PyTest issue with multithreading!")  # TODO:
-    def test_booster(self):
-        runner = CliRunner()
-        result = runner.invoke(
-            cli,
-            [
-                "booster",
-                f"{tsc.ul.get_file('trisicell.datasets/test/test.tsv')}",
-                "0.0000001",
-                "0.1",
-                "--solver phiscs",
-                "--n_samples 100",
-                "--sample_size 15",
-                "--n_jobs 1",
-                "--n_iterations 10000",
             ],
         )
         assert result.exit_code == 0
@@ -92,9 +86,9 @@ class TestCommands:
             cli,
             [
                 "consensus",
-                f"{tsc.ul.get_file(path + '/biorxiv.fig3b.CFMatrix')}",
-                f"{tsc.ul.get_file(path + '/biorxiv.figs18a.CFMatrix')}",
-                f"{tsc.ul.get_file('trisicell.datasets/test/consensus.CFMatrix')}",
+                tsc.ul.get_file(path + "/biorxiv.fig3b.CFMatrix"),
+                tsc.ul.get_file(path + "/biorxiv.figs18a.CFMatrix"),
+                tsc.ul.get_file("trisicell.datasets/test/consensus.CFMatrix"),
             ],
         )
         assert result.exit_code == 0
@@ -105,7 +99,7 @@ class TestCommands:
             cli,
             [
                 "cf2newick",
-                f"{tsc.ul.get_file('trisicell.datasets/test/test.phiscsb.CFMatrix')}",
+                tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.CFMatrix"),
             ],
         )
         assert result.exit_code == 0
@@ -117,7 +111,55 @@ class TestCommands:
             cli,
             [
                 "cf2tree",
-                f"{tsc.ul.get_file('trisicell.datasets/test/test.phiscsb.CFMatrix')}",
+                tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.CFMatrix"),
+            ],
+        )
+        assert result.exit_code == 0
+
+    @pytest.mark.skip(reason="Using MLTD in two test is taking so long in test_scores!")
+    def test_score(self):
+        runner = CliRunner()
+        result = runner.invoke(
+            cli,
+            [
+                "score",
+                tsc.ul.get_file(
+                    "trisicell.datasets/test/fp_0-fn_0-na_0.ground.CFMatrix"
+                ),
+                tsc.ul.get_file(
+                    "trisicell.datasets/test/fp_0-fn_0-na_0.ground.CFMatrix"
+                ),
+            ],
+        )
+        assert result.exit_code == 0
+
+    @pytest.mark.skip(reason="PyTest issue with multithreading!")
+    def test_booster(self):
+        runner = CliRunner()
+        result = runner.invoke(
+            cli,
+            [
+                "booster",
+                tsc.ul.get_file("trisicell.datasets/test/test.tsv"),
+                "0.0000001",
+                "0.1",
+                "--solver phiscs",
+                "--n_samples 100",
+                "--sample_size 15",
+                "--n_jobs 1",
+                "--n_iterations 10000",
+            ],
+        )
+        assert result.exit_code == 0
+
+    @pytest.mark.skip(reason="Joblib error!")
+    def test_search(self):
+        runner = CliRunner()
+        result = runner.invoke(
+            cli,
+            [
+                "search",
+                tsc.ul.get_file("trisicell.datasets/test/test.tsv"),
             ],
         )
         assert result.exit_code == 0
@@ -130,6 +172,8 @@ def cleanup(request):
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.scistree.log"))
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.scite.CFMatrix"))
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.scite.log"))
+        tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.huntress.CFMatrix"))
+        tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.huntress.log"))
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.CFMatrix"))
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.log"))
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.booster.CFMatrix"))
@@ -138,5 +182,6 @@ def cleanup(request):
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.info2"))
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.newick"))
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.png"))
+        # tsc.ul.cleanup(tsc.ul.get_file("trisicell.datasets/test/test"))
 
     request.addfinalizer(remove_test_dir)

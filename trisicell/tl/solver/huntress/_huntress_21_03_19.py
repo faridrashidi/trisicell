@@ -5,7 +5,8 @@ from multiprocessing import Process, Queue
 import numpy as np
 import pandas as pd
 
-__author__ = "Can KIZILKALE"
+__author__ = "Can Kizilkale"
+__date__ = "3/19/21"
 
 prfp = 5
 

@@ -104,6 +104,18 @@ class TestCommands:
         )
         assert result.exit_code == 0
 
+    def test_mcalling(self):
+        runner = CliRunner()
+        result = runner.invoke(
+            cli,
+            [
+                "mcalling",
+                tsc.ul.get_file("trisicell.datasets/test/mcalling_config.yml"),
+                "--test",
+            ],
+        )
+        assert result.exit_code == 0
+
     @skip_graphviz
     def test_cf2tree(self):
         runner = CliRunner()
@@ -182,6 +194,7 @@ def cleanup(request):
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.info2"))
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.newick"))
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.png"))
-        # tsc.ul.cleanup(tsc.ul.get_file("trisicell.datasets/test/test"))
+        tsc.ul.cleanup(tsc.ul.get_file("trisicell.datasets/test/_map"))
+        tsc.ul.cleanup(tsc.ul.get_file("trisicell.datasets/test/_tmp"))
 
     request.addfinalizer(remove_test_dir)

@@ -139,7 +139,7 @@ class TestCommands:
                     "trisicell.datasets/test/fp_0-fn_0-na_0.ground.CFMatrix"
                 ),
                 tsc.ul.get_file(
-                    "trisicell.datasets/test/fp_0-fn_0-na_0.ground.CFMatrix"
+                    "trisicell.datasets/test/fp_1-fn_0.1-na_0.bnb.CFMatrix"
                 ),
             ],
         )

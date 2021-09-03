@@ -126,9 +126,9 @@ def _get_date_string():
 
 def print_version():
     """[summary]."""
-    from metools import __version__
+    from trisicell import __version__
 
     _write_log(
-        f"Running metools {__version__} "
+        f"Running trisicell {__version__} "
         f"(python {python_version()}) on {_get_date_string()}.",
     )

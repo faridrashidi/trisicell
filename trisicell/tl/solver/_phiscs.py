@@ -1,5 +1,6 @@
 import math
 import time
+from itertools import combinations
 
 import numpy as np
 import pandas as pd
@@ -201,7 +202,102 @@ def phiscsi(df_input, alpha, beta, time_out=86400, n_threads=1):
     return df_output
 
 
-def phiscs_bulk(
+def phiscsb_bulk(
+    df_input,
+    alpha,
+    beta,
+    kmax=0,
+    vaf_info=None,
+    delta=0.2,
+):
+    # TODO: implement
+    cells = list(df_input.index)
+    snvs = list(df_input.columns)
+    df_input = df_input.replace("?", 3)
+    df_input = df_input.astype(int)
+    I_mtr = df_input.values
+
+    rc2 = RC2(WCNF())
+
+    num_cells = len(cells)
+    num_mutations = len(snvs)
+
+    Y = np.empty((num_cells, num_mutations), dtype=np.int64)
+    numVarY = 0
+    for i in range(num_cells):
+        for j in range(num_mutations):
+            numVarY += 1
+            Y[i, j] = numVarY
+
+    B = np.empty((num_mutations, num_mutations, 2, 2), dtype=np.int64)
+    numVarB = 0
+    for p in range(num_mutations):
+        for q in range(p + 1, num_mutations):
+            for i, j in [(0, 1), (1, 0), (1, 1)]:
+                numVarB += 1
+                B[p, q, i, j] = numVarY + numVarB
+
+    Z = np.empty((num_cells, num_mutations), dtype=np.int64)
+    numVarZ = 0
+    for i in range(num_cells):
+        for j in range(num_mutations):
+            if I_mtr[i, j] == 0:
+                numVarZ += 1
+                Z[i, j] = numVarY + numVarB + numVarZ
+
+    if kmax > 0:
+        K = np.empty(num_mutations + 1, dtype=np.int64)
+        numVarK = 0
+        for j in range(num_mutations + 1):
+            numVarK += 1
+            K[j] = numVarY + numVarB + numVarZ + numVarK
+
+    if vaf_info is not None:
+        A = np.empty((num_cells + 1, num_mutations + 1), dtype=np.int64)
+        numVarA = 0
+        for i in range(num_cells + 1):
+            for j in range(num_mutations + 1):
+                numVarA += 1
+                A[i, j] = numVarY + numVarB + numVarZ + numVarK + numVarA
+
+    for p in range(num_mutations):
+        for q in range(p + 1, num_mutations):
+            rc2.add_clause([-B[p, q, 0, 1], -B[p, q, 1, 0], -B[p, q, 1, 1]])
+            for i in range(num_cells):
+                rc2.add_clause([-Y[i, p], -Y[i, q], B[p, q, 1, 1]])
+                rc2.add_clause([Y[i, p], -Y[i, q], B[p, q, 0, 1]])
+                rc2.add_clause([-Y[i, p], Y[i, q], B[p, q, 1, 0]])
+
+    for i in range(num_cells):
+        for j in range(num_mutations):
+            # 0->1
+            if alpha == 0:
+                if I_mtr[i, j] == 0:
+                    rc2.add_clause([-Y[i, j]], weight=1)
+                if I_mtr[i, j] == 1:
+                    rc2.add_clause([Y[i, j]])
+
+            # 0->1 and 1->0
+            if alpha > 0:
+                if I_mtr[i, j] == 0:
+                    rc2.add_clause([Y[i, j], Z[i, j]])
+                    rc2.add_clause([-Y[i, j], -Z[i, j]])
+                    rc2.add_clause([Z[i, j]], weight=math.log((1 - alpha) / beta))
+
+                if I_mtr[i, j] == 1:
+                    rc2.add_clause([Y[i, j]], weight=math.log((1 - beta) / alpha))
+    if kmax > 0:
+        for combo in combinations(range(num_mutations), kmax + 1):
+            tmp = []
+            for com in combo:
+                tmp.append(-K[com])
+            rc2.add_clause(tmp)
+
+    delta
+    return None
+
+
+def phiscsi_bulk(
     df_input,
     alpha,
     beta,

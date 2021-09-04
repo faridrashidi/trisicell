@@ -90,7 +90,9 @@ def _dist_dendro(T, V, I_mtr):
     for i in range(T.shape[0]):
         for j in range(T.shape[1]):
             if T[i, j] != 0:
-                lPz0[i, j] = np.log(sp.stat.binom.pmf(V[i, j], T[i, j], PROB_SEQ_ERROR))
+                lPz0[i, j] = np.log(
+                    sp.stats.binom.pmf(V[i, j], T[i, j], PROB_SEQ_ERROR)
+                )
                 lPz1[i, j] = np.log(pmf_BetaBinomial(V[i, j], T[i, j], a[j], b[j]))
 
     Pg = np.sum(I_mtr == 1, axis=0) / I_mtr.shape[0]

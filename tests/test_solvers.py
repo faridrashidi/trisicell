@@ -21,6 +21,8 @@ class TestSolvers:
         )
         is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
         assert is_cf
+        is_cf = tsc.ul.is_conflict_free(df_out)
+        assert is_cf
 
     @skip_mpi4py
     def test_bnb(self):

@@ -26,6 +26,8 @@ To work with the latest development version, install from GitHub_ using::
 
     git clone https://github.com/faridrashidi/trisicell
     cd trisicell
+    git fetch
+    git checkout develop
     pip install -e '.[dev]'
 
 ``-e`` stands for ``--editable`` and makes sure that your environment is

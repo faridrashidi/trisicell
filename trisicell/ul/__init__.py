@@ -2,6 +2,7 @@
 
 from trisicell.ul._hclustering import (
     dist_cosine_ignore_na,
+    dist_dendro,
     dist_l1_ignore_na,
     hclustering,
 )
@@ -55,6 +56,7 @@ from trisicell.ul._utils import (
 
 __all__ = (
     dist_cosine_ignore_na,
+    dist_dendro,
     dist_l1_ignore_na,
     hclustering,
     import_graph_tool,

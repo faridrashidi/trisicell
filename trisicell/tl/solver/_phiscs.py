@@ -97,7 +97,6 @@ def phiscsb(df_input, alpha, beta, experiment=False):
                     rc2.add_clause([Y[i, j], Z[i, j]])
                     rc2.add_clause([-Y[i, j], -Z[i, j]])
                     rc2.add_clause([Z[i, j]], weight=math.log((1 - alpha) / beta))
-
                 if I_mtr[i, j] == 1:
                     rc2.add_clause([Y[i, j]], weight=math.log((1 - beta) / alpha))
 
@@ -211,6 +210,12 @@ def phiscsb_bulk(
     delta=0.2,
 ):
     # TODO: implement
+
+    tsc.logg.info(
+        f"running PhISCS-B-orig with alpha={alpha}, beta={beta}, kmax={kmax}, "
+        f"vaf_info={vaf_info}, delta={delta}"
+    )
+
     cells = list(df_input.index)
     snvs = list(df_input.columns)
     df_input = df_input.replace("?", 3)
@@ -262,7 +267,12 @@ def phiscsb_bulk(
 
     for p in range(num_mutations):
         for q in range(p + 1, num_mutations):
-            rc2.add_clause([-B[p, q, 0, 1], -B[p, q, 1, 0], -B[p, q, 1, 1]])
+            if kmax > 0:
+                rc2.add_clause(
+                    [K[p], K[q], -B[p, q, 0, 1], -B[p, q, 1, 0], -B[p, q, 1, 1]]
+                )
+            else:
+                rc2.add_clause([-B[p, q, 0, 1], -B[p, q, 1, 0], -B[p, q, 1, 1]])
             for i in range(num_cells):
                 rc2.add_clause([-Y[i, p], -Y[i, q], B[p, q, 1, 1]])
                 rc2.add_clause([Y[i, p], -Y[i, q], B[p, q, 0, 1]])
@@ -283,9 +293,9 @@ def phiscsb_bulk(
                     rc2.add_clause([Y[i, j], Z[i, j]])
                     rc2.add_clause([-Y[i, j], -Z[i, j]])
                     rc2.add_clause([Z[i, j]], weight=math.log((1 - alpha) / beta))
-
                 if I_mtr[i, j] == 1:
                     rc2.add_clause([Y[i, j]], weight=math.log((1 - beta) / alpha))
+
     if kmax > 0:
         for combo in combinations(range(num_mutations), kmax + 1):
             tmp = []
@@ -293,8 +303,43 @@ def phiscsb_bulk(
                 tmp.append(-K[com])
             rc2.add_clause(tmp)
 
+        for j in range(num_mutations):
+            j
+
     delta
-    return None
+
+    s_time = time.time()
+    variables = rc2.compute()
+    e_time = time.time()
+    running_time = e_time - s_time
+
+    sol_Y = np.empty((num_cells, num_mutations), dtype=np.int8)
+    numVar = 0
+    for i in range(num_cells):
+        for j in range(num_mutations):
+            sol_Y[i, j] = variables[numVar] > 0
+            numVar += 1
+
+    removedMutsIDs = []
+    if kmax > 0:
+        sol_K = np.empty(num_mutations, dtype=np.int8)
+        numVar = numVarY + numVarB + numVarZ
+        for j in range(num_mutations):
+            sol_K[j] = variables[numVar] > 0
+            numVar += 1
+            if sol_K[j]:
+                removedMutsIDs.append(snvs[j])
+
+    df_output = pd.DataFrame(sol_Y)
+    df_output.columns = snvs
+    df_output.index = cells
+    df_output.index.name = "cellIDxmutID"
+
+    df_output[removedMutsIDs] = 0
+
+    tsc.ul.stat(df_input, df_output, alpha, beta, running_time)
+
+    return df_output
 
 
 def phiscsi_bulk(
@@ -313,7 +358,7 @@ def phiscsi_bulk(
         tsc.logg.error("Unable to import a package!")
 
     tsc.logg.info(
-        f"running PhISCS-bulk with alpha={alpha}, beta={beta}, kmax={kmax}, "
+        f"running PhISCS-I-orig with alpha={alpha}, beta={beta}, kmax={kmax}, "
         f"vaf_info={vaf_info}, delta={delta}, time_out={time_out}, "
         f"n_threads={n_threads}"
     )

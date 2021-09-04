@@ -1,5 +1,7 @@
 import trisicell as tsc
 
+from ._helpers import skip_graph_tool
+
 
 class TestSolversTmp:
     def test_iscistree(self):
@@ -13,10 +15,22 @@ class TestSolversTmp:
         # df_out = tsc.tl.rscistree(adata, mode="haploid")
         # is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
         # assert is_cf
-        assert 1 == 1
+        assert True
 
     def test_siclonefit(self):
-        assert 1 == 1
+        assert True
 
     def test_infscite(self):
-        assert 1 == 1
+        assert True
+
+    def test_dendro(self):
+        adata = tsc.datasets.example()
+        tsc.tl.dendro(adata)
+        assert True
+
+    @skip_graph_tool
+    def test_sbm(self):
+        data = tsc.datasets.test()
+        out = tsc.tl.sbm(data)
+        tree = tsc.ul.to_tree(out)
+        assert len(tree.nodes) == 3

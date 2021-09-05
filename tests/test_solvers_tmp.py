@@ -1,6 +1,6 @@
 import trisicell as tsc
 
-from ._helpers import skip_graph_tool
+from ._helpers import skip_graph_tool, skip_rpy2
 
 
 class TestSolversTmp:
@@ -23,6 +23,7 @@ class TestSolversTmp:
     def test_infscite(self):
         assert True
 
+    @skip_rpy2
     def test_dendro(self):
         adata = tsc.datasets.example()
         tsc.tl.dendro(adata)

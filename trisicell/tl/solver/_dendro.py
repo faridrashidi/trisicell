@@ -1,11 +1,19 @@
-import os
-
+import pandas as pd
 from IPython.display import Image, display
 
 import trisicell as tsc
 
 
-def dendro(adata):
+def dendro(
+    adata,
+    cell_info=None,
+    label_color="group_color",
+    layout="fan",
+    tiplab_size=2.5,
+    width=800,
+    height=800,
+    dpi=100,
+):
     """Running DENDRO
 
     Genetic heterogeneity profiling and subclone detection by single-cell
@@ -15,6 +23,25 @@ def dendro(adata):
     ----------
     adata : :class:`anndata.AnnData`
         Input data contains layers of `genotype`, `mutant` and `total`.
+    cell_info : :class:`pandas.DataFrame`, optional
+        Information about cells such as color, by default None
+    label_color : :obj:`str`, optional
+        The column name in which colors of cells are stored
+        in the dataframe provided as `cell_info`, by default "group_color"
+    tiplab_size : :obj:`float`, optional
+        Cell name size in the tree, by default 2.5
+    layout : :obj:`str`, optional
+        Layout of the tree, by default "fan"
+        Values are:
+
+            - `fan`
+            - `dendrogram`
+    width : :obj:`int`, optional
+        Width of the figure, by default 800
+    height : :obj:`int`, optional
+        Height of the figure, by default 800
+    dpi : :obj:`int`, optional
+        The resolution, by default 100
 
     Returns
     -------
@@ -54,17 +81,34 @@ def dendro(adata):
         X = ro.conversion.py2rpy(X.T)
         N = ro.conversion.py2rpy(N.T)
 
+        if cell_info is not None:
+            cell_info_r = ro.conversion.py2rpy(cell_info.reset_index())
+        else:
+            cell_info_r = ro.conversion.py2rpy(
+                pd.DataFrame.from_dict(
+                    {
+                        "x": adata.obs.index,
+                        "group_color": adata.obs.shape[0] * ["#000000"],
+                    }
+                )
+            )
+        ro.globalenv["info"] = cell_info_r
+
     dist = dendro.DENDRO_dist(X, N, Z, show_progress=False)
     tree = stats.hclust(dist, method="ward.D")
     ro.globalenv["tree"] = tree
 
     cmd = f"""
-    p <- ggtree(tree, layout='fan')
-    p <- p + geom_tiplab()
+    p <- ggtree(tree, layout='{layout}', size=0.4) %<+% info
+    p <- p + geom_tiplab(
+        aes(color={label_color}), align=TRUE, linesize=.1, angle=-90,
+        hjust=-0.1, size={tiplab_size}, fontface='bold'
+    )
+    p <- p + scale_color_identity(guide='none')
     """
 
     with grdevices.render_to_bytesio(
-        grdevices.png, width=800, height=800, res=100
+        grdevices.png, width=width, height=height, res=dpi
     ) as image:
         p = ro.r(cmd)
         ro.r.show(p)

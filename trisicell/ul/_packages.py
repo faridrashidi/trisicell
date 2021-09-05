@@ -51,7 +51,7 @@ def import_rpy2(name="base", how=""):
         _r_lib = importr(name)
         return _r_lib, False
     except PackageNotInstalledError:
-        tsc.logg.warn(f"Install R library `{name!r}` first.{how}")
+        tsc.logg.warn(f"Install R library `{name!r}` first.\n{how}")
         return None, True
 
 

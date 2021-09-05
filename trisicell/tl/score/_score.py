@@ -140,7 +140,7 @@ def cc(df_grnd, df_sol):
     M_sol = df_sol[inter].values
     M_grnd, M_sol
 
-    # TODO: implement.
+    # TODO: implement
     return None
 
 

@@ -1,3 +1,5 @@
+import warnings
+
 import numba
 import numpy as np
 import pandas as pd
@@ -57,6 +59,7 @@ def dist_cosine_ignore_na(I_mtr, n_jobs=1):
 
 
 def _dist_dendro(T, V, I_mtr):
+    warnings.filterwarnings("ignore")
     PROB_SEQ_ERROR = 0.001
 
     def logSum_1(x, y):

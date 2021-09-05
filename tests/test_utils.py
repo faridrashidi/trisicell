@@ -27,3 +27,18 @@ class TestUtils:
         dist = tsc.ul.dist_dendro(adata)
         assert dist.sum() > 262456
         assert dist.sum() < 262457
+
+    def test_tree_to_cfmatrix(self):
+        df_in = tsc.datasets.test()
+        df_out = tsc.tl.phiscsb(df_in, alpha=0.0000001, beta=0.1)
+        tree = tsc.ul.to_tree(df_out)
+        df_out2 = tsc.ul.to_cfmatrix(tree)
+        df_out = df_out.loc[df_out2.index, df_out2.columns].copy()
+        pd.testing.assert_frame_equal(df_out, df_out2, check_dtype=False)
+
+    def test_tree_to_mtree(self):
+        df_in = tsc.datasets.test()
+        df_out = tsc.tl.phiscsb(df_in, alpha=0.0000001, beta=0.1)
+        tree = tsc.ul.to_tree(df_out)
+        tree = tsc.ul.to_mtree(tree)
+        assert len(tree.nodes) == 13

@@ -7,6 +7,7 @@ import trisicell as tsc
 
 
 def sbm(data2):
+    # TODO: implement
     graph_tool, graph_tool_is_not_imported = tsc.ul.import_graph_tool()
     if graph_tool_is_not_imported:
         tsc.logg.error("Unable to import a package!")

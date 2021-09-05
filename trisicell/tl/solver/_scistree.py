@@ -109,6 +109,7 @@ def scistree(df_input, alpha, beta, experiment=False):
 
 
 def rscistree(adata, alpha=0, beta=0, mode="haploid"):
+    # TODO: implement
     tsc.logg.info(f"running rScisTree with mode={mode}")
     tmpdir = tsc.ul.tmpdirsys(suffix=".rscistree", dirname=".")
 
@@ -183,6 +184,7 @@ def rscistree(adata, alpha=0, beta=0, mode="haploid"):
 
 
 def iscistree(df_input, alpha, beta, n_iters=np.inf):
+    # TODO: implement
     tsc.logg.info(
         f"running iScisTree with alpha={alpha}, beta={beta}, n_iters={n_iters}"
     )

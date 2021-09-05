@@ -164,6 +164,8 @@ def dendro_tree(
         Width of the figure, by default 8
     height : :obj:`int`, optional
         Height of the figure, by default 3
+    dpi : :obj:`int`, optional
+        The resolution, by default 300
     cell_info : :class:`pandas.DataFrame`, optional
         Information about cells such as color,
         expression values of genes and etc, by default None
@@ -230,7 +232,6 @@ def dendro_tree(
     importr("ggtree")
     importr("ape")
     importr("aplot")
-    # ggtext = importr("ggtext")
 
     with ro.conversion.localconverter(ro.default_converter + pandas2ri.converter):
         if cell_info is not None:
@@ -250,9 +251,6 @@ def dendro_tree(
         info2_r = ro.conversion.py2rpy(info2)
         ro.globalenv["info2"] = info2_r
 
-    # p = ggtree.ggtree(
-    #     ape.read_tree(text=f"{newick}"), layout="dendrogram", size=line_size
-    # )
     cmd = _get_tree(
         newick,
         line_size,

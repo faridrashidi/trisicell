@@ -31,10 +31,14 @@ def import_mpi4py():
 
 def import_rpy2(name="base", how=""):
     try:
+        import logging
+
+        from rpy2.rinterface_lib.callbacks import logger as rpy2_logger
         from rpy2.robjects import r
         from rpy2.robjects.packages import PackageNotInstalledError, importr
 
         r
+        rpy2_logger.setLevel(logging.ERROR)
 
     except ImportError:
         tsc.logg.warn(
@@ -47,7 +51,7 @@ def import_rpy2(name="base", how=""):
         _r_lib = importr(name)
         return _r_lib, False
     except PackageNotInstalledError:
-        tsc.logg.warn(f"Install R library `{name!r}` first.{how}")
+        tsc.logg.warn(f"Install R library `{name!r}` first.\n{how}")
         return None, True
 
 

@@ -21,6 +21,8 @@ class TestSolvers:
         )
         is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
         assert is_cf
+        is_cf = tsc.ul.is_conflict_free(df_out)
+        assert is_cf
 
     @skip_mpi4py
     def test_bnb(self):
@@ -55,14 +57,14 @@ class TestSolvers:
         assert is_cf
 
     @skip_gurobi
-    def test_phiscs_bulk_1(self):
+    def test_phiscsi_bulk_1(self):
         adata = tsc.datasets.acute_lymphocytic_leukemia2()
         adata.var["VAF"] = (
             2
             * adata.var["MutantCount"]
             / (adata.var["MutantCount"] + adata.var["ReferenceCount"])
         )
-        df_out = tsc.tl.phiscs_bulk(
+        df_out = tsc.tl.phiscsi_bulk(
             adata.to_df(),
             alpha=0.001,
             beta=0.181749,
@@ -74,25 +76,25 @@ class TestSolvers:
         assert is_cf
 
     @skip_gurobi
-    def test_phiscs_bulk_2(self):
+    def test_phiscsi_bulk_2(self):
         adata = tsc.datasets.colorectal2()
         df_in = adata.to_df()
         alpha = adata.uns["params_fig7a"]["alpha"]
         beta = adata.uns["params_fig7a"]["beta"]
-        df_out = tsc.tl.phiscs_bulk(df_in, alpha, beta, time_out=120)
+        df_out = tsc.tl.phiscsi_bulk(df_in, alpha, beta, time_out=120)
         is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
         flips_0_1, _, _, _ = tsc.ul.count_flips(df_in.values, df_out.values)
         assert is_cf
         assert flips_0_1 == 150
 
     @skip_gurobi
-    def test_phiscs_bulk_3(self):
+    def test_phiscsi_bulk_3(self):
         adata = tsc.datasets.colorectal2()
         df_in = adata.to_df()
         alpha = adata.uns["params_fig7b"]["alpha"]
         beta = adata.uns["params_fig7b"]["beta"]
         kmax = adata.uns["params_fig7b"]["kmax"]
-        df_out = tsc.tl.phiscs_bulk(df_in, alpha, beta, kmax, time_out=120)
+        df_out = tsc.tl.phiscsi_bulk(df_in, alpha, beta, kmax, time_out=120)
         assert df_out.columns[df_out.sum() == 0][0] == "ATP7B_chr13_52534322"
 
     @skip_gurobi

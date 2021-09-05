@@ -1,17 +1,8 @@
 import trisicell as tsc
 
 
-def example(kind):
+def example():
     """Return an example for sanity checking and playing with Trisicell.
-
-    Parameters
-    ----------
-    kind : :obj:`str`
-        The options are:
-
-            - `'genotype'`: This option will return information about genotype matrix.
-            - `'expression'`: This option will return information about expression
-                matrix.
 
     Returns
     -------
@@ -19,14 +10,7 @@ def example(kind):
         An object that cells are in `.obs` and mutations are in `.var`.
     """
 
-    if kind.lower() == "genotype":
-        return tsc.io.read(tsc.ul.get_file("trisicell.datasets/data/genotype.h5ad.gz"))
-    elif kind.lower() == "expression":
-        return tsc.io.read(
-            tsc.ul.get_file("trisicell.datasets/data/expression.h5ad.gz")
-        )
-    else:
-        tsc.logg.error("kind must be either genotype or expression")
+    return tsc.io.read(tsc.ul.get_file("trisicell.datasets/data/genotype.h5ad.gz"))
 
 
 def test():
@@ -138,7 +122,7 @@ def colorectal3():
     """
 
     adata = tsc.io.read(tsc.ul.get_file("trisicell.datasets/real/colorectal3.h5ad"))
-    # TODO: extract.
+    # TODO: extract
     return adata
 
 
@@ -496,7 +480,7 @@ def high_grade_serous_ovarian_cancer1():
             "trisicell.datasets/real/high_grade_serous_ovarian_cancer1.h5ad"
         )
     )
-    # TODO: extract.
+    # TODO: extract
     return adata
 
 
@@ -520,7 +504,7 @@ def high_grade_serous_ovarian_cancer2():
             "trisicell.datasets/real/high_grade_serous_ovarian_cancer2.h5ad"
         )
     )
-    # TODO: extract.
+    # TODO: extract
     return adata
 
 
@@ -545,7 +529,7 @@ def high_grade_serous_ovarian_cancer3():
             "trisicell.datasets/real/high_grade_serous_ovarian_cancer3.h5ad"
         )
     )
-    # TODO: extract.
+    # TODO: extract
     # FIXME: 370 x 43 in scVILP?
     return adata
 

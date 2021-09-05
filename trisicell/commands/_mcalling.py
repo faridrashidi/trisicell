@@ -109,6 +109,9 @@ def mcalling(config_file, test, status, build, clean):
     """Mutation calling pipeline.
 
     trisicell mcalling config.yml
+
+    A template of the `config file` can be found `here <https://raw.githubusercontent\
+.com/faridrashidi/trisicell/master/trisicell/datasets/test/mcalling_config.yml>`_.
     """
 
     with open(config_file) as fin:

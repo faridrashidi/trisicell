@@ -122,7 +122,7 @@ def colorectal3():
     """
 
     adata = tsc.io.read(tsc.ul.get_file("trisicell.datasets/real/colorectal3.h5ad"))
-    # TODO: extract.
+    # TODO: extract
     return adata
 
 
@@ -480,7 +480,7 @@ def high_grade_serous_ovarian_cancer1():
             "trisicell.datasets/real/high_grade_serous_ovarian_cancer1.h5ad"
         )
     )
-    # TODO: extract.
+    # TODO: extract
     return adata
 
 
@@ -504,7 +504,7 @@ def high_grade_serous_ovarian_cancer2():
             "trisicell.datasets/real/high_grade_serous_ovarian_cancer2.h5ad"
         )
     )
-    # TODO: extract.
+    # TODO: extract
     return adata
 
 
@@ -529,7 +529,7 @@ def high_grade_serous_ovarian_cancer3():
             "trisicell.datasets/real/high_grade_serous_ovarian_cancer3.h5ad"
         )
     )
-    # TODO: extract.
+    # TODO: extract
     # FIXME: 370 x 43 in scVILP?
     return adata
 

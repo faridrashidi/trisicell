@@ -7,6 +7,14 @@ Release Notes
 =============
 
 
+Version 0.0.14 :small:`September 5, 2021`
+-----------------------------------------
+
+This version includes:
+
+    - Add more test.
+
+
 Version 0.0.13 :small:`September 2, 2021`
 -----------------------------------------
 

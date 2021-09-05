@@ -4,7 +4,6 @@ from trisicell.tl.cna import infercna
 from trisicell.tl.consensus import consensus_tree
 from trisicell.tl.fitch import fitch
 from trisicell.tl.partition_function import partition_function
-from trisicell.tl.sbm import sbm
 from trisicell.tl.score import ad, cc, dl, mltd, tpted
 from trisicell.tl.solver import (
     bnb,
@@ -21,6 +20,7 @@ from trisicell.tl.solver import (
     phiscsi,
     phiscsi_bulk,
     rscistree,
+    sbm,
     scistree,
     scite,
     siclonefit,

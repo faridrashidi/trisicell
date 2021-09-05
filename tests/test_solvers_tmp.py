@@ -1,3 +1,5 @@
+import pytest
+
 import trisicell as tsc
 
 from ._helpers import skip_graph_tool, skip_rpy2
@@ -24,10 +26,16 @@ class TestSolversTmp:
         assert True
 
     @skip_rpy2
+    @pytest.mark.skip(reason="Unable to import a package on GitHub")
     def test_dendro(self):
         adata = tsc.datasets.example()
         tsc.tl.dendro(adata)
         assert True
+
+    @skip_rpy2
+    @pytest.mark.skip(reason="Takes 6 minutes")
+    def test_cardelino(self):
+        pass
 
     @skip_graph_tool
     def test_sbm(self):

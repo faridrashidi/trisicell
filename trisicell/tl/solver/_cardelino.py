@@ -1,7 +1,7 @@
 import trisicell as tsc
 
 
-def cardelino(adata, n_clones, mode, tree=None):
+def cardelino(adata, mode, n_clones=None, tree=None):
     """Running Cardelino
 
     Computational integration of somatic clonal substructure and single-cell
@@ -15,10 +15,13 @@ def cardelino(adata, n_clones, mode, tree=None):
     ----------
     adata : :class:`anndata.AnnData`
         Input data contains layers of mutant and total.
-    n_clones : :obj:`int`
-        Number of clones.
     mode : :obj:`str`
-        Cardelino mode, either `fixed` or `free`
+        Cardelino mode, possible values are:
+
+            - `fixed`: in this mode provide `tree`
+            - `free`: in this mode provide `n_clones`
+    n_clones : :obj:`int`, optional
+        Number of clones, by default None
     tree : :class:`pandas.DataFrame`, optional
         Input prebuilt tree in the form of conflict-free matrix, by default None
 

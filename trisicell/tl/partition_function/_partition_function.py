@@ -1,5 +1,4 @@
 import datetime
-import pickle
 import time
 
 import numpy as np
@@ -12,18 +11,6 @@ from trisicell.tl.partition_function._pf import (
     get_samples_info,
     process_samples,
 )
-
-
-def _save_samples(filename, edges_list, subtrees_list, tree_our_prob_list):
-    samples_object = (edges_list, subtrees_list, tree_our_prob_list)
-    with open(filename, "wb") as f:
-        pickle.dump(samples_object, f)
-
-
-def _load_samples(filename):
-    with open(filename, "rb") as f:
-        edges_list, subtrees_list, tree_our_prob_list = pickle.load(f)
-    return edges_list, subtrees_list, tree_our_prob_list
 
 
 def partition_function(df_input, alpha, beta, n_samples, n_batches, muts, cells):
@@ -51,6 +38,7 @@ def partition_function(df_input, alpha, beta, n_samples, n_batches, muts, cells)
     :class:`pandas.DataFrame`
         A table of probabilities for every mutation and every batch.
     """
+
     df_output = pd.DataFrame(None, index=muts, columns=range(n_batches))
     s_time = time.time()
     I_mtr = df_input.values
@@ -66,15 +54,7 @@ def partition_function(df_input, alpha, beta, n_samples, n_batches, muts, cells)
     if len(my_cells) != len(cells):
         tsc.logg.error("bad cells choise!")
 
-    edges_list, subtrees_list, tree_our_prob_list = get_samples(P, n_samples)
-    # _save_samples(
-    #     './working/PF/bwes.pkl',
-    #     edges_list, subtrees_list, tree_our_prob_list
-    # )
-
-    # edges_list, subtrees_list, tree_our_prob_list = _load_samples(
-    #     './working/PF/bwes.pkl'
-    # )
+    _, subtrees_list, tree_our_prob_list = get_samples(P, n_samples)
 
     def run(mut):
         my_mut = np.where(df_input.columns == mut)[0][0]
@@ -89,10 +69,6 @@ def partition_function(df_input, alpha, beta, n_samples, n_batches, muts, cells)
     output = Parallel(n_jobs=len(muts))(delayed(run)(mut) for mut in muts)
     for mut, estimates in output:
         df_output.loc[mut] = estimates
-
-    # for mut in muts[:2]:
-    #     mut, estimates = run(mut)
-    #     df_output.loc[mut] = estimates
 
     e_time = time.time()
     running_time = e_time - s_time

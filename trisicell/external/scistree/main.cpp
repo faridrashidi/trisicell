@@ -366,9 +366,9 @@ int main_in_c(int argc, char **argv) {
   string str3 = "scistree.output";
   outputfile.replace(outputfile.find(str2), str2.length(), str3);
 
-  std::ofstream out(outputfile);
-  std::streambuf *coutbuf = std::cout.rdbuf(); // save old buf
-  std::cout.rdbuf(out.rdbuf());                // redirect std::cout to out.txt!
+  ofstream out(outputfile);
+  auto *coutbuf = cout.rdbuf(); // save old buf
+  cout.rdbuf(out.rdbuf());     // redirect cout to out.txt!
 
   cout << CODE_VER_INFO << endl << endl;
 
@@ -387,7 +387,10 @@ int main_in_c(int argc, char **argv) {
   // dump out stats
   // ApproxGTPStats::Instance().DumpStats();
 
-  std::cout.rdbuf(coutbuf); // reset to standard output again
+  cout.rdbuf(coutbuf); // reset to standard output again
+  out.close();
+
+  cout << "";
 
   return 0;
 }

@@ -71,7 +71,7 @@ def clt_sample_rec(
         ind = np.random.choice(len(flat_probs), p=flat_probs)
         pair = np.unravel_index(ind, prob.shape)
 
-    #  conversion from numpy.float128 to Decimal is not supported
+    # conversion from numpy.float128 to Decimal is not supported
     prior_prob = prior_prob * Decimal(np.float64(prob[pair]))
     P_new = np.delete(P, pair, axis=0)  # remove two rows
     P_new = np.append(

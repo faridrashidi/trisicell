@@ -14,6 +14,7 @@ def cell_lineage_tree_prob(P, subtrees):
     :param subtrees: cell lineage tree
     :return: Probability of this tree in the original distribution( based on P)
     """
+
     return_value = Decimal(1)
     for j in range(P.shape[1]):
         temp = Decimal(0)
@@ -35,6 +36,7 @@ def pf_cond_on_one_tree(P, subtrees, cond_c, cond_m):
     :return: conditioned on the given tree what is probability of the given partition
         based on P numerator, denominator are returned separately here
     """
+
     denominator = Decimal(0)
     numerator = Decimal(0)
     col = P[:, cond_m]
@@ -61,6 +63,7 @@ def get_samples(P, n_samples, disable_tqdm=True):
         tree_our_prob_list: for each sample: the probability of us sampling
             the tree. Prob_{T\sim E}[T]
     """
+
     P = P.astype(np.float128)
     edges_list = []
     subtrees_list = []
@@ -75,7 +78,9 @@ def get_samples(P, n_samples, disable_tqdm=True):
     return edges_list, subtrees_list, tree_our_prob_list
 
 
-def get_samples_info(P, my_cell, my_mut, n_samples, subtrees_list=None):
+def get_samples_info(
+    P, my_cell, my_mut, n_samples, subtrees_list=None, disable_tqdm=True
+):
     r"""
     Run some processes on the given samples and returns some raw data.
 
@@ -106,6 +111,7 @@ def get_samples_info(P, my_cell, my_mut, n_samples, subtrees_list=None):
             pf_cond_list, tree_origin_prob_list, edges_list, subtrees_list,
             tree_our_prob_list
     """
+
     given_samples = subtrees_list is not None
     if not given_samples:
         edges_list, subtrees_list, tree_our_prob_list = get_samples(P, n_samples)
@@ -116,7 +122,7 @@ def get_samples_info(P, my_cell, my_mut, n_samples, subtrees_list=None):
     cond_c[my_cell] = 1
 
     for i in tqdm(
-        range(n_samples), ascii=True, ncols=100, desc="Sampling", disable=True
+        range(n_samples), ascii=True, ncols=100, desc="Sampling", disable=disable_tqdm
     ):
         numerator, denominator = pf_cond_on_one_tree(
             P, subtrees_list[i], cond_c=cond_c, cond_m=my_mut
@@ -156,12 +162,11 @@ def process_samples(
     :param pf_cond_list:
     :param tree_origin_prob_list:
     :param tree_our_prob_list:
-    :param n_batches TODO
+    :param n_batches:
     :return: just one probability through weighted average
     """
+
     n_samples = len(pf_cond_list)
-    assert n_samples == len(tree_origin_prob_list)
-    assert n_samples == len(tree_our_prob_list)
     estimates = []
     n_batches_internal = n_batches if n_batches is not None else 1
     interval_len = n_samples // n_batches_internal
@@ -182,18 +187,3 @@ def process_samples(
         return estimates[0]
     else:
         return estimates
-
-
-def count_disticnt_matrices(x_list):
-    """
-    Return the number of distinct ones given a list of matrices.
-
-    :param x_list:
-    :return:
-    """
-    hashes = set()
-    for x in x_list:
-        x = np.matrix(x)
-        x.flags.writeable = False
-        hashes.add(hash(x.tostring()))
-    return len(hashes)

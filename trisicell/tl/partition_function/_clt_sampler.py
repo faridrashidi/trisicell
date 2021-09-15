@@ -7,7 +7,34 @@ from scipy.special import softmax
 from sklearn.metrics.pairwise import pairwise_distances
 
 
-# TODO make this faster by not recalculating
+def draw_sample_clt(P, greedy, c=1, coef=2):
+    r"""
+    Draw sample clt.
+
+    :param P:
+    :param greedy:
+    :param c: gaussian kernel parameter
+    :param coef:
+    :return: edges, subtrees, prior_prob
+    prior_prob in the latex: Prob_{T\sim E}[T]
+    """
+
+    edges, prior_prob = clt_sample_rec(P, greedy, c, coef=coef)
+    n_cells = P.shape[0]
+    n_nodes = 2 * n_cells - 1
+    edges_map = {a: (b, d) for a, b, d in edges}
+    subtrees = []
+    for i in range(n_nodes):
+        if i not in edges_map:  # leaf
+            row = np.zeros(n_cells, dtype=np.int8)
+            row[i] = 1
+        else:
+            pair = edges_map[i]
+            row = subtrees[pair[0]] + subtrees[pair[1]]  # logical_or
+        subtrees.append(row)
+    return edges, subtrees, prior_prob
+
+
 def clt_sample_rec(
     P,
     greedy,
@@ -36,6 +63,8 @@ def clt_sample_rec(
     :param prior_prob: for rec
     :return: edges, prior_prob
     """
+
+    # TODO make this faster by not recalculating
     if prior_prob is None:
         prior_prob = Decimal(1.0)
     if P.shape[0] == 1:
@@ -91,76 +120,5 @@ def clt_sample_rec(
     return edges, prior_prob
 
 
-def draw_sample_clt(P, greedy, c=1, coef=2):
-    r"""
-    Draw sample clt.
-
-    :param P:
-    :param greedy:
-    :param c: gaussian kernel parameter
-    :param coef:
-    :return: edges, subtrees, prior_prob
-    prior_prob in the latex: Prob_{T\sim E}[T]
-    """ ""
-    edges, prior_prob = clt_sample_rec(P, greedy, c, coef=coef)
-    n_cells = P.shape[0]
-    n_nodes = 2 * n_cells - 1
-    edges_map = {a: (b, d) for a, b, d in edges}
-    subtrees = []
-    for i in range(n_nodes):
-        if i not in edges_map:  # leaf
-            row = np.zeros(n_cells, dtype=np.int8)
-            row[i] = 1
-        else:
-            pair = edges_map[i]
-            row = subtrees[pair[0]] + subtrees[pair[1]]  # logical_or
-        subtrees.append(row)
-    return edges, subtrees, prior_prob
-
-
 def row_leafness_score(row_a, row_b):
     return np.sum(np.minimum(row_a, row_b))
-
-
-def column_pairs_cost(A, Ap, unit_costs):
-    """
-    Column pairs cost.
-
-    :param A:
-    :param Ap:
-    :param unit_costs: 2D-matrix: cost of each combination
-    :return:
-    """
-    num = np.zeros((2, 2), dtype=np.int)
-    for i in range(2):
-        for j in range(2):
-            num[i, j] = np.count_nonzero(np.logical_and(A == i, Ap == j))
-    return np.sum(num * unit_costs)
-
-
-def denoise_cond_clt(I_mtr, alpha, beta, subtrees):
-    """
-    Give a PP matrix with highest likelihood for the given cell lineage tree.
-
-    O(n m^2) Can be improved to O(n m) with dynamic programming (e.g., in ScisTree)
-
-    :param I_mtr:
-    :param alpha:
-    :param beta:
-    :param subtrees:
-    :return:
-    """
-    unit_prob = np.array([[1 - alpha, alpha], [beta, 1 - beta]])
-    unit_costs = -np.log(unit_prob)
-    output = np.zeros(I_mtr.shape)
-    total_cost = 0
-    for c in range(I_mtr.shape[1]):
-        costs = [
-            column_pairs_cost(I_mtr[:, c], subtrees[st_ind], unit_costs)
-            for st_ind in range(len(subtrees))
-        ]
-        ind = np.argmin(costs)
-        # print(c, costs, ind)
-        output[:, c] = subtrees[ind]
-        total_cost += costs[ind]
-    return output, total_cost

@@ -161,6 +161,9 @@ def to_cfmatrix(tree):
             mut += tree.edges[(first, second)]["label"].split(
                 tree.graph["splitter_mut"]
             )
+            if len(mut) != len(set(mut)):
+                print(tree.edges[(first, second)]["label"])
+                return mut
             if "––" not in tree.nodes[second]["label"]:
                 cell = tree.nodes[second]["label"].split(tree.graph["splitter_cell"])
                 df.loc[cell, mut] = 1

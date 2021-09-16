@@ -14,7 +14,7 @@ def count_mut_in_a_gene(adata, cut_off=0):
 def remove_indels(adata):
     snps = []
     for x in adata.var_names:
-        ens, gene, chrom, pos, ref, alt = tsc.ul.split_mut(x)
+        _, _, _, _, ref, alt = tsc.ul.split_mut(x)
         if ("-" not in ref) and ("-" not in alt):
             snps.append(x)
     keep_mut_by_list(adata, snps)

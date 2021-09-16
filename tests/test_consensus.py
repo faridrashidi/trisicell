@@ -11,7 +11,7 @@ class TestConsensus:
         sc1 = tsc.io.read(f1)
         sc2 = tsc.io.read(f2)
         final_tree = tsc.tl.consensus_tree(sc1, sc2)
-        assert len(final_tree.nodes) == 19
+        assert len(final_tree.nodes) == 18
 
     def test_consensus_2(self):
         # result in recomb.fig1c
@@ -29,7 +29,7 @@ class TestConsensus:
         sc1 = tsc.io.read(f1)
         sc2 = tsc.io.read(f2)
         final_tree = tsc.tl.consensus_tree(sc1, sc2)
-        assert len(final_tree.nodes) == 34
+        assert len(final_tree.nodes) == 33
 
     def test_consensus_4(self):
         # result in biorxiv.fig3f

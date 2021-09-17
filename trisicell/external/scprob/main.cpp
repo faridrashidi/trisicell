@@ -748,9 +748,9 @@ int main_in_c(int argc, char **argv)
     string str3 = "rscistree.input";
     outputfile.replace(outputfile.find(str2), str2.length(), str3);
 
-    std::ofstream out(outputfile);
-    std::streambuf *coutbuf = std::cout.rdbuf(); // save old buf
-    std::cout.rdbuf(out.rdbuf());                // redirect std::cout to out.txt!
+    ofstream out(outputfile);
+    streambuf *coutbuf = cout.rdbuf(); // save old buf
+    cout.rdbuf(out.rdbuf());          // redirect cout to out.txt!
 
     // read the allele count file
     vector<vector<pair<int,int> > > listSCAlleles;
@@ -858,7 +858,10 @@ int main_in_c(int argc, char **argv)
         cout << endl;
     }
 
-    std::cout.rdbuf(coutbuf); // reset to standard output again
+    cout.rdbuf(coutbuf); // reset to standard output again
+    out.close();
+
+    cout << "";
 
     return 0;
 }

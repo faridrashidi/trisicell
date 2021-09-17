@@ -8,6 +8,7 @@ from trisicell.commands._booster import booster
 from trisicell.commands._consensus import consensus
 from trisicell.commands._huntress import huntress
 from trisicell.commands._mcalling import mcalling
+from trisicell.commands._partf import partf
 from trisicell.commands._phiscs import phiscsb, phiscsi
 from trisicell.commands._scistree import scistree
 from trisicell.commands._scite import scite
@@ -55,6 +56,7 @@ def cli():
 
 cli.add_command(mcalling)
 cli.add_command(booster)
+cli.add_command(partf)
 cli.add_command(phiscsb)
 cli.add_command(phiscsi)
 cli.add_command(scite)

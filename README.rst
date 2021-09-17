@@ -7,7 +7,7 @@ Trisicell - |subst|
 
 
 .. image:: https://raw.githubusercontent.com/faridrashidi/trisicell/master/docs/source/_static/images/overview.png
-   :target: https://trisicell.readthedocs.io
+   :target: https://github.com/faridrashidi/trisicell
    :alt: overview
    :align: center
 

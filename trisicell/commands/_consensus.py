@@ -38,7 +38,7 @@ def consensus(first_tree, second_tree, consensus_path):
 
     sc1 = tsc.io.read(first_tree)
     sc2 = tsc.io.read(second_tree)
-    final_tree = tsc.tl.consensus_tree(sc1, sc2)
+    final_tree = tsc.tl.consensus(sc1, sc2)
     tsc.io.write(final_tree.graph["data"], consensus_path)
 
     return None

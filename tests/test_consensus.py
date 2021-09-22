@@ -10,7 +10,7 @@ class TestConsensus:
         )
         sc1 = tsc.io.read(f1)
         sc2 = tsc.io.read(f2)
-        final_tree = tsc.tl.consensus_tree(sc1, sc2)
+        final_tree = tsc.tl.consensus(sc1, sc2)
         assert len(final_tree.nodes) == 18
 
     def test_consensus_2(self):
@@ -19,7 +19,7 @@ class TestConsensus:
         f2 = tsc.ul.get_file("trisicell.datasets/test/consensus/recomb.fig1b.CFMatrix")
         sc1 = tsc.io.read(f1)
         sc2 = tsc.io.read(f2)
-        final_tree = tsc.tl.consensus_tree(sc1, sc2)
+        final_tree = tsc.tl.consensus(sc1, sc2)
         assert len(final_tree.nodes) == 21
 
     def test_consensus_3(self):
@@ -28,7 +28,7 @@ class TestConsensus:
         f2 = tsc.ul.get_file("trisicell.datasets/test/consensus/biorxiv.fig4c.CFMatrix")
         sc1 = tsc.io.read(f1)
         sc2 = tsc.io.read(f2)
-        final_tree = tsc.tl.consensus_tree(sc1, sc2)
+        final_tree = tsc.tl.consensus(sc1, sc2)
         assert len(final_tree.nodes) == 33
 
     def test_consensus_4(self):
@@ -37,5 +37,5 @@ class TestConsensus:
         f2 = tsc.ul.get_file("trisicell.datasets/test/consensus/biorxiv.fig3c.CFMatrix")
         sc1 = tsc.io.read(f1)
         sc2 = tsc.io.read(f2)
-        final_tree = tsc.tl.consensus_tree(sc1, sc2)
+        final_tree = tsc.tl.consensus(sc1, sc2)
         assert len(final_tree.nodes) == 19

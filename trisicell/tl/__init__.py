@@ -1,7 +1,7 @@
 """Tools Module."""
 
 from trisicell.tl.cna import infercna
-from trisicell.tl.consensus import consensus_tree
+from trisicell.tl.consensus import consensus, consensus_day
 from trisicell.tl.fitch import fitch
 from trisicell.tl.partition_function import partition_function
 from trisicell.tl.score import ad, cc, dl, mltd, tpted
@@ -28,7 +28,8 @@ from trisicell.tl.solver import (
 
 __all__ = (
     infercna,
-    consensus_tree,
+    consensus,
+    consensus_day,
     partition_function,
     sbm,
     ad,

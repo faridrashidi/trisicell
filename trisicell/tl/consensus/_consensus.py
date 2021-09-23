@@ -8,8 +8,8 @@ import trisicell as tsc
 
 def _get_cnt_tree(tree):
     cnt_tree = tree.copy()
-    for u, v, l in cnt_tree.edges.data("label"):
-        mutations = l.split(cnt_tree.graph["splitter_mut"])
+    for u, v, muts in cnt_tree.edges.data("label"):
+        mutations = muts.split(cnt_tree.graph["splitter_mut"])
         cnt_tree.add_edge(u, v, label=len(mutations), mutations=mutations)
         if cnt_tree.in_degree(v) != 0:
             if "––" not in tree.nodes[v]["label"]:
@@ -110,7 +110,7 @@ def _add_private_muts(cnt_tree, sc_data, tree_nodes):
     return cnt_tree, tree_nodes, has_expanded_all
 
 
-def consensus_tree(sc1, sc2):
+def consensus(sc1, sc2):
     """Build the consensus tree between two phylogenetic trees.
 
     Parameters

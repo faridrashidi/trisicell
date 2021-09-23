@@ -114,7 +114,7 @@ and calculating the probability of mutations seeding particular cells.
 .. autosummary::
     :toctree: .
 
-    tl.consensus_tree
+    tl.consensus
 
 **For comparing two phylogenetic trees**
 

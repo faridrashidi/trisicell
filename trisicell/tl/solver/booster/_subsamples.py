@@ -14,7 +14,7 @@ def subsampling(
     n_samples,
     begin_sample,
     n_jobs,
-    time_out,
+    time_limit,
     n_iterations,
     tmpdir,
     disable_tqdm,
@@ -23,14 +23,14 @@ def subsampling(
     # tsc.logg.info(
     #     f"running Booster with alpha={alpha}, beta={beta}, solver={solver},"
     #     f" sample_on={sample_on}, sample_size={sample_size}, n_samples={n_samples},"
-    #     f" n_jobs={n_jobs}, time_out={time_out}"
+    #     f" n_jobs={n_jobs}, time_limit={time_limit}"
     # )
     # tsc.logg.info(f"id,m,i0,i1,i3,o0,o1,f01,f10,f30,f31,r")
 
     if solver.lower() == "scite":
-        time_out = n_iterations
+        time_limit = n_iterations
 
-    @tsc.ul.with_timeout(time_out)
+    @tsc.ul.with_timeout(time_limit)
     def run(i):
         if sample_on == "muts":
             dfn = df_input.sample(n=sample_size, replace=False, axis=1)

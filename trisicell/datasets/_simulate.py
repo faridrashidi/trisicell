@@ -33,6 +33,8 @@ def simulate(n_cells=10, n_muts=10, n_clones=3, alpha=0.00001, beta=0.1, missing
         A genotype matrix where 0 is absent, 1 is present and 3 is missing.
     """
 
+    # TODO: replace
+
     onconem, onconem_is_not_imported = tsc.ul.import_rpy2(
         "oncoNEM",
         "BiocManager::install('graph')\ndevtools::install_bitbucket('edith_ross/oncoNEM')\n",
@@ -63,125 +65,6 @@ def simulate(n_cells=10, n_muts=10, n_clones=3, alpha=0.00001, beta=0.1, missing
     df.index = [f"cell{x}" for x in df.index]
 
     return df
-
-
-def splatter(noisy, ground, seed=5):
-    params = tsc.ul.get_file("trisicell.datasets/data/splatter.rds")
-
-    splatter, splatter_is_not_imported = tsc.ul.import_rpy2(
-        "splatter",
-        "BiocManager::install('splatter')\n",
-    )
-    if splatter_is_not_imported:
-        tsc.logg.error("Unable to import a package!")
-
-    import rpy2.robjects as ro
-
-    cmd = f"""
-    suppressPackageStartupMessages({{
-        library(splatter)
-    }})
-
-    seed <- strtoi({seed})
-    name <- basename('{noisy}')
-    groundmatrix <- read.table(file='{ground}', header=TRUE, sep='\t', row.names=1)
-    counts <- colSums(groundmatrix == 1)
-    # print(length(counts[counts < 2]))
-
-    inmatrix <- read.table(file='{noisy}', header=TRUE, sep='\t', row.names=1)
-    # counts <- colSums(inmatrix == 1)
-    # print(counts[counts < 2])
-
-    n <- dim(inmatrix)[1]
-    m <- dim(inmatrix)[2]
-
-    params <- readRDS(file='{params}')
-    sim <- splatSimulate(params, nGenes=m, batchCells=n, seed=seed, verbose=FALSE)
-
-    outmatrix <- inmatrix
-    outmatrix[t(counts(sim)) < 10] <- 3
-
-    counts <- colSums(outmatrix == 1)
-    counts <- 2-counts[counts < 2]
-    names <- names(counts)
-    i<-0
-    for (n in names) {{
-        i <- i+1
-        x <- which(inmatrix[,names[i]] == 1)
-        if (counts[i] <= length(x)) {{
-            my_sample <- sample(x, length(x), replace=FALSE)
-            j <- 0
-            for (s in my_sample) {{
-                if (outmatrix[s,names[i]] == 3) {{
-                    j <- j+1
-                    outmatrix[s,names[i]] <- 1
-                    if (counts[i] == j) {{
-                        break
-                    }}
-                }}
-            }}
-        }}
-    }}
-
-    counts <- colSums(outmatrix == 1)
-    counts <- 2-counts[counts < 2]
-    names <- names(counts)
-    i<-0
-    for (n in names) {{
-        i <- i+1
-        x <- which(groundmatrix[,names[i]] == 1)
-        # x2 <- which(inmatrix[,names[i]] == 0)
-        # x <- intersect(x1, x2)
-        if (counts[i] <= length(x)) {{
-            my_sample <- sample(x, length(x), replace=FALSE)
-            j <- 0
-            for (s in my_sample) {{
-                if (outmatrix[s,names[i]] == 0 || outmatrix[s,names[i]] == 3) {{
-                    j <- j+1
-                    outmatrix[s,names[i]] <- 1
-                    if (counts[i] == j) {{
-                        break
-                    }}
-                }}
-            }}
-        }}
-    }}
-
-    counts <- colSums(outmatrix == 1)
-    # print(length(counts[counts < 2]))
-
-
-    outfile <- '{noisy[:-len('.SC')]}-seed_{seed}.SC'
-    write.table(x=data.frame('cellID_mutID'=rownames(outmatrix),outmatrix),
-                             file=outfile, sep='\\t', quote=FALSE, row.names=FALSE)
-    """
-    ro.r(cmd)
-
-
-def create_splatter():
-    params = tsc.ul.get_file("trisicell.datasets/data/splatter.rds")
-
-    splatter, splatter_is_not_imported = tsc.ul.import_rpy2(
-        "splatter",
-        "BiocManager::install('splatter')\n",
-    )
-    if splatter_is_not_imported:
-        tsc.logg.error("Unable to import a package!")
-
-    import rpy2.robjects as ro
-
-    cmd = f"""
-    suppressPackageStartupMessages({{
-        library(splatter)
-    }})
-
-    readcountfile <- '~/122/expr.count.tsv'
-    data <- read.table(file=readcountfile, header=TRUE, sep='\t', row.names=1)
-    data <- t(as.matrix(data))
-    params <- splatEstimate(data)
-    saveRDS(params, file='{params}')
-    """
-    ro.r(cmd)
 
 
 def add_noise(df_in, alpha, beta, missing):

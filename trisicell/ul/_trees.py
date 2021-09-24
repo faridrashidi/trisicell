@@ -196,14 +196,6 @@ def to_mtree(tree):
 
 
 def _to_newick(tree):
-    # def _subtree(at):
-    #     return nx.subgraph(
-    #         tree,
-    #         nx.algorithms.traversal.depth_first_search.dfs_tree(
-    #             tree, at
-    #         ).nodes - [at],
-    #     )
-
     def _children(at):
         return list(n for n in tree.neighbors(at))
 
@@ -336,3 +328,7 @@ def muts_rooted_at(tree, node_id):
     for _, _, label in sub_tree.edges.data("label"):
         muts += label.split(tree.graph["splitter_mut"])
     return np.array(muts)
+
+
+def is_leaf(tree, node):
+    return "––" not in tree.nodes[node]["label"] and tree.in_degree(node) != 0

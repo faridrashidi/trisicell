@@ -25,3 +25,11 @@ class TestScores:
     def test_tpted(self):
         tpted = tsc.tl.tpted(self.grnd, self.sol)
         assert tpted == 0.99
+
+    def test_caset(self):
+        caset = tsc.tl.caset(self.grnd, self.sol)
+        assert np.abs(caset - 0.7847) < 0.0001
+
+    def test_disc(self):
+        disc = tsc.tl.disc(self.grnd, self.sol)
+        assert np.abs(disc - 0.7762) < 0.0001

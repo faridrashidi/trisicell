@@ -52,6 +52,13 @@ def colorectal1():
 
     The size is n_cells × n_muts = 178 × 16
 
+    Returns
+    -------
+    :class:`anndata.AnnData`
+        An anndata in which `.X` is the input noisy.
+
+    Notes
+    -----
     This dataset includes single cells from two sites of the patient body;
     133 single cells from colon as primary tumor site and 45 single cells from liver
     as the tumor metastatic site (178 in total). The number of mutations in this
@@ -59,11 +66,6 @@ def colorectal1():
     mutations before feeding it to our network. After removing cells with zero profile,
     the number of cells are 40 and 32 from primary and metastatic sites, respectively
     (72 in total).
-
-    Returns
-    -------
-    :class:`anndata.AnnData`
-        An anndata in which `.X` is the input noisy.
     """
 
     adata = tsc.io.read(tsc.ul.get_file("trisicell.datasets/real/colorectal1.h5ad"))
@@ -127,9 +129,9 @@ def colorectal3():
         An anndata in which `.X` is the input noisy.
     """
 
-    adata = tsc.io.read(tsc.ul.get_file("trisicell.datasets/real/colorectal3.h5ad"))
+    # adata = tsc.io.read(tsc.ul.get_file("trisicell.datasets/real/colorectal3.h5ad"))
     # TODO: extract
-    return adata
+    return None
 
 
 def acute_lymphocytic_leukemia1():
@@ -481,13 +483,13 @@ def high_grade_serous_ovarian_cancer1():
         An anndata in which `.X` is the input noisy.
     """
 
-    adata = tsc.io.read(
-        tsc.ul.get_file(
-            "trisicell.datasets/real/high_grade_serous_ovarian_cancer1.h5ad"
-        )
-    )
+    # adata = tsc.io.read(
+    #     tsc.ul.get_file(
+    #         "trisicell.datasets/real/high_grade_serous_ovarian_cancer1.h5ad"
+    #     )
+    # )
     # TODO: extract
-    return adata
+    return None
 
 
 def high_grade_serous_ovarian_cancer2():
@@ -505,13 +507,13 @@ def high_grade_serous_ovarian_cancer2():
         An anndata in which `.X` is the input noisy.
     """
 
-    adata = tsc.io.read(
-        tsc.ul.get_file(
-            "trisicell.datasets/real/high_grade_serous_ovarian_cancer2.h5ad"
-        )
-    )
+    # adata = tsc.io.read(
+    #     tsc.ul.get_file(
+    #         "trisicell.datasets/real/high_grade_serous_ovarian_cancer2.h5ad"
+    #     )
+    # )
     # TODO: extract
-    return adata
+    return None
 
 
 def high_grade_serous_ovarian_cancer3():
@@ -521,6 +523,7 @@ def high_grade_serous_ovarian_cancer3():
 
     * :cite:`infSCITE` Figure S24.
     * :cite:`scVILP` Figure 5.
+    * :cite:`SCIPhI` Figure S10.
 
     The size is n_cells × n_muts = 420 × 37
 
@@ -530,14 +533,14 @@ def high_grade_serous_ovarian_cancer3():
         An anndata in which `.X` is the input noisy.
     """
 
-    adata = tsc.io.read(
-        tsc.ul.get_file(
-            "trisicell.datasets/real/high_grade_serous_ovarian_cancer3.h5ad"
-        )
-    )
+    # adata = tsc.io.read(
+    #     tsc.ul.get_file(
+    #         "trisicell.datasets/real/high_grade_serous_ovarian_cancer3.h5ad"
+    #     )
+    # )
     # TODO: extract
-    # FIXME: 370 x 43 in scVILP?
-    return adata
+    # FIXME: 370 x 43 in scVILP and SCIPhI?
+    return None
 
 
 def high_grade_serous_ovarian_cancer_3celllines():
@@ -625,4 +628,23 @@ def acute_lymphocytic_leukemia_many():
     """
 
     # TODO: extract all
+    return None
+
+
+def isogenic_fibroblast_cell_line():
+    """Isogenic Fibroblast cell line dataset.
+
+    This dataset was introduced in :cite:`Leung_2015` and was used in:
+
+    * :cite:`SCIPhI` Figure S9.
+
+    The size is n_cells × n_muts = 19 × ?
+
+    Returns
+    -------
+    :class:`anndata.AnnData`
+        An anndata in which `.X` is the input noisy.
+    """
+
+    # TODO: extract
     return None

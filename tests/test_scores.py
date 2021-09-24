@@ -33,3 +33,7 @@ class TestScores:
     def test_disc(self):
         disc = tsc.tl.disc(self.grnd, self.sol)
         assert np.abs(disc - 0.7762) < 0.0001
+
+    def test_mp3(self):
+        mp3 = tsc.tl.mp3(self.grnd, self.sol)
+        assert np.abs(mp3 - 0.6582) < 0.0001

@@ -71,7 +71,7 @@ import trisicell as tsc
     help="""Weight for how many subsamples to be used in dependencies calculation.""",
 )
 @click.option(
-    "--time_out",
+    "--time_limit",
     default=120,
     type=int,
     show_default=True,
@@ -134,7 +134,7 @@ def booster(
     begin_index,
     n_jobs,
     dep_weight,
-    time_out,
+    time_limit,
     n_iterations,
     subsample_dir,
     disable_tqdm,
@@ -177,7 +177,7 @@ def booster(
         begin_index=begin_index,
         n_jobs=n_jobs,
         dep_weight=dep_weight,
-        time_out=time_out,
+        time_limit=time_limit,
         n_iterations=n_iterations,
         subsample_dir=subsample_dir,
         disable_tqdm=disable_tqdm,

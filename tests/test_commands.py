@@ -176,6 +176,19 @@ class TestCommands:
         )
         assert result.exit_code == 0
 
+    @pytest.mark.skip(reason="pyBnB issue with CLI!")
+    def test_bnb(self):
+        runner = CliRunner()
+        result = runner.invoke(
+            cli,
+            [
+                "bnb",
+                tsc.ul.get_file("trisicell.datasets/test/test.tsv"),
+                "-b simulated",
+            ],
+        )
+        assert result.exit_code == 0
+
 
 @pytest.fixture(scope="session", autouse=True)
 def cleanup(request):

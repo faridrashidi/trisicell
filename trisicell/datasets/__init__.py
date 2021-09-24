@@ -27,7 +27,7 @@ from trisicell.datasets._datasets import (
     tnbc,
 )
 from trisicell.datasets._signatures import get_markers, get_signatures
-from trisicell.datasets._simulate import add_noise, create_splatter, simulate, splatter
+from trisicell.datasets._simulate import add_noise, simulate
 
 __all__ = (
     acute_lymphocytic_leukemia1,
@@ -57,7 +57,5 @@ __all__ = (
     get_markers,
     get_signatures,
     add_noise,
-    create_splatter,
     simulate,
-    splatter,
 )

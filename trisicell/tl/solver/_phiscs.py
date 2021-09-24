@@ -123,13 +123,40 @@ def phiscsb(df_input, alpha, beta, experiment=False):
     return df_output
 
 
-def phiscsi(df_input, alpha, beta, time_out=86400, n_threads=1):
+def phiscsi(df_input, alpha, beta, time_limit=86400, n_threads=1):
+    """Solving using PhISCS-I (only in single-cell mode, no bulk).
+
+    a combinatorial approach for subperfect tumor phylogeny reconstruction
+    via integrative use of single-cell and bulk sequencing data :cite:`PhISCS`.
+
+    Parameters
+    ----------
+    df_input : :class:`pandas.DataFrame`
+        Input genotype matrix in which rows are cells and columns are mutations.
+        Values inside this matrix show the presence (1), absence (0) and missing
+        entires (3).
+    alpha : :obj:`float`
+        False positive error rate.
+    beta : :obj:`float`
+        False negative error rate.
+    time_limit : :obj:`int`, optional
+        Time limit of the Gurobi running in seconds, by default 86400 (one day)
+    n_threads : :obj:`int`, optional
+        Number of threads for Gurobi solver, by default 1
+
+    Returns
+    -------
+    :class:`pandas.DataFrame`
+        A conflict-free matrix in which rows are cells and columns are mutations.
+        Values inside this matrix show the presence (1) and absence (0).
+    """
+
     gp, gp_is_not_imported = tsc.ul.import_gurobi()
     if gp_is_not_imported:
         tsc.logg.error("Unable to import a package!")
 
     tsc.logg.info(
-        f"running PhISCS-I with alpha={alpha}, beta={beta}, time_out={time_out}, "
+        f"running PhISCS-I with alpha={alpha}, beta={beta}, time_limit={time_limit}, "
         f"n_threads={n_threads}"
     )
     cells = list(df_input.index)
@@ -142,7 +169,7 @@ def phiscsi(df_input, alpha, beta, time_out=86400, n_threads=1):
     model.Params.OutputFlag = 0
     model.Params.LogFile = ""
     model.Params.Threads = n_threads
-    model.Params.TimeLimit = time_out
+    model.Params.TimeLimit = time_limit
 
     num_cells = len(cells)
     num_mutations = len(snvs)
@@ -209,6 +236,36 @@ def phiscsb_bulk(
     vaf_info=None,
     delta=0.2,
 ):
+    """Solving using PhISCS-B (in single-cell mode with bulk and mutation elimination).
+
+    a combinatorial approach for subperfect tumor phylogeny reconstruction
+    via integrative use of single-cell and bulk sequencing data :cite:`PhISCS`.
+
+    Parameters
+    ----------
+    df_input : :class:`pandas.DataFrame`
+        Input genotype matrix in which rows are cells and columns are mutations.
+        Values inside this matrix show the presence (1), absence (0) and missing
+        entires (3).
+    alpha : :obj:`float`
+        False positive error rate.
+    beta : :obj:`float`
+        False negative error rate.
+    kmax : :obj:`int`, optional
+        Max number of mutations to be eliminated, by default 0
+    vaf_info : :class:`pandas.DataFrame`, optional
+        Information about the variant allele frequency in bulk data
+        The size is n_SNVs x n_samples, by default None
+    delta : :obj:`float`, optional
+        Delta parameter accounting for VAF variance, by default 0.2
+
+    Returns
+    -------
+    :class:`pandas.DataFrame`
+        A conflict-free matrix in which rows are cells and columns are mutations.
+        Values inside this matrix show the presence (1) and absence (0).
+    """
+
     # TODO: implement
 
     tsc.logg.info(
@@ -349,9 +406,42 @@ def phiscsi_bulk(
     kmax=0,
     vaf_info=None,
     delta=0.2,
-    time_out=86400,
+    time_limit=86400,
     n_threads=1,
 ):
+    """Solving using PhISCS-I (in single-cell mode with bulk and mutation elimination).
+
+    a combinatorial approach for subperfect tumor phylogeny reconstruction
+    via integrative use of single-cell and bulk sequencing data :cite:`PhISCS`.
+
+    Parameters
+    ----------
+    df_input : :class:`pandas.DataFrame`
+        Input genotype matrix in which rows are cells and columns are mutations.
+        Values inside this matrix show the presence (1), absence (0) and missing
+        entires (3).
+    alpha : :obj:`float`
+        False positive error rate.
+    beta : :obj:`float`
+        False negative error rate.
+    kmax : :obj:`int`, optional
+        Max number of mutations to be eliminated, by default 0
+    vaf_info : :class:`pandas.DataFrame`, optional
+        Information about the variant allele frequency in bulk data
+        The size is n_SNVs x n_samples, by default None
+    delta : :obj:`float`, optional
+        Delta parameter accounting for VAF variance, by default 0.2
+    time_limit : :obj:`int`, optional
+        Time limit of the Gurobi running in seconds, by default 86400 (one day)
+    n_threads : :obj:`int`, optional
+        Number of threads for Gurobi solver, by default 1
+
+    Returns
+    -------
+    :class:`pandas.DataFrame`
+        A conflict-free matrix in which rows are cells and columns are mutations.
+        Values inside this matrix show the presence (1) and absence (0).
+    """
 
     gp, gp_is_not_imported = tsc.ul.import_gurobi()
     if gp_is_not_imported:
@@ -359,7 +449,7 @@ def phiscsi_bulk(
 
     tsc.logg.info(
         f"running PhISCS-I-orig with alpha={alpha}, beta={beta}, kmax={kmax}, "
-        f"vaf_info={vaf_info}, delta={delta}, time_out={time_out}, "
+        f"vaf_info={vaf_info}, delta={delta}, time_limit={time_limit}, "
         f"n_threads={n_threads}"
     )
 
@@ -373,7 +463,7 @@ def phiscsi_bulk(
     model.Params.OutputFlag = 0
     model.Params.LogFile = ""
     model.Params.Threads = n_threads
-    model.Params.TimeLimit = time_out
+    model.Params.TimeLimit = time_limit
 
     numCells = len(cells)
     numMutations = len(snvs)
@@ -547,13 +637,41 @@ def phiscsi_bulk(
     return df_output
 
 
-def phiscs_readcount(adata, alpha, beta, time_out=86400):
+def phiscs_readcount(adata, alpha, beta, time_limit=86400, n_threads=1):
+    """Solving using PhISCS-ReadCount (only in single-cell mode, no bulk).
+
+    a combinatorial approach for subperfect tumor phylogeny reconstruction
+    via integrative use of single-cell and bulk sequencing data :cite:`PhISCS`.
+
+    Parameters
+    ----------
+    df_input : :class:`pandas.DataFrame`
+        Input genotype matrix in which rows are cells and columns are mutations.
+        Values inside this matrix show the presence (1), absence (0) and missing
+        entires (3).
+    alpha : :obj:`float`
+        False positive error rate.
+    beta : :obj:`float`
+        False negative error rate.
+    time_limit : :obj:`int`, optional
+        Time limit of the Gurobi running in seconds, by default 86400 (one day)
+    n_threads : :obj:`int`, optional
+        Number of threads for Gurobi solver, by default 1
+
+    Returns
+    -------
+    :class:`pandas.DataFrame`
+        A conflict-free matrix in which rows are cells and columns are mutations.
+        Values inside this matrix show the presence (1) and absence (0).
+    """
+
     gp, gp_is_not_imported = tsc.ul.import_gurobi()
     if gp_is_not_imported:
         tsc.logg.error("Unable to import a package!")
 
     tsc.logg.info(
-        f"running PhISCS-readcout with alpha={alpha}, beta={beta}, time_out={time_out}"
+        f"running PhISCS-readcout with alpha={alpha}, beta={beta},"
+        f" time_limit={time_limit}"
     )
 
     PROB_SEQ_ERROR = 0.001
@@ -585,8 +703,8 @@ def phiscs_readcount(adata, alpha, beta, time_out=86400):
     model = gp.Model("ILP")
     model.Params.OutputFlag = 0
     model.Params.LogFile = ""
-    model.Params.Threads = 1
-    model.Params.TimeLimit = time_out
+    model.Params.Threads = n_threads
+    model.Params.TimeLimit = time_limit
     Y = {}
     B = {}
     for c in range(len(cells)):

@@ -152,3 +152,10 @@ gurobi.log
 
 # Trisicell specific
 trisicell.*
+
+# Trisicell tests
+trisicell/datasets/test/test.*
+!trisicell/datasets/test/test.tsv
+trisicell/datasets/test/_tmp*
+trisicell/datasets/test/_map*
+trisicell/datasets/test/consensus.CFMatrix

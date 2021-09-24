@@ -6,53 +6,36 @@ from ._helpers import skip_gurobi, skip_mpi4py, skip_rpy2
 
 
 class TestSolvers:
-    @skip_rpy2
-    def test_simulate(self):
-        df_in = tsc.datasets.simulate(
-            n_cells=100, n_muts=100, n_clones=5, alpha=0.001, beta=0.4, missing=0.2
-        )
-        is_cf = tsc.ul.is_conflict_free_gusfield(df_in)
-        assert not is_cf
+    def setup_method(self):
+        self.df_in = tsc.datasets.test()
 
     def test_scite(self):
-        df_in = tsc.datasets.test()
         df_out = tsc.tl.scite(
-            df_in, alpha=0.0000001, beta=0.1, n_restarts=3, n_iters=1000
+            self.df_in, alpha=0.0000001, beta=0.1, n_restarts=3, n_iters=1000
         )
-        is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
-        assert is_cf
-        is_cf = tsc.ul.is_conflict_free(df_out)
-        assert is_cf
+        assert tsc.ul.is_conflict_free_gusfield(df_out)
+        assert tsc.ul.is_conflict_free(df_out)
 
     @skip_mpi4py
-    def test_bnb(self):
-        df_in = tsc.datasets.test()
-        df_out = tsc.tl.bnb(df_in, bounding="simulated")
-        is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
-        assert is_cf
+    def test_bnb_simulated(self):
+        df_out = tsc.tl.bnb(self.df_in, bounding="simulated")
+        assert tsc.ul.is_conflict_free_gusfield(df_out)
 
     def test_phiscsb(self):
-        df_in = tsc.datasets.test()
-        df_out = tsc.tl.phiscsb(df_in, alpha=0.0000001, beta=0.1)
-        is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
-        assert is_cf
+        df_out = tsc.tl.phiscsb(self.df_in, alpha=0.0000001, beta=0.1)
+        assert tsc.ul.is_conflict_free_gusfield(df_out)
 
     def test_huntress_both(self):
-        df_in = tsc.datasets.test()
-        df_out = tsc.tl.huntress(df_in, alpha=0.0000001, beta=0.1, kind="both")
-        is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
-        assert is_cf
+        df_out = tsc.tl.huntress(self.df_in, alpha=0.0000001, beta=0.1, kind="both")
+        assert tsc.ul.is_conflict_free_gusfield(df_out)
 
     def test_huntress_fn(self):
-        df_in = tsc.datasets.test()
-        df_out = tsc.tl.huntress(df_in, alpha=0, beta=0, kind="fn")
-        is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
-        assert is_cf
+        df_out = tsc.tl.huntress(self.df_in, alpha=0, beta=0, kind="fn")
+        assert tsc.ul.is_conflict_free_gusfield(df_out)
 
     @skip_rpy2
     def test_onconem(self):
-        df_in = tsc.datasets.test()
-        df_out = tsc.tl.onconem(df_in, alpha=0.0000001, beta=0.1)
+        df_out = tsc.tl.onconem(self.df_in, alpha=0.0000001, beta=0.1)
         is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
         assert is_cf
 
@@ -81,7 +64,7 @@ class TestSolvers:
         df_in = adata.to_df()
         alpha = adata.uns["params_fig7a"]["alpha"]
         beta = adata.uns["params_fig7a"]["beta"]
-        df_out = tsc.tl.phiscsi_bulk(df_in, alpha, beta, time_out=120)
+        df_out = tsc.tl.phiscsi_bulk(df_in, alpha, beta, time_limit=120)
         is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
         flips_0_1, _, _, _ = tsc.ul.count_flips(df_in.values, df_out.values)
         assert is_cf
@@ -94,7 +77,7 @@ class TestSolvers:
         alpha = adata.uns["params_fig7b"]["alpha"]
         beta = adata.uns["params_fig7b"]["beta"]
         kmax = adata.uns["params_fig7b"]["kmax"]
-        df_out = tsc.tl.phiscsi_bulk(df_in, alpha, beta, kmax, time_out=120)
+        df_out = tsc.tl.phiscsi_bulk(df_in, alpha, beta, kmax, time_limit=120)
         assert df_out.columns[df_out.sum() == 0][0] == "ATP7B_chr13_52534322"
 
     @skip_gurobi
@@ -105,9 +88,8 @@ class TestSolvers:
         assert is_cf
 
     def test_booster_phiscs(self):
-        df_in = tsc.datasets.test()
         df_out = tsc.tl.booster(
-            df_in,
+            self.df_in,
             alpha=0.0000001,
             beta=0.1,
             solver="PhISCS",
@@ -116,16 +98,14 @@ class TestSolvers:
             n_samples=20,
             begin_index=0,
             n_jobs=1,
-            time_out=120,
+            time_limit=120,
             dep_weight=5,
         )
-        is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
-        assert is_cf
+        assert tsc.ul.is_conflict_free_gusfield(df_out)
 
     def test_booster_scite(self):
-        df_in = tsc.datasets.test()
         df_out = tsc.tl.booster(
-            df_in,
+            self.df_in,
             alpha=0.0000001,
             beta=0.1,
             solver="SCITE",
@@ -137,12 +117,15 @@ class TestSolvers:
             n_iterations=10000,
             dep_weight=5,
         )
-        is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
-        assert is_cf
+        assert tsc.ul.is_conflict_free_gusfield(df_out)
 
     @pytest.mark.skip(reason="PyTest issue with redirecting the stdout!")
     def test_scistree(self):
-        df_in = tsc.datasets.test()
-        df_out = tsc.tl.scistree(df_in, alpha=0.0000001, beta=0.1)
-        is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
-        assert is_cf
+        df_out = tsc.tl.scistree(self.df_in, alpha=0.0000001, beta=0.1)
+        assert tsc.ul.is_conflict_free_gusfield(df_out)
+
+    @skip_mpi4py
+    @pytest.mark.skip(reason="Skip for now!")
+    def test_bnb_real(self):
+        df_out = tsc.tl.bnb(self.df_in, bounding="real", time_limit=5)
+        assert tsc.ul.is_conflict_free_gusfield(df_out)

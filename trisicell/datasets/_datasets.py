@@ -50,7 +50,15 @@ def colorectal1():
     * :cite:`SPhyR` Table 1.
     * :cite:`SiCloneFit` Figure 3.
 
-    The size is n_cells × n_muts = 72 × 12
+    The size is n_cells × n_muts = 178 × 16
+
+    This dataset includes single cells from two sites of the patient body;
+    133 single cells from colon as primary tumor site and 45 single cells from liver
+    as the tumor metastatic site (178 in total). The number of mutations in this
+    dataset is 16. One can remove the cells in this dataset that carry none of these 16
+    mutations before feeding it to our network. After removing cells with zero profile,
+    the number of cells are 40 and 32 from primary and metastatic sites, respectively
+    (72 in total).
 
     Returns
     -------
@@ -58,9 +66,7 @@ def colorectal1():
         An anndata in which `.X` is the input noisy.
     """
 
-    adata = tsc.io.read(tsc.ul.get_file("trisicell.datasets/real/colorectal1.rc.h5ad"))
-    # FIXME: extract (SiFit 178 × 16).
-    # https://github.com/algo-cancer/PhyloM/blob/master/Data/README.md
+    adata = tsc.io.read(tsc.ul.get_file("trisicell.datasets/real/colorectal1.h5ad"))
     return adata
 
 

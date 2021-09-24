@@ -1,8 +1,6 @@
 import matplotlib.colors as mcolors
-import matplotlib.pyplot as plt
 import natsort as ns
 import numpy as np
-import pandas as pd
 import seaborn as sns
 
 
@@ -58,66 +56,6 @@ def heatmap(adata, color_attrs=None, layer="X", figsize=(12, 7)):
         dendrogram_ratio=0.0001,
     )
     # plt.savefig(filepath, bbox_inches="tight", pad_inches=0)
-
-
-def plot_size(df_in):
-    plt.rcParams["xtick.labelsize"] = 6
-    plt.rcParams["ytick.labelsize"] = 6
-    plt.figure(figsize=(1, 1))
-    ax = sns.histplot([], color="black")
-    ax.set_xlabel(f"{df_in.shape[1]} mutations", fontsize=8)
-    ax.set_ylabel(f"{df_in.shape[0]} cells", fontsize=8)
-    ax.set_xticks([])
-    ax.set_yticks([])
-    ax.xaxis.set_label_position("top")
-
-
-def plot_input(df_in):
-    plt.rcParams["xtick.labelsize"] = 6
-    plt.rcParams["ytick.labelsize"] = 6
-    plt.figure(figsize=(1, 1))
-    df = pd.DataFrame(np.array(np.unique(df_in.values, return_counts=True)).T)
-    df[2] = 100 * df[1] / df_in.size
-    df = df.set_index([0]).rename({0: "0", 1: "1", 3: "NA"})
-    if "NA" in df.index:
-        ax = df[2].plot.barh(color="#D92347", width=0.7)
-    else:
-        ax = df[2].plot.barh(color="#D92347", width=0.5)
-    plt.gca().invert_yaxis()
-    plt.xlim(0, 100)
-    ax.set_xlabel("")
-    ax.set_ylabel("")
-    ax.set_xticks(np.arange(0, 101, 25))
-    ax.tick_params(axis="x", direction="out", length=2, width=1)
-    ax.tick_params(axis="y", direction="out", length=2, width=1)
-
-
-def plot_output(df_out):
-    plt.rcParams["xtick.labelsize"] = 6
-    plt.rcParams["ytick.labelsize"] = 6
-    plt.figure(figsize=(1, 1))
-    df = pd.DataFrame(np.array(np.unique(df_out.values, return_counts=True)).T)
-    df[2] = 100 * df[1] / df_out.size
-    df = df.set_index([0]).rename({0: "0", 1: "1", 3: "NA"})
-    ax = df[2].plot.barh(color="#0067A5", width=0.5)
-    plt.gca().invert_yaxis()
-    plt.xlim(0, 100)
-    ax.set_xlabel("")
-    ax.set_ylabel("")
-    ax.set_xticks(np.arange(0, 101, 25))
-    ax.tick_params(axis="x", direction="out", length=2, width=1)
-    ax.tick_params(axis="y", direction="out", length=2, width=1)
-
-
-def plot_flips2(df_in, df_out):
-    I_mtr = df_in
-    O_mtr = df_out
-    df = pd.DataFrame(0, index=["0->1", "1->0", "NA->0", "NA->1"], columns=[1])
-    df.loc["0->1", 1] = ((I_mtr == 0) & (O_mtr == 1)).sum().sum()
-    df.loc["1->0", 1] = ((I_mtr == 1) & (O_mtr == 0)).sum().sum()
-    df.loc["NA->0", 1] = ((I_mtr == 3) & (O_mtr == 0)).sum().sum()
-    df.loc["NA->1", 1] = ((I_mtr == 3) & (O_mtr == 1)).sum().sum()
-    print(df)
 
 
 def plot_flips(df_in, df_out, row_colors):

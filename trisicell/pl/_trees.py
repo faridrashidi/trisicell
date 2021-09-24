@@ -3,8 +3,13 @@ import pandas as pd
 from IPython.display import Image, display
 
 import trisicell as tsc
-from trisicell.pl._annotation import _add_barplot, _add_chromplot, _get_tree
-from trisicell.ul._trees import _to_newick, to_mtree
+from trisicell.pl._helper import (
+    _add_barplot,
+    _add_chromplot,
+    _clonal_cell_mutation_list,
+    _get_tree,
+    _newick_info2_mutation_list,
+)
 
 
 def clonal_tree(
@@ -293,78 +298,3 @@ def dendro_tree(
                 limitsize=False,
             )
     return display(Image(image.getvalue(), embed=True, retina=True))
-
-
-def _clonal_cell_mutation_list(tree):
-    muts_list = []
-    cells_list = []
-    for _, v, l in tree.edges.data("label"):
-        muts = l.split(tree.graph["splitter_mut"])
-        if "––" not in tree.nodes[v]["label"]:
-            cells = tree.nodes[v]["label"].split(tree.graph["splitter_cell"])
-            for mut in muts:
-                muts_list.append({"mut": mut, "Node": f"[{v}]"})
-            for cell in cells:
-                cells_list.append({"cell": cell, "Node": f"[{v}]"})
-        else:
-            for mut in muts:
-                muts_list.append({"mut": mut, "Node": f"[{v}]"})
-    cells_list = pd.DataFrame(cells_list).set_index("cell")
-    muts_list = pd.DataFrame(muts_list).set_index("mut")
-    return cells_list, muts_list
-
-
-def _newick_info2_mutation_list(tree):
-    tree2 = to_mtree(tree)
-
-    row = []
-    for node in tree2.nodes:
-        if tree2.in_degree(node) == 0:
-            row.append(
-                {
-                    "newick_label": f"Node{node+1}",
-                    "nmuts_label": "root",
-                    "nodeid_label": f"[{node+1}]",
-                    "both_label": f"[{node+1}]: root",
-                }
-            )
-        else:
-            row.append(
-                {
-                    "newick_label": f"Node{node+1}",
-                    "nmuts_label": f"{len(tree2.nodes[node]['label'])}",
-                    "nodeid_label": f"[{node+1}]",
-                    "both_label": f"[{node+1}]: {len(tree2.nodes[node]['label'])}",
-                }
-            )
-    info2 = pd.DataFrame(row)
-
-    row = []
-    for node in tree2.nodes:
-        if tree2.in_degree(node) == 0:
-            continue
-        for mut in tree2.nodes[node]["label"]:
-            ens, gene, chrom, pos, ref, alt = tsc.ul.split_mut(mut)
-            if ens is None:
-                row.append(
-                    {
-                        "index": mut,
-                        "node_id": f"[{node+1}]",
-                    }
-                )
-            else:
-                row.append(
-                    {
-                        "index": mut,
-                        "Node": f"[{node+1}]",
-                        "Ensemble": ens,
-                        "Gene": gene,
-                        "Chrom": chrom,
-                        "Position": pos,
-                        "Reference": ref,
-                        "Alteration": alt,
-                    }
-                )
-    mutation_list = pd.DataFrame(row)
-    newick = _to_newick(tree)
-    return newick, info2, mutation_list

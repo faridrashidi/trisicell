@@ -33,8 +33,6 @@ def bifiltering(df, cellr, mutr, time_limit=3600):
         tsc.logg.error("Unable to import a package!")
 
     M = df.values.copy()
-    # only mutant
-    # M[M != 1] = -1
 
     # mutant and reference
     M[M != 3] = 1
@@ -58,9 +56,6 @@ def bifiltering(df, cellr, mutr, time_limit=3600):
         C[i] = model.addVar(vtype=gp.GRB.BINARY)
         for j in range(m):
             S[j] = model.addVar(vtype=gp.GRB.BINARY)
-    # A = model.addMVar((n, m), vtype=gp.GRB.BINARY)
-    # C = model.addMVar(n, vtype=gp.GRB.BINARY)
-    # S = model.addMVar(m, vtype=gp.GRB.BINARY)
 
     tsc.logg.info("2. adding constraints", time=True)
     for i in range(n):
@@ -68,16 +63,9 @@ def bifiltering(df, cellr, mutr, time_limit=3600):
             model.addConstr(A[i][j] <= C[i])
             model.addConstr(A[i][j] <= S[j])
             model.addConstr(C[i] + S[j] - 1 <= A[i][j])
-    # for i in range(n):
-    #     for j in range(m):
-    #         model.addConstr(A[i, j] <= C[i])
-    #         model.addConstr(A[i, j] <= S[j])
-    #         model.addConstr(C[i] + S[j] - 1 <= A[i, j])
 
     model.addConstr(gp.quicksum(C[i] for i in range(n)) == n_cells)
     model.addConstr(gp.quicksum(S[j] for j in range(m)) == n_sites)
-    # model.addConstr(sum(C[i] for i in range(n)) == n_cells)
-    # model.addConstr(sum(S[j] for j in range(m)) == n_sites)
 
     model.update()
 

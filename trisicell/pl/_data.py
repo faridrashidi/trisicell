@@ -5,6 +5,7 @@ import seaborn as sns
 
 
 def heatmap(adata, color_attrs=None, layer="X", figsize=(12, 7)):
+    # TODO: check for test
     if color_attrs is not None:
         row_colors = []
         for attr in color_attrs:
@@ -59,6 +60,7 @@ def heatmap(adata, color_attrs=None, layer="X", figsize=(12, 7)):
 
 
 def plot_flips(df_in, df_out, row_colors):
+    # TODO: check for test
     snvs = np.intersect1d(df_in.columns, df_out.columns)
     # cells = np.intersect1d(df_in.index, df_out.index)
     tmp = []
@@ -113,6 +115,7 @@ def plot_flips(df_in, df_out, row_colors):
 
 
 def plot_noisy(df_in, row_colors=None):
+    # TODO: check for test
     if row_colors is None:
         row_colors = {x: "#000000" for x in df_in.index}
     snvs = df_in.columns

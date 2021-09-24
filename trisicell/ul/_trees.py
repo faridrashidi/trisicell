@@ -328,3 +328,7 @@ def muts_rooted_at(tree, node_id):
     for _, _, label in sub_tree.edges.data("label"):
         muts += label.split(tree.graph["splitter_mut"])
     return np.array(muts)
+
+
+def is_leaf(tree, node):
+    return "––" not in tree.nodes[node]["label"] and tree.in_degree(node) != 0

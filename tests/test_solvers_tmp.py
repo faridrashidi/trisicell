@@ -2,7 +2,7 @@ import pytest
 
 import trisicell as tsc
 
-from ._helpers import skip_graph_tool, skip_rpy2
+from ._helpers import skip_graph_tool, skip_mpi4py, skip_rpy2
 
 
 class TestSolversTmp:
@@ -12,18 +12,22 @@ class TestSolversTmp:
         is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
         assert is_cf
 
-    @pytest.mark.skip(reason="Cause make: *** Error!")
-    def test_rscistree(self):
-        adata = tsc.datasets.colorectal2(readcount=True)
-        df_out = tsc.tl.rscistree(adata, mode="haploid")
-        is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
-        assert is_cf
-
     def test_siclonefit(self):
         assert True
 
     def test_infscite(self):
         assert True
+
+    @skip_graph_tool
+    def test_sbm(self):
+        data = tsc.datasets.test()
+        out = tsc.tl.sbm(data)
+        tree = tsc.ul.to_tree(out)
+        assert len(tree.nodes) == 3
+
+    @skip_mpi4py
+    def test_infercna(self):
+        assert 1 == 1
 
     @skip_rpy2
     @pytest.mark.skip(reason="Unable to import a package on GitHub")
@@ -35,11 +39,13 @@ class TestSolversTmp:
     @skip_rpy2
     @pytest.mark.skip(reason="Takes 6 minutes")
     def test_cardelino(self):
-        pass
+        adata = tsc.datasets.example()
+        tsc.tl.cardelino(adata, mode="free", n_clones=11)
+        assert True
 
-    @skip_graph_tool
-    def test_sbm(self):
-        data = tsc.datasets.test()
-        out = tsc.tl.sbm(data)
-        tree = tsc.ul.to_tree(out)
-        assert len(tree.nodes) == 3
+    @pytest.mark.skip(reason="Cause make: *** Error!")
+    def test_rscistree(self):
+        adata = tsc.datasets.colorectal2(readcount=True)
+        df_out = tsc.tl.rscistree(adata, mode="haploid")
+        is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
+        assert is_cf

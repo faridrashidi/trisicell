@@ -294,19 +294,6 @@ def get_file(key):
     return pkg_resources.resource_filename(components[0], "/".join(components[1:]))
 
 
-def split_mut(mut):
-    try:
-        ref = mut.split(".")[-2]
-        pos = mut.split(".")[-3]
-        chrom = mut.split(".")[-4]
-        gene = mut.split(".chr")[0].split("_")[1]
-        ens = mut.split(".chr")[0].split("_")[0]
-        alt = mut.split(".")[-1]
-        return ens, gene, chrom, pos, ref, alt
-    except Exception:
-        return None, None, None, None, None, None
-
-
 def flips_in_cells(adata, df_in, df_out):
     c01 = ((df_in == 0) & (df_out == 1)).sum(axis=1)
     c10 = ((df_in == 1) & (df_out == 0)).sum(axis=1)
@@ -326,6 +313,19 @@ def flips_in_cells(adata, df_in, df_out):
     df["f_3_1_color"] = "#FDBF6F"
     df["f_3_0_color"] = "#FB9A99"
     adata.obs = pd.merge(adata.obs, df, how="left", left_index=True, right_index=True)
+
+
+def split_mut(mut):
+    try:
+        ref = mut.split(".")[-2]
+        pos = mut.split(".")[-3]
+        chrom = mut.split(".")[-4]
+        gene = mut.split(".chr")[0].split("_")[1]
+        ens = mut.split(".chr")[0].split("_")[0]
+        alt = mut.split(".")[-1]
+        return ens, gene, chrom, pos, ref, alt
+    except Exception:
+        return None, None, None, None, None, None
 
 
 def get_database(species):

@@ -445,3 +445,32 @@ def statistics(adata):
     tsc.logg.info(f"    HET     = {b:6d} ({100*b/t:2.1f}%)")
     tsc.logg.info(f"    HOM_ALT = {d:6d} ({100*d/t:2.1f}%)")
     tsc.logg.info(f"    UNKNOWN = {c:6d} ({100*c/t:2.1f}%)")
+
+
+def filter_snpeff(adata, exome=False):
+    bad = [
+        "Annotation_Impact",
+        "Gene_ID",
+        "Feature_ID",
+        "Rank",
+        "cDNA.pos / cDNA.length",
+        "CDS.pos / CDS.length",
+        "AA.pos / AA.length",
+        "Distance",
+        "ERRORS / WARNINGS / INFO",
+    ]
+    adata.var.drop(bad, axis=1, inplace=True)
+    a = adata.var.Transcript_BioType == "protein_coding"
+    b = adata.var.Feature_Type == "transcript"
+    c = adata.var.Annotation.isin(["synonymous_variant", "missense_variant"])
+    d = adata.var.ALT.apply(lambda x: False if "," in x else True)
+    adata._inplace_subset_var(a & b & c & d)
+    adata.var.drop(["Feature_Type", "Transcript_BioType"], axis=1, inplace=True)
+    if exome:
+        # tumor_obs = np.setdiff1d(adata.obs_names, ["NB"])[0]
+        tumor_obs = adata.obs_names[adata.obs_names.str.contains("_Tumor")][0]
+        adata._inplace_subset_obs(adata.obs_names.str.contains(tumor_obs))
+        adata.var["Mutant"] = adata.layers["mutant"][0]
+        adata.var["Total"] = adata.layers["total"][0]
+        adata.var["VAF"] = adata.var["Mutant"] / adata.var["Total"]
+        adata.var["SAMPLE"] = tumor_obs

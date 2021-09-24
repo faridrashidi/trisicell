@@ -14,10 +14,37 @@ import trisicell as tsc
 rec_num = 0
 
 
-def bnb(df_input, bounding):
-    mpi4py, mpi4py_is_not_imporeted = tsc.ul.import_mpi4py()
+def bnb(df_input, bounding, time_limit=86400):
+    """Solving using PhISCS-BnB.
+
+    PhISCS-BnB: a fast branch and bound algorithm for the perfect tumor phylogeny
+    reconstruction problem
+    :cite:`PhISCS-BnB`.
+
+    Parameters
+    ----------
+    df_input : :class:`pandas.DataFrame`
+        Input genotype matrix in which rows are cells and columns are mutations.
+        Values inside this matrix show the presence (1), absence (0) and missing
+        entires (3).
+    bounding : :obj:`str`
+        The bounding strategy {'simulated', 'real'}
+    time_limit : :obj:`int`, optional
+        Time limit of the BnB core running in seconds, by default 86400 (one day)
+
+    Returns
+    -------
+    :class:`pandas.DataFrame`
+        A conflict-free matrix in which rows are cells and columns are mutations.
+        Values inside this matrix show the presence (1) and absence (0).
+    """
+
+    _, mpi4py_is_not_imporeted = tsc.ul.import_mpi4py()
     if mpi4py_is_not_imporeted:
         tsc.logg.error("Unable to import a package!")
+
+    if bounding not in ["simulated", "real"]:
+        tsc.logg.error("Wrong choice of bounding!")
 
     tsc.logg.info(f"running BnB with bounding={bounding}")
     matrix_input = df_input.values
@@ -41,7 +68,7 @@ def bnb(df_input, bounding):
     bounding_alg = bounding_algs[bounding]
 
     s_time = time.time()
-    flips = solve_by_BnB(matrix_input, na_value, bounding_alg)
+    flips = solve_by_BnB(matrix_input, na_value, bounding_alg, time_limit)
     e_time = time.time()
     running_time = e_time - s_time
 
@@ -59,8 +86,13 @@ def bnb(df_input, bounding):
     return df_output
 
 
-def solve_by_BnB(matrix_in, na_value, bounding_alg):
-    result = bnb_solve(matrix_in, bounding_algorithm=bounding_alg, na_value=na_value)
+def solve_by_BnB(matrix_in, na_value, bounding_alg, time_limit):
+    result = bnb_solve(
+        matrix_in,
+        bounding_algorithm=bounding_alg,
+        na_value=na_value,
+        time_limit=time_limit,
+    )
     matrix_output = result[0]
     flips = []
     zero_one_flips = np.where((matrix_in != matrix_output) & (matrix_in != na_value))
@@ -899,10 +931,12 @@ class BnB(pybnb.Problem):
                 yield node
 
 
-def bnb_solve(matrix, bounding_algorithm, na_value=None):
+def bnb_solve(matrix, bounding_algorithm, na_value=None, time_limit=None):
     problem1 = BnB(matrix, bounding_algorithm, na_value=na_value)
     solver = pybnb.solver.Solver()
-    results1 = solver.solve(problem1, queue_strategy="custom", log=None)
+    results1 = solver.solve(
+        problem1, queue_strategy="custom", log=None, time_limit=time_limit
+    )
     if results1.solution_status != "unknown":
         returned_delta = results1.best_node.state[0]
         returned_delta_na = results1.best_node.state[-1]

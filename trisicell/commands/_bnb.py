@@ -21,7 +21,15 @@ import trisicell as tsc
     show_default=True,
     help="Number of threads.",
 )
-def bnb(genotype_file, bounding):
+@click.option(
+    "--time_limit",
+    "-t",
+    default=None,
+    type=int,
+    show_default=True,
+    help="Time limit.",
+)
+def bnb(genotype_file, bounding, time_limit):
     """PhISCS-BnB.
 
     A fast branch and bound algorithm for
@@ -36,7 +44,7 @@ def bnb(genotype_file, bounding):
     tsc.settings.logfile = f"{outfile}.bnb.log"
 
     df_in = tsc.io.read(genotype_file)
-    df_out = tsc.tl.bnb(df_in, bounding=bounding)
+    df_out = tsc.tl.bnb(df_in, bounding=bounding, time_limit=time_limit)
     tsc.io.write(df_out, f"{outfile}.bnb.CFMatrix")
 
     return None

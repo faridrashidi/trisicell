@@ -17,7 +17,7 @@ def booster(
     begin_index=0,
     n_jobs=10,
     dep_weight=50,
-    time_out=120,
+    time_limit=120,
     n_iterations=500000,
     subsample_dir=None,
     disable_tqdm=False,
@@ -52,7 +52,7 @@ def booster(
         number of jobs, by default 10
     dep_weight : :obj:`int`, optional
         weight multiplier, by default 50
-    time_out : :obj:`int`, optional
+    time_limit : :obj:`int`, optional
         time out needed for PhISCS running on each instance, by default 120
     n_iterations : :obj:`int`, optional
         number of iterations needed for SCITE running, by default 500000
@@ -104,7 +104,7 @@ def booster(
             n_samples=n_samples,
             begin_sample=begin_index,
             n_jobs=n_jobs,
-            time_out=time_out,
+            time_limit=time_limit,
             n_iterations=n_iterations,
             tmpdir=tmpdir,
             disable_tqdm=disable_tqdm,

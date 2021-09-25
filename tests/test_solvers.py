@@ -1,5 +1,3 @@
-import pytest
-
 import trisicell as tsc
 
 from ._helpers import skip_gurobi, skip_mpi4py, skip_rpy2
@@ -19,6 +17,15 @@ class TestSolvers:
     @skip_mpi4py
     def test_bnb_simulated(self):
         df_out = tsc.tl.bnb(self.df_in, bounding="simulated")
+        assert tsc.ul.is_conflict_free_gusfield(df_out)
+
+    @skip_mpi4py
+    def test_bnb_real(self):
+        df_out = tsc.tl.bnb(self.df_in, bounding="real", time_limit=20)
+        assert tsc.ul.is_conflict_free_gusfield(df_out)
+
+    def test_scistree(self):
+        df_out = tsc.tl.scistree(self.df_in, alpha=0.0000001, beta=0.1)
         assert tsc.ul.is_conflict_free_gusfield(df_out)
 
     def test_phiscsb(self):
@@ -117,15 +124,4 @@ class TestSolvers:
             n_iterations=10000,
             dep_weight=5,
         )
-        assert tsc.ul.is_conflict_free_gusfield(df_out)
-
-    @pytest.mark.skip(reason="PyTest issue with redirecting the stdout!")
-    def test_scistree(self):
-        df_out = tsc.tl.scistree(self.df_in, alpha=0.0000001, beta=0.1)
-        assert tsc.ul.is_conflict_free_gusfield(df_out)
-
-    @skip_mpi4py
-    @pytest.mark.skip(reason="Skip for now!")
-    def test_bnb_real(self):
-        df_out = tsc.tl.bnb(self.df_in, bounding="real", time_limit=5)
         assert tsc.ul.is_conflict_free_gusfield(df_out)

@@ -29,7 +29,7 @@ def ad(df_grnd, df_sol):
     Returns
     -------
     :obj:`float`
-        The score is out of 1.00
+        Similarity out of one.
     """
 
     inter = np.intersect1d(df_grnd.columns, df_sol.columns)
@@ -81,7 +81,7 @@ def dl(df_grnd, df_sol):
     Returns
     -------
     :obj:`float`
-        The score is out of 1.00
+        Similarity out of one.
     """
 
     inter = np.intersect1d(df_grnd.columns, df_sol.columns)
@@ -130,7 +130,7 @@ def cc(df_grnd, df_sol):
     Returns
     -------
     :obj:`float`
-        The score is out of 1.00
+        Similarity out of one.
     """
 
     inter = np.intersect1d(df_grnd.columns, df_sol.columns)
@@ -223,8 +223,8 @@ def tpted(df_grnd, df_sol):
 
     Returns
     -------
-    :obj:`int`
-        distance
+    :obj:`float`
+        Similarity out of one.
     """
 
     inter = np.intersect1d(df_grnd.columns, df_sol.columns)

@@ -4,20 +4,90 @@ import networkx as nx
 import numpy as np
 
 import trisicell as tsc
+from trisicell.tl.score._mp3 import build_tree, similarity
 
 
-def bourque():
+def bourque(df_grnd, df_sol):
+    """Bourque distances for mutation trees.
+
+    This measure was introduced in :cite:`Bourque`.
+
+    Parameters
+    ----------
+    df_grnd : :class:`pandas.DataFrame`
+        The first genotype matrix (e.g. ground truth)
+        This matrix must be conflict-free.
+    df_sol : :class:`pandas.DataFrame`
+        The second genotype matrix (e.g. solution/inferred)
+        This matrix must be conflict-free.
+
+    Returns
+    -------
+    :obj:`float`
+        Similarity out of one.
+    """
+
     # TODO: implement
     return None
 
 
-def mp3():
-    # TODO: implement
-    return None
+def mp3(df_grnd, df_sol):
+    """Triplet-based similarity score.
+
+    For fully multilabeled trees with poly-occurring labels.
+    This measure was introduced in :cite:`MP3`.
+
+    Parameters
+    ----------
+    df_grnd : :class:`pandas.DataFrame`
+        The first genotype matrix (e.g. ground truth)
+        This matrix must be conflict-free.
+    df_sol : :class:`pandas.DataFrame`
+        The second genotype matrix (e.g. solution/inferred)
+        This matrix must be conflict-free.
+
+    Returns
+    -------
+    :obj:`float`
+        Similarity out of one.
+    """
+
+    inter = np.intersect1d(df_grnd.columns, df_sol.columns)
+    if len(inter) == 0:
+        tsc.logg.error("No common mutations found between two trees!")
+    df_grnd1 = df_grnd[inter]
+    df_sol1 = df_sol[inter]
+
+    tree_grnd = tsc.ul.to_tree(df_grnd1)
+    tree_sol = tsc.ul.to_tree(df_sol1)
+    inter = np.setdiff1d(
+        inter,
+        np.union1d(
+            tree_grnd.graph["become_germline"], tree_sol.graph["become_germline"]
+        ),
+    )
+    df_grnd1 = df_grnd[inter]
+    df_sol1 = df_sol[inter]
+
+    tree_grnd = tsc.ul.to_tree(df_grnd1)
+    tree_sol = tsc.ul.to_tree(df_sol1)
+    tree_grnd = tsc.ul.to_mtree(tree_grnd)
+    tree_sol = tsc.ul.to_mtree(tree_sol)
+
+    for n in tree_grnd.nodes:
+        if tree_grnd.in_degree(n) > 0:
+            tree_grnd.nodes[n]["label"] = ",".join(tree_grnd.nodes[n]["label"])
+    for n in tree_sol.nodes:
+        if tree_sol.in_degree(n) > 0:
+            tree_sol.nodes[n]["label"] = ",".join(tree_sol.nodes[n]["label"])
+
+    T1 = build_tree(tree_grnd)
+    T2 = build_tree(tree_sol)
+    return similarity(T1, T2)
 
 
 def caset(df_grnd, df_sol):
-    """Measure of Common Ancestor Sets.
+    """Commonly Ancestor Sets score.
 
     This measure was introduced in :cite:`CASet_DISC`.
 
@@ -33,7 +103,7 @@ def caset(df_grnd, df_sol):
     Returns
     -------
     :obj:`float`
-        The score is out of 1.00
+        Similarity out of one.
     """
 
     def _get_ancesteral_set(tree):
@@ -104,7 +174,7 @@ def caset(df_grnd, df_sol):
 
 
 def disc(df_grnd, df_sol):
-    """Measure of Distinctly Inherited Sets.
+    """Distinctly Inherited Sets score.
 
     This measure was introduced in :cite:`CASet_DISC`.
 
@@ -120,7 +190,7 @@ def disc(df_grnd, df_sol):
     Returns
     -------
     :obj:`float`
-        The score is out of 1.00
+        Similarity out of one.
     """
 
     def _get_ancesteral_set(tree):

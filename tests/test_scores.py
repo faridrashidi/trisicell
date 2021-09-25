@@ -36,4 +36,4 @@ class TestScores:
 
     def test_mp3(self):
         mp3 = tsc.tl.mp3(self.grnd, self.sol)
-        assert np.abs(mp3 - 0.6582) < 0.0001
+        assert np.abs(mp3 - 0.6582) < 0.001

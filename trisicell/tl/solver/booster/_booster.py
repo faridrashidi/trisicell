@@ -70,7 +70,8 @@ def booster(
     Returns
     -------
     :class:`pandas.DataFrame`
-        [description]
+        A conflict-free matrix in which rows are cells and columns are mutations.
+        Values inside this matrix show the presence (1) and absence (0).
 
     See Also
     --------

@@ -87,7 +87,7 @@ def mp3(df_grnd, df_sol):
 
 
 def caset(df_grnd, df_sol):
-    """Measure of Common Ancestor Sets.
+    """Commonly Ancestor Sets score.
 
     This measure was introduced in :cite:`CASet_DISC`.
 
@@ -174,7 +174,7 @@ def caset(df_grnd, df_sol):
 
 
 def disc(df_grnd, df_sol):
-    """Measure of Distinctly Inherited Sets.
+    """Distinctly Inherited Sets score.
 
     This measure was introduced in :cite:`CASet_DISC`.
 

@@ -13,10 +13,21 @@ class TestPlotting:
         tsc.pp.filter_mut_reference_must_present_in_at_least(adata, min_cells=1)
         tsc.pp.filter_mut_mutant_must_present_in_at_least(adata, min_cells=2)
         tsc.pp.build_scmatrix(adata)
+        tsc.pl.heatmap(adata, color_attrs="subclone_color")
+        assert True
         df_in = adata.to_df()
-        df_out = tsc.tl.scite(df_in, alpha=0.001, beta=0.2)
-        adata.layers["input"] = df_in
-        adata.layers["output"] = df_out
+        df_out = tsc.tl.scistree(df_in, alpha=0.001, beta=0.2)
+        D = 1 * (df_in == 1) * (df_out == 0) + 2 * (df_in == 0) * (df_out == 1)
+        adata.obsm["flips"] = D
+        tsc.pl.heatmap(
+            adata,
+            color_attrs="subclone_color",
+            layer="flips",
+            rvb=["#FFFFFF", "#D92347", "#A9D0F5"],
+            vmin=0,
+            vmax=2,
+        )
+        assert True
 
     @skip_graphviz
     def test_clonal_tree(self):

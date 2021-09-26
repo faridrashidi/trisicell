@@ -193,10 +193,10 @@ static ScistGenGenotypeMat *ReadsInput(const char *filename) {
             break;
           }
         }
-        if (listCellNames.size() > 0 && (int)listCellNames.size() != numSCs) {
-          YW_ASSERT_INFO(
-              false, "Fatal error: you must provide names for each lineage");
-        }
+        // if (listCellNames.size() > 0 && (int)listCellNames.size() != numSCs) {
+        //   YW_ASSERT_INFO(
+        //       false, "Fatal error: you must provide names for each lineage");
+        // }
         bool fSiteName = false;
         if (listCellNames.size() > 0) {
           fSiteName = true;
@@ -241,10 +241,10 @@ cout << endl;
             break;
           }
         }
-        if (listCellNames.size() > 0 && (int)listCellNames.size() != numSCs) {
-          YW_ASSERT_INFO(
-              false, "Fatal error: you must provide names for each lineage");
-        }
+        // if (listCellNames.size() > 0 && (int)listCellNames.size() != numSCs) {
+        //   YW_ASSERT_INFO(
+        //       false, "Fatal error: you must provide names for each lineage");
+        // }
         bool fSiteName = false;
         if (listCellNames.size() > 0) {
           fSiteName = true;
@@ -389,8 +389,6 @@ int main_in_c(int argc, char **argv) {
 
   cout.rdbuf(coutbuf); // reset to standard output again
   out.close();
-
-  cout << "";
 
   return 0;
 }

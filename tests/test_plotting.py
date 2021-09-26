@@ -1,11 +1,23 @@
-import pytest
-
 import trisicell as tsc
 
 from ._helpers import skip_graphviz, skip_rpy2
 
 
-class TestTrees:
+class TestPlotting:
+    def test_heatmap(self):
+        adata = tsc.datasets.example()
+        adata = adata[adata.obs.group.isin(["C16", "C11", "C22"]), :].copy()
+        tsc.pp.filter_mut_vaf_greater_than_coverage_mutant_greater_than(
+            adata, min_vaf=0.4, min_coverage_mutant=20, min_cells=2
+        )
+        tsc.pp.filter_mut_reference_must_present_in_at_least(adata, min_cells=1)
+        tsc.pp.filter_mut_mutant_must_present_in_at_least(adata, min_cells=2)
+        tsc.pp.build_scmatrix(adata)
+        df_in = adata.to_df()
+        df_out = tsc.tl.scite(df_in, alpha=0.001, beta=0.2)
+        adata.layers["input"] = df_in
+        adata.layers["output"] = df_out
+
     @skip_graphviz
     def test_clonal_tree(self):
         file = tsc.ul.get_file("trisicell.datasets/test/fp_0-fn_0-na_0.ground.CFMatrix")
@@ -36,9 +48,9 @@ class TestTrees:
         assert True
 
     @skip_rpy2
-    @pytest.mark.skip(reason="Giving error, don't know why!")
     def test_dendro_tree_2(self):
         adata = tsc.datasets.example()
+        adata = adata[adata.obs.group.isin(["C16", "C11", "C22"]), :].copy()
         tsc.pp.filter_mut_vaf_greater_than_coverage_mutant_greater_than(
             adata, min_vaf=0.4, min_coverage_mutant=20, min_cells=2
         )

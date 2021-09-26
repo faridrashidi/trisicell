@@ -861,7 +861,5 @@ int main_in_c(int argc, char **argv)
     cout.rdbuf(coutbuf); // reset to standard output again
     out.close();
 
-    cout << "";
-
     return 0;
 }

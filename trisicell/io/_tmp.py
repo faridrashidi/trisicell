@@ -374,7 +374,7 @@ def read_bamreadcount(filepath):
         char[line.split()[7].split(":")[0]] = int(line.split()[7].split(":")[1])
         char[line.split()[8].split(":")[0]] = int(line.split()[8].split(":")[1])
         # nucleotides = " ".join([str(char[a]) for a in ["A", "C", "G", "T", "N"]])
-        cov = sum([char[a] for a in ["A", "C", "G", "T", "N"]])
+        cov = sum(char[a] for a in ["A", "C", "G", "T", "N"])
         # sorted_char = sorted(char.items(), key=operator.itemgetter(1), reverse=True)
         return ref, char, cov
 

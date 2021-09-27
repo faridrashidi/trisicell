@@ -45,11 +45,11 @@ def sbm(data2):
     def blockmodel_to_labels(b, label2id, n_cells=None, n_muts=None, maxblocks=100):
         if n_cells is None:
             n_cells = max(
-                [int(x[4:]) if x.startswith("cell") else 0 for x in label2id.keys()]
+                int(x[4:]) if x.startswith("cell") else 0 for x in label2id.keys()
             )
         if n_muts is None:
             n_muts = max(
-                [int(x[3:]) if x.startswith("mut") else 0 for x in label2id.keys()]
+                int(x[3:]) if x.startswith("mut") else 0 for x in label2id.keys()
             )
 
         cell_array = [

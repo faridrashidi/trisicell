@@ -1,8 +1,11 @@
 import trisicell as tsc
 
 
-def example():
+def example(is_expression=False):
     """Return an example for sanity checking and playing with Trisicell.
+
+    is_expression : :obj:`bool`, optional
+        Returns the expression dataset instead of the genotype one, by default False
 
     Returns
     -------
@@ -10,7 +13,12 @@ def example():
         An object that cells are in `.obs` and mutations are in `.var`.
     """
 
-    return tsc.io.read(tsc.ul.get_file("trisicell.datasets/data/genotype.h5ad.gz"))
+    if is_expression:
+        return tsc.io.read(
+            tsc.ul.get_file("trisicell.datasets/data/expression.h5ad.gz")
+        )
+    else:
+        return tsc.io.read(tsc.ul.get_file("trisicell.datasets/data/genotype.h5ad.gz"))
 
 
 def test():

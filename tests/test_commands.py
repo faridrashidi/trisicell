@@ -129,6 +129,21 @@ class TestCommands:
         )
         assert result.exit_code == 0
 
+    @pytest.mark.skip(reason="Error Don't know!")
+    def test_partf(self):
+        result = self.runner.invoke(
+            cli,
+            [
+                "partf",
+                tsc.ul.get_file("trisicell.datasets/test/test.tsv"),
+                "0.0001",
+                "0.1",
+                "--n_threads 2",
+                "--n_samples 100",
+            ],
+        )
+        assert result.exit_code == 0
+
     @pytest.mark.skip(
         reason="Using MLTD in two tests is taking so long in test_scores!"
     )
@@ -198,5 +213,6 @@ def cleanup(request):
         tsc.ul.cleanup(tsc.ul.get_file("trisicell.datasets/test/_map"))
         tsc.ul.cleanup(tsc.ul.get_file("trisicell.datasets/test/_tmp"))
         tsc.ul.cleanup(tsc.ul.get_file("trisicell.datasets/test/test"))
+        # tsc.ul.cleanup(tsc.ul.get_file("trisicell.datasets/test/test.partf.samples"))
 
     request.addfinalizer(remove_test_dir)

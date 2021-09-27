@@ -42,6 +42,8 @@ elif [[ "$OS" == "ubuntu-latest" ]]; then
   sudo Rscript -e 'devtools::install_github("xiangpin/ggtreeExtra")'
   sudo Rscript -e 'devtools::install_github("zhouzilu/DENDRO")'
   sudo Rscript -e 'devtools::install_github("single-cell-genetics/cardelino")'
+  sudo Rscript -e 'devtools::install_github("jlaffy/scalop")'
+  sudo Rscript -e 'devtools::install_github("jlaffy/infercna")'
   sudo Rscript -e 'BiocManager::install("graph")'
   sudo Rscript -e 'devtools::install_bitbucket("edith_ross/oncoNEM")'
 

@@ -20,13 +20,6 @@ def subsampling(
     disable_tqdm,
 ):
 
-    # tsc.logg.info(
-    #     f"running Booster with alpha={alpha}, beta={beta}, solver={solver},"
-    #     f" sample_on={sample_on}, sample_size={sample_size}, n_samples={n_samples},"
-    #     f" n_jobs={n_jobs}, time_limit={time_limit}"
-    # )
-    # tsc.logg.info(f"id,m,i0,i1,i3,o0,o1,f01,f10,f30,f31,r")
-
     if solver.lower() == "scite":
         time_limit = n_iterations
 
@@ -51,16 +44,6 @@ def subsampling(
             if dfn.shape[1] < 2:
                 return None
             dfo, _ = tsc.tl.scistree(dfn, alpha, beta, False, experiment=True)
-            # i0 = np.sum(dfn.values == 0)
-            # i1 = np.sum(dfn.values == 1)
-            # i3 = np.sum(dfn.values == 3)
-            # o0 = np.sum(dfo.values == 0)
-            # o1 = np.sum(dfo.values == 1)
-            # f01, f10, f30, f31 = tsc.ul.count_flips(dfn.values, dfo.values)
-            # tsc.logg.info(
-            #     f"{i},{dfn.shape[1]},{i0},{i1},{i3},{o0},{o1},{f01},{f10},{f30},"
-            #     + f"{f31},{run_time:.1f}"
-            # )
             dfo.to_csv(f"{tmpdir}/{i}.CFMatrix", sep="\t")
 
     with tsc.ul.tqdm_joblib(

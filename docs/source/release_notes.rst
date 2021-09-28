@@ -7,6 +7,14 @@ Release Notes
 =============
 
 
+Version 0.0.17 :small:`September 29, 2021`
+------------------------------------------
+
+This version includes:
+
+    - Fix the installation bug.
+
+
 Version 0.0.16 :small:`September 27, 2021`
 ------------------------------------------
 

@@ -38,6 +38,7 @@ class TestSolversTmp:
         assert len(tree.nodes) == 3
 
     @skip_rpy2
+    @pytest.mark.skip(reason="Unable to import a package on GitHub!")
     def test_infercna(self):
         expr = tsc.datasets.example(is_expression=True)
         df_cna = tsc.tl.infercna(expr, ref_cells={"normal": ["C15_1"]}, genome="mm10")
@@ -46,14 +47,14 @@ class TestSolversTmp:
         tsc.pl.heatmap(expr, layer="cna")
 
     @skip_rpy2
-    @pytest.mark.skip(reason="Unable to import a package on GitHub")
+    @pytest.mark.skip(reason="Unable to import a package on GitHub!")
     def test_dendro(self):
         adata = tsc.datasets.example()
         tsc.tl.dendro(adata)
         assert True
 
     @skip_rpy2
-    @pytest.mark.skip(reason="Takes 6 minutes")
+    @pytest.mark.skip(reason="Takes 6 minutes!")
     def test_cardelino(self):
         adata = tsc.datasets.example()
         tsc.tl.cardelino(adata, mode="free", n_clones=11)

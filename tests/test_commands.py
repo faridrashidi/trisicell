@@ -8,9 +8,11 @@ from ._helpers import skip_graphviz
 
 
 class TestCommands:
+    def setup_method(self):
+        self.runner = CliRunner()
+
     def test_scistree(self):
-        runner = CliRunner()
-        result = runner.invoke(
+        result = self.runner.invoke(
             cli,
             [
                 "scistree",
@@ -22,8 +24,7 @@ class TestCommands:
         assert result.exit_code == 0
 
     def test_huntress_both(self):
-        runner = CliRunner()
-        result = runner.invoke(
+        result = self.runner.invoke(
             cli,
             [
                 "huntress",
@@ -35,8 +36,7 @@ class TestCommands:
         assert result.exit_code == 0
 
     def test_scite(self):
-        runner = CliRunner()
-        result = runner.invoke(
+        result = self.runner.invoke(
             cli,
             [
                 "scite",
@@ -50,8 +50,7 @@ class TestCommands:
         assert result.exit_code == 0
 
     def test_scite_experiment(self):
-        runner = CliRunner()
-        result = runner.invoke(
+        result = self.runner.invoke(
             cli,
             [
                 "scite",
@@ -67,8 +66,7 @@ class TestCommands:
         assert result.exit_code == 0
 
     def test_phiscsb(self):
-        runner = CliRunner()
-        result = runner.invoke(
+        result = self.runner.invoke(
             cli,
             [
                 "phiscsb",
@@ -81,8 +79,7 @@ class TestCommands:
 
     def test_consensus(self):
         path = "trisicell.datasets/test/consensus"
-        runner = CliRunner()
-        result = runner.invoke(
+        result = self.runner.invoke(
             cli,
             [
                 "consensus",
@@ -94,8 +91,7 @@ class TestCommands:
         assert result.exit_code == 0
 
     def test_cf2newick(self):
-        runner = CliRunner()
-        result = runner.invoke(
+        result = self.runner.invoke(
             cli,
             [
                 "cf2newick",
@@ -105,8 +101,7 @@ class TestCommands:
         assert result.exit_code == 0
 
     def test_mcalling(self):
-        runner = CliRunner()
-        result = runner.invoke(
+        result = self.runner.invoke(
             cli,
             [
                 "mcalling",
@@ -118,8 +113,7 @@ class TestCommands:
 
     @skip_graphviz
     def test_cf2tree(self):
-        runner = CliRunner()
-        result = runner.invoke(
+        result = self.runner.invoke(
             cli,
             [
                 "cf2tree",
@@ -128,10 +122,33 @@ class TestCommands:
         )
         assert result.exit_code == 0
 
-    @pytest.mark.skip(reason="Using MLTD in two test is taking so long in test_scores!")
+    def test_search(self):
+        result = self.runner.invoke(
+            cli,
+            ["search", tsc.ul.get_file("trisicell.datasets/test/test.tsv"), "-p 2"],
+        )
+        assert result.exit_code == 0
+
+    @pytest.mark.skip(reason="Error Don't know!")
+    def test_partf(self):
+        result = self.runner.invoke(
+            cli,
+            [
+                "partf",
+                tsc.ul.get_file("trisicell.datasets/test/test.tsv"),
+                "0.0001",
+                "0.1",
+                "--n_threads 2",
+                "--n_samples 100",
+            ],
+        )
+        assert result.exit_code == 0
+
+    @pytest.mark.skip(
+        reason="Using MLTD in two tests is taking so long in test_scores!"
+    )
     def test_score(self):
-        runner = CliRunner()
-        result = runner.invoke(
+        result = self.runner.invoke(
             cli,
             [
                 "score",
@@ -147,39 +164,25 @@ class TestCommands:
 
     @pytest.mark.skip(reason="PyTest issue with multithreading!")
     def test_booster(self):
-        runner = CliRunner()
-        result = runner.invoke(
+        result = self.runner.invoke(
             cli,
             [
                 "booster",
                 tsc.ul.get_file("trisicell.datasets/test/test.tsv"),
                 "0.0000001",
                 "0.1",
-                "--solver phiscs",
+                "--solver scite",
                 "--n_samples 100",
                 "--sample_size 15",
-                "--n_jobs 1",
+                "--n_jobs 2",
                 "--n_iterations 10000",
-            ],
-        )
-        assert result.exit_code == 0
-
-    @pytest.mark.skip(reason="Joblib error!")
-    def test_search(self):
-        runner = CliRunner()
-        result = runner.invoke(
-            cli,
-            [
-                "search",
-                tsc.ul.get_file("trisicell.datasets/test/test.tsv"),
             ],
         )
         assert result.exit_code == 0
 
     @pytest.mark.skip(reason="pyBnB issue with CLI!")
     def test_bnb(self):
-        runner = CliRunner()
-        result = runner.invoke(
+        result = self.runner.invoke(
             cli,
             [
                 "bnb",
@@ -209,5 +212,7 @@ def cleanup(request):
         tsc.ul.remove(tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.png"))
         tsc.ul.cleanup(tsc.ul.get_file("trisicell.datasets/test/_map"))
         tsc.ul.cleanup(tsc.ul.get_file("trisicell.datasets/test/_tmp"))
+        tsc.ul.cleanup(tsc.ul.get_file("trisicell.datasets/test/test"))
+        # tsc.ul.cleanup(tsc.ul.get_file("trisicell.datasets/test/test.partf.samples"))
 
     request.addfinalizer(remove_test_dir)

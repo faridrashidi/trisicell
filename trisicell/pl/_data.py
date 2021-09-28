@@ -1,41 +1,70 @@
 import matplotlib.colors as mcolors
-import natsort as ns
-import numpy as np
 import seaborn as sns
 
+import trisicell as tsc
 
-def heatmap(adata, color_attrs=None, layer="X", figsize=(12, 7)):
-    # TODO: check for test
+
+def _colors(alist):
+    return mcolors.LinearSegmentedColormap.from_list("", alist)
+
+
+def heatmap(
+    adata, color_attrs=None, layer="X", figsize=(12, 7), vmin=0, vmax=2, rvb=None
+):
+    """Plot HeatMap.
+
+    For flips: rvb=["#FFFFFF", "#D92347", "#A9D0F5"]
+    For CNV: rvb="RdBu_r", vmin=-0.5, vmax=0.5
+
+    Parameters
+    ----------
+    adata : [type]
+        [description]
+    color_attrs : [type], optional
+        [description], by default None
+    layer : str, optional
+        [description], by default "X"
+    figsize : tuple, optional
+        [description], by default (12, 7)
+    vmin : [type], optional
+        [description], by default None
+    vmax : [type], optional
+        [description], by default None
+    rvb : [type], optional
+        [description], by default None
+    """
+
     if color_attrs is not None:
         row_colors = []
-        for attr in color_attrs:
-            row_colors.append(adata.obs[attr])
+        if isinstance(color_attrs, list):
+            for attr in color_attrs:
+                row_colors.append(adata.obs[attr])
+        else:
+            row_colors.append(adata.obs[color_attrs])
     else:
         row_colors = None
 
     if layer == "X":
-        rvb = mcolors.LinearSegmentedColormap.from_list(
-            "",
-            ["#FFFFFF", "#000000"],  # "#A6CEE3"
-        )
-        df = adata.to_df().copy()
-        df[df == 3] = 0
-        vmin = 0
-        vmax = 1
-        col_cluster = True
+        rvb = _colors(["#A9D0F5", "#000000", "#FFFFFF"])
+        adatac = adata[:, adata.var.sort_values(["CHROM", "POS"]).index].copy()
+        df = adatac.to_df().copy()
+        df[df == 3] = 2
+        df.index.name = "cells"
+        df.columns.name = "mutations"
+        chromosoms = {}
+        for i in list(range(1, 22, 2)) + ["Y"]:
+            chromosoms[f"chr{i}"] = "#969696"
+        for i in list(range(2, 22, 2)) + ["X"]:
+            chromosoms[f"chr{i}"] = "#252525"
+        adatac.var["chrom_color"] = adata.var["CHROM"].map(chromosoms)
+        tsc.logg.info(adatac.var.CHROM.value_counts().sort_index().to_frame())
+        adatac.var["chrom_color"].name = ""
+        column_colors = adatac.var["chrom_color"]
     else:
-        rvb = "RdBu_r"
         df = adata.obsm[layer].copy()
-        vmin = -0.5
-        vmax = 0.5
-
-        # df[df > 0.2] = 1
-        # df[(-0.2 <= df) & (0.2 >= df)] = 0
-        # df[df < -0.2] = -1
-        # vmin = -2
-        # vmax = 2
-
-        col_cluster = False
+        if isinstance(rvb, list):
+            rvb = _colors(rvb)
+        column_colors = None
 
     sns.clustermap(
         df,
@@ -44,121 +73,14 @@ def heatmap(adata, color_attrs=None, layer="X", figsize=(12, 7)):
         metric="euclidean",
         cmap=rvb,
         row_cluster=False,
-        col_cluster=col_cluster,
+        col_cluster=False,
         row_colors=row_colors,
+        col_colors=column_colors,
         cbar_pos=None,
         figsize=figsize,
         xticklabels=False,
         yticklabels=False,
-        # linecolor="white",
-        # linewidths=0.8,
-        # annot=False,
-        # colors_ratio=0.05,
-        dendrogram_ratio=0.0001,
+        colors_ratio=(0.02, 0.02),
+        dendrogram_ratio=0,
     )
     # plt.savefig(filepath, bbox_inches="tight", pad_inches=0)
-
-
-def plot_flips(df_in, df_out, row_colors):
-    # TODO: check for test
-    snvs = np.intersect1d(df_in.columns, df_out.columns)
-    # cells = np.intersect1d(df_in.index, df_out.index)
-    tmp = []
-    for x in snvs:
-        tmp.append(".".join(x.split(".chr")[1].split(".")[:2]))
-    tmp = ns.index_natsorted(tmp)
-    snvs = snvs[tmp]
-    I_mtr = df_in.loc[row_colors.keys(), snvs]
-    O_mtr = df_out.loc[row_colors.keys(), snvs]
-
-    ccolors = []
-    chrs = set()
-    for x in snvs:
-        c = x.split(".chr")[1].split(".")[0]
-        if c in [f"{i}" for i in range(1, 22, 2)] + ["Y"]:
-            ccolors.append("#969696")
-            chrs.add(c)
-        if c in [f"{i}" for i in range(2, 22, 2)] + ["X"]:
-            ccolors.append("#252525")
-            chrs.add(c)
-
-    D = 1 * (I_mtr.values == 1) * (O_mtr.values == 0) + 2 * (I_mtr.values == 0) * (
-        O_mtr.values == 1
-    )
-    rvb = mcolors.LinearSegmentedColormap.from_list(
-        "", ["#DEDEDE", "#D92347", "#A9D0F5", "#FFFFFF"]
-    )
-
-    # x = I.shape[0] / min(I.shape[0], I.shape[1])
-    # y = I.shape[1] / min(I.shape[0], I.shape[1])
-
-    return sns.clustermap(
-        D,
-        vmin=0,
-        vmax=3,
-        metric="euclidean",
-        cmap=rvb,
-        row_cluster=False,
-        col_cluster=False,
-        row_colors=[row_colors.values()],
-        col_colors=[ccolors],
-        cbar_pos=None,
-        figsize=(11, 2),
-        xticklabels=False,
-        yticklabels=False,
-        # linecolor='white',
-        # linewidths=0.8,
-        # annot=False,
-        colors_ratio=(0.01, 0.05),
-        dendrogram_ratio=0,
-    )
-
-
-def plot_noisy(df_in, row_colors=None):
-    # TODO: check for test
-    if row_colors is None:
-        row_colors = {x: "#000000" for x in df_in.index}
-    snvs = df_in.columns
-    tmp = []
-    for x in snvs:
-        tmp.append(".".join(x.split(".chr")[1].split(".")[:2]))
-    tmp = ns.index_natsorted(tmp)
-    snvs = snvs[tmp]
-
-    ccolors = []
-    chrs = set()
-    for x in snvs:
-        c = x.split(".chr")[1].split(".")[0]
-        if c in [f"{i}" for i in range(1, 22, 2)] + ["Y"]:
-            ccolors.append("#969696")
-            chrs.add(c)
-        if c in [f"{i}" for i in range(2, 22, 2)] + ["X"]:
-            ccolors.append("#252525")
-            chrs.add(c)
-
-    D = df_in.loc[row_colors.keys(), snvs]
-    D.index.name = ""
-    rvb = mcolors.LinearSegmentedColormap.from_list(
-        "", ["#DEDEDE", "#000000", "#FFFFFF"]
-    )
-
-    return sns.clustermap(
-        D,
-        vmin=0,
-        vmax=3,
-        metric="euclidean",
-        cmap=rvb,
-        row_cluster=False,
-        col_cluster=False,
-        row_colors=[row_colors.values()],
-        col_colors=[ccolors],
-        cbar_pos=None,
-        figsize=(8, 2),
-        xticklabels=False,
-        yticklabels=False,
-        # linecolor='white',
-        # linewidths=0.8,
-        # annot=False,
-        colors_ratio=(0.01, 0.05),
-        dendrogram_ratio=0,
-    )

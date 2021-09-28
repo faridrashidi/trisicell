@@ -293,7 +293,10 @@ def _to_apted(sl_tree):
 
 
 def root_id(tree):
-    return [x for x in tree.nodes if tree.in_degree(x) == 0][0]
+    for x in tree.nodes:
+        if tree.in_degree(x) == 0:
+            return x
+    return None
 
 
 def partition_cells(tree, node):

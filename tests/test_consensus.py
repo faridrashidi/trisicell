@@ -54,7 +54,9 @@ class TestConsensusDay:
         sc2 = tsc.io.read(f2)
         tris_tree = tsc.tl.consensus(sc1, sc2)
         day_tree = tsc.tl.consensus_day(sc1, sc2)
-        assert not nx.is_isomorphic(tris_tree, day_tree)  # TODO: check
+        assert not nx.is_isomorphic(
+            tris_tree, day_tree
+        )  # because of nonoverlapping mutations
 
     def test_consensus_day_2(self):
         # result in recomb.fig1c

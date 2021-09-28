@@ -7,12 +7,34 @@ Release Notes
 =============
 
 
+Version 0.0.16 :small:`September 27, 2021`
+------------------------------------------
+
+This version includes:
+
+    - Add CASet and DISC for scoring two trees.
+    - Add mp3 for scoring two trees.
+    - Update dataset.
+    - Add more tests.
+    - Fix some bugs and typos.
+
+
+Version 0.0.15 :small:`September 24, 2021`
+------------------------------------------
+
+This version includes:
+
+    - Add consensus Day algorithm.
+    - Some bug fixes and typos.
+    - Add more tests.
+
+
 Version 0.0.14 :small:`September 5, 2021`
 -----------------------------------------
 
 This version includes:
 
-    - Add more test.
+    - Add more tests.
 
 
 Version 0.0.13 :small:`September 2, 2021`
@@ -21,7 +43,7 @@ Version 0.0.13 :small:`September 2, 2021`
 This version includes:
 
     - Lots of bug fixes and typos.
-    - Add more test.
+    - Add more tests.
     - Add more datasets.
 
 

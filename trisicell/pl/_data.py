@@ -1,4 +1,6 @@
 import matplotlib.colors as mcolors
+import matplotlib.pyplot as plt
+import numpy as np
 import seaborn as sns
 
 import trisicell as tsc
@@ -84,3 +86,8 @@ def heatmap(
         dendrogram_ratio=0,
     )
     # plt.savefig(filepath, bbox_inches="tight", pad_inches=0)
+
+
+def plot_dist(adata, attr):
+    x = adata.obsp[attr][np.triu_indices(adata.shape[0], 1)]
+    plt.hist(x, bins=50)

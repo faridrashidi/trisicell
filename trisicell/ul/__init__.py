@@ -6,6 +6,7 @@ from trisicell.ul._hclustering import (
     dist_l1_ignore_na,
     hclustering,
 )
+from trisicell.ul._objects import Cell
 from trisicell.ul._packages import (
     import_graph_tool,
     import_graphviz,
@@ -104,4 +105,5 @@ __all__ = (
     translate_gene,
     with_timeout,
     is_leaf,
+    Cell,
 )

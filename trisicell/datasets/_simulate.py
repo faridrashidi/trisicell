@@ -1,13 +1,14 @@
 import math
 import random
 
+import networkx as nx
 import numpy as np
 import pandas as pd
 
 import trisicell as tsc
 
 
-def simulate(n_cells=10, n_muts=10, n_clones=3, alpha=0.00001, beta=0.1, missing=0):
+def simulate2(n_cells=10, n_muts=10, n_clones=3, alpha=0.00001, beta=0.1, missing=0):
     """Simulate single-cell noisy genotype matrix.
 
     This function is using :cite:`OncoNEM`.
@@ -65,6 +66,11 @@ def simulate(n_cells=10, n_muts=10, n_clones=3, alpha=0.00001, beta=0.1, missing
     df.index = [f"cell{x}" for x in df.index]
 
     return df
+
+
+def simulate(n_cells=10, n_muts=10, seed=0):
+    tree = _simulate_binary_tree(n_cells, seed=seed)
+    return tree
 
 
 def add_noise(df_in, alpha, beta, missing):
@@ -142,3 +148,26 @@ def add_noise(df_in, alpha, beta, missing):
     df_out.index.name = "cellIDxmutID"
 
     return df_out
+
+
+def _helper_binary_tree(tree, root, n_leaves):
+    if n_leaves == 1:
+        return tree
+    if n_leaves >= 2:
+        tree.add_node(2 * root)
+        tree.add_edge(root, 2 * root)
+        tree.add_node(2 * root + 1)
+        tree.add_edge(root, 2 * root + 1)
+    new_n_leaves = np.random.randint(1, n_leaves)
+    _helper_binary_tree(tree, 2 * root, new_n_leaves)
+    _helper_binary_tree(tree, 2 * root + 1, n_leaves - new_n_leaves)
+
+
+def _simulate_binary_tree(n_samples, seed=None):
+    if seed:
+        np.random.seed(seed)
+    G = nx.DiGraph()
+    _helper_binary_tree(G, 1, n_samples)
+    for n in G:
+        G.nodes[n]["cell"] = tsc.ul.Cell()
+    return G

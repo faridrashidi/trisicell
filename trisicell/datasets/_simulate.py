@@ -8,7 +8,7 @@ import pandas as pd
 import trisicell as tsc
 
 
-def simulate2(n_cells=10, n_muts=10, n_clones=3, alpha=0.00001, beta=0.1, missing=0):
+def simulate(n_cells=10, n_muts=10, n_clones=3, alpha=0.00001, beta=0.1, missing=0):
     """Simulate single-cell noisy genotype matrix.
 
     This function is using :cite:`OncoNEM`.
@@ -66,11 +66,6 @@ def simulate2(n_cells=10, n_muts=10, n_clones=3, alpha=0.00001, beta=0.1, missin
     df.index = [f"cell{x}" for x in df.index]
 
     return df
-
-
-def simulate(n_cells=10, n_muts=10, seed=0):
-    tree = _simulate_binary_tree(n_cells, seed=seed)
-    return tree
 
 
 def add_noise(df_in, alpha, beta, missing):
@@ -148,6 +143,12 @@ def add_noise(df_in, alpha, beta, missing):
     df_out.index.name = "cellIDxmutID"
 
     return df_out
+
+
+def simulate2(n_cells=10, n_muts=10, seed=0):
+    n_muts
+    tree = _simulate_binary_tree(n_cells, seed=seed)
+    return tree
 
 
 def _helper_binary_tree(tree, root, n_leaves):

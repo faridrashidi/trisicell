@@ -304,7 +304,7 @@ def filter_mut_mutant_in_groups_must_present_in_at_least(
     tsc.pp.keep_mut_by_list(adata, adata.var_names.to_numpy()[good_muts])
 
 
-def groupe_obs_apply_func(adata, group_key, func=np.nansum, layer=None):
+def group_obs_apply_func(adata, group_key, func=np.nansum, layer=None):
     def getX(x):
         if layer is not None:
             return x.layers[layer]

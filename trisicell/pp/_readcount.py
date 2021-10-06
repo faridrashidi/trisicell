@@ -176,9 +176,10 @@ def filter_snpeff(adata, exome=False):
     adata.var.drop(bad, axis=1, inplace=True)
     a = adata.var.Transcript_BioType == "protein_coding"
     b = adata.var.Feature_Type == "transcript"
-    c = adata.var.Annotation.isin(["synonymous_variant", "missense_variant"])
+    # c = adata.var.Annotation.isin(["synonymous_variant", "missense_variant"])
+    c = adata.var.Annotation.str.contains("intron_variant")
     d = adata.var.ALT.apply(lambda x: False if "," in x else True)
-    adata._inplace_subset_var(a & b & c & d)
+    adata._inplace_subset_var(a & b & ~c & d)
     adata.var.drop(["Feature_Type", "Transcript_BioType"], axis=1, inplace=True)
     if exome:
         # tumor_obs = np.setdiff1d(adata.obs_names, ["NB"])[0]

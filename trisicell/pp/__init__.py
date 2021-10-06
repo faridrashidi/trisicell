@@ -33,6 +33,7 @@ from trisicell.pp._tmp import (
     get_germline_variants,
     get_vaf,
     get_vaf_with_list,
+    group_obs_apply_func,
     local_cluster_cells_then_merge_muts_pseudo_bulk,
     merge_cells_using,
     most_frequent_muts,
@@ -78,4 +79,5 @@ __all__ = (
     muts_in_a_subset_of_cells,
     n_muts_per_cell_with_vaf,
     remove_indels,
+    group_obs_apply_func,
 )

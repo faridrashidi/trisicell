@@ -177,7 +177,8 @@ def filter_snpeff(adata, exome=False):
     a = adata.var.Transcript_BioType == "protein_coding"
     b = adata.var.Feature_Type == "transcript"
     # c = adata.var.Annotation.isin(["synonymous_variant", "missense_variant"])
-    c = adata.var.Annotation.str.contains("intron_variant")
+    # c = adata.var.Annotation.str.contains("intron_variant")
+    c = False
     d = adata.var.ALT.apply(lambda x: False if "," in x else True)
     adata._inplace_subset_var(a & b & ~c & d)
     adata.var.drop(["Feature_Type", "Transcript_BioType"], axis=1, inplace=True)

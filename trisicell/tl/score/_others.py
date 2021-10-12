@@ -2,9 +2,11 @@ import itertools
 
 import networkx as nx
 import numpy as np
+from skbio import TreeNode
 
 import trisicell as tsc
 from trisicell.tl.score._mp3 import build_tree, similarity
+from trisicell.ul._trees import _to_newick
 
 
 def bourque(df_grnd, df_sol):
@@ -267,3 +269,45 @@ def disc(df_grnd, df_sol):
             final.append(a / b)
 
     return np.mean(final)
+
+
+def rf(df_grnd, df_sol):
+    """Robinson-Foulds score.
+
+    The Robinson–Foulds or symmetric difference metric is defined as (A + B) where A is
+    the number of partitions of data implied by the first tree but not the second tree
+    and B is the number of partitions of data implied by the second tree but not the
+    first tree (although some software implementations divide the RF metric by 2
+    and others scale the RF distance to have a maximum value of 1).
+
+    Parameters
+    ----------
+    df_grnd : :class:`pandas.DataFrame`
+        The first genotype matrix (e.g. ground truth)
+        This matrix must be conflict-free.
+    df_sol : :class:`pandas.DataFrame`
+        The second genotype matrix (e.g. solution/inferred)
+        This matrix must be conflict-free.
+
+    Returns
+    -------
+    :obj:`float`
+        Similarity out of one.
+    """
+
+    inter = np.intersect1d(df_grnd.index, df_sol.index)
+    if len(inter) == 0:
+        tsc.logg.error("No common cells found between two trees!")
+    df_grnd1 = df_grnd.loc[inter]
+    df_sol1 = df_sol.loc[inter]
+
+    tree_grnd = tsc.ul.to_tree(df_grnd1)
+    tree_sol = tsc.ul.to_tree(df_sol1)
+
+    nwk_grnd = _to_newick(tree_grnd)
+    nwk_sol = _to_newick(tree_sol)
+
+    tree_grnd = TreeNode.read([nwk_grnd])
+    tree_sol = TreeNode.read([nwk_sol])
+
+    return 1 - tree_grnd.compare_rfd(tree_sol, proportion=True)

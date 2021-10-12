@@ -1,6 +1,8 @@
 import os
 
 import anndata as ad
+import ete3
+import networkx as nx
 import pandas as pd
 
 import trisicell as tsc
@@ -16,7 +18,7 @@ def read(filepath):
     ----------
     filepath : :obj:`str`
         The path to the file. The extension must be one of
-        [`.SC`, `.CFMatrix`, `.h5ad`, `.h5ad.gz`]
+        [`.SC`, `.CFMatrix`, `.h5ad`, `.h5ad.gz`, `.nwk`]
 
     Returns
     -------
@@ -32,6 +34,8 @@ def read(filepath):
         return sc
     elif ext in [".h5ad", ".gz"]:
         return ad.read(filepath)
+    elif ext in [".nwk"]:
+        return _read_nwk(filepath)
     else:
         tsc.logg.error("Extension is wrong!")
 
@@ -54,3 +58,41 @@ def write(obj, filepath):
         obj.write(filepath + ".h5ad.gz", compression="gzip")
     else:
         tsc.logg.error("Object instance is wrong!")
+
+
+def _read_nwk(filepath):
+    tree = ete3.Tree(filepath, format=1)
+    G = nx.DiGraph()
+    node2id = {}
+    i = 0
+    for n in tree.traverse("postorder"):
+        if n.name == "" or "Inner" in n.name:
+            G.add_node(i, label="––")
+        else:
+            G.add_node(i, label=str(n.name))
+        node2id[n] = i
+        i += 1
+
+    for p in tree.traverse("postorder"):
+        pn = node2id[p]
+        for c in p.children:
+            cn = node2id[c]
+            G.add_edge(pn, cn)
+
+    root = [n for n in G.nodes if G.in_degree(n) == 0][0]
+    if G.out_degree(root) == 3:
+        child = list(G.successors(root))[1]
+        G.add_node(i, label="root")
+        G.remove_edge(root, child)
+        G.add_edge(i, child)
+        G.add_edge(i, root)
+        G.nodes[root]["label"] = ""
+
+    i = 0
+    for e, u, _ in G.edges.data("label"):
+        G.edges[(e, u)]["label"] = f"m{i}"
+        i += 1
+    G.graph["splitter_mut"] = "\n"
+    G.graph["splitter_cell"] = "\n"
+    data = tsc.ul.to_cfmatrix(G)
+    return data

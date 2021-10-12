@@ -5,7 +5,7 @@ click==8.0.3
 cython==0.29.23
 cyvcf2==0.30.4
 ete3==3.1.2
-ipython==7.28.0
+ipython
 joblib==1.0.1
 matplotlib==3.4.2
 natsort==7.1.1

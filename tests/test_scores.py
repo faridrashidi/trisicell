@@ -40,4 +40,4 @@ class TestScores:
 
     def test_rf(self):
         rf = tsc.tl.rf(self.grnd, self.sol)
-        assert np.abs(rf - 0.4736) < 0.0001
+        assert np.abs(rf - 0.4864) < 0.0001

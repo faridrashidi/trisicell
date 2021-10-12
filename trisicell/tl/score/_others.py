@@ -1,8 +1,8 @@
 import itertools
 
+import ete3
 import networkx as nx
 import numpy as np
-from skbio import TreeNode
 
 import trisicell as tsc
 from trisicell.tl.score._mp3 import build_tree, similarity
@@ -307,7 +307,13 @@ def rf(df_grnd, df_sol):
     nwk_grnd = _to_newick(tree_grnd)
     nwk_sol = _to_newick(tree_sol)
 
-    tree_grnd = TreeNode.read([nwk_grnd])
-    tree_sol = TreeNode.read([nwk_sol])
+    # from skbio import TreeNode
+    # tree_grnd = TreeNode.read([nwk_grnd])
+    # tree_sol = TreeNode.read([nwk_sol])
+    # return tree_grnd.compare_rfd(tree_sol)
 
-    return 1 - tree_grnd.compare_rfd(tree_sol, proportion=True)
+    tree_grnd = ete3.Tree(nwk_grnd, format=1)
+    tree_sol = ete3.Tree(nwk_sol, format=1)
+
+    rf = tree_grnd.robinson_foulds(tree_sol, unrooted_trees=True)
+    return 1 - rf[0] / rf[1]

@@ -205,22 +205,22 @@ def _to_newick(tree):
         node_ids = _children(node_id)
         if len(node_ids) == 0:
             cells = tree.nodes[node_id]["label"].split(tree.graph["splitter_cell"])
-            return "(" + ":1,".join(cells) + f":1)Node{node_id+1}:1"
+            return "(" + ",".join(cells) + f")Node{node_id+1}"
         elif len(node_ids) > 0:
             cells = tree.nodes[node_id]["label"].split(tree.graph["splitter_cell"])
             if not ("––" in cells or "root" in cells):
                 return (
                     "("
-                    + ":1,".join(cells)
-                    + ":1,"
+                    + ",".join(cells)
+                    + ","
                     + ",".join([_newick_recursive(node_id) for node_id in node_ids])
-                    + f":1)Node{node_id+1}"
+                    + f")Node{node_id+1}"
                 )
             else:
                 return (
                     "("
-                    + ":1,".join([_newick_recursive(node_id) for node_id in node_ids])
-                    + f":1)Node{node_id+1}:1"
+                    + ",".join([_newick_recursive(node_id) for node_id in node_ids])
+                    + f")Node{node_id+1}"
                 )
 
     newick = _newick_recursive(root) + ";"

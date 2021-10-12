@@ -17,7 +17,7 @@ pybnb
 pydot
 python_sat
 pyyaml
-scikit-bio
+scikit_bio
 scikit_learn
 scipy
 seaborn

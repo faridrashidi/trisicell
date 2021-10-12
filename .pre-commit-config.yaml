@@ -38,7 +38,7 @@ repos:
     -   id: check-docstring-first
     # -   id: check-yaml
     -   id: check-toml
-    # -   id: requirements-txt-fixer
+    -   id: requirements-txt-fixer
 -   repo: https://github.com/jumanjihouse/pre-commit-hooks
     rev: 2.1.5
     hooks:

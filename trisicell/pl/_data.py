@@ -1,4 +1,6 @@
 import matplotlib.colors as mcolors
+import matplotlib.pyplot as plt
+import numpy as np
 import seaborn as sns
 
 import trisicell as tsc
@@ -52,9 +54,9 @@ def heatmap(
         df.index.name = "cells"
         df.columns.name = "mutations"
         chromosoms = {}
-        for i in list(range(1, 22, 2)) + ["Y"]:
+        for i in list(range(1, 23, 2)) + ["Y"]:
             chromosoms[f"chr{i}"] = "#969696"
-        for i in list(range(2, 22, 2)) + ["X"]:
+        for i in list(range(2, 23, 2)) + ["X"]:
             chromosoms[f"chr{i}"] = "#252525"
         adatac.var["chrom_color"] = adata.var["CHROM"].map(chromosoms)
         tsc.logg.info(adatac.var.CHROM.value_counts().sort_index().to_frame())
@@ -84,3 +86,8 @@ def heatmap(
         dendrogram_ratio=0,
     )
     # plt.savefig(filepath, bbox_inches="tight", pad_inches=0)
+
+
+def plot_dist(adata, attr):
+    x = adata.obsp[attr][np.triu_indices(adata.shape[0], 1)]
+    plt.hist(x, bins=50)

@@ -31,7 +31,7 @@ Feel free to submit an `issue <https://github.com/faridrashidi/trisicell/issues/
 or send us an `email <mailto:farid.rsh@gmail.com>`_.
 Your help to improve Trisicell is highly appreciated.
 
-Trisicell was developed in collaboration between the `Cancer Data Science Laboratory (CDSL) <https://ccr.cancer.gov/cancer-data-science-laboratory>`_ and the `Laboratory of Cancer Biology and Genetics (LCBG) <https://ccr.cancer.gov/laboratory-of-cancer-biology-and-genetics>`_ at the `National Cancer Institute (NCI) <https://www.cancer.gov>`_.
+Trisicell was developed in collaboration between the `Cancer Data Science Laboratory (CDSL) <https://ccr.cancer.gov/staff-directory/s-cenk-sahinalp>`_ and the `Laboratory of Cancer Biology and Genetics (LCBG) <https://ccr.cancer.gov/staff-directory/glenn-merlino>`_ at the `National Cancer Institute (NCI) <https://www.cancer.gov>`_.
 
 
 .. |subst| replace:: Scalable intratumor heterogeneity inference and validation

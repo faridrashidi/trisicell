@@ -505,10 +505,13 @@ def iscistree(df_input, alpha, beta, n_iters=np.inf):
 
     s_time = time.time()
     Ip = np.vstack([I_mtr, np.zeros(I_mtr.shape[1])])  # add root with profile zero
+    tsc.logg.debug("now calculating distance!", time=True)
     dist = tsc.ul.dist_l1_ignore_na(Ip)
+    tsc.logg.debug("distance is done!", time=True)
     opt_tree = get_initial_tree(dist)
     # opt_subtrees = get_subtrees(opt_tree)
     # opt_O, opt_cost = denoise_quadratic(I, alpha, beta, opt_subtrees)
+    tsc.logg.debug("init tree!", time=True)
     opt_O, opt_cost = denoise_linear(I_mtr, alpha, beta, opt_tree)
     tsc.logg.info("current best cost =", opt_cost, time=True)
 

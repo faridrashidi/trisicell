@@ -1,6 +1,6 @@
 anndata==0.7.5
 apted==1.0.3
-biopython==1.2.3
+biopython==1.79
 click==8.0.3
 cython==0.29.23
 cyvcf2==0.30.4

@@ -4,6 +4,7 @@ biopython
 click
 cython
 cyvcf2
+ete3
 ipython
 joblib
 matplotlib

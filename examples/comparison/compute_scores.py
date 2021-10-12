@@ -43,3 +43,7 @@ tsc.tl.caset(grnd, sol)
 # %%
 # Calculating the Triplet-based similarity score (MP3).
 tsc.tl.mp3(grnd, sol)
+
+# %%
+# Calculating the Robinsold-Foulds similarity score (1 - normalized_distance).
+tsc.tl.rf(grnd, sol)

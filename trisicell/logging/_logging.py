@@ -10,76 +10,47 @@ _VERBOSITY_LEVELS_FROM_STRINGS = {
 }
 
 
-def info(*args, **kwargs):
-    """[summary].
-
-    Returns
-    -------
-    [type]
-        [description]
-    """
-    msg(*args, v="info", **kwargs)
-
-
 def error(*args, **kwargs):
-    """[summary].
-
-    Returns
-    -------
-    [type]
-        [description]
-    """
+    """Write errors message."""
     args = ("Error:",) + args
     msg(*args, v="error", **kwargs)
     exit(1)
 
 
 def warn(*args, **kwargs):
-    """[summary].
-
-    Returns
-    -------
-    [type]
-        [description]
-    """
+    """Write warnings message."""
     args = ("WARNING:",) + args
     msg(*args, v="warn", **kwargs)
 
 
-def hint(*args, **kwargs):
-    """[summary].
+def info(*args, **kwargs):
+    """Write info message."""
+    msg(*args, v="info", **kwargs)
 
-    Returns
-    -------
-    [type]
-        [description]
-    """
+
+def hint(*args, **kwargs):
+    """Write hints message."""
     msg(*args, v="hint", **kwargs)
 
 
 def debug(*args, **kwargs):
-    """[summary].
-
-    Returns
-    -------
-    [type]
-        [description]
-    """
+    """Write debugs message."""
     args = ("DEBUG:",) + args
     msg(*args, v="debug", **kwargs)
 
 
 def msg(*msg, v, time=False, end="\n"):
-    r"""[summary].
+    r"""Write message to logging output.
 
     Parameters
     ----------
-    v : [type]
-        [description]
-    time : bool, optional
-        [description], by default False
-    end : str, optional
-        [description], by default "\n"
+    v : :obj:`int`
+        {'error', 'warn', 'info', 'hint', 'debug'} or int
+        0/'error', 1/'warn', 2/'info', 3/'hint', 4/'debug', 5, 6...
+    time : :obj:`bool`, optional
+        Print date and time, by default False
+    end : :obj:`str`, optional
+        End character, by default "\n"
     """
     if v is None:
         v = 4
@@ -125,7 +96,7 @@ def _get_date_string():
 
 
 def print_version():
-    """[summary]."""
+    """Print version."""
     from trisicell import __version__
 
     _write_log(

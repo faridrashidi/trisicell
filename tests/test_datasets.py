@@ -68,11 +68,3 @@ class TestDatasets:
         # adata = tsc.datasets.high_grade_serous_ovarian_cancer2()
         # adata = tsc.datasets.high_grade_serous_ovarian_cancer3()
         # adata = tsc.datasets.acute_lymphocytic_leukemia_many()
-
-    def test_load_signatures(self):
-        markers = tsc.datasets.get_markers()
-        assert markers.shape == (51, 3)
-        sig = tsc.datasets.get_signatures("mm10")
-        assert "ENSMUSG00000002602.16_Axl" in sig["perez_lineage_markers"]
-        sig = tsc.datasets.get_signatures("hg19")
-        assert "ENSG00000167601.7_AXL" in sig["perez_lineage_markers"]

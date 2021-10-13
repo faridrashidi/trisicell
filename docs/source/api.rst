@@ -58,9 +58,6 @@ This module offers a bunch of functions for reading and writing of the data.
     :toctree: .
 
     io.read
-    io.read_gatk
-    io.read_rsem
-    io.read_snpeff
     io.write
 
 
@@ -100,6 +97,7 @@ and calculating the probability of mutations seeding particular cells.
     tl.phiscsb
     tl.scistree
     tl.onconem
+    tl.huntress
 
 
 **Partition function calculation (Trisicell-PartF)**
@@ -128,6 +126,7 @@ and calculating the probability of mutations seeding particular cells.
     tl.caset
     tl.disc
     tl.mp3
+    tl.rf
 
 
 Plotting (pl)

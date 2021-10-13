@@ -42,6 +42,24 @@ def _has_path(tree, nodes, l1, l2):
 
 
 def _merge_with_parents(tree, nodes, n1, n2):
+    root = tsc.ul.root_id(tree)
+    if n2 == root:
+        # if mwp is being done between a child of the root and the root
+        maxnode = 1 + max(list(tree.nodes))
+        root_children = list(tree.successors(root))
+        for child in root_children:
+            tree.add_edge(maxnode, child)
+            tree.edges[(maxnode, child)]["mutations"] = tree.edges[(root, child)][
+                "mutations"
+            ]
+            tree.edges[(maxnode, child)]["label"] = tree.edges[(root, child)]["label"]
+            tree.remove_edge(root, child)
+        tree.add_edge(root, maxnode)
+        tree.edges[(root, maxnode)]["mutations"] = []
+        tree.edges[(root, maxnode)]["label"] = 0
+        tree.nodes[maxnode]["label"] = "––"
+        return _merge_with_parents(tree, nodes, n1, maxnode)
+
     lca = nx.lowest_common_ancestor(tree, n1, n2)
     costs, paths = nx.bidirectional_dijkstra(tree, lca, n1, weight="label")
     paths = paths[::-1]
@@ -111,7 +129,7 @@ def _add_private_muts(cnt_tree, sc_data, tree_nodes):
 
 
 def consensus(sc1, sc2):
-    """Build the consensus tree between two phylogenetic trees.
+    """Build the consensus tree between two tumor progression trees.
 
     Parameters
     ----------

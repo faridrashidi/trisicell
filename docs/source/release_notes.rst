@@ -7,6 +7,15 @@ Release Notes
 =============
 
 
+Version 0.0.18 :small:`October 13, 2021`
+----------------------------------------
+
+This version includes:
+
+    - Add Robinson-Foulds metric into the score module.
+    - Fix the installation bug.
+
+
 Version 0.0.17 :small:`September 29, 2021`
 ------------------------------------------
 

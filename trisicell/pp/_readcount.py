@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 
 import trisicell as tsc
 
@@ -159,6 +160,26 @@ def statistics(adata):
     tsc.logg.info(f"    HET     = {b:6d} ({100*b/t:2.1f}%)")
     tsc.logg.info(f"    HOM_ALT = {d:6d} ({100*d/t:2.1f}%)")
     tsc.logg.info(f"    UNKNOWN = {c:6d} ({100*c/t:2.1f}%)")
+
+
+def group_obs_apply_func(adata, group_key, func=np.nansum, layer=None):
+    def getX(x):
+        if layer is not None:
+            return x.layers[layer]
+        else:
+            return x.X
+
+    grouped = adata.obs.groupby(group_key)
+    out = pd.DataFrame(
+        np.zeros((adata.shape[1], len(grouped)), dtype=np.float64),
+        columns=list(grouped.groups.keys()),
+        index=adata.var_names,
+    )
+
+    for group, idx in grouped.indices.items():
+        X = getX(adata[idx])
+        out[group] = np.ravel(func(X, axis=0))
+    return out
 
 
 def filter_snpeff(adata, exome=False):

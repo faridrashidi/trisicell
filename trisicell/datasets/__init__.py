@@ -26,7 +26,6 @@ from trisicell.datasets._datasets import (
     test,
     tnbc,
 )
-from trisicell.datasets._signatures import get_markers, get_signatures
 from trisicell.datasets._simulate import add_noise, simulate
 
 __all__ = (
@@ -54,8 +53,6 @@ __all__ = (
     renal_cell_carcinoma,
     test,
     tnbc,
-    get_markers,
-    get_signatures,
     add_noise,
     simulate,
 )

@@ -5,6 +5,33 @@ from trisicell.tl.solver.huntress._huntress import Reconstruct
 
 
 def huntress(df_input, alpha, beta, kind="both", n_threads=1):
+    """Solving using HUNTRESS.
+
+    HUNTRESS: Provably fast intratumor heterogeneity inference from single-cell
+    sequencing data
+
+    Parameters
+    ----------
+    df_input : :class:`pandas.DataFrame`
+        Input genotype matrix in which rows are cells and columns are mutations.
+        Values inside this matrix show the presence (1), absence (0) and missing
+        entires (3).
+    alpha : :obj:`float`
+        False positive error rate.
+    beta : :obj:`float`
+        False negative error rate.
+    kind : :obj:`str`
+        What type of noise rate was observed in the data {'both', 'fn'}
+    n_threads : :obj:`int`, optional
+        Number of threads, by default 1
+
+    Returns
+    -------
+    :class:`pandas.DataFrame`
+        A conflict-free matrix in which rows are cells and columns are mutations.
+        Values inside this matrix show the presence (1) and absence (0).
+    """
+
     tsc.logg.info(
         f"running HUNTRESS with alpha={alpha}, beta={beta}, kind={kind},"
         f" n_threads={n_threads}"

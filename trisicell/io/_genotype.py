@@ -92,6 +92,7 @@ def _read_nwk(filepath):
     for e, u, _ in G.edges.data("label"):
         G.edges[(e, u)]["label"] = f"m{i}"
         i += 1
+    G.graph["normal_cells"] = []
     G.graph["splitter_mut"] = "\n"
     G.graph["splitter_cell"] = "\n"
     data = tsc.ul.to_cfmatrix(G)

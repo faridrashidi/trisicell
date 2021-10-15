@@ -24,6 +24,7 @@ from trisicell.tl.solver import (
     scistree,
     scite,
     siclonefit,
+    sphyr,
 )
 
 __all__ = (
@@ -59,4 +60,5 @@ __all__ = (
     disc,
     mp3,
     rf,
+    sphyr,
 )

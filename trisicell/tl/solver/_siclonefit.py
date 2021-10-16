@@ -9,11 +9,7 @@ import trisicell as tsc
 
 def siclonefit(df_input, alpha, beta, n_iters):
     # TODO: implement
-    if not os.path.exists(f"{tsc.settings.tools}/kDPFC"):
-        tsc.logg.error(
-            "Cannot find the binary file of SiCloneFit with `SiCloneFiTComplete.jar`"
-            " name!"
-        )
+    executable = tsc.ul.executable("SiCloneFiTComplete.jar", "SiCloneFit")
 
     tsc.logg.info(
         f"running SiCloneFit with alpha={alpha}, beta={beta}, n_iters={n_iters}"
@@ -30,7 +26,7 @@ def siclonefit(df_input, alpha, beta, n_iters):
     I_mtr = df_input.values
 
     cmd = (
-        f"java -jar {tsc.settings.tools}/SiCloneFiTComplete.jar "
+        f"java -jar {executable} "
         f"-m {df_input.shape[0]} "
         f"-n {df_input.shape[1]} "
         f"-ipMat {tmpdir.name}/siclonefit.input "

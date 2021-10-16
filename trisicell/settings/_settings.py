@@ -4,5 +4,5 @@ verbosity = 3
 logfile = ""
 #: Name of logfile. By default is set to '' and writes to standard output.
 
-tools = "/usr/bin"
-#: Path to the directory where external tools are. By default is set to '/usr/bin'.
+tools = ""
+#: Path to the directory where external tools are. By default is set to '$PATH'.

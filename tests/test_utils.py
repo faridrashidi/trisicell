@@ -81,3 +81,7 @@ class TestUtils:
 
         res = tsc.ul.muts_rooted_at(tree, "[8]")
         assert res.shape[0] == 51
+
+    def test_general(self):
+        tsc.ul.executable("kDPFC", "SPhyR")
+        assert True

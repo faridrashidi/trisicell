@@ -274,6 +274,18 @@ def mkdir(indir):
     return indir
 
 
+def executable(binary, appname):
+    executable = shutil.which(binary)
+    if executable is None:
+        if not os.path.exists(f"{tsc.settings.tools}/{binary}"):
+            tsc.logg.error(
+                "Cannot find the binary file of {appname} with `{binary}` name!"
+            )
+        else:
+            executable = f"{tsc.settings.tools}/{binary}"
+    return executable
+
+
 def timeit(f):
     def wrap(*args, **kwargs):
         start_time = time.time()

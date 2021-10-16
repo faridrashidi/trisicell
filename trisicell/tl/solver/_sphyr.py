@@ -51,8 +51,7 @@ def sphyr(
         Values inside this matrix show the presence (1) and absence (0).
     """
 
-    if not os.path.exists(f"{tsc.settings.tools}/kDPFC"):
-        tsc.logg.error("Cannot find the binary file of SPhyR with `kDPFC` name!")
+    executable = tsc.ul.executable("kDPFC", "SPhyR")
 
     tsc.logg.info(
         f"running SPhyR with alpha={alpha}, beta={beta}, n_restarts={n_restarts}, "
@@ -72,7 +71,7 @@ def sphyr(
         fout.write("\n".join(df_input.columns) + "\n")
 
     cmd = (
-        f"{tsc.settings.tools}/kDPFC "
+        f"{executable} "
         f"{tmpdir.name}/sphyr.input "
         f"-a {alpha} "
         f"-b {beta} "

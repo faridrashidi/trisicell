@@ -38,6 +38,7 @@ from trisicell.ul._utils import (
     count_flips,
     dir_base,
     dirbase,
+    executable,
     get_file,
     get_param,
     infer_rates,
@@ -104,4 +105,5 @@ __all__ = (
     translate_gene,
     with_timeout,
     is_leaf,
+    executable,
 )

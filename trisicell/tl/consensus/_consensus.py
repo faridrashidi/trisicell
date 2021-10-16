@@ -24,7 +24,7 @@ def _get_edge_set(tree):
         for n in nodes:
             if "––" not in tree.nodes[n]["label"]:
                 cells += tree.nodes[n]["label"]
-        edges[e] = cells
+        edges[tuple(sorted(cells))] = e
     return edges
 
 
@@ -61,4 +61,36 @@ def consensus(sc1, sc2):
     edge_set1 = _get_edge_set(cnt_tree1)
     edge_set2 = _get_edge_set(cnt_tree2)
 
-    return cnt_tree1, cnt_tree2, edge_set1, edge_set2
+    lists = list(edge_set1.items())
+    lists.sort(key=lambda x: len(x[0]))
+    final_tree = cnt_tree1.copy()
+    for c, e in lists:
+        if c not in edge_set2:
+            if final_tree.nodes[e[0]]["label"] == "––":
+                label = final_tree.nodes[e[1]]["label"]
+            else:
+                if final_tree.nodes[e[1]]["label"] == "––":
+                    label = final_tree.nodes[e[0]]["label"]
+                else:
+                    label = (
+                        final_tree.nodes[e[0]]["label"]
+                        + final_tree.nodes[e[1]]["label"]
+                    )
+            final_tree = nx.contracted_nodes(final_tree, e[0], e[1], self_loops=False)
+            final_tree.nodes[e[0]]["label"] = label
+
+    # convert back to the trisicell tree format
+    for v in final_tree.nodes:
+        if final_tree.in_degree(v) != 0:
+            if "––" not in final_tree.nodes[v]["label"]:
+                final_tree.nodes[v]["label"] = final_tree.graph["splitter_cell"].join(
+                    final_tree.nodes[v]["label"]
+                )
+    i = 0
+    for e, u, _ in final_tree.edges.data("label"):
+        final_tree.edges[(e, u)]["label"] = f"m{i}"
+        i += 1
+    data = tsc.ul.to_cfmatrix(final_tree)
+    final_tree = tsc.ul.to_tree(data)
+
+    return final_tree

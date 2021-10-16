@@ -156,6 +156,8 @@ def infer_rates(I_mtr, O_mtr, na_value=3):
 
 def is_conflict_free(df_in):
     D = df_in.astype(int).values
+    if not np.array_equal(np.unique(D), [0, 1]):
+        return False
     conflict_free = True
     for p in range(D.shape[1]):
         for q in range(p + 1, D.shape[1]):
@@ -205,6 +207,8 @@ def is_conflict_free_gusfield(df_in):
     """
 
     I_mtr = df_in.astype(int).values
+    if not np.array_equal(np.unique(I_mtr), [0, 1]):
+        return False
 
     def _sort_bin(a):
         b = np.transpose(a)
@@ -216,7 +220,7 @@ def is_conflict_free_gusfield(df_in):
         return np.transpose(c), idx
 
     Ip = I_mtr.copy()
-    O_mtr, idx = _sort_bin(Ip)
+    O_mtr, _ = _sort_bin(Ip)
     Lij = np.zeros(O_mtr.shape, dtype=int)
     for i in range(O_mtr.shape[0]):
         maxK = 0

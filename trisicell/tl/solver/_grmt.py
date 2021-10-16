@@ -36,8 +36,7 @@ def grmt(df_input, alpha, beta, n_threads=1, n_iters=30):
         Values inside this matrix show the presence (1) and absence (0).
     """
 
-    if not os.path.exists(f"{tsc.settings.tools}/grmt"):
-        tsc.logg.error("Cannot find the binary file of GRMT with `grmt` name!")
+    executable = tsc.ul.executable("grmt", "GRMT")
 
     tsc.logg.info(
         f"running GRMT with alpha={alpha}, beta={beta}, n_threads={n_threads}"
@@ -52,7 +51,7 @@ def grmt(df_input, alpha, beta, n_threads=1, n_iters=30):
         fout.write("\n".join(df_input.columns) + "\n")
 
     cmd = (
-        f"{tsc.settings.tools}/grmt "
+        f"{executable} "
         f"--input {tmpdir.name}/grmt.input "
         f"--alpha {alpha} "
         f"--beta {beta} "

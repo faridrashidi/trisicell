@@ -10,6 +10,7 @@ from trisicell.tl.solver import (
     booster,
     cardelino,
     dendro,
+    grmt,
     huntress,
     infscite,
     iscistree,
@@ -24,6 +25,7 @@ from trisicell.tl.solver import (
     scistree,
     scite,
     siclonefit,
+    sphyr,
 )
 
 __all__ = (
@@ -59,4 +61,6 @@ __all__ = (
     disc,
     mp3,
     rf,
+    sphyr,
+    grmt,
 )

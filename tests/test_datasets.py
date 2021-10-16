@@ -47,7 +47,7 @@ class TestDatasets:
         adata = tsc.datasets.erbc()
         assert adata.shape == (47, 40)
         adata = tsc.datasets.high_grade_serous_ovarian_cancer_3celllines()
-        assert adata.shape == (891, 13666)
+        assert adata.shape == (891, 14068)
         adata = tsc.datasets.melanoma20()
         assert adata.shape == (20, 2367)
         adata = tsc.datasets.muscle_invasive_bladder()

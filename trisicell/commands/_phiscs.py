@@ -69,7 +69,7 @@ def phiscsb(genotype_file, alpha, beta):
     default=86400,
     type=int,
     show_default=True,
-    help="Timelimit of the program (in second).",
+    help="Time limit of the program (in second).",
 )
 @click.option(
     "--n_threads",

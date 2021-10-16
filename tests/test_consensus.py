@@ -13,7 +13,7 @@ class TestConsensus:
         sc1 = tsc.io.read(f1)
         sc2 = tsc.io.read(f2)
         final_tree = tsc.tl.consensus(sc1, sc2)
-        assert len(final_tree.nodes) == 18
+        assert len(final_tree.nodes) == 19
 
     def test_consensus_2(self):
         # result in recomb.fig1c
@@ -31,7 +31,7 @@ class TestConsensus:
         sc1 = tsc.io.read(f1)
         sc2 = tsc.io.read(f2)
         final_tree = tsc.tl.consensus(sc1, sc2)
-        assert len(final_tree.nodes) == 33
+        assert len(final_tree.nodes) == 34
 
     def test_consensus_4(self):
         # result in biorxiv.fig3f
@@ -54,9 +54,7 @@ class TestConsensusDay:
         sc2 = tsc.io.read(f2)
         tris_tree = tsc.tl.consensus(sc1, sc2)
         day_tree = tsc.tl.consensus_day(sc1, sc2)
-        assert not nx.is_isomorphic(
-            tris_tree, day_tree
-        )  # because of nonoverlapping mutations
+        assert nx.is_isomorphic(tris_tree, day_tree)
 
     def test_consensus_day_2(self):
         # result in recomb.fig1c
@@ -76,9 +74,7 @@ class TestConsensusDay:
         sc2 = tsc.io.read(f2)
         tris_tree = tsc.tl.consensus(sc1, sc2)
         day_tree = tsc.tl.consensus_day(sc1, sc2)
-        assert not nx.is_isomorphic(
-            tris_tree, day_tree
-        )  # because of nonoverlapping mutations in private of C21
+        assert nx.is_isomorphic(tris_tree, day_tree)
 
     def test_consensus_day_4(self):
         # result in biorxiv.fig3f

@@ -279,7 +279,7 @@ def executable(binary, appname):
     if executable is None:
         if not os.path.exists(f"{tsc.settings.tools}/{binary}"):
             tsc.logg.error(
-                "Cannot find the binary file of {appname} with `{binary}` name!"
+                f"Cannot find the binary file of {appname} with `{binary}` name!"
             )
         else:
             executable = f"{tsc.settings.tools}/{binary}"

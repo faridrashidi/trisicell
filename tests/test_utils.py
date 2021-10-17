@@ -83,5 +83,8 @@ class TestUtils:
         assert res.shape[0] == 51
 
     def test_general(self):
-        tsc.ul.executable("kDPFC", "SPhyR")
+        # tsc.ul.executable("kDPFC", "SPhyR")
+        file = tsc.ul.get_file("trisicell.datasets/test/fp_0-fn_0-na_0.ground.CFMatrix")
+        tsc.ul.dir_base(file)
+        tsc.ul.dirbase(file)
         assert True

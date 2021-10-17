@@ -101,8 +101,8 @@ def to_tree(df):
                 tree.graph["splitter_mut"]
             )
         untilnow_cell = df.loc[
-            (df[untilnow_mut] == 1).all(axis=1)
-            & (df[[x for x in df.columns if x not in untilnow_mut]] == 0).all(axis=1)
+            (df[set(untilnow_mut)] == 1).all(axis=1)
+            & (df[{x for x in df.columns if x not in untilnow_mut}] == 0).all(axis=1)
         ].index
         if len(untilnow_cell) > 0:
             clusters[node] = f"{tree.graph['splitter_cell'].join(untilnow_cell)}"

@@ -37,3 +37,7 @@ class TestPreProcessing:
         tsc.pp.filter_mut_mutant_must_present_in_at_least(adata, min_cells=2)
         tsc.pp.statistics(adata)
         assert adata.shape == (83, 267)
+        tsc.pp.group_obs_apply_func(adata, group_key="group")
+        tsc.pp.remove_cell_by_list(adata, ["C15_1"])
+        tsc.pp.keep_cell_by_list(adata, ["C15_2", "C15_3"])
+        assert adata.shape == (2, 267)

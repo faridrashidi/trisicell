@@ -106,8 +106,7 @@ def stat(df_in, df_out, alpha, beta, running_time):
 
 def get_param(filename):
     data = {}
-    # simNo_2-s_7-m_20-h_1-minVAF_0.1-ISAV_0-n_10-fp_0-fn_0.1-na_0-d_0-l_1000000.SC
-    dirname, basename = dir_base(filename)
+    _, basename = dir_base(filename)
     data["simNo"] = int(basename.split("-")[0].split("_")[1])
     data["s"] = int(basename.split("-")[1].split("_")[1])
     data["m"] = int(basename.split("-")[2].split("_")[1])
@@ -341,3 +340,16 @@ def tqdm_joblib(tqdm_object):
     finally:
         joblib.parallel.BatchCompletionCallBack = old_batch_callback
         tqdm_object.close()
+
+
+def split_mut(mut):
+    try:
+        ref = mut.split(".")[-2]
+        pos = mut.split(".")[-3]
+        chrom = mut.split(".")[-4]
+        gene = mut.split(".chr")[0].split("_")[1]
+        ens = mut.split(".chr")[0].split("_")[0]
+        alt = mut.split(".")[-1]
+        return ens, gene, chrom, pos, ref, alt
+    except Exception:
+        return None, None, None, None, None, None

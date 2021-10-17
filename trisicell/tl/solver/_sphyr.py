@@ -77,8 +77,8 @@ def sphyr(
         f"-b {beta} "
         f"-N {n_restarts} "
         f"-t {n_threads} "
-        # f"-lC {n_mut_clusters} "
-        # f"-lT {n_cell_clusters} "
+        f"-lC {n_mut_clusters} "
+        f"-lT {n_cell_clusters} "
         f"-T {time_limit if time_limit is not None else -1} "
         "-k 0 "
         f"> {tmpdir.name}/sphyr.output "
@@ -103,16 +103,5 @@ def sphyr(
     tmpdir.cleanup()
 
     tsc.ul.stat(df_input, df_output, alpha, beta, running_time)
-
-    # cmd = (
-    #     f"{sphyr}/visualize "
-    #     f"{tmpdir}/sphyr.output "
-    #     f"-c {tmpdir}/sphyr.mutnames "
-    #     f"-t {tmpdir}/sphyr.cellnames "
-    #     f"> {tmpdir}/sphyr.dot"
-    # )
-    # os.system(cmd)
-    # cmd = f"dot -Tpng {tmpdir}/sphyr.dot -o {tmpdir}/sphyr.png"
-    # os.system(cmd)
 
     return df_output

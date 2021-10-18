@@ -30,6 +30,12 @@ class TestSolversTmp:
     def test_infscite(self):
         assert True
 
+    def test_rscistree(self):
+        adata = tsc.datasets.colorectal2(readcount=True)
+        df_out = tsc.tl.rscistree(adata, mode="haploid")
+        is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
+        assert is_cf
+
     @skip_graph_tool
     def test_sbm(self):
         data = tsc.datasets.test()
@@ -59,10 +65,3 @@ class TestSolversTmp:
         adata = tsc.datasets.example()
         tsc.tl.cardelino(adata, mode="free", n_clones=11)
         assert True
-
-    @pytest.mark.skip(reason="Cause make: *** Error!")
-    def test_rscistree(self):
-        adata = tsc.datasets.colorectal2(readcount=True)
-        df_out = tsc.tl.rscistree(adata, mode="haploid")
-        is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
-        assert is_cf

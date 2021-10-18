@@ -109,7 +109,35 @@ def scistree(df_input, alpha, beta, experiment=False):
 
 
 def rscistree(adata, alpha=0, beta=0, mode="haploid"):
-    # TODO: implement
+    """Solving using read-count ScisTree.
+
+    Accurate and efficient cell lineage tree inference from noisy
+    single cell data: the maximum likelihood perfect phylogeny approach
+    :cite:`ScisTree`.
+
+    Parameters
+    ----------
+    df_input : :class:`pandas.DataFrame`
+        Input genotype matrix in which rows are cells and columns are mutations.
+        Values inside this matrix show the presence (1), absence (0) and missing
+        entires (3).
+    alpha : :obj:`float`
+        False positive error rate.
+    beta : :obj:`float`
+        False negative error rate.
+    mode : :obj:`str`
+        Mode of calculating the probability from read-count.
+        In {'haploid', 'ternary'}, by default haploid
+    experiment : :obj:`bool`, optional
+        Is in the experiment mode (the log won't be shown), by default False
+
+    Returns
+    -------
+    :class:`pandas.DataFrame`
+        A conflict-free matrix in which rows are cells and columns are mutations.
+        Values inside this matrix show the presence (1) and absence (0).
+    """
+
     tsc.logg.info(f"running rScisTree with mode={mode}")
     tmpdir = tsc.ul.tmpdirsys(suffix=".rscistree", dirname=".")
 
@@ -184,6 +212,34 @@ def rscistree(adata, alpha=0, beta=0, mode="haploid"):
 
 
 def iscistree(df_input, alpha, beta, n_iters=np.inf):
+    """Solving using my own implementation of ScisTree.
+
+    Accurate and efficient cell lineage tree inference from noisy
+    single cell data: the maximum likelihood perfect phylogeny approach
+    :cite:`ScisTree`.
+
+    Parameters
+    ----------
+    df_input : :class:`pandas.DataFrame`
+        Input genotype matrix in which rows are cells and columns are mutations.
+        Values inside this matrix show the presence (1), absence (0) and missing
+        entires (3).
+    alpha : :obj:`float`
+        False positive error rate.
+    beta : :obj:`float`
+        False negative error rate.
+    n_iters : :obj:`int`
+        Number of iterations to search for the neighboring trees, by default inf.
+    experiment : :obj:`bool`, optional
+        Is in the experiment mode (the log won't be shown), by default False
+
+    Returns
+    -------
+    :class:`pandas.DataFrame`
+        A conflict-free matrix in which rows are cells and columns are mutations.
+        Values inside this matrix show the presence (1) and absence (0).
+    """
+
     tsc.logg.info(
         f"running iScisTree with alpha={alpha}, beta={beta}, n_iters={n_iters}"
     )

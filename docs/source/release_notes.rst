@@ -7,6 +7,16 @@ Release Notes
 =============
 
 
+Version 0.0.19 :small:`October 18, 2021`
+----------------------------------------
+
+This version includes:
+
+    - Add GRMT and SPhyR as new solvers.
+    - Update the consensus to new algorithm.
+    - Fix some bugs.
+
+
 Version 0.0.18 :small:`October 13, 2021`
 ----------------------------------------
 

@@ -1,6 +1,8 @@
 import datetime
 from platform import python_version
 
+import termcolor
+
 _VERBOSITY_LEVELS_FROM_STRINGS = {
     "error": 0,
     "warn": 1,
@@ -39,7 +41,7 @@ def debug(*args, **kwargs):
     msg(*args, v="debug", **kwargs)
 
 
-def msg(*msg, v, time=False, end="\n"):
+def msg(*msg, v, time=False, color=None, end="\n"):
     r"""Write message to logging output.
 
     Parameters
@@ -64,14 +66,17 @@ def msg(*msg, v, time=False, end="\n"):
         if len(msg) > 0:
             if time:
                 msg = (f"[{datetime.datetime.now().strftime('%m/%d %H:%M:%S')}]",) + msg
-            _write_log(*msg, end=end)
+            _write_log(*msg, color=color, end=end)
 
 
-def _write_log(*msg, end="\n"):
+def _write_log(*msg, color=None, end="\n"):
     from trisicell.settings import logfile
 
     if logfile == "":
-        print(*msg, end=end, flush=True)
+        if color is not None:
+            termcolor.cprint(*msg, color, attrs=["bold"], end=end, flush=True)
+        else:
+            print(*msg, end=end, flush=True)
     else:
         out = ""
         for s in msg:

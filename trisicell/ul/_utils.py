@@ -47,7 +47,12 @@ def log_output(df_out, running_time):
         f"output -- NA: {np.sum(df_out.values == 3)}#,"
         f" {100*np.sum(df_out.values == 3)/size:.1f}%"
     )
-    tsc.logg.info(f"output -- CF: {is_conflict_free_gusfield(df_out)}")
+    icf = is_conflict_free_gusfield(df_out)
+    tsc.logg.info("output -- CF: ", end="")
+    if icf:
+        tsc.logg.info(icf, color="green")
+    else:
+        tsc.logg.info(icf, color="red")
     tsc.logg.info(
         f"output -- time: {running_time:.1f}s"
         f" ({datetime.timedelta(seconds=running_time)})"
@@ -106,8 +111,7 @@ def stat(df_in, df_out, alpha, beta, running_time):
 
 def get_param(filename):
     data = {}
-    # simNo_2-s_7-m_20-h_1-minVAF_0.1-ISAV_0-n_10-fp_0-fn_0.1-na_0-d_0-l_1000000.SC
-    dirname, basename = dir_base(filename)
+    _, basename = dir_base(filename)
     data["simNo"] = int(basename.split("-")[0].split("_")[1])
     data["s"] = int(basename.split("-")[1].split("_")[1])
     data["m"] = int(basename.split("-")[2].split("_")[1])
@@ -156,6 +160,8 @@ def infer_rates(I_mtr, O_mtr, na_value=3):
 
 def is_conflict_free(df_in):
     D = df_in.astype(int).values
+    if not np.array_equal(np.unique(D), [0, 1]):
+        return False
     conflict_free = True
     for p in range(D.shape[1]):
         for q in range(p + 1, D.shape[1]):
@@ -205,6 +211,8 @@ def is_conflict_free_gusfield(df_in):
     """
 
     I_mtr = df_in.astype(int).values
+    if not np.array_equal(np.unique(I_mtr), [0, 1]):
+        return False
 
     def _sort_bin(a):
         b = np.transpose(a)
@@ -216,7 +224,7 @@ def is_conflict_free_gusfield(df_in):
         return np.transpose(c), idx
 
     Ip = I_mtr.copy()
-    O_mtr, idx = _sort_bin(Ip)
+    O_mtr, _ = _sort_bin(Ip)
     Lij = np.zeros(O_mtr.shape, dtype=int)
     for i in range(O_mtr.shape[0]):
         maxK = 0
@@ -268,6 +276,18 @@ def mkdir(indir):
     if not os.path.exists(indir):
         os.makedirs(indir)
     return indir
+
+
+def executable(binary, appname):
+    executable = shutil.which(binary)
+    if executable is None:
+        if not os.path.exists(f"{tsc.settings.tools}/{binary}"):
+            tsc.logg.error(
+                f"Cannot find the binary file of {appname} with `{binary}` name!"
+            )
+        else:
+            executable = f"{tsc.settings.tools}/{binary}"
+    return executable
 
 
 def timeit(f):
@@ -325,3 +345,16 @@ def tqdm_joblib(tqdm_object):
     finally:
         joblib.parallel.BatchCompletionCallBack = old_batch_callback
         tqdm_object.close()
+
+
+def split_mut(mut):
+    try:
+        ref = mut.split(".")[-2]
+        pos = mut.split(".")[-3]
+        chrom = mut.split(".")[-4]
+        gene = mut.split(".chr")[0].split("_")[1]
+        ens = mut.split(".chr")[0].split("_")[0]
+        alt = mut.split(".")[-1]
+        return ens, gene, chrom, pos, ref, alt
+    except Exception:
+        return None, None, None, None, None, None

@@ -21,7 +21,6 @@ class TestDatasets:
         assert not tsc.ul.is_conflict_free_gusfield(df_noisy)
 
     def test_load_datasets(self):
-        # TODO: complete
         adata = tsc.datasets.example()
         assert adata.shape == (83, 452)
         adata = tsc.datasets.test()
@@ -47,7 +46,7 @@ class TestDatasets:
         adata = tsc.datasets.erbc()
         assert adata.shape == (47, 40)
         adata = tsc.datasets.high_grade_serous_ovarian_cancer_3celllines()
-        assert adata.shape == (891, 13666)
+        assert adata.shape == (891, 14068)
         adata = tsc.datasets.melanoma20()
         assert adata.shape == (20, 2367)
         adata = tsc.datasets.muscle_invasive_bladder()

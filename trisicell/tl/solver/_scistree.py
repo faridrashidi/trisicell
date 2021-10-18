@@ -109,7 +109,35 @@ def scistree(df_input, alpha, beta, experiment=False):
 
 
 def rscistree(adata, alpha=0, beta=0, mode="haploid"):
-    # TODO: implement
+    """Solving using read-count ScisTree.
+
+    Accurate and efficient cell lineage tree inference from noisy
+    single cell data: the maximum likelihood perfect phylogeny approach
+    :cite:`ScisTree`.
+
+    Parameters
+    ----------
+    df_input : :class:`pandas.DataFrame`
+        Input genotype matrix in which rows are cells and columns are mutations.
+        Values inside this matrix show the presence (1), absence (0) and missing
+        entires (3).
+    alpha : :obj:`float`
+        False positive error rate.
+    beta : :obj:`float`
+        False negative error rate.
+    mode : :obj:`str`
+        Mode of calculating the probability from read-count.
+        In {'haploid', 'ternary'}, by default haploid
+    experiment : :obj:`bool`, optional
+        Is in the experiment mode (the log won't be shown), by default False
+
+    Returns
+    -------
+    :class:`pandas.DataFrame`
+        A conflict-free matrix in which rows are cells and columns are mutations.
+        Values inside this matrix show the presence (1) and absence (0).
+    """
+
     tsc.logg.info(f"running rScisTree with mode={mode}")
     tmpdir = tsc.ul.tmpdirsys(suffix=".rscistree", dirname=".")
 
@@ -184,7 +212,34 @@ def rscistree(adata, alpha=0, beta=0, mode="haploid"):
 
 
 def iscistree(df_input, alpha, beta, n_iters=np.inf):
-    # TODO: implement
+    """Solving using my own implementation of ScisTree.
+
+    Accurate and efficient cell lineage tree inference from noisy
+    single cell data: the maximum likelihood perfect phylogeny approach
+    :cite:`ScisTree`.
+
+    Parameters
+    ----------
+    df_input : :class:`pandas.DataFrame`
+        Input genotype matrix in which rows are cells and columns are mutations.
+        Values inside this matrix show the presence (1), absence (0) and missing
+        entires (3).
+    alpha : :obj:`float`
+        False positive error rate.
+    beta : :obj:`float`
+        False negative error rate.
+    n_iters : :obj:`int`
+        Number of iterations to search for the neighboring trees, by default inf.
+    experiment : :obj:`bool`, optional
+        Is in the experiment mode (the log won't be shown), by default False
+
+    Returns
+    -------
+    :class:`pandas.DataFrame`
+        A conflict-free matrix in which rows are cells and columns are mutations.
+        Values inside this matrix show the presence (1) and absence (0).
+    """
+
     tsc.logg.info(
         f"running iScisTree with alpha={alpha}, beta={beta}, n_iters={n_iters}"
     )
@@ -193,11 +248,8 @@ def iscistree(df_input, alpha, beta, n_iters=np.inf):
         Q = []
         for i in range(D.shape[0]):
             Q.append(list(D[i, : i + 1]))
-        # constructor = DistanceTreeConstructor()
         dm = DistanceMatrix(names=[f"{i}" for i in range(D.shape[0])], matrix=Q)
         tree = nj(dm)
-        # tree = constructor.nj(dm)
-        # tree = constructor.upgma(dm)
 
         node = None
         for clade in tree.find_clades():
@@ -206,42 +258,6 @@ def iscistree(df_input, alpha, beta, n_iters=np.inf):
         tree.root_with_outgroup(node)
         tree.prune(f"{D.shape[0]-1}")
         return tree
-
-    # def get_subtrees(tree):
-    #     subtrees = []
-    #     for clade in tree.find_clades():
-    #         gen = np.zeros(tree.count_terminals(), dtype=int)
-    #         cel = [
-    #             int(clade2.name)
-    #             for clade2 in clade.find_clades()
-    #             if "Inner" not in clade2.name
-    #         ]
-    #         gen[cel] = 1
-    #         subtrees.append(gen)
-    #     subtrees = np.array(subtrees)
-    #     return subtrees
-
-    # def denoise_quadratic(I_mtr, alpha, beta, subtrees):
-    #     def column_pairs_cost(A, Ap, unit_costs):
-    #         num = np.zeros((2, 2), dtype=np.int)
-    #         for i in range(2):
-    #             for j in range(2):
-    #                 num[i, j] = np.count_nonzero(np.logical_and(A == i, Ap == j))
-    #         return np.sum(num * unit_costs)
-
-    #     unit_prob = np.array([[1 - beta, beta], [alpha, 1 - alpha]])
-    #     unit_costs = -np.log(unit_prob)
-    #     output = np.zeros(I_mtr.shape, dtype=int)
-    #     total_cost = 0
-    #     for c in range(I_mtr.shape[1]):
-    #         costs = [
-    #             column_pairs_cost(I_mtr[:, c], subtrees[st_ind], unit_costs)
-    #             for st_ind in range(len(subtrees))
-    #         ]
-    #         ind = np.argmin(costs)
-    #         output[:, c] = subtrees[ind]
-    #         total_cost += costs[ind]
-    #     return output, total_cost
 
     def denoise_linear(I_mtr, alpha, beta, opt_tree):
         tree = {}
@@ -273,10 +289,6 @@ def iscistree(df_input, alpha, beta, n_iters=np.inf):
             for k, v in tree.items():
                 if len(v) == 0:
                     obs = I_mtr[int(k), c] == 1
-                    # qs[k] = (beta ** (1 - obs) + (1 - beta) ** obs) / (
-                    #     alpha ** obs + (1 - alpha) ** (1 - obs)
-                    # )
-                    # qs[k] = np.log((beta ** (1 - obs)) / (alpha ** obs))
                     p0 = (1 - obs) * (1 - beta) + obs * alpha
                     qs[k] = np.log((1 - p0) / p0)
                 else:
@@ -289,17 +301,8 @@ def iscistree(df_input, alpha, beta, n_iters=np.inf):
             get_cells_in_best(cells_in_best, best)
             output[list(map(int, cells_in_best)), c] = 1
 
-            # a = (I[:, c] == 0).sum() * np.log(1 - beta)
-            # b = (I[:, c] == 1).sum() * np.log(alpha)
-            # best_v += a + b
             total_cost += -best_v
         return output, total_cost
-
-    # def draw_helper(x):
-    #     if x.is_terminal():
-    #         return f"{int(x.name)+1}"
-    #     else:
-    #         return None
 
     def get_neighbors(tree):
         """

@@ -32,11 +32,6 @@ class TestSolvers:
         df_out = tsc.tl.phiscsb(self.df_in, alpha=0.0000001, beta=0.1)
         assert tsc.ul.is_conflict_free_gusfield(df_out)
 
-    @skip_gurobi
-    def test_phiscsi(self):
-        df_out = tsc.tl.phiscsi(self.df_in, alpha=0.0000001, beta=0.1)
-        assert tsc.ul.is_conflict_free_gusfield(df_out)
-
     def test_huntress_both(self):
         df_out = tsc.tl.huntress(self.df_in, alpha=0.0000001, beta=0.1, kind="both")
         assert tsc.ul.is_conflict_free_gusfield(df_out)
@@ -50,6 +45,11 @@ class TestSolvers:
         df_out = tsc.tl.onconem(self.df_in, alpha=0.0000001, beta=0.1)
         is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
         assert is_cf
+
+    @skip_gurobi
+    def test_phiscsi(self):
+        df_out = tsc.tl.phiscsi(self.df_in, alpha=0.0000001, beta=0.1)
+        assert tsc.ul.is_conflict_free_gusfield(df_out)
 
     @skip_gurobi
     def test_phiscsi_bulk_1(self):

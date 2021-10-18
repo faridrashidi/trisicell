@@ -36,10 +36,11 @@ def score(ground_file, inferred_file):
     caset = tsc.tl.caset(df_g, df_s)
     disc = tsc.tl.disc(df_g, df_s)
     mp3 = tsc.tl.mp3(df_g, df_s)
+    rf = tsc.tl.rf(df_g, df_s)
 
     tsc.logg.info(
         f"AD={ad:0.4f}\nDL={dl:0.4f}\nMLTSM={mltd:0.4f}\nTPTED={tpted:0.4f}\n"
-        f"CASet={caset:0.4f}\nDISC={disc:0.4f}\nMP3={mp3:0.4f}"
+        f"CASet={caset:0.4f}\nDISC={disc:0.4f}\nMP3={mp3:0.4f}\nRF={rf:0.4f}"
     )
 
     return None

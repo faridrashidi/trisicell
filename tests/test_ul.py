@@ -83,5 +83,19 @@ class TestUtils:
         assert res.shape[0] == 51
 
     def test_general(self):
-        tsc.ul.executable("kDPFC", "SPhyR")
+        # tsc.ul.executable("kDPFC", "SPhyR")
+        file = tsc.ul.get_file("trisicell.datasets/test/fp_0-fn_0-na_0.ground.CFMatrix")
+        tsc.ul.dir_base(file)
+        tsc.ul.dirbase(file)
+        tsc.ul.get_param(
+            "simNo_2-s_7-m_20-h_1-minVAF_0.1-ISAV_0-n_10-fp_0-fn_0.1-na_0-d_0-l_1000000"
+            ".SC"
+        )
+
+        @tsc.ul.timeit
+        def _test():
+            return None
+
+        _test()
+
         assert True

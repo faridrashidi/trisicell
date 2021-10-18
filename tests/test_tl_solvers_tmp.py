@@ -18,6 +18,12 @@ class TestSolversTmp:
         tsc.tl.fitch(tree)
         assert True
 
+    def test_rscistree(self):
+        adata = tsc.datasets.colorectal2(readcount=True)
+        df_out = tsc.tl.rscistree(adata, mode="haploid")
+        is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
+        assert is_cf
+
     def test_iscistree(self):
         df_in = tsc.datasets.test()
         df_out = tsc.tl.iscistree(df_in, alpha=0.0000001, beta=0.1)
@@ -59,10 +65,3 @@ class TestSolversTmp:
         adata = tsc.datasets.example()
         tsc.tl.cardelino(adata, mode="free", n_clones=11)
         assert True
-
-    @pytest.mark.skip(reason="Cause make: *** Error!")
-    def test_rscistree(self):
-        adata = tsc.datasets.colorectal2(readcount=True)
-        df_out = tsc.tl.rscistree(adata, mode="haploid")
-        is_cf = tsc.ul.is_conflict_free_gusfield(df_out)
-        assert is_cf

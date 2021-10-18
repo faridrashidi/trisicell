@@ -119,6 +119,7 @@ def colorectal2(readcount=False):
         adata = tsc.io.read(tsc.ul.get_file("trisicell.datasets/real/colorectal2.h5ad"))
     # FIXME: (86 x 25 in B-SCITE) (182 x 36 SiCloneFit)
     # https://github.com/cbg-ethz/infSCITE/blob/master/pat_2.csv
+    # https://github.com/hzi-bifo/scelestial-paper-materials-devel/tree/master/testing/
     return adata
 
 

@@ -47,7 +47,12 @@ def log_output(df_out, running_time):
         f"output -- NA: {np.sum(df_out.values == 3)}#,"
         f" {100*np.sum(df_out.values == 3)/size:.1f}%"
     )
-    tsc.logg.info(f"output -- CF: {is_conflict_free_gusfield(df_out)}")
+    icf = is_conflict_free_gusfield(df_out)
+    tsc.logg.info("output -- CF: ", end="")
+    if icf:
+        tsc.logg.info(icf, color="green")
+    else:
+        tsc.logg.info(icf, color="red")
     tsc.logg.info(
         f"output -- time: {running_time:.1f}s"
         f" ({datetime.timedelta(seconds=running_time)})"

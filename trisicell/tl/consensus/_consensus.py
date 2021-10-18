@@ -6,8 +6,9 @@ import trisicell as tsc
 
 def _get_cnt_tree(tree):
     cnt_tree = tree.copy()
-    for u, v, _ in cnt_tree.edges.data("label"):
-        cnt_tree.add_edge(u, v, label="")
+    for u, v, muts in cnt_tree.edges.data("label"):
+        mutations = muts.split(cnt_tree.graph["splitter_mut"])
+        cnt_tree.add_edge(u, v, label=len(mutations), mutations=mutations)
         if cnt_tree.in_degree(v) != 0:
             if "––" not in tree.nodes[v]["label"]:
                 cnt_tree.nodes[v]["label"] = cnt_tree.nodes[v]["label"].split(
@@ -64,6 +65,7 @@ def consensus(sc1, sc2):
     lists = list(edge_set1.items())
     lists.sort(key=lambda x: len(x[0]))
     final_tree = cnt_tree1.copy()
+    cost = 0
     for c, e in lists:
         if c not in edge_set2:
             if final_tree.nodes[e[0]]["label"] == "––":
@@ -76,8 +78,10 @@ def consensus(sc1, sc2):
                         final_tree.nodes[e[0]]["label"]
                         + final_tree.nodes[e[1]]["label"]
                     )
+            cost += final_tree.edges[e]["label"]
             final_tree = nx.contracted_nodes(final_tree, e[0], e[1], self_loops=False)
             final_tree.nodes[e[0]]["label"] = label
+    tsc.logg.info("    ---> total cost:", cost)
 
     # convert back to the trisicell tree format
     for v in final_tree.nodes:

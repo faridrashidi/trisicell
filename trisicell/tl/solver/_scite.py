@@ -209,8 +209,7 @@ def infscite(
 
     G = nx.drawing.nx_pydot.read_dot(f"{tmpdir.name}/infscite_ml0_quoted.gv")
     df_output = df_input.copy()
-    for col in df_output.columns:
-        df_output[col].values[:] = 0
+    df_output[:] = 0
     for i in range(df_output.shape[0]):
         muts = nx.shortest_path(G, source=f"{df_input.shape[0]}", target=f"{i+1}")
         # muts.remove("Root")

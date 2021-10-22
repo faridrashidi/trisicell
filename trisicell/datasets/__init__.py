@@ -26,7 +26,7 @@ from trisicell.datasets._datasets import (
     test,
     tnbc,
 )
-from trisicell.datasets._simulate import add_noise, simulate
+from trisicell.datasets._simulate import add_doublets, add_noise, simulate
 
 __all__ = (
     acute_lymphocytic_leukemia1,
@@ -53,6 +53,7 @@ __all__ = (
     renal_cell_carcinoma,
     test,
     tnbc,
-    add_noise,
     simulate,
+    add_noise,
+    add_doublets,
 )

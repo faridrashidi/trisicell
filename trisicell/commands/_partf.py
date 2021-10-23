@@ -71,10 +71,10 @@ def partf(genotype_file, alpha, beta, n_samples, n_threads):
     subtrees_list = []
     tree_our_prob_list = []
 
-    def run(i):
+    def run():
         return draw_sample_clt(P, False, c=1, coef=10)
 
-    output = Parallel(n_jobs=n_threads)(delayed(run)(i) for i in range(0, n_samples))
+    output = Parallel(n_jobs=n_threads)(delayed(run)() for i in range(0, n_samples))
 
     for edges, subtrees, prior_prob in output:
         edges_list.append(edges)

@@ -60,7 +60,7 @@ def simulate(n_cells=10, n_muts=10, n_clones=3, alpha=0.00001, beta=0.1, missing
     with ro.conversion.localconverter(ro.default_converter + pandas2ri.converter):
         dat = ro.conversion.rpy2py(dat.rx2("D"))
     dat[dat == 2] = 3
-    df = pd.DataFrame(dat, dtype=int)
+    df = pd.DataFrame(dat.T, dtype=int)
     df.columns = [f"mut{x}" for x in df.columns]
     df.index = [f"cell{x}" for x in df.index]
 

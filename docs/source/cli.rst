@@ -13,7 +13,9 @@ following output:
 
     Usage: trisicell [OPTIONS] COMMAND [ARGS]...
 
-      Scalable intratumor heterogeneity inference and validation from single-cell data
+      Trisicell.
+
+      Scalable intratumor heterogeneity inference and validation from single-cell data.
 
     Options:
       --version  Show the version and exit.
@@ -21,17 +23,20 @@ following output:
 
     Commands:
       mcalling   Mutation calling.
-      score      Calculate scores between two trees.
-      scistree   Run ScisTree.
-      scite      Run SCITE.
-      booster    Run Booster.
+      booster    Boost available tree reconstruction tool (Trisicell-Boost).
+      partf      Get samples or calculate for PartF.
       phiscsb    Run PhISCS (CSP version).
       phiscsi    Run PhISCS (ILP version).
+      scite      Run SCITE.
+      scistree   Run ScisTree.
       bnb        Run PhISCS-BnB.
       huntress   Run HUNTRESS.
+      grmt       Run GRMT.
+      sphyr      Run SPhyR.
       cf2newick  Convert conflict-free to newick file.
       cf2tree    Convert conflict-free to clonal tree.
-      consensus  Calculate consensus betweeen two trees.
+      score      Calculate scores between two trees.
+      consensus  Build consensus tree between two phylogenetic trees (Trisicell-Cons).
       search     Grid search for all parameters.
 
 
@@ -53,12 +58,12 @@ following output:
     :nested: full
 
 
-``scite`` - Run SCITE
----------------------
+``consensus`` - Run Consensus
+-----------------------------
 
 .. click:: trisicell.commands.trisicell:cli
     :prog: trisicell
-    :commands: scite
+    :commands: consensus
     :nested: full
 
 

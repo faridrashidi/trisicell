@@ -13,41 +13,6 @@ After mutation calling and building the input data via our suggested
 :ref:`mutation calling pipeline <caller>`.
 
 
-Datasets (datasets)
--------------------
-This module offers a bunch of functions for simulating data.
-
-.. module:: trisicell.datasets
-.. currentmodule:: trisicell
-.. autosummary::
-    :toctree: .
-
-    datasets.example
-    datasets.simulate
-    datasets.add_noise
-    datasets.melanoma20
-    datasets.colorectal1
-    datasets.colorectal2
-    datasets.colorectal3
-    datasets.acute_lymphocytic_leukemia1
-    datasets.acute_lymphocytic_leukemia2
-    datasets.acute_lymphocytic_leukemia3
-    datasets.acute_lymphocytic_leukemia4
-    datasets.acute_lymphocytic_leukemia5
-    datasets.acute_lymphocytic_leukemia6
-    datasets.high_grade_serous_ovarian_cancer1
-    datasets.high_grade_serous_ovarian_cancer2
-    datasets.high_grade_serous_ovarian_cancer3
-    datasets.high_grade_serous_ovarian_cancer_3celllines
-    datasets.myeloproliferative_neoplasms18
-    datasets.myeloproliferative_neoplasms78
-    datasets.myeloproliferative_neoplasms712
-    datasets.renal_cell_carcinoma
-    datasets.muscle_invasive_bladder
-    datasets.erbc
-    datasets.tnbc
-
-
 Read/Write (io)
 ---------------
 This module offers a bunch of functions for reading and writing of the data.
@@ -156,3 +121,38 @@ This module offers a bunch of utility functions.
     ul.to_mtree
     ul.hclustering
     ul.is_conflict_free_gusfield
+
+
+Datasets (datasets)
+-------------------
+This module offers a bunch of functions for simulating data.
+
+.. module:: trisicell.datasets
+.. currentmodule:: trisicell
+.. autosummary::
+    :toctree: .
+
+    datasets.example
+    datasets.simulate
+    datasets.add_noise
+    datasets.melanoma20
+    datasets.colorectal1
+    datasets.colorectal2
+    datasets.colorectal3
+    datasets.acute_lymphocytic_leukemia1
+    datasets.acute_lymphocytic_leukemia2
+    datasets.acute_lymphocytic_leukemia3
+    datasets.acute_lymphocytic_leukemia4
+    datasets.acute_lymphocytic_leukemia5
+    datasets.acute_lymphocytic_leukemia6
+    datasets.high_grade_serous_ovarian_cancer1
+    datasets.high_grade_serous_ovarian_cancer2
+    datasets.high_grade_serous_ovarian_cancer3
+    datasets.high_grade_serous_ovarian_cancer_3celllines
+    datasets.myeloproliferative_neoplasms18
+    datasets.myeloproliferative_neoplasms78
+    datasets.myeloproliferative_neoplasms712
+    datasets.renal_cell_carcinoma
+    datasets.muscle_invasive_bladder
+    datasets.erbc
+    datasets.tnbc

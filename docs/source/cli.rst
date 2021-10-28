@@ -25,19 +25,7 @@ following output:
       mcalling   Mutation calling.
       booster    Boost available tree reconstruction tool (Trisicell-Boost).
       partf      Get samples or calculate for PartF.
-      phiscsb    Run PhISCS (CSP version).
-      phiscsi    Run PhISCS (ILP version).
-      scite      Run SCITE.
-      scistree   Run ScisTree.
-      bnb        Run PhISCS-BnB.
-      huntress   Run HUNTRESS.
-      grmt       Run GRMT.
-      sphyr      Run SPhyR.
-      cf2newick  Convert conflict-free to newick file.
-      cf2tree    Convert conflict-free to clonal tree.
-      score      Calculate scores between two trees.
       consensus  Build consensus tree between two phylogenetic trees (Trisicell-Cons).
-      search     Grid search for all parameters.
 
 
 ``mcalling`` - Run Mutation Calling
@@ -64,13 +52,4 @@ following output:
 .. click:: trisicell.commands.trisicell:cli
     :prog: trisicell
     :commands: consensus
-    :nested: full
-
-
-``score`` - Calculating Scores
-------------------------------
-
-.. click:: trisicell.commands.trisicell:cli
-    :prog: trisicell
-    :commands: score
     :nested: full

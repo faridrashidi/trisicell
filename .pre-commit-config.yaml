@@ -7,13 +7,13 @@ default_stages:
 minimum_pre_commit_version: 2.9.3
 repos:
 -   repo: https://github.com/psf/black
-    rev: 21.9b0
+    rev: 21.10b0
     hooks:
     -   id: black
         additional_dependencies: [toml]
         args: [--line-length=88, --experimental-string-processing]
 -   repo: https://github.com/PyCQA/isort
-    rev: 5.9.3
+    rev: 5.10.1
     hooks:
     -   id: isort
         additional_dependencies: [toml]
@@ -69,7 +69,7 @@ repos:
     -   id: rst-directive-colons
     -   id: rst-inline-touching-normal
 -   repo: https://github.com/PyCQA/doc8
-    rev: 0.9.1
+    rev: 0.10.1
     hooks:
     -   id: doc8
         args: [--max-line-length=88]
@@ -85,7 +85,7 @@ repos:
         additional_dependencies: [flake8-tidy-imports, flake8-docstrings, flake8-comprehensions, flake8-bugbear, flake8-blind-except]
         args: [--max-line-length=88, --config=setup.cfg]
 -   repo: https://github.com/asottile/yesqa
-    rev: v1.2.3
+    rev: v1.3.0
     hooks:
     -   id: yesqa
         additional_dependencies: [flake8-tidy-imports, flake8-docstrings, flake8-comprehensions, flake8-bugbear, flake8-blind-except]

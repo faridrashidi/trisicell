@@ -79,15 +79,6 @@ def _read_nwk(filepath):
             cn = node2id[c]
             G.add_edge(pn, cn)
 
-    root = [n for n in G.nodes if G.in_degree(n) == 0][0]
-    if G.out_degree(root) == 3:
-        child = list(G.successors(root))[1]
-        G.add_node(i, label="root")
-        G.remove_edge(root, child)
-        G.add_edge(i, child)
-        G.add_edge(i, root)
-        G.nodes[root]["label"] = ""
-
     i = 0
     for e, u, _ in G.edges.data("label"):
         G.edges[(e, u)]["label"] = f"m{i}"

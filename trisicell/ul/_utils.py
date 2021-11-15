@@ -122,7 +122,7 @@ def get_param(filename):
     data["fp"] = float(basename.split("-")[7].split("_")[1])
     data["fn"] = float(basename.split("-")[8].split("_")[1])
     data["na"] = float(basename.split("-")[9].split("_")[1])
-    data["d"] = int(basename.split("-")[10].split("_")[1])
+    data["d"] = float(basename.split("-")[10].split("_")[1])
     last = basename.split("-")[11]
     if "." in last:
         data["l"] = int(last.split(".")[0].split("_")[1])

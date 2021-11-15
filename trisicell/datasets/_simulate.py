@@ -60,7 +60,7 @@ def simulate(n_cells=10, n_muts=10, n_clones=3, alpha=0.00001, beta=0.1, missing
     with ro.conversion.localconverter(ro.default_converter + pandas2ri.converter):
         dat = ro.conversion.rpy2py(dat.rx2("D"))
     dat[dat == 2] = 3
-    df = pd.DataFrame(dat, dtype=int)
+    df = pd.DataFrame(dat.T, dtype=int)
     df.columns = [f"mut{x}" for x in df.columns]
     df.index = [f"cell{x}" for x in df.index]
 
@@ -132,9 +132,8 @@ def add_noise(df_in, alpha, beta, missing):
                         data2[i][j] = data[i][j]
                 else:
                     tsc.logg.error("Wrong Input")
-                    sys.exit(2)
 
-    tsc.logg.info(f"FNs={countFN}, FPs={countFP}, NAs={countNA}")
+    # tsc.logg.info(f"FNs={countFN}, FPs={countFP}, NAs={countNA}")
 
     df_out = pd.DataFrame(data2)
     df_out.columns = df_in.columns
@@ -142,3 +141,19 @@ def add_noise(df_in, alpha, beta, missing):
     df_out.index.name = "cellIDxmutID"
 
     return df_out
+
+
+def add_doublets(df_ground, df_noisy, alpha, beta, missing, doublet):
+    df_doublet = df_noisy.copy()
+    doublet_cells = []
+    for _ in range(int(doublet * df_ground.shape[0])):
+        r1 = np.random.choice(df_ground.index, replace=False, size=1)
+        while r1 in doublet_cells:
+            r1 = np.random.choice(df_ground.index, replace=False, size=1)
+        doublet_cells.append(r1)
+        r2 = np.random.choice(df_ground.index, replace=False, size=1)
+        df_doublet.loc[r1] = 1 * np.logical_or(df_ground.loc[r1], df_ground.loc[r2])
+        df_doublet.loc[r1] = tsc.datasets.add_noise(
+            df_doublet.loc[r1], alpha=alpha, beta=beta, missing=missing
+        )
+    return df_doublet

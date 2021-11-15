@@ -43,7 +43,7 @@ def subsampling(
             dfn = dfn[dfn.columns[x]]
             if dfn.shape[1] < 2:
                 return None
-            dfo, _ = tsc.tl.scistree(dfn, alpha, beta, False, experiment=True)
+            dfo, _ = tsc.tl.scistree(dfn, alpha, beta, experiment=True)
             dfo.to_csv(f"{tmpdir}/{i}.CFMatrix", sep="\t")
 
     with tsc.ul.tqdm_joblib(

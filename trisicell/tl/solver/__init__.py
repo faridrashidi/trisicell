@@ -11,6 +11,7 @@ from trisicell.tl.solver._phiscs import (
     phiscsi_bulk,
 )
 from trisicell.tl.solver._sbm import sbm
+from trisicell.tl.solver._sciphi import sciphi
 from trisicell.tl.solver._scistree import iscistree, rscistree, scistree
 from trisicell.tl.solver._scite import infscite, scite
 from trisicell.tl.solver._siclonefit import siclonefit

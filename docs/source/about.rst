@@ -59,10 +59,10 @@ observed data.
 
 There are several techniques and methods to remove the noise/conflicts from
 the input genotype matrix. They are mostly based on Integer Linear Programming
-(ILP), Constraint Satisfaction Prgramming (CSP), Markov chain Monte Carlo (MCMC)
+(ILP), Constraint Satisfaction Programming (CSP), Markov chain Monte Carlo (MCMC)
 sampling and Neighbor Joining (NJ). For more details, we highly recommend to
 read our `Trisicell <https://doi.org/10.1101/2021.03.26.437185>`_ and
-`review <https://doi.org/10.1101/2020.07.15.204081>`_ papers about building
+`review <https://doi.org/10.1089/cmb.2020.0595>`_ papers about building
 tumor progression tree by exploring the space of binary matrices.
 
 Trisicell Components

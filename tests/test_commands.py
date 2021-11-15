@@ -111,6 +111,28 @@ class TestCommands:
         )
         assert result.exit_code == 0
 
+    def test_search(self):
+        result = self.runner.invoke(
+            cli,
+            ["search", tsc.ul.get_file("trisicell.datasets/test/test.tsv"), "-p 2"],
+        )
+        assert result.exit_code == 0
+
+    def test_score(self):
+        result = self.runner.invoke(
+            cli,
+            [
+                "score",
+                tsc.ul.get_file(
+                    "trisicell.datasets/test/fp_0-fn_0-na_0.ground.CFMatrix"
+                ),
+                tsc.ul.get_file(
+                    "trisicell.datasets/test/fp_1-fn_0.1-na_0.bnb.CFMatrix"
+                ),
+            ],
+        )
+        assert result.exit_code == 0
+
     @skip_graphviz
     def test_cf2tree(self):
         result = self.runner.invoke(
@@ -119,13 +141,6 @@ class TestCommands:
                 "cf2tree",
                 tsc.ul.get_file("trisicell.datasets/test/test.phiscsb.CFMatrix"),
             ],
-        )
-        assert result.exit_code == 0
-
-    def test_search(self):
-        result = self.runner.invoke(
-            cli,
-            ["search", tsc.ul.get_file("trisicell.datasets/test/test.tsv"), "-p 2"],
         )
         assert result.exit_code == 0
 
@@ -140,24 +155,6 @@ class TestCommands:
                 "0.1",
                 "--n_threads 2",
                 "--n_samples 100",
-            ],
-        )
-        assert result.exit_code == 0
-
-    @pytest.mark.skip(
-        reason="Using MLTD in two tests is taking so long in test_scores!"
-    )
-    def test_score(self):
-        result = self.runner.invoke(
-            cli,
-            [
-                "score",
-                tsc.ul.get_file(
-                    "trisicell.datasets/test/fp_0-fn_0-na_0.ground.CFMatrix"
-                ),
-                tsc.ul.get_file(
-                    "trisicell.datasets/test/fp_1-fn_0.1-na_0.bnb.CFMatrix"
-                ),
             ],
         )
         assert result.exit_code == 0

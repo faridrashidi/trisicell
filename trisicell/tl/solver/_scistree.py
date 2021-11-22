@@ -13,7 +13,7 @@ from trisicell.external._scprob import run_scprob
 # from Bio.Phylo.TreeConstruction import DistanceTreeConstructor
 
 
-def scistree(df_input, alpha, beta, experiment=False):
+def scistree(df_input, alpha, beta, n_threads=1, experiment=False):
     """Solving using ScisTree.
 
     Accurate and efficient cell lineage tree inference from noisy
@@ -30,6 +30,8 @@ def scistree(df_input, alpha, beta, experiment=False):
         False positive error rate.
     beta : :obj:`float`
         False negative error rate.
+    n_threads : :obj:`int`
+        Number of threads.
     experiment : :obj:`bool`, optional
         Is in the experiment mode (the log won't be shown), by default False
 
@@ -41,7 +43,9 @@ def scistree(df_input, alpha, beta, experiment=False):
     """
 
     if not experiment:
-        tsc.logg.info(f"running ScisTree with alpha={alpha}, beta={beta}")
+        tsc.logg.info(
+            f"running ScisTree with alpha={alpha}, beta={beta}, n_threads={n_threads}"
+        )
     tmpdir = tsc.ul.tmpdirsys(suffix=".scistree")
     cells = df_input.index
     snvs = df_input.columns
@@ -66,6 +70,8 @@ def scistree(df_input, alpha, beta, experiment=False):
         "-d",
         "0",
         "-e",
+        "-k",
+        f"{n_threads}",
         "-o",
         f"{tmpdir.name}/scistree.gml",
         f"{tmpdir.name}/scistree.input",
@@ -108,7 +114,7 @@ def scistree(df_input, alpha, beta, experiment=False):
         return df_output, running_time
 
 
-def rscistree(adata, alpha=0, beta=0, mode="haploid"):
+def rscistree(adata, alpha=0, beta=0, n_threads=1, mode="haploid"):
     """Solving using read-count ScisTree.
 
     Accurate and efficient cell lineage tree inference from noisy
@@ -125,6 +131,8 @@ def rscistree(adata, alpha=0, beta=0, mode="haploid"):
         False positive error rate.
     beta : :obj:`float`
         False negative error rate.
+    n_threads : :obj:`int`
+        Number of threads.
     mode : :obj:`str`
         Mode of calculating the probability from read-count.
         In {'haploid', 'ternary'}, by default haploid
@@ -138,7 +146,7 @@ def rscistree(adata, alpha=0, beta=0, mode="haploid"):
         Values inside this matrix show the presence (1) and absence (0).
     """
 
-    tsc.logg.info(f"running rScisTree with mode={mode}")
+    tsc.logg.info(f"running rScisTree with n_threads={n_threads}, mode={mode}")
     tmpdir = tsc.ul.tmpdirsys(suffix=".rscistree", dirname=".")
 
     cells = adata.obs_names
@@ -172,6 +180,8 @@ def rscistree(adata, alpha=0, beta=0, mode="haploid"):
         "-d",
         "0",
         "-e",
+        "-k",
+        f"{n_threads}",
         "-o",
         f"{tmpdir.name}/rscistree.gml",
         f"{tmpdir.name}/rscistree.input",

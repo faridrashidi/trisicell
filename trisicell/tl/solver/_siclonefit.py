@@ -32,34 +32,33 @@ def siclonefit(df_input, alpha, beta, n_iters):
         f"-ipMat {tmpdir.name}/siclonefit.input "
         f"-fp {alpha} "
         f"-fn {beta} "
-        "-df 0 "
+        # "-df 0 "
         f"-missing {np.sum(I_mtr == 3)/(I_mtr.size)} "
-        "-f 3 "
-        "-recurProb 0 "
-        "-delProb 0 "
-        "-LOHProb 0 "
-        f"-iter {n_iters} "
+        # "-f 3 "
+        # "-recurProb 0 "
+        # "-delProb 0 "
+        # "-LOHProb 0 "
+        # f"-iter {n_iters} "
         f"-cellNames {tmpdir.name}/siclonefit.cellnames "
         f"-geneNames {tmpdir.name}/siclonefit.genenames "
+        # "-r "
+        # "-burnin "
+        # "-printIter "
+        # "-treeIter "
+        # "-doublet "
         f"-outDir {tmpdir.name} > {tmpdir.name}/siclonefit.log"
     )
-    # check the following parameters
-    # -burnin
-    # -printIter
-    # -treeIter
-    # -doublet
     s_time = time.time()
     os.system(cmd)
     e_time = time.time()
     running_time = e_time - s_time
 
-    df = pd.read_csv(
-        f"{tmpdir.name}/20p_missing_samples/best/best_MAP_predicted_genotype.txt",
+    df_output = pd.read_csv(
+        f"{tmpdir.name}/samples/best/best_MAP_predicted_genotype.txt",
         sep=" ",
         header=None,
         index_col=0,
     ).T
-    df_output = pd.DataFrame(df.values)
     df_output.columns = df_input.columns
     df_output.index = df_input.index
     df_output.index.name = "cellIDxmutID"

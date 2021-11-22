@@ -5,7 +5,7 @@ import networkx as nx
 import numpy as np
 
 import trisicell as tsc
-from trisicell.tl.score._mp3 import build_tree, similarity
+from trisicell.external._mp3 import build_tree, similarity
 from trisicell.ul._trees import _to_newick
 
 

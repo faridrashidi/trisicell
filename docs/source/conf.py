@@ -206,7 +206,6 @@ sphinx_gallery_conf = {
     "subsection_order": ExplicitOrder(
         [
             rel_example_dir / "reconstruction",  # really must be relative
-            rel_example_dir / "comparison",
         ]
     ),
     "reference_url": {

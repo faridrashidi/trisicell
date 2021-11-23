@@ -48,6 +48,12 @@ class TestPlotting:
             cell_info=adata.obs,
             color_attr="group_color",
         )
+        tsc.pl.clonal_tree(
+            tree,
+            muts_as_number=True,
+            cells_as_number=True,
+            show_id=True,
+        )
         assert True
 
     @skip_rpy2

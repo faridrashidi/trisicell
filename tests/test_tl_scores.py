@@ -1,4 +1,5 @@
 import numpy as np
+import pytest
 
 import trisicell as tsc
 
@@ -18,9 +19,9 @@ class TestScores:
         dl = tsc.tl.dl(self.grnd, self.sol)
         assert np.abs(dl - 0.9880) < 0.0001
 
-    def test_mltd(self):
-        mltd = tsc.tl.mltd(self.grnd, self.sol)
-        assert np.abs(mltd["normalized_similarity"] - 0.7800) < 0.0001
+    def test_cc(self):
+        tsc.tl.cc(self.grnd, self.sol)
+        assert True
 
     def test_tpted(self):
         tpted = tsc.tl.tpted(self.grnd, self.sol)
@@ -41,3 +42,10 @@ class TestScores:
     def test_rf(self):
         rf = tsc.tl.rf(self.grnd, self.sol)
         assert np.abs(rf - 0.4864) < 0.0001
+
+    @pytest.mark.skip(
+        reason="Using MLTD in two tests is taking so long in test_scores!"
+    )
+    def test_mltd(self):
+        mltd = tsc.tl.mltd(self.grnd, self.sol)
+        assert np.abs(mltd["normalized_similarity"] - 0.7800) < 0.0001

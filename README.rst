@@ -57,7 +57,7 @@ Trisicell was developed in collaboration between the `Cancer Data Science Labora
     :target: https://github.com/faridrashidi/trisicell
     :alt: Stars
 
-.. |Contributions Welcome| image:: https://img.shields.io/static/v1.svg?label=contributions&message=welcome&color=0059b3&logo=handshake&logoColor=FFFFFF&style=flat-square
+.. |Contributions Welcome| image:: https://img.shields.io/static/v1.svg?label=contributions&message=welcome&color=blue&logo=handshake&logoColor=FFFFFF&style=flat-square
     :target: https://github.com/faridrashidi/trisicell/blob/master/CONTRIBUTING.rst
     :alt: Contributions Welcome
 
@@ -73,8 +73,8 @@ Trisicell was developed in collaboration between the `Cancer Data Science Labora
     :target: https://trisicell.readthedocs.io
     :alt: Docs Status
 
-.. |Pre-commit| image:: https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white&style=flat-square
-    :target: https://github.com/pre-commit/pre-commit
+.. |Pre-commit| image:: https://img.shields.io/badge/pre--commit.ci-passing-brightgreen?logo=pre-commit&logoColor=white&style=flat-square
+    :target: https://results.pre-commit.ci/latest/github/faridrashidi/trisicell/master
     :alt: Pre-commit
 
 .. |Code Style| image:: https://img.shields.io/badge/code%20style-black-000000.svg?logo=visualstudiocode&logoColor=FFFFFF&style=flat-square

@@ -8,4 +8,5 @@ class TestLogging:
         tsc.logg.hint("HINT")
         tsc.logg.info("INFO")
         tsc.logg.warn("WARN")
+        tsc.logg.info("TIME", time=True, color="red")
         assert True

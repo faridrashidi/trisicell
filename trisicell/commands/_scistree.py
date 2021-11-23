@@ -23,14 +23,22 @@ import trisicell as tsc
     required=True,
     type=float,
 )
-def scistree(genotype_file, alpha, beta):
+@click.option(
+    "--n_threads",
+    "-p",
+    default=1,
+    type=int,
+    show_default=True,
+    help="Number of threads.",
+)
+def scistree(genotype_file, alpha, beta, n_threads):
     """ScisTree.
 
     Accurate and efficient cell lineage tree inference from noisy
     single cell data: the maximum likelihood perfect phylogeny approach
     :cite:`ScisTree`.
 
-    trisicell scistree input.SC 0.0001 0.1
+    trisicell scistree input.SC 0.0001 0.1 -p 1
     """
 
     outfile = os.path.splitext(genotype_file)[0]
@@ -39,7 +47,7 @@ def scistree(genotype_file, alpha, beta):
     tsc.settings.logfile = f"{outfile}.scistree.log"
 
     df_in = tsc.io.read(genotype_file)
-    df_out = tsc.tl.scistree(df_in, alpha=alpha, beta=beta)
+    df_out = tsc.tl.scistree(df_in, alpha=alpha, beta=beta, n_threads=n_threads)
     tsc.io.write(df_out, f"{outfile}.scistree.CFMatrix")
 
     return None

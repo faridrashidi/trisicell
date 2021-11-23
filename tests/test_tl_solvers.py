@@ -130,3 +130,19 @@ class TestSolvers:
             dep_weight=5,
         )
         assert tsc.ul.is_conflict_free_gusfield(df_out)
+
+    def test_booster_scistree_on_cells(self):
+        df_out = tsc.tl.booster(
+            self.df_in,
+            alpha=0.0000001,
+            beta=0.1,
+            solver="ScisTree",
+            sample_on="cells",
+            sample_size=10,
+            n_samples=20,
+            begin_index=0,
+            n_jobs=1,
+            n_iterations=10000,
+            dep_weight=5,
+        )
+        assert tsc.ul.is_conflict_free_gusfield(df_out)

@@ -22,6 +22,7 @@ from trisicell.tl.solver import (
     phiscsi_bulk,
     rscistree,
     sbm,
+    sciphi,
     scistree,
     scite,
     siclonefit,
@@ -63,4 +64,5 @@ __all__ = (
     rf,
     sphyr,
     grmt,
+    sciphi,
 )

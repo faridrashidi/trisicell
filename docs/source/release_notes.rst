@@ -7,6 +7,15 @@ Release Notes
 =============
 
 
+Version 0.0.20 :small:`November 22, 2021`
+-----------------------------------------
+
+This version includes:
+
+    - Add multi-threaded ScisTree.
+    - Update the documentations.
+
+
 Version 0.0.19 :small:`October 18, 2021`
 ----------------------------------------
 

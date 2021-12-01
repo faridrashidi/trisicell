@@ -41,8 +41,6 @@ def sphyr(
         Number of cell clusters, by default 10
     n_mut_clusters : :obj:`int`, optional
         Number of mutation clusters, by default 15
-    experiment : :obj:`bool`, optional
-        Is in the experiment mode (the log won't be shown), by default False
 
     Returns
     -------
@@ -51,7 +49,7 @@ def sphyr(
         Values inside this matrix show the presence (1) and absence (0).
     """
 
-    executable = tsc.ul.executable("kDPFC", "SPhyR")
+    executable = tsc.ul.executable("sphyr_kDPFC", "SPhyR")
 
     tsc.logg.info(
         f"running SPhyR with alpha={alpha}, beta={beta}, n_restarts={n_restarts}, "

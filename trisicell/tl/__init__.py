@@ -10,6 +10,7 @@ from trisicell.tl.solver import (
     booster,
     cardelino,
     dendro,
+    gpps,
     grmt,
     huntress,
     infscite,
@@ -65,4 +66,5 @@ __all__ = (
     sphyr,
     grmt,
     sciphi,
+    gpps,
 )

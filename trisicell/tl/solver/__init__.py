@@ -1,6 +1,7 @@
 from trisicell.tl.solver._bnb import bnb
 from trisicell.tl.solver._cardelino import cardelino
 from trisicell.tl.solver._dendro import dendro
+from trisicell.tl.solver._gpps import gpps
 from trisicell.tl.solver._grmt import grmt
 from trisicell.tl.solver._onconem import onconem
 from trisicell.tl.solver._phiscs import (

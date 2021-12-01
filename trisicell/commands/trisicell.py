@@ -6,6 +6,7 @@ import trisicell as tsc
 from trisicell.commands._bnb import bnb
 from trisicell.commands._booster import booster
 from trisicell.commands._consensus import consensus
+from trisicell.commands._gpps import gpps
 from trisicell.commands._grmt import grmt
 from trisicell.commands._huntress import huntress
 from trisicell.commands._mcalling import mcalling
@@ -67,6 +68,7 @@ cli.add_command(bnb)
 cli.add_command(huntress)
 cli.add_command(grmt)
 cli.add_command(sphyr)
+cli.add_command(gpps)
 cli.add_command(cf2newick)
 cli.add_command(cf2tree)
 cli.add_command(score)

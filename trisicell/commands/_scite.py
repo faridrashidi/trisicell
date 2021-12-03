@@ -58,12 +58,22 @@ import trisicell as tsc
     show_default=True,
     help="Time limit for the experiment part (in seconds).",
 )
-def scite(genotype_file, alpha, beta, n_iters, n_restarts, experiment, time_limit):
+@click.option(
+    "--smooth_rate",
+    "-s",
+    default=2,
+    type=float,
+    show_default=True,
+    help="Smooth rate for the experiment part.",
+)
+def scite(
+    genotype_file, alpha, beta, n_iters, n_restarts, experiment, time_limit, smooth_rate
+):
     """SCITE.
 
     Tree inference for single-cell data :cite:`SCITE`.
 
-    trisicell scite input.SC 0.0001 0.1 -l 1000000 -r 3 -e -t 86400
+    trisicell scite input.SC 0.0001 0.1 -l 1000000 -r 3 -e -t 86400 -s 2
     """
 
     outfile = os.path.splitext(genotype_file)[0]
@@ -91,7 +101,7 @@ def scite(genotype_file, alpha, beta, n_iters, n_restarts, experiment, time_limi
             n_restarts=1,
             experiment=True,
         )
-        n_iters = int(2 * 30000 * time_limit / running_time)
+        n_iters = int(smooth_rate * 30000 * time_limit / running_time)
 
         def run(i):
             do, r, s, b = tsc.tl.scite(

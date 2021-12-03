@@ -51,17 +51,19 @@ import trisicell as tsc
     help="Is in experiment mode.",
 )
 @click.option(
-    "--n_hours",
-    "-h",
-    default=24,
+    "--time_limit",
+    "-t",
+    default=86400,
     type=float,
     show_default=True,
-    help="Number of hours for the experiment part.",
+    help="Time limit for the experiment part (in seconds).",
 )
-def scite(genotype_file, alpha, beta, n_iters, n_restarts, experiment, n_hours):
-    """Tree inference for single-cell data :cite:`SCITE`.
+def scite(genotype_file, alpha, beta, n_iters, n_restarts, experiment, time_limit):
+    """SCITE.
 
-    trisicell scite input.SC 0.0001 0.1 -l 1000000 -r 3 -e -h 24
+    Tree inference for single-cell data :cite:`SCITE`.
+
+    trisicell scite input.SC 0.0001 0.1 -l 1000000 -r 3 -e -t 86400
     """
 
     outfile = os.path.splitext(genotype_file)[0]
@@ -89,7 +91,7 @@ def scite(genotype_file, alpha, beta, n_iters, n_restarts, experiment, n_hours):
             n_restarts=1,
             experiment=True,
         )
-        n_iters = int(2 * 30000 * n_hours * 60 * 60 / running_time)
+        n_iters = int(2 * 30000 * time_limit / running_time)
 
         def run(i):
             do, r, s, b = tsc.tl.scite(

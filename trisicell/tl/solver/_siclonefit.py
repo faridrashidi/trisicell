@@ -1,13 +1,14 @@
+import glob
 import os
 import time
 
-import numpy as np
+# import numpy as np
 import pandas as pd
 
 import trisicell as tsc
 
 
-def siclonefit(df_input, alpha, beta, n_iters):
+def siclonefit(df_input, alpha, beta, n_iters, n_restarts=3):
     # TODO: implement
     executable = tsc.ul.executable("SiCloneFiTComplete.jar", "SiCloneFit")
 
@@ -23,7 +24,7 @@ def siclonefit(df_input, alpha, beta, n_iters):
         fout.write(" ".join(df_input.index))
     with open(f"{tmpdir.name}/siclonefit.genenames", "w") as fout:
         fout.write(" ".join(df_input.columns))
-    I_mtr = df_input.values
+    # I_mtr = df_input.values
 
     cmd = (
         f"java -jar {executable} "
@@ -33,15 +34,15 @@ def siclonefit(df_input, alpha, beta, n_iters):
         f"-fp {alpha} "
         f"-fn {beta} "
         # "-df 0 "
-        f"-missing {np.sum(I_mtr == 3)/(I_mtr.size)} "
+        # f"-missing {np.sum(I_mtr == 3)/(I_mtr.size)} "
         # "-f 3 "
-        # "-recurProb 0 "
-        # "-delProb 0 "
-        # "-LOHProb 0 "
+        "-recurProb 0 "
+        "-delProb 0 "
+        "-LOHProb 0 "
         # f"-iter {n_iters} "
         f"-cellNames {tmpdir.name}/siclonefit.cellnames "
         f"-geneNames {tmpdir.name}/siclonefit.genenames "
-        # "-r "
+        f"-r {n_restarts} "
         # "-burnin "
         # "-printIter "
         # "-treeIter "
@@ -53,8 +54,11 @@ def siclonefit(df_input, alpha, beta, n_iters):
     e_time = time.time()
     running_time = e_time - s_time
 
+    out_file = glob.glob(
+        f"{tmpdir.name}/*samples/best/best_MAP_predicted_genotype.txt"
+    )[0]
     df_output = pd.read_csv(
-        f"{tmpdir.name}/samples/best/best_MAP_predicted_genotype.txt",
+        out_file,
         sep=" ",
         header=None,
         index_col=0,

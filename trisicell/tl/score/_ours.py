@@ -8,6 +8,35 @@ from trisicell.external._mltd import run_mltd
 from trisicell.ul._trees import _split_labels, _to_apted
 
 
+def gs(df_grnd, df_sol):
+    """Genotype-similarity accuracy.
+
+    Parameters
+    ----------
+    df_grnd : :class:`pandas.DataFrame`
+        The first genotype matrix (e.g. ground truth)
+        This matrix must be conflict-free.
+    df_sol : :class:`pandas.DataFrame`
+        The second genotype matrix (e.g. solution/inferred)
+        This matrix must be conflict-free.
+
+    Returns
+    -------
+    :obj:`float`
+        Similarity out of one.
+    """
+
+    muts = np.intersect1d(df_grnd.columns, df_sol.columns)
+    cells = np.intersect1d(df_grnd.index, df_sol.index)
+    if len(muts) == 0:
+        tsc.logg.error("No common mutations found between two trees!")
+    if len(cells) == 0:
+        tsc.logg.error("No common cells found between two trees!")
+    M_grnd = df_grnd.loc[cells, muts].values
+    M_sol = df_sol.loc[cells, muts].values
+    return 1 - np.abs(M_grnd - M_sol).sum() / M_grnd.size
+
+
 def ad(df_grnd, df_sol):
     """Ancestor-descendent accuracy.
 

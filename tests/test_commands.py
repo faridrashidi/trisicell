@@ -58,8 +58,8 @@ class TestCommands:
                 "0.0000001",
                 "0.1",
                 "-e",
-                "-t 0.005",
-                "-s 2",
+                "-t 1",
+                "-s 1",
             ],
         )
         assert result.exit_code == 0

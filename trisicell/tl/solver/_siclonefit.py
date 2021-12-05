@@ -2,13 +2,15 @@ import glob
 import os
 import time
 
-# import numpy as np
+import numpy as np
 import pandas as pd
 
 import trisicell as tsc
 
 
-def siclonefit(df_input, alpha, beta, n_iters, n_restarts=3):
+def siclonefit(
+    df_input, alpha, beta, n_restarts=3, n_iters=500, burnin=100, return_tree=False
+):
     # TODO: implement
     executable = tsc.ul.executable("SiCloneFiTComplete.jar", "SiCloneFit")
 
@@ -24,7 +26,7 @@ def siclonefit(df_input, alpha, beta, n_iters, n_restarts=3):
         fout.write(" ".join(df_input.index))
     with open(f"{tmpdir.name}/siclonefit.genenames", "w") as fout:
         fout.write(" ".join(df_input.columns))
-    # I_mtr = df_input.values
+    I_mtr = df_input.values
 
     cmd = (
         f"java -jar {executable} "
@@ -33,20 +35,19 @@ def siclonefit(df_input, alpha, beta, n_iters, n_restarts=3):
         f"-ipMat {tmpdir.name}/siclonefit.input "
         f"-fp {alpha} "
         f"-fn {beta} "
-        # "-df 0 "
-        # f"-missing {np.sum(I_mtr == 3)/(I_mtr.size)} "
-        # "-f 3 "
-        "-recurProb 0 "
-        "-delProb 0 "
-        "-LOHProb 0 "
-        # f"-iter {n_iters} "
+        "-df 0 "
+        f"-missing {np.sum(I_mtr == 3)/(I_mtr.size)} "
+        f"-iter {n_iters} "
         f"-cellNames {tmpdir.name}/siclonefit.cellnames "
         f"-geneNames {tmpdir.name}/siclonefit.genenames "
         f"-r {n_restarts} "
-        # "-burnin "
+        f"-burnin {burnin} "
+        # "-recurProb 0 "
+        # "-delProb 0 "
+        # "-LOHProb 0 "
+        # "-doublet "
         # "-printIter "
         # "-treeIter "
-        # "-doublet "
         f"-outDir {tmpdir.name} > {tmpdir.name}/siclonefit.log"
     )
     s_time = time.time()
@@ -54,11 +55,10 @@ def siclonefit(df_input, alpha, beta, n_iters, n_restarts=3):
     e_time = time.time()
     running_time = e_time - s_time
 
-    out_file = glob.glob(
-        f"{tmpdir.name}/*samples/best/best_MAP_predicted_genotype.txt"
-    )[0]
+    out_dir = glob.glob(f"{tmpdir.name}/*samples/best")[0]
+
     df_output = pd.read_csv(
-        out_file,
+        f"{out_dir}/best_MAP_predicted_genotype.txt",
         sep=" ",
         header=None,
         index_col=0,
@@ -67,8 +67,14 @@ def siclonefit(df_input, alpha, beta, n_iters, n_restarts=3):
     df_output.index = df_input.index
     df_output.index.name = "cellIDxmutID"
 
+    with open(f"{out_dir}/best_MAP_tree.txt") as fin:
+        tree = fin.readline().strip()
+
     tmpdir.cleanup()
 
     tsc.ul.stat(df_input, df_output, alpha, beta, running_time)
 
-    return df_output
+    if return_tree:
+        return df_output, tree
+    else:
+        return df_output

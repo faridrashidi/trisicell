@@ -11,6 +11,8 @@ from trisicell.ul._trees import _split_labels, _to_apted
 def gs(df_grnd, df_sol):
     """Genotype-similarity accuracy.
 
+    This measure was introduced in :cite:`SiCloneFit`.
+
     Parameters
     ----------
     df_grnd : :class:`pandas.DataFrame`

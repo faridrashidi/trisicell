@@ -96,6 +96,9 @@ def gpps(
     tsc.settings.logfile = f"{outfile}.gpps.log"
 
     df_in = tsc.io.read(genotype_file)
+
+    if alpha == 0:
+        alpha = 0.000000000001
     df_out = tsc.tl.gpps(
         df_in,
         alpha=alpha,

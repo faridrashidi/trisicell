@@ -16,7 +16,7 @@ def error(*args, **kwargs):
     """Write errors message."""
     args = ("Error:",) + args
     msg(*args, v="error", **kwargs)
-    exit(1)
+    raise RuntimeError
 
 
 def warn(*args, **kwargs):

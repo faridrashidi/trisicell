@@ -10,6 +10,7 @@ from trisicell.commands._gpps import gpps
 from trisicell.commands._grmt import grmt
 from trisicell.commands._huntress import huntress
 from trisicell.commands._mcalling import mcalling
+from trisicell.commands._onconem import onconem
 from trisicell.commands._partf import partf
 from trisicell.commands._phiscs import phiscsb, phiscsi
 from trisicell.commands._scistree import scistree
@@ -69,6 +70,7 @@ cli.add_command(huntress)
 cli.add_command(grmt)
 cli.add_command(sphyr)
 cli.add_command(gpps)
+cli.add_command(onconem)
 cli.add_command(cf2newick)
 cli.add_command(cf2tree)
 cli.add_command(score)

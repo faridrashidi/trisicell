@@ -6,7 +6,7 @@ import networkx as nx
 import trisicell as tsc
 
 
-def grmt(df_input, alpha, beta, n_threads=1, n_iters=30):
+def grmt(df_input, alpha, beta, n_iters=30, n_threads=1):
     """Solving using GRMT.
 
     Generative Reconstruction of Mutation Tree From Scratch Using Single-Cell
@@ -22,12 +22,10 @@ def grmt(df_input, alpha, beta, n_threads=1, n_iters=30):
         False positive error rate.
     beta : :obj:`float`
         False negative error rate.
-    n_threads : :obj:`int`, optional
-        Number of threads, by default 1
     n_iters : :obj:`int`, optional
         Number of iterations, by default 30
-    experiment : :obj:`bool`, optional
-        Is in the experiment mode (the log won't be shown), by default False
+    n_threads : :obj:`int`, optional
+        Number of threads, by default 1
 
     Returns
     -------

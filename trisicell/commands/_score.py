@@ -29,6 +29,7 @@ def score(ground_file, inferred_file):
     df_g = tsc.io.read(ground_file)
     df_s = tsc.io.read(inferred_file)
 
+    gs = tsc.tl.gs(df_g, df_s)
     ad = tsc.tl.ad(df_g, df_s)
     dl = tsc.tl.dl(df_g, df_s)
     mltd = tsc.tl.mltd(df_g, df_s)["normalized_similarity"]
@@ -39,8 +40,10 @@ def score(ground_file, inferred_file):
     rf = tsc.tl.rf(df_g, df_s)
 
     tsc.logg.info(
-        f"AD={ad:0.4f}\nDL={dl:0.4f}\nMLTSM={mltd:0.4f}\nTPTED={tpted:0.4f}\n"
-        f"CASet={caset:0.4f}\nDISC={disc:0.4f}\nMP3={mp3:0.4f}\nRF={rf:0.4f}"
+        f"GS={gs:0.4f}\nAD={ad:0.4f}\nDL={dl:0.4f}\n"
+        f"MLTSM={mltd:0.4f}\nTPTED={tpted:0.4f}\n"
+        f"CASet={caset:0.4f}\nDISC={disc:0.4f}\nMP3={mp3:0.4f}\n"
+        f"RF={rf:0.4f}"
     )
 
     return None

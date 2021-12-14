@@ -11,6 +11,10 @@ class TestScores:
         self.grnd = tsc.io.read(f1)
         self.sol = tsc.io.read(f2)
 
+    def test_gs(self):
+        gs = tsc.tl.gs(self.grnd, self.sol)
+        assert np.abs(gs - 0.9895) < 0.0001
+
     def test_ad(self):
         ad = tsc.tl.ad(self.grnd, self.sol)
         assert np.abs(ad - 0.9778) < 0.0001

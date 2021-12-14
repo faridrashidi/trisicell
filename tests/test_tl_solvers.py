@@ -33,11 +33,11 @@ class TestSolvers:
         assert tsc.ul.is_conflict_free_gusfield(df_out)
 
     def test_huntress_both(self):
-        df_out = tsc.tl.huntress(self.df_in, alpha=0.0000001, beta=0.1, kind="both")
+        df_out = tsc.tl.huntress(self.df_in, alpha=0.0000001, beta=0.1)
         assert tsc.ul.is_conflict_free_gusfield(df_out)
 
     def test_huntress_fn(self):
-        df_out = tsc.tl.huntress(self.df_in, alpha=0, beta=0, kind="fn")
+        df_out = tsc.tl.huntress(self.df_in, alpha=0, beta=0.1)
         assert tsc.ul.is_conflict_free_gusfield(df_out)
 
     @skip_rpy2

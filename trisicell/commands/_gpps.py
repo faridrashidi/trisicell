@@ -49,7 +49,7 @@ import trisicell as tsc
 )
 @click.option(
     "--n_iters",
-    "-r",
+    "-l",
     default=100,
     type=int,
     show_default=True,
@@ -87,7 +87,7 @@ def gpps(
     an ILP-based approach for inferring cancer progression with mutation losses from
     single cell data :cite:`gpps`.
 
-    trisicell gpps input.SC 0.0001 0.1 -k 0 -s 30 -r 100 -t 86400 -p 1
+    trisicell gpps input.SC 0.0001 0.1 -k 0 -s 30 -l 100 -t 86400 -p 1
     """
 
     outfile = os.path.splitext(genotype_file)[0]
@@ -96,6 +96,9 @@ def gpps(
     tsc.settings.logfile = f"{outfile}.gpps.log"
 
     df_in = tsc.io.read(genotype_file)
+
+    if alpha == 0:
+        alpha = 0.000000000001
     df_out = tsc.tl.gpps(
         df_in,
         alpha=alpha,

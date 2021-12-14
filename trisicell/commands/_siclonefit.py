@@ -7,7 +7,7 @@ from joblib import Parallel, delayed
 import trisicell as tsc
 
 
-@click.command(short_help="Run SCITE.")
+@click.command(short_help="Run SiCloneFit.")
 @click.argument(
     "genotype_file",
     required=True,
@@ -28,7 +28,7 @@ import trisicell as tsc
 @click.option(
     "--n_iters",
     "-l",
-    default=1000000,
+    default=600,
     type=int,
     show_default=True,
     help="Number of iterations.",
@@ -66,14 +66,15 @@ import trisicell as tsc
     show_default=True,
     help="Smooth rate for the experiment part.",
 )
-def scite(
+def siclonefit(
     genotype_file, alpha, beta, n_iters, n_restarts, experiment, time_limit, smooth_rate
 ):
-    """SCITE.
+    """SiCloneFit.
 
-    Tree inference for single-cell data :cite:`SCITE`.
+    Bayesian inference of population structure, genotype, and phylogeny of tumor clones
+    from single-cell genome sequencing data :cite:`SiCloneFit`.
 
-    trisicell scite input.SC 0.0001 0.1 -l 1000000 -r 3 -e -t 86400 -s 2
+    trisicell siclonefit input.SC 0.0001 0.1 -l 1000000 -r 3 -e -t 86400 -s 2
     """
 
     outfile = os.path.splitext(genotype_file)[0]
@@ -82,29 +83,29 @@ def scite(
 
     df_in = tsc.io.read(genotype_file)
     if not experiment:
-        tsc.settings.logfile = f"{outfile}.scite.log"
-        df_out = tsc.tl.scite(
+        tsc.settings.logfile = f"{outfile}.siclonefit.log"
+        df_out = tsc.tl.siclonefit(
             df_in,
             alpha=alpha,
             beta=beta,
             n_iters=n_iters,
             n_restarts=n_restarts,
         )
-        tsc.io.write(df_out, f"{outfile}.scite.CFMatrix")
+        tsc.io.write(df_out, f"{outfile}.siclonefit.CFMatrix")
     else:
-        tsc.settings.logfile = f"{outfile}.scite.log"
-        df_out, running_time, _, _ = tsc.tl.scite(
+        tsc.settings.logfile = f"{outfile}.siclonefit.log"
+        df_out, running_time, _, _ = tsc.tl.siclonefit(
             df_in,
             alpha=alpha,
             beta=beta,
-            n_iters=30000,
+            n_iters=500,
             n_restarts=1,
             experiment=True,
         )
-        n_iters = int(smooth_rate * 30000 * time_limit / running_time)
+        n_iters = int(smooth_rate * 500 * time_limit / running_time)
 
         def run(i):
-            do, r, s, b = tsc.tl.scite(
+            do, r, cf, nll = tsc.tl.siclonefit(
                 df_in,
                 alpha=alpha,
                 beta=beta,
@@ -112,23 +113,29 @@ def scite(
                 n_restarts=1,
                 experiment=True,
             )
-            return do, r, s, b
+            return do, r, cf, nll
 
         output = Parallel(n_jobs=n_restarts)(delayed(run)(i) for i in range(n_restarts))
 
-        scores = [x[2] for x in output]
-        betas = [x[3] for x in output]
-        best_i = np.argmax(scores)
+        scores = [x[3] for x in output]
+        iscfs = [x[2] for x in output]
+        best_i = np.Inf
+        best = np.Inf
+        for i, items in enumerate(zip(scores, iscfs)):
+            score, iscf = items
+            if iscf and score < best:
+                best_i = i
+                best = score
         df_out = output[best_i][0]
 
         tsc.ul.stat(df_in, df_out, alpha, beta, output[best_i][1])
-        tsc.logg.info(f"score: {output[best_i][2]}")
-        tsc.logg.info(f"beta: {output[best_i][3]}")
+        tsc.logg.info(f"score: {output[best_i][3]}")
+        tsc.logg.info(f"iscf: {output[best_i][2]}")
         tsc.logg.info(f"n_iters: {n_iters}")
         tsc.logg.info(f"scores: {','.join(list(map(str, scores)))}")
-        tsc.logg.info(f"betas: {','.join(list(map(str, betas)))}")
+        tsc.logg.info(f"iscfs: {','.join(list(map(str, iscfs)))}")
         tsc.logg.info(f"picked: {best_i}")
 
-        tsc.io.write(df_out, f"{outfile}.scite.CFMatrix")
+        tsc.io.write(df_out, f"{outfile}.siclonefit.CFMatrix")
 
     return None

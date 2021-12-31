@@ -56,7 +56,7 @@ def huntress(df_input_filepath, alpha, beta, n_threads=1):
             post_fn=fn_conorm,
             post_fp=fp_conorm,
         )
-        df_output = pd.read_table(f"{tmpdir.name}/huntress_optH_.CFMatrix", index_col=0)
+        df_output = pd.read_table(f"{tmpdir.name}/huntress.CFMatrix", index_col=0)
 
     df_input = pd.read_table(df_input_filepath, index_col=0)
     tsc.ul.stat(df_input, df_output, alpha, beta, running_time)

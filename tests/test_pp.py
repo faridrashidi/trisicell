@@ -41,3 +41,10 @@ class TestPreProcessing:
         tsc.pp.remove_cell_by_list(adata, ["C15_1"])
         tsc.pp.keep_cell_by_list(adata, ["C15_2", "C15_3"])
         assert adata.shape == (2, 267)
+
+    def test_local_cluster_cells_then_merge_muts_pseudo_bulk(self):
+        geno = tsc.datasets.example()
+        geno_merged, geno = tsc.pp.local_cluster_cells_then_merge_muts_pseudo_bulk(
+            geno, by="mut", n_clusters=11, min_n_cells=2, attr="group"
+        )
+        assert geno_merged.shape == (11, 452)

@@ -17,6 +17,7 @@ from trisicell.pp._readcount import (
     group_obs_apply_func,
     keep_cell_by_list,
     keep_mut_by_list,
+    local_cluster_cells_then_merge_muts_pseudo_bulk,
     remove_cell_by_list,
     remove_mut_by_list,
     statistics,
@@ -42,4 +43,5 @@ __all__ = (
     statistics,
     collapse,
     group_obs_apply_func,
+    local_cluster_cells_then_merge_muts_pseudo_bulk,
 )

@@ -9,14 +9,53 @@ import trisicell as tsc
 
 
 def siclonefit(
-    df_input, alpha, beta, n_restarts=3, n_iters=500, burnin=100, return_tree=False
+    df_input,
+    alpha,
+    beta,
+    n_restarts=3,
+    n_iters=500,
+    burnin=100,
+    return_tree=False,
+    experiment=False,
 ):
-    # TODO: implement
+    """Solving using SiCloneFit.
+
+    Bayesian inference of population structure, genotype, and phylogeny of tumor clones
+    from single-cell genome sequencing data :cite:`SiCloneFit`.
+
+    Parameters
+    ----------
+    df_input : :class:`pandas.DataFrame`
+        Input genotype matrix in which rows are cells and columns are mutations.
+        Values inside this matrix show the presence (1), absence (0) and missing
+        entires (3).
+    alpha : :obj:`float`
+        False positive error rate.
+    beta : :obj:`float`
+        False negative error rate.
+    n_restarts : :obj:`int`, optional
+        Number of restarts, by default 3
+    n_iters : :obj:`int`, optional
+        Number of iterations, by default 90000
+    return_tree : :obj:`bool`, optional
+        Return the inferred cell-lineage tree, by default False
+    experiment : :obj:`bool`, optional
+        Is in the experiment mode (the log won't be shown), by default False
+
+    Returns
+    -------
+    :class:`pandas.DataFrame`
+        A conflict-free matrix in which rows are cells and columns are mutations.
+        Values inside this matrix show the presence (1) and absence (0).
+    """
+
     executable = tsc.ul.executable("SiCloneFiTComplete.jar", "SiCloneFit")
 
-    tsc.logg.info(
-        f"running SiCloneFit with alpha={alpha}, beta={beta}, n_iters={n_iters}"
-    )
+    if not experiment:
+        tsc.logg.info(
+            f"running SiCloneFit with alpha={alpha}, beta={beta}, n_iters={n_iters}"
+        )
+
     tmpdir = tsc.ul.tmpdirsys(suffix=".siclonefit")
 
     df_input.T.reset_index(drop=True).to_csv(
@@ -72,9 +111,13 @@ def siclonefit(
 
     tmpdir.cleanup()
 
-    tsc.ul.stat(df_input, df_output, alpha, beta, running_time)
-
-    if return_tree:
-        return df_output, tree
+    if not experiment:
+        tsc.ul.stat(df_input, df_output, alpha, beta, running_time)
+        if return_tree:
+            return df_output, tree
+        else:
+            return df_output
     else:
-        return df_output
+        is_cf = tsc.ul.is_conflict_free_gusfield(df_output)
+        nll = tsc.ul.calc_nll_matrix(df_input, df_output, alpha, beta)
+        return df_output, running_time, is_cf, nll

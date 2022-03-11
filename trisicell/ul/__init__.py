@@ -24,7 +24,7 @@ from trisicell.ul._trees import (
     to_tree,
 )
 from trisicell.ul._utils import (
-    calc_score_tree,
+    calc_nll_matrix,
     cleanup,
     count_flips,
     dir_base,
@@ -67,7 +67,7 @@ __all__ = (
     to_cfmatrix,
     to_mtree,
     to_tree,
-    calc_score_tree,
+    calc_nll_matrix,
     cleanup,
     dir_base,
     dirbase,

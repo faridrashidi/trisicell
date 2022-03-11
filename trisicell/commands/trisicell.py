@@ -17,6 +17,7 @@ from trisicell.commands._scistree import scistree
 from trisicell.commands._scite import scite
 from trisicell.commands._score import score
 from trisicell.commands._search import search
+from trisicell.commands._siclonefit import siclonefit
 from trisicell.commands._sphyr import sphyr
 from trisicell.commands._trees import cf2newick, cf2tree
 
@@ -71,6 +72,7 @@ cli.add_command(grmt)
 cli.add_command(sphyr)
 cli.add_command(gpps)
 cli.add_command(onconem)
+cli.add_command(siclonefit)
 cli.add_command(cf2newick)
 cli.add_command(cf2tree)
 cli.add_command(score)

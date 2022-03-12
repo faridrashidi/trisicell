@@ -1,0 +1,13 @@
+*.py linguist-detectable=true
+*Makefile linguist-detectable=false
+*.md linguist-detectable=false
+*.h linguist-detectable=false
+*.cpp linguist-detectable=false
+*.rst linguist-detectable=false
+*.yaml linguist-detectable=false
+*.yml linguist-detectable=false
+*.cfg linguist-detectable=false
+*.txt linguist-detectable=false
+*.pyx linguist-detectable=false
+*.R linguist-detectable=false
+*.sh linguist-detectable=false

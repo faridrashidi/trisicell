@@ -27,8 +27,7 @@ Please see our `preprint`_ on **bioRxiv** to learn more.
 
 Support
 -------
-Feel free to submit an `issue <https://github.com/faridrashidi/trisicell/issues/new/choose>`_
-or send us an `email <mailto:farid.rsh@gmail.com>`_.
+Feel free to submit an `issue <https://github.com/faridrashidi/trisicell/issues/new/choose>`_.
 Your help to improve Trisicell is highly appreciated.
 
 Trisicell was developed in collaboration between the `Cancer Data Science Laboratory (CDSL) <https://ccr.cancer.gov/staff-directory/s-cenk-sahinalp>`_ and the `Laboratory of Cancer Biology and Genetics (LCBG) <https://ccr.cancer.gov/staff-directory/glenn-merlino>`_ at the `National Cancer Institute (NCI) <https://www.cancer.gov>`_.

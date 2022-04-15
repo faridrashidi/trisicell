@@ -35,7 +35,7 @@ def bnb(genotype_file, bounding, time_limit):
     A fast branch and bound algorithm for
     the perfect tumor phylogeny reconstruction problem :cite:`PhISCS-BnB`.
 
-    trisicell bnb input.SC 0.0001 0.1 -b real
+    trisicell bnb input.SC -b real
     """
 
     outfile = os.path.splitext(genotype_file)[0]

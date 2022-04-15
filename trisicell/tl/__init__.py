@@ -4,12 +4,13 @@ from trisicell.tl.cna import infercna
 from trisicell.tl.consensus import consensus, consensus_day
 from trisicell.tl.fitch import fitch
 from trisicell.tl.partition_function import partition_function
-from trisicell.tl.score import ad, caset, cc, disc, dl, mltd, mp3, rf, tpted
+from trisicell.tl.score import ad, caset, cc, disc, dl, gs, mltd, mp3, rf, tpted
 from trisicell.tl.solver import (
     bnb,
     booster,
     cardelino,
     dendro,
+    gpps,
     grmt,
     huntress,
     infscite,
@@ -65,4 +66,5 @@ __all__ = (
     sphyr,
     grmt,
     sciphi,
+    gpps,
 )

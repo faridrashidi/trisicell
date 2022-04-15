@@ -1,3 +1,4 @@
+import anndata as ad
 import numpy as np
 import pandas as pd
 
@@ -211,3 +212,62 @@ def filter_snpeff(adata, exome=False):
         adata.var["Total"] = adata.layers["total"][0]
         adata.var["VAF"] = adata.var["Mutant"] / adata.var["Total"]
         adata.var["SAMPLE"] = tumor_obs
+
+
+def local_cluster_cells_then_merge_muts_pseudo_bulk(
+    adata, by="mut", n_clusters=100, min_n_cells=5, attr="group"
+):
+    def _pseudo_bulk_caller(sub_adata):
+        genotype = 2 * np.ones(sub_adata.shape[1])
+        mutant = sub_adata.layers["mutant"].sum(axis=0)
+        total = sub_adata.layers["total"].sum(axis=0)
+
+        genotype[total == mutant] = 3
+        genotype[total > mutant] = 1
+        genotype[mutant == 0] = 0
+        genotype[total == 0] = 2
+
+        return genotype, mutant, total
+
+    tsc.pp.build_scmatrix(adata)
+    if by == "mut":
+        clusters = tsc.ul.hclustering(adata.to_df())
+    elif by == "cna":
+        clusters = tsc.ul.hclustering(adata.obsm["cna"], metric="cosine")
+    else:
+        tsc.logg.error("Wrong `by` choice!")
+
+    cluster = clusters[n_clusters]
+    count = cluster.value_counts()
+    cluster = cluster[cluster.isin(count[count >= min_n_cells].index)]
+    cluster = cluster.apply(lambda x: f"G{x}")
+
+    adata = adata[cluster.index, :]
+    adata.obs[attr] = cluster
+
+    genotypes = []
+    mutants = []
+    totals = []
+    indices = []
+    for index, subgroup in adata.obs.groupby(adata.obs[attr]):
+        # genotype, mutant, total = _pseudo_bulk_caller_better(
+        #     adata[subgroup.index, :], min_vaf=0.2, min_cell=1
+        # )
+        genotype, mutant, total = _pseudo_bulk_caller(adata[subgroup.index, :])
+
+        indices.append(index)
+        genotypes.append(genotype)
+        mutants.append(mutant)
+        totals.append(total)
+
+    adata_merged = ad.AnnData(
+        X=3 * np.ones((len(indices), adata.shape[1])),
+        obs=pd.DataFrame.from_dict({"cells": indices}).set_index("cells"),
+        var=adata.var,
+        layers={
+            "total": np.array(totals),
+            "mutant": np.array(mutants),
+            "genotype": np.array(genotypes),
+        },
+    )
+    return adata_merged, adata

@@ -10,9 +10,13 @@ formats:
 -   pdf
 
 build:
-    image: latest
+    os: ubuntu-20.04
+    tools:
+        python: '3.9'
+    apt_packages:
+    -   pandoc
 
 python:
-    version: 3.7
+    version: 3.9
     install:
     -   requirements: docs/requirements_rtfd.txt

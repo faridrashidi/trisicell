@@ -88,7 +88,7 @@ def booster(
 
     n_muts = df_input.shape[1]
     if sample_size is None:
-        sample_size = int(dep_weight * (n_muts ** 2) / (sample_size ** 2))
+        sample_size = int(dep_weight * (n_muts**2) / (sample_size**2))
 
     detail = {}
 
@@ -113,7 +113,7 @@ def booster(
 
     # preparing dependencies file
     if not no_dependencies:
-        max_num_submatrices = int(dep_weight * (n_muts ** 2) / (sample_size ** 2))
+        max_num_submatrices = int(dep_weight * (n_muts**2) / (sample_size**2))
         prepare_dependencies(
             df_input.columns,
             tmpdir,

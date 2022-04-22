@@ -8,6 +8,8 @@ single-cell genotype matrix.
 
 import trisicell as tsc
 
+# sphinx_gallery_thumbnail_path = "_static/thumbnails/trisicell-boost.png"
+
 # %%
 # First, we load a binary test single-cell genotype data.
 df_in = tsc.datasets.test()

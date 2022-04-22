@@ -11,7 +11,6 @@
 #
 import os
 import sys
-from datetime import datetime
 from pathlib import Path
 
 from pybtex.plugin import register_plugin
@@ -46,7 +45,7 @@ author = "National Cancer Institute"  # trisicell.__author__
 title = (
     "Scalable intratumor heterogeneity inference and validation from single-cell data"
 )
-copyright = f"{datetime.now():%Y}, {author}"
+copyright = f"2021-2022, {author}"
 release = "master"
 version = f"master ({trisicell.__version__})"
 

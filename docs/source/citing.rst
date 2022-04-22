@@ -23,6 +23,6 @@ BibTeX
       month         = mar,
       publisher     = {Cold Spring Harbor Laboratory},
       author        = {Farid Rashidi Mehrabadi and Kerrie L. Marie and Eva Perez-Guijarro and Salem Malikic and Erfan Sadeqi Azer and Howard H. Yang and Can Kizilkale and Charli Gruen and Wells Robinson and Huaitian Liu and Michael C. Kelly and Christina Marcelus and Sandra Burkett and Aydin Buluc and Funda Ergun and Maxwell P. Lee and Glenn Merlino and Chi-Ping Day and S. Cenk Sahinalp},
-      title         = {{Profiles of expressed mutations in single cells reveal subclonal expansion patterns and therapeutic impact of intratumor heterogeneity}}
+      title         = {{Profiles of expressed mutations in single cells reveal subclonal expansion patterns and therapeutic impact of intratumor heterogeneity}},
       journal       = {bioRxiv}
     }

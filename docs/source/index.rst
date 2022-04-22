@@ -9,7 +9,6 @@
    installation
    release_notes
    citing
-   references
 
 .. toctree::
    :caption: Docs

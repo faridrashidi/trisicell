@@ -237,10 +237,10 @@ def Generalabminuscd(a, b, c, d):
     bmr, be = math.frexp(b)
     cmr, ce = math.frexp(c)
     dmr, de = math.frexp(d)
-    am = int(amr * (2 ** 53))
-    bm = int(bmr * (2 ** 53))
-    cm = int(cmr * (2 ** 53))
-    dm = int(dmr * (2 ** 53))
+    am = int(amr * (2**53))
+    bm = int(bmr * (2**53))
+    cm = int(cmr * (2**53))
+    dm = int(dmr * (2**53))
     abe = ae + be
     cde = ce + de
     abm = am * bm
@@ -251,14 +251,14 @@ def Generalabminuscd(a, b, c, d):
             scale = 0
             cdm = 1
         # return math.ldexp(abm * (2**scale) - cdm, abe - scale - 106)
-        return float(abm * (2 ** scale) - cdm) * (2.0 ** (abe - scale - 106))
+        return float(abm * (2**scale) - cdm) * (2.0 ** (abe - scale - 106))
     else:
         scale = -scale
         if scale > 106:
             scale = 0
             abm = 1
         # return math.ldexp(abm - cdm * (2**scale), cde - scale - 106)
-        return float(abm - cdm * (2 ** scale)) * (2.0 ** (cde - scale - 106))
+        return float(abm - cdm * (2**scale)) * (2.0 ** (cde - scale - 106))
 
 
 def logfbit2dif(x):
@@ -519,8 +519,8 @@ def logfbit(x):
             x = x - 1.0
             i = len(coeffs2) + 2
             lgam = ((x + 2.5) * logcf(-x / 2.0, i, 1.0) - (2.0 / (i - 1.0))) * (
-                2.0 ** -i
-            ) + (3.0 ** -i) * logcf(-x / 3.0, i, 1.0)
+                2.0**-i
+            ) + (3.0**-i) * logcf(-x / 3.0, i, 1.0)
             # print(i,coeffs2[i-3],lgam)
             for i in range(i - 3, -1, -1):
                 lgam = coeffs2[i] - x * lgam
@@ -576,9 +576,9 @@ def lfbaccdif1(a, b):
         return -lfbaccdif1(-a, b + a)
     elif b >= 8.0:
         y1 = b + 1.0
-        y2 = y1 ** -2
+        y2 = y1**-2
         x1 = a + b + 1.0
-        x2 = x1 ** -2
+        x2 = x1**-2
         x3 = x2 * lfbc9
         y3 = y2 * lfbc9
         acc = x2 * (a * (x1 + y1) * y3)
@@ -615,14 +615,14 @@ def lfbaccdif1(a, b):
 
         s1 = (0.5 * (Start + 1.0)) ** 2
         s2 = (0.5 * (Start + 1.5)) ** 2
-        ty = y1 * math.sqrt(1.0 + s1 * (y1 ** -2))
-        tx = x1 * math.sqrt(1.0 + s1 * (x1 ** -2))
+        ty = y1 * math.sqrt(1.0 + s1 * (y1**-2))
+        tx = x1 * math.sqrt(1.0 + s1 * (x1**-2))
         y2 = ty - y1
         x2 = tx - x1
         acc = a * (1.0 - (2.0 * y1 + a) / (tx + ty))
         # Seems to work better without the next 2 lines. - Not with modification to s2
-        ty = y1 * math.sqrt(1.0 + s2 * (y1 ** -2))
-        tx = x1 * math.sqrt(1.0 + s2 * (x1 ** -2))
+        ty = y1 * math.sqrt(1.0 + s2 * (y1**-2))
+        tx = x1 * math.sqrt(1.0 + s2 * (x1**-2))
         acc = 0.25 * (
             acc + s1 / ((y1 + ty) * (x1 + tx)) * a * (1.0 + (2.0 * y1 + a) / (tx + ty))
         )
@@ -661,8 +661,8 @@ def lfbaccdif1(a, b):
         y1 = b - 1.0
         x1 = y1 + a
         i = len(coeffs2) + 2
-        scale2 = 2.0 ** -i
-        scale3 = 3.0 ** -i
+        scale2 = 2.0**-i
+        scale3 = 3.0**-i
         y2 = (
             (y1 + 2.5) * logcf(-y1 / 2.0, i, 1.0) - (2.0 / (i - 1.0))
         ) * scale2 + scale3 * logcf(-y1 / 3.0, i, 1.0)
@@ -1103,7 +1103,7 @@ def ccBNB5(ilim, rr, a, bb):
     if r <= 0.001:
         temp = a + (b + r) * 0.5
         ccbnb5 = ccbnb5 - b * r * (
-            logfbit2(temp) + (b ** 2 + r ** 2) * logfbit4(temp) / 24.0
+            logfbit2(temp) + (b**2 + r**2) * logfbit4(temp) / 24.0
         )
     else:
         ccbnb5 = ccbnb5 + (lfbaccdif1(b, r + a) - lfbaccdif1(b, a))

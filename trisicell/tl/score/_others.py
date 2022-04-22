@@ -33,6 +33,38 @@ def bourque(df_grnd, df_sol):
     return None
 
 
+def PCSS(df_grnd, df_sol):
+    """Pairwise cell shortest-path similarity score.
+
+    For every pair of cells :math:`i` and :math:`j`, we computed the shortest-path
+    :math:`d_{ij}` between the two cells in each tree. If the two cells belong to the
+    same clone, their shortest-path distance is 0, otherwise the shortest-path distance
+    equals the number of edges (regardless of direction) that separate the clones of the
+    two cells. Finally, we summed up the absolute differences between the shortest-path
+    distances of all unordered pairs of cells in the two trees.
+    This measure is metric. The proof is given in the paper.
+
+    This measure was introduced in :cite:`OncoNEM`.
+
+    Parameters
+    ----------
+    df_grnd : :class:`pandas.DataFrame`
+        The first genotype matrix (e.g. ground truth)
+        This matrix must be conflict-free.
+    df_sol : :class:`pandas.DataFrame`
+        The second genotype matrix (e.g. solution/inferred)
+        This matrix must be conflict-free.
+
+    Returns
+    -------
+    :obj:`float`
+        Similarity out of one.
+    """
+
+    # TODO: implement
+    return None
+
+
 def mp3(df_grnd, df_sol):
     """Triplet-based similarity score.
 

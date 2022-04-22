@@ -177,7 +177,21 @@ def phiscsi(df_input, alpha, beta, time_limit=86400, n_threads=1):
     B = {}
     for c in range(num_cells):
         for m in range(num_mutations):
-            Y[c, m] = model.addVar(vtype=gp.GRB.BINARY, name=f"Y({c},{m})")
+            if alpha == 0:
+                # 0->1
+                if I_mtr[c, m] == 0:
+                    Y[c, m] = model.addVar(
+                        vtype=gp.GRB.BINARY, obj=1, name=f"Y({c},{m})"
+                    )
+                elif I_mtr[c, m] == 1:
+                    Y[c, m] = 1
+                else:
+                    Y[c, m] = model.addVar(
+                        vtype=gp.GRB.BINARY, obj=0, name=f"Y({c},{m})"
+                    )
+            else:
+                # 0->1 & 1->0
+                Y[c, m] = model.addVar(vtype=gp.GRB.BINARY, name=f"Y({c},{m})")
     for p in range(num_mutations):
         for q in range(p + 1, num_mutations):
             B[p, q, 1, 1] = model.addVar(
@@ -197,16 +211,21 @@ def phiscsi(df_input, alpha, beta, time_limit=86400, n_threads=1):
                 model.addConstr(-Y[i, p] + Y[i, q] - B[p, q, 0, 1] <= 0)
                 model.addConstr(Y[i, p] - Y[i, q] - B[p, q, 1, 0] <= 0)
 
-    objective = 0
-    for j in range(num_mutations):
-        for i in range(num_cells):
-            # 0->1 & 1->0
-            if I_mtr[i, j] == 0:
-                objective += np.log(1 - alpha) + np.log(beta / (1 - alpha)) * Y[i, j]
-            if I_mtr[i, j] == 1:
-                objective += np.log(alpha) + np.log((1 - beta) / alpha) * Y[i, j]
-
-    model.setObjective(objective, gp.GRB.MAXIMIZE)
+    if alpha == 0:
+        # 0->1
+        model.Params.ModelSense = gp.GRB.MINIMIZE
+    else:
+        # 0->1 & 1->0
+        objective = 0
+        for j in range(num_mutations):
+            for i in range(num_cells):
+                if I_mtr[i, j] == 0:
+                    objective += (
+                        np.log(1 - alpha) + np.log(beta / (1 - alpha)) * Y[i, j]
+                    )
+                if I_mtr[i, j] == 1:
+                    objective += np.log(alpha) + np.log((1 - beta) / alpha) * Y[i, j]
+        model.setObjective(objective, gp.GRB.MAXIMIZE)
 
     s_time = time.time()
     model.optimize()
@@ -216,7 +235,13 @@ def phiscsi(df_input, alpha, beta, time_limit=86400, n_threads=1):
     sol_Y = np.zeros((num_cells, num_mutations), dtype=np.int8)
     for i in range(num_cells):
         for j in range(num_mutations):
-            sol_Y[i, j] = Y[i, j].X > 0.5
+            if alpha == 0:
+                if I_mtr[i, j] != 1:
+                    sol_Y[i, j] = Y[i, j].X > 0.5
+                else:
+                    sol_Y[i, j] = 1
+            else:
+                sol_Y[i, j] = Y[i, j].X > 0.5
 
     df_output = pd.DataFrame(sol_Y)
     df_output.columns = snvs

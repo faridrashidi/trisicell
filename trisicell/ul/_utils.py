@@ -73,7 +73,7 @@ def log_flip(df_in, df_out):
     tsc.logg.info(f"rates -- NA: {na_rate:.3f}")
 
 
-def calc_score_tree(df_in, df_out, alpha, beta):
+def calc_nll_matrix(df_in, df_out, alpha, beta):
     if alpha == 0 or beta == 0:
         return None
     columns = np.intersect1d(df_in.columns, df_out.columns)
@@ -98,36 +98,63 @@ def calc_score_tree(df_in, df_out, alpha, beta):
             objective -= numZeros * np.log(1 - alpha) + numOnes * (
                 np.log(alpha) + np.log((1 - beta) / alpha)
             )
-    tsc.logg.info(f"score -- NLL: {-objective}")
-    return None
+    return -objective
 
 
 def stat(df_in, df_out, alpha, beta, running_time):
     log_input(df_in)
     log_output(df_out, running_time)
     log_flip(df_in, df_out)
-    calc_score_tree(df_in, df_out, alpha, beta)
+    nll = calc_nll_matrix(df_in, df_out, alpha, beta)
+    tsc.logg.info(f"score -- NLL: {nll}")
 
 
 def get_param(filename):
+    def _get_param_helper(param):
+        try:
+            value = basename.split(f"{param}_")[1]
+            if "-" in value:
+                value = value.split("-")[0]
+            else:
+                value = value.split(".")[0]
+            return float(value) if "." in value else int(value)
+        except IndexError:
+            return None
+
     data = {}
     _, basename = dir_base(filename)
-    data["simNo"] = int(basename.split("-")[0].split("_")[1])
-    data["s"] = int(basename.split("-")[1].split("_")[1])
-    data["m"] = int(basename.split("-")[2].split("_")[1])
-    data["h"] = int(basename.split("-")[3].split("_")[1])
-    data["minVAF"] = float(basename.split("-")[4].split("_")[1])
-    data["ISAV"] = int(basename.split("-")[5].split("_")[1])
-    data["n"] = int(basename.split("-")[6].split("_")[1])
-    data["fp"] = float(basename.split("-")[7].split("_")[1])
-    data["fn"] = float(basename.split("-")[8].split("_")[1])
-    data["na"] = float(basename.split("-")[9].split("_")[1])
-    data["d"] = float(basename.split("-")[10].split("_")[1])
-    last = basename.split("-")[11]
-    if "." in last:
-        data["l"] = int(last.split(".")[0].split("_")[1])
-    else:
-        data["l"] = int(last.split("_")[1])
+    for param in [
+        "simNo",
+        "s",
+        "m",
+        "h",
+        "minVAF",
+        "ISAV",
+        "n",
+        "fp",
+        "fn",
+        "na",
+        "d",
+        "l",
+    ]:
+        value = _get_param_helper(param)
+        if value is not None:
+            data[param] = value
+    # data["s"] = int(basename.split("s_")[1].split("-")[0])
+    # data["m"] = int(basename.split("-")[2].split("_")[1])
+    # data["h"] = int(basename.split("-")[3].split("_")[1])
+    # data["minVAF"] = float(basename.split("-")[4].split("_")[1])
+    # data["ISAV"] = int(basename.split("-")[5].split("_")[1])
+    # data["n"] = int(basename.split("-")[6].split("_")[1])
+    # data["fp"] = float(basename.split("-")[7].split("_")[1])
+    # data["fn"] = float(basename.split("-")[8].split("_")[1])
+    # data["na"] = float(basename.split("-")[9].split("_")[1])
+    # data["d"] = float(basename.split("-")[10].split("_")[1])
+    # last = basename.split("-")[11]
+    # if "." in last:
+    #     data["l"] = int(last.split(".")[0].split("_")[1])
+    # else:
+    #     data["l"] = int(last.split("_")[1])
     return data
 
 

@@ -7,6 +7,15 @@ Release Notes
 =============
 
 
+Version 0.0.21 :small:`April 22, 2022`
+-----------------------------------------
+
+This version includes:
+
+    - Fix some bugs.
+    - Improve the documentations.
+
+
 Version 0.0.20 :small:`November 22, 2021`
 -----------------------------------------
 

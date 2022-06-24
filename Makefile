@@ -1,3 +1,11 @@
+clean:
+	rm -rf docs/build
+	rm -rf htmlcov
+	rm -rf .coverage*
+	rm -rf docs/source/trisicell*
+	rm -rf docs/source/auto_examples
+	rm -rf docs/source/gen_modules
+
 test:
 	pytest --cov=trisicell ./tests
 	rm -rf .coverage*

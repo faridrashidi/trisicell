@@ -1,4 +1,42 @@
+import mudata as md
+
 import trisicell as tsc
+
+
+def sublines_scrnaseq():
+    """Trisicell sublines scRNAseq data.
+
+    The size is n_cells × n_muts = 175 × 450
+
+    Returns
+    -------
+    :class:`mudata.MuData`
+
+        A mudata with two modalities (`.mod`)
+
+    Examples
+    --------
+    >>> mdata = tsc.datasets.sublines_scrnaseq()
+    >>> mdata
+    MuData object with n_obs × n_vars = 175 × 55851
+    2 modalities
+      expression: 175 x 55401
+        obs:	'cells', 'uniquely_mapped_percent', 'num_splices', ...
+        layers:	'fpkm', 'tpm'
+      mutation: 175 x 450
+        obs:	'cells', 'clone', 'group', 'group_color', 'is_red', 'is_sub', ...
+        var:	'kind', 'amino_acid_change', 'ensemble', 'gene', 'chrom', ...
+        layers:	'genotype', 'mutant', 'total', 'trisicell_input', 'trisicell_output'
+
+    See Also
+    --------
+    :func:`trisicell.datasets.sublines_wes`.
+    """
+
+    mdata = md.read_h5mu(
+        tsc.ul.get_file("trisicell.datasets/data/sublines_scrnaseq.h5md.gz")
+    )
+    return mdata
 
 
 def sublines_wes():
@@ -19,6 +57,18 @@ def sublines_wes():
                 2: unknown and 3: homozygous_alt.
             - `.layers['mutant']` number of mutant reads.
             - `.layers['total']` number of total reads.
+
+    Examples
+    --------
+    >>> adata = tsc.datasets.sublines_wes()
+    >>> adata
+    AnnData object with n_obs × n_vars = 24 × 6653
+        var: 'kind', 'amino_acid_change', 'ensemble', 'gene', 'chrom', 'position', ...
+        layers: 'genotype', 'mutant', 'total', 'trisicell_input', 'trisicell_output'
+
+    See Also
+    --------
+    :func:`trisicell.datasets.sublines_scrnaseq`.
     """
     adata = tsc.io.read(tsc.ul.get_file("trisicell.datasets/data/sublines_wes.h5ad.gz"))
     return adata

@@ -111,3 +111,4 @@ This module offers a bunch of functions for simulating data.
 
     datasets.example
     datasets.sublines_wes
+    datasets.sublines_scrnaseq

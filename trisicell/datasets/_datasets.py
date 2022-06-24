@@ -1,6 +1,29 @@
 import trisicell as tsc
 
 
+def sublines_wes():
+    """Trisicell sublines WES data.
+
+    The size is n_sublines × n_muts = 24 × 6653
+
+    Returns
+    -------
+    :class:`anndata.AnnData`
+        An anndata in which `.var` contains information about the mutations.
+
+            - `.layers['trisicell_input']` the binary input genotype matrix used as
+                input to the Trisicell.
+            - `.layers['trisicell_output']` the binary input genotype matrix inferred by
+                Trisicell-boost(SCITE).
+            - `.layers['genotype']` noisy genotype matrix, 0: reference, 1: heterozygous
+                2: unknown and 3: homozygous_alt.
+            - `.layers['mutant']` number of mutant reads.
+            - `.layers['total']` number of total reads.
+    """
+    adata = tsc.io.read(tsc.ul.get_file("trisicell.datasets/data/sublines_wes.h5ad.gz"))
+    return adata
+
+
 def example(is_expression=False):
     """Return an example for sanity checking and playing with Trisicell.
 

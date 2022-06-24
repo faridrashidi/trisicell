@@ -110,3 +110,4 @@ This module offers a bunch of functions for simulating data.
     :toctree: .
 
     datasets.example
+    datasets.sublines_wes

@@ -30,7 +30,7 @@ def sublines_scrnaseq():
 
     See Also
     --------
-    :func:`trisicell.datasets.sublines_wes`.
+    :func:`trisicell.datasets.sublines_bwes`.
     """
 
     mdata = md.read_h5mu(
@@ -39,8 +39,8 @@ def sublines_scrnaseq():
     return mdata
 
 
-def sublines_wes():
-    """Trisicell sublines WES data.
+def sublines_bwes():
+    """Trisicell sublines bWES data.
 
     The size is n_sublines × n_muts = 24 × 6653
 
@@ -60,7 +60,7 @@ def sublines_wes():
 
     Examples
     --------
-    >>> adata = tsc.datasets.sublines_wes()
+    >>> adata = tsc.datasets.sublines_bwes()
     >>> adata
     AnnData object with n_obs × n_vars = 24 × 6653
         var: 'kind', 'amino_acid_change', 'ensemble', 'gene', 'chrom', 'position', ...
@@ -70,7 +70,9 @@ def sublines_wes():
     --------
     :func:`trisicell.datasets.sublines_scrnaseq`.
     """
-    adata = tsc.io.read(tsc.ul.get_file("trisicell.datasets/data/sublines_wes.h5ad.gz"))
+    adata = tsc.io.read(
+        tsc.ul.get_file("trisicell.datasets/data/sublines_bwes.h5ad.gz")
+    )
     return adata
 
 

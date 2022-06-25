@@ -23,6 +23,8 @@ from trisicell.datasets._datasets import (
     myeloproliferative_neoplasms712,
     oligodendroglioma_idh_mutated_tumor,
     renal_cell_carcinoma,
+    sublines_bwes,
+    sublines_scrnaseq,
     test,
     tnbc,
 )
@@ -56,4 +58,6 @@ __all__ = (
     simulate,
     add_noise,
     add_doublets,
+    sublines_bwes,
+    sublines_scrnaseq,
 )

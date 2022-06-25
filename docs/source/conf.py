@@ -122,6 +122,7 @@ intersphinx_mapping = {
     "sklearn": ("https://scikit-learn.org/stable/", None),
     "seaborn": ("https://seaborn.pydata.org/", None),
     "anndata": ("https://anndata.readthedocs.io/en/latest/", None),
+    "mudata": ("https://mudata.readthedocs.io/en/latest/", None),
 }
 
 

@@ -7,8 +7,17 @@ Release Notes
 =============
 
 
+Version 0.1.0 :small:`June 24, 2022`
+------------------------------------
+
+This version includes:
+
+    - Add sublines bWES dataset.
+    - Add sublines scRNAseq dataset.
+
+
 Version 0.0.21 :small:`April 22, 2022`
------------------------------------------
+--------------------------------------
 
 This version includes:
 
@@ -93,7 +102,7 @@ This version includes:
 
 
 Version 0.0.12 :small:`July 7, 2021`
--------------------------------------
+------------------------------------
 
 This version includes:
 
@@ -102,7 +111,7 @@ This version includes:
 
 
 Version 0.0.11 :small:`July 4, 2021`
--------------------------------------
+------------------------------------
 
 This version includes:
 
@@ -112,7 +121,7 @@ This version includes:
 
 
 Version 0.0.10 :small:`July 3, 2021`
--------------------------------------
+------------------------------------
 
 This version includes:
 
@@ -121,7 +130,7 @@ This version includes:
 
 
 Version 0.0.9 :small:`June 17, 2021`
--------------------------------------
+------------------------------------
 
 This version includes:
 
@@ -130,7 +139,7 @@ This version includes:
 
 
 Version 0.0.8 :small:`June 12, 2021`
--------------------------------------
+------------------------------------
 
 This version includes:
 
@@ -139,7 +148,7 @@ This version includes:
 
 
 Version 0.0.7 :small:`May 29, 2021`
--------------------------------------
+-----------------------------------
 
 This version includes:
 
@@ -152,7 +161,7 @@ This version includes:
 
 
 Version 0.0.6 :small:`May 25, 2021`
--------------------------------------
+-----------------------------------
 
 This version includes:
 
@@ -168,7 +177,7 @@ This version includes:
 
 
 Version 0.0.5 :small:`May 4, 2021`
--------------------------------------
+----------------------------------
 
 This version includes:
 
@@ -186,7 +195,7 @@ This version includes:
 
 
 Version 0.0.3 :small:`April 8, 2021`
--------------------------------------
+------------------------------------
 
 This version includes:
 

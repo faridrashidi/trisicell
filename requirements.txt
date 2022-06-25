@@ -8,8 +8,9 @@ ete3
 ipython
 joblib
 matplotlib
+mudata
 natsort
-networkx
+networkx<=2.8.3
 numba
 numpy
 pandas

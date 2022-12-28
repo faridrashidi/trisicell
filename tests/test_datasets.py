@@ -4,7 +4,7 @@ from ._helpers import skip_rpy2
 
 
 class TestDatasets:
-    @skip_rpy2
+    @skip_rpy2("oncoNEM")
     def test_simulate_1(self):
         df_in = tsc.datasets.simulate(
             n_cells=100, n_muts=100, n_clones=5, alpha=0.001, beta=0.4, missing=0.2
@@ -12,7 +12,7 @@ class TestDatasets:
         is_cf = tsc.ul.is_conflict_free_gusfield(df_in)
         assert not is_cf
 
-    @skip_rpy2
+    @skip_rpy2("oncoNEM")
     def test_simulate_2(self):
         df_ground = tsc.datasets.simulate(
             n_cells=100, n_muts=100, n_clones=5, alpha=0, beta=0, missing=0

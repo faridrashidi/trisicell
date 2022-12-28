@@ -12,6 +12,7 @@
 #include <set>
 #include <vector>
 #include <map>
+#include <string>
 
 class ScistGenGenotypeMat;
 class PhylogenyTree;

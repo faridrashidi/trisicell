@@ -7,6 +7,8 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <stddef.h>
+#include <limits.h>
 
 typedef struct {
   int distance;

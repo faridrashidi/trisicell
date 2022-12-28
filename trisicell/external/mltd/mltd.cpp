@@ -161,7 +161,7 @@ int mcmf(Graph &g, int S, int T) {
   vector<int> d(g.n);
   vector<int> p(g.n);
   int res = 0;
-  int inf = std::numeric_limits<int>::max() / 2;
+  int inf = numeric_limits<int>::max() / 2;
   do {
     std::fill(d.begin(), d.end(), inf);
     std::fill(p.begin(), p.end(), -1);

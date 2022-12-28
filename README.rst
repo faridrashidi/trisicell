@@ -64,7 +64,7 @@ Trisicell was developed in collaboration between the `Cancer Data Science Labora
     :target: https://pypi.org/project/trisicell
     :alt: Compatible
 
-.. |Build Status| image:: https://img.shields.io/github/workflow/status/faridrashidi/trisicell/CI/master?label=build&logo=githubactions&logoColor=FFFFFF&style=flat-square
+.. |Build Status| image:: https://img.shields.io/github/actions/workflow/status/faridrashidi/trisicell/ci.yml?branch=master&label=build&logo=githubactions&logoColor=FFFFFF&style=flat-square
     :target: https://github.com/faridrashidi/trisicell/actions?query=workflow%3ACI
     :alt: Build Status
 

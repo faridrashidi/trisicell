@@ -61,6 +61,7 @@ jobs:
         env:
             OS: ${{ matrix.os }}
             PYTHON: ${{ matrix.python }}
+            GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
         steps:
         -   uses: actions/checkout@v2
             with:
@@ -81,8 +82,6 @@ jobs:
                 restore-keys: |
                     pip-${{ runner.os }}-${{ env.pythonLocation }}-
         -   name: Install dependencies
-            env:
-                GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
             run: |
                 ./.scripts/ci/install.sh
         -   name: Unit tests
@@ -95,6 +94,32 @@ jobs:
             run: |
                 codecov --no-color --required --flags unittests
 
+    codeql:
+        name: CodeQL
+        runs-on: ubuntu-latest
+        permissions:
+            actions: read
+            contents: read
+            security-events: write
+        strategy:
+            fail-fast: false
+            matrix:
+                language: [ python ]
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v3
+            - name: Initialize CodeQL
+              uses: github/codeql-action/init@v2
+              with:
+                languages: ${{ matrix.language }}
+                queries: +security-and-quality
+            - name: Autobuild
+              uses: github/codeql-action/autobuild@v2
+            - name: Perform CodeQL Analysis
+              uses: github/codeql-action/analyze@v2
+              with:
+                category: "/language:${{ matrix.language }}"
+
     build_wheels:
         name: build wheels on ${{ matrix.os }}
         runs-on: ${{ matrix.os }}
@@ -103,18 +128,14 @@ jobs:
             max-parallel: 20
             matrix:
                 os: [ubuntu-latest, macos-latest]
-
         steps:
         -   uses: actions/checkout@v2
-
         -   name: Install Python
             uses: actions/setup-python@v2
             with:
                 python-version: '3.8'
-
         -   name: Build wheels
             uses: pypa/cibuildwheel@v2.0.0a4
-
         -   uses: actions/upload-artifact@v2
             with:
                 path: ./wheelhouse/*.whl
@@ -124,15 +145,12 @@ jobs:
         runs-on: ubuntu-latest
         steps:
         -   uses: actions/checkout@v2
-
         -   name: Install Python
             uses: actions/setup-python@v2
             with:
                 python-version: '3.8'
-
         -   name: Build sdist
             run: python setup.py sdist
-
         -   uses: actions/upload-artifact@v2
             with:
                 path: dist/*.tar.gz
@@ -146,7 +164,6 @@ jobs:
             uses: actions/download-artifact@v2
             with:
                 path: dist
-
         -   name: Publish wheels to PyPI
             uses: pypa/gh-action-pypi-publish@master
             with:

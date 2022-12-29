@@ -37,15 +37,15 @@ elif [[ "$OS" == "ubuntu-latest" ]]; then
   sudo Rscript -e 'install.packages("BiocManager")'
   sudo Rscript -e 'install.packages("tidyverse")'
   sudo Rscript -e 'install.packages("cowplot")'
-  sudo Rscript -e 'devtools::install_github("YuLab-SMU/ggtree")'
-  sudo Rscript -e 'devtools::install_github("YuLab-SMU/aplot")'
-  sudo Rscript -e 'devtools::install_github("xiangpin/ggtreeExtra")'
+  sudo Rscript -e 'BiocManager::install("ggtree")'
+  sudo Rscript -e 'install.packages("aplot")'
+  sudo Rscript -e 'BiocManager::install("ggtreeExtra")'
   # sudo Rscript -e 'devtools::install_github("zhouzilu/DENDRO")'
   # sudo Rscript -e 'devtools::install_github("single-cell-genetics/cardelino")'
   # sudo Rscript -e 'devtools::install_github("jlaffy/scalop")'
   # sudo Rscript -e 'devtools::install_github("jlaffy/infercna")'
   sudo Rscript -e 'BiocManager::install("graph")'
-  sudo Rscript -e 'devtools::install_bitbucket("edith_ross/oncoNEM")'
+  # sudo Rscript -e 'devtools::install_bitbucket("edith_ross/oncoNEM")'
 
   sudo apt-get install graphviz graphviz-dev -y
   pip install pygraphviz

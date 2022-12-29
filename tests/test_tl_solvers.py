@@ -40,7 +40,7 @@ class TestSolvers:
     #     df_out = tsc.tl.huntress(self.df_in, alpha=0, beta=0.1)
     #     assert tsc.ul.is_conflict_free_gusfield(df_out)
 
-    @skip_rpy2
+    @skip_rpy2("oncoNEM")
     def test_onconem(self):
         df_out = tsc.tl.onconem(self.df_in, alpha=0.0000001, beta=0.1)
         is_cf = tsc.ul.is_conflict_free_gusfield(df_out)

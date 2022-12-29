@@ -56,7 +56,7 @@ class TestPlotting:
         )
         assert True
 
-    @skip_rpy2
+    @skip_rpy2()
     def test_dendro_tree_1(self):
         file = tsc.ul.get_file("trisicell.datasets/test/fp_0-fn_0-na_0.ground.CFMatrix")
         data = tsc.io.read(file)
@@ -64,7 +64,7 @@ class TestPlotting:
         tsc.pl.dendro_tree(tree)
         assert True
 
-    @skip_rpy2
+    @skip_rpy2()
     def test_dendro_tree_2(self):
         adata = tsc.datasets.example()
         adata = adata[adata.obs.group.isin(["C16", "C11", "C22"]), :].copy()

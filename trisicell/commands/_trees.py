@@ -15,7 +15,7 @@ from trisicell.pl._trees import _newick_info2_mutation_list
     ),
 )
 def cf2newick(cf_file):
-    """"""
+    """CF2Newick."""
 
     outfile = os.path.splitext(cf_file)[0]
     cf = tsc.io.read(cf_file)
@@ -37,7 +37,7 @@ def cf2newick(cf_file):
     ),
 )
 def cf2tree(cf_file):
-    """"""
+    """CF2Tree."""
 
     outfile = os.path.splitext(cf_file)[0]
     cf = tsc.io.read(cf_file)

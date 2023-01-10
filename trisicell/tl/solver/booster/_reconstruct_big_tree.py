@@ -34,13 +34,13 @@ def read_matrix_from_file_into_hash(path_matrix_file):
     assert len(input_lines) > 0, "ERROR. Input file " + path_matrix_file + " is empty."
 
     header_entries = input_lines[0].strip().split()
-    column_ids = header_entries[1 : len(header_entries)]  # noqa
+    column_ids = header_entries[1 : len(header_entries)]
     num_columns = len(column_ids)
     assert num_columns != 0, (
         "ERROR. Number of columns in " + path_matrix_file + " equals zero. Exiting!!!"
     )
 
-    input_lines_without_header = input_lines[1 : len(input_lines)]  # noqa
+    input_lines_without_header = input_lines[1 : len(input_lines)]
     D = {}
     for line in input_lines_without_header:
         line_columns = line.strip().split()

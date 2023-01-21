@@ -25,6 +25,7 @@ from trisicell.datasets._datasets import (
     renal_cell_carcinoma,
     sublines_bwes,
     sublines_scrnaseq,
+    sublines_bwts,
     test,
     tnbc,
 )
@@ -60,4 +61,5 @@ __all__ = (
     add_doublets,
     sublines_bwes,
     sublines_scrnaseq,
+    sublines_bwts,
 )

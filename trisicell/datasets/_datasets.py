@@ -31,6 +31,7 @@ def sublines_scrnaseq():
     See Also
     --------
     :func:`trisicell.datasets.sublines_bwes`.
+    :func:`trisicell.datasets.sublines_bwts`.
     """
 
     mdata = md.read_h5mu(
@@ -69,11 +70,49 @@ def sublines_bwes():
     See Also
     --------
     :func:`trisicell.datasets.sublines_scrnaseq`.
+    :func:`trisicell.datasets.sublines_bwts`.
     """
     adata = tsc.io.read(
         tsc.ul.get_file("trisicell.datasets/data/sublines_bwes.h5ad.gz")
     )
     return adata
+
+
+def sublines_bwts():
+    """Trisicell sublines bWTS data.
+
+    The size is n_cells × n_muts = 33 × 536
+
+    Returns
+    -------
+    :class:`mudata.MuData`
+
+        A mudata with two modalities (`.mod`)
+
+    Examples
+    --------
+    >>> mdata = tsc.datasets.sublines_bwts()
+    >>> mdata
+    MuData object with n_obs × n_vars = 33 × 55851
+    2 modalities
+      expression: 175 x 55401
+        obs:	'cells', 'uniquely_mapped_percent', 'num_splices', ...
+        layers:	'fpkm', 'tpm'
+      mutation:	33 x 536
+        obs:	'cells', 'clone', 'mps', 'zscore', 'group', 'Axl', 'Mitf', 'day', ...
+        var:	'kind', 'amino_acid_change', 'ensemble', 'gene', 'chrom', 'position',...
+        layers:	'genotype', 'mutant', 'total', 'trisicell_input', 'trisicell_output'
+
+    See Also
+    --------
+    :func:`trisicell.datasets.sublines_bwes`.
+    :func:`trisicell.datasets.sublines_scrnaseq`.
+    """
+
+    mdata = md.read_h5mu(
+        tsc.ul.get_file("trisicell.datasets/data/sublines_bwts.h5md.gz")
+    )
+    return mdata
 
 
 def example(is_expression=False):

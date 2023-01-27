@@ -7,13 +7,12 @@ Release Notes
 =============
 
 
-Version 0.1.0 :small:`June 24, 2022`
-------------------------------------
+Version 0.1.1 :small:`December 28, 2022`
+----------------------------------------
 
 This version includes:
 
-    - Add sublines bWES dataset.
-    - Add sublines scRNAseq dataset.
+    - Fix the bug of CI.
 
 
 Version 0.0.21 :small:`April 22, 2022`

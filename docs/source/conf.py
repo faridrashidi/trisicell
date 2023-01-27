@@ -45,7 +45,7 @@ author = "National Cancer Institute"  # trisicell.__author__
 title = (
     "Scalable intratumor heterogeneity inference and validation from single-cell data"
 )
-copyright = f"2021-2022, {author}"
+copyright = f"2021-2023, {author}"
 release = "master"
 version = f"master ({trisicell.__version__})"
 

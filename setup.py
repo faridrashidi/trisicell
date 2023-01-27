@@ -12,7 +12,7 @@ except ImportError:
     __author__ = ", ".join(["Farid Rashidi"])
     __maintainer__ = ", ".join(["Farid Rashidi"])
     __email__ = ", ".join(["farid.rsh@gmail.com"])
-    __version__ = "0.1.1"
+    __version__ = "0.2.0"
 
 if platform == "linux" or platform == "linux2":
     os.environ["CC"] = "g++"
@@ -185,6 +185,7 @@ setup(
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
         "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
         "Topic :: Scientific/Engineering :: Bio-Informatics",
         "Topic :: Scientific/Engineering :: Visualization",
     ],

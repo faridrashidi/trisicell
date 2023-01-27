@@ -24,6 +24,7 @@ from trisicell.datasets._datasets import (
     oligodendroglioma_idh_mutated_tumor,
     renal_cell_carcinoma,
     sublines_bwes,
+    sublines_bwts,
     sublines_scrnaseq,
     test,
     tnbc,
@@ -60,4 +61,5 @@ __all__ = (
     add_doublets,
     sublines_bwes,
     sublines_scrnaseq,
+    sublines_bwts,
 )

@@ -3,6 +3,120 @@ import mudata as md
 import trisicell as tsc
 
 
+def treated_igg_sw():
+    """Trisicell treated mice (igg, seq-well) scRNAseq data.
+
+    The size is n_cells × n_muts = 163 × 1453
+
+    Returns
+    -------
+    :class:`mudata.MuData`
+
+        A mudata with two modalities (`.mod`)
+
+    Examples
+    --------
+    >>> mdata = tsc.datasets.treated_igg_sw()
+    >>> mdata
+    MuData object with n_obs × n_vars = 163 × 56854
+    2 modalities
+      mutation:	163 x 1453
+        obs:	'group', 'Mouse_ID', 'Batch', 'Axl', 'Erbb3', 'Mitf', 'H2_K1', ...
+        var:	'kind', 'amino_acid_change', 'ensemble', 'gene', 'chrom', ...
+        uns:	'trisicell_input', 'trisicell_output'
+        layers:	'genotype', 'mutant', 'total'
+      expression:	163 x 55401
+        obs:	'uniquely_mapped_percent', 'num_splices', 'num_GCAG_splices', ...
+        layers:	'fpkm', 'tpm'
+
+    See Also
+    --------
+    :func:`trisicell.datasets.treated_actla4`.
+    :func:`trisicell.datasets.treated_igg_ss2`.
+    """
+
+    mdata = md.read_h5mu(
+        tsc.ul.get_file("trisicell.datasets/data/treated_igg_sw.h5md.gz")
+    )
+    return mdata
+
+
+def treated_igg_ss2():
+    """Trisicell treated mice (igg, smart-seq2) scRNAseq data.
+
+    The size is n_cells × n_muts = 163 × 1453
+
+    Returns
+    -------
+    :class:`mudata.MuData`
+
+        A mudata with two modalities (`.mod`)
+
+    Examples
+    --------
+    >>> mdata = tsc.datasets.treated_igg_ss2()
+    >>> mdata
+    MuData object with n_obs × n_vars = 163 × 56854
+    2 modalities
+      mutation:	163 x 1453
+        obs:	'group', 'Mouse_ID', 'Batch', 'Axl', 'Erbb3', 'Mitf', 'H2_K1', ...
+        var:	'kind', 'amino_acid_change', 'ensemble', 'gene', 'chrom', ...
+        uns:	'trisicell_input', 'trisicell_output'
+        layers:	'genotype', 'mutant', 'total'
+      expression:	163 x 55401
+        obs:	'uniquely_mapped_percent', 'num_splices', 'num_GCAG_splices', ...
+        layers:	'fpkm', 'tpm'
+
+    See Also
+    --------
+    :func:`trisicell.datasets.treated_actla4`.
+    :func:`trisicell.datasets.treated_igg_sw`.
+    """
+
+    mdata = md.read_h5mu(
+        tsc.ul.get_file("trisicell.datasets/data/treated_igg_ss2.h5md.gz")
+    )
+    return mdata
+
+
+def treated_actla4():
+    """Trisicell treated mice (anti-ctla-4) scRNAseq data.
+
+    The size is n_cells × n_muts = 508 × 3309
+
+    Returns
+    -------
+    :class:`mudata.MuData`
+
+        A mudata with two modalities (`.mod`)
+
+    Examples
+    --------
+    >>> mdata = tsc.datasets.treated_actla4()
+    >>> mdata
+    MuData object with n_obs × n_vars = 508 × 58710
+    2 modalities
+      mutation:	508 x 3309
+        obs:	'group', 'Mouse_ID', 'Batch', 'Axl', 'Erbb3', 'Mitf', 'H2-K1', ...
+        var:	'kind', 'amino_acid_change', 'ensemble', 'gene', 'chrom', ...
+        uns:	'trisicell_input', 'trisicell_output'
+        layers:	'genotype', 'mutant', 'total'
+      expression:	508 x 55401
+        obs:	'uniquely_mapped_percent', 'num_splices', 'num_GCAG_splices', ...
+        layers:	'fpkm', 'tpm'
+
+    See Also
+    --------
+    :func:`trisicell.datasets.treated_igg_ss2`.
+    :func:`trisicell.datasets.treated_igg_sw`.
+    """
+
+    mdata = md.read_h5mu(
+        tsc.ul.get_file("trisicell.datasets/data/treated_actla4.h5md.gz")
+    )
+    return mdata
+
+
 def sublines_scrnaseq():
     """Trisicell sublines scRNAseq data.
 

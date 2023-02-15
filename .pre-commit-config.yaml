@@ -13,7 +13,7 @@ repos:
         additional_dependencies: [toml]
         args: [--line-length=88, --experimental-string-processing]
 -   repo: https://github.com/PyCQA/isort
-    rev: 5.10.1
+    rev: 5.12.0
     hooks:
     -   id: isort
         additional_dependencies: [toml]

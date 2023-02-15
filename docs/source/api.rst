@@ -113,3 +113,6 @@ This module offers a bunch of functions for simulating data.
     datasets.sublines_bwes
     datasets.sublines_bwts
     datasets.sublines_scrnaseq
+    datasets.treated_actla4
+    datasets.treated_igg_ss2
+    datasets.treated_igg_sw

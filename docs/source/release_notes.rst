@@ -7,6 +7,26 @@ Release Notes
 =============
 
 
+Version 0.2.1 :small:`February 15, 2023`
+----------------------------------------
+
+This version includes:
+
+    - Add treated mice data.
+    - Fix linting bug.
+
+
+Version 0.2.0 :small:`January 27, 2023`
+---------------------------------------
+
+This version includes:
+
+    - Add bWES data.
+    - Add bWTS data.
+    - Add scRNA data.
+    - Fix the bug of CI.
+
+
 Version 0.1.1 :small:`December 28, 2022`
 ----------------------------------------
 

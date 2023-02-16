@@ -270,16 +270,19 @@ def test():
 
 def colorectal2(readcount=False):
     """Human Colorectal Cancer (Patient 2).
+
     This dataset was introduced in :cite:`Leung_2017` and was used in:
     * :cite:`PhISCS` Figure 7.
     * :cite:`B-SCITE` Figure 8b.
     * :cite:`SiCloneFit` Figure 4.
     * :cite:`SCARLET` Figure 4.
     The size is n_cells × n_muts = 78 × 25
+
     Parameters
     ----------
     readcount : :obj:`str`
         Return the readcount information of the data.
+
     Returns
     -------
     :class:`anndata.AnnData`

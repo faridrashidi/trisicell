@@ -303,3 +303,51 @@ def colorectal2(readcount=False):
     else:
         adata = tsc.io.read(tsc.ul.get_file("trisicell.datasets/real/colorectal2.h5ad"))
     return adata
+
+
+def high_grade_serous_ovarian_cancer_3celllines():
+    """High Grade Serous Ovarian Cancer (3 cell lines).
+
+    This dataset was introduced in :cite:`Laks_2019`
+    and preprocessed in :cite:`McPherson_2019`.
+    The phylogeny is presented in Figure 3H.
+
+    The size is n_cells × n_muts = 891 × 13666
+
+    Note that 402 mutations were deleted during evolution
+    in the inferred tree by original study So, here they were filtered out
+    (meaning they are 14068 mutations in total in the original study).
+
+    Returns
+    -------
+    :class:`anndata.AnnData`
+        An anndata in which `.X` is the input noisy
+        (it is obtained based on the number of mutant/total reads).
+
+            - `.obs['clone_id']` is the clone id to which the cell is assigned in
+                Figure 3H.
+            - `.obs['group_color']` is unique colors for each 'clone_id'.
+            - `.obs['cell_name']` is a new name for each cell based on the
+                'group_color'.
+            - `.layers['mutant']` is the number of mutant reads at each locus in each
+                cell.
+            - `.layers['total']` is the total number of reads at each locus in each
+                cell.
+            - `.layers['ground']` is the solution inferred in Figure 3H of the original
+                paper.
+            - `.uns['params_ground']` is parameters inferred by comparing ground and
+                noisy matrices.
+            - `.var` includes information of the bulk samples.
+
+    Examples
+    --------
+    >>> sc = tsc.datasets.high_grade_serous_ovarian_cancer_3celllines()
+    >>> print(sc)
+    AnnData object with n_obs × n_vars = 891 × 13666
+        obs: 'clone_id', 'group_color', 'cell_name'
+        uns: 'params_ground'
+        layers: 'ground', 'mutant', 'total'
+    """
+
+    adata = tsc.io.read(tsc.ul.get_file("trisicell.datasets/real/ovarian.h5ad.gz"))
+    return adata

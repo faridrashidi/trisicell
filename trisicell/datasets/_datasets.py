@@ -266,3 +266,37 @@ def example(is_expression=False):
 def test():
     df = tsc.io.read(tsc.ul.get_file("trisicell.datasets/test/test.tsv"))
     return df
+
+
+def colorectal2(readcount=False):
+    """Human Colorectal Cancer (Patient 2).
+    This dataset was introduced in :cite:`Leung_2017` and was used in:
+    * :cite:`PhISCS` Figure 7.
+    * :cite:`B-SCITE` Figure 8b.
+    * :cite:`SiCloneFit` Figure 4.
+    * :cite:`SCARLET` Figure 4.
+    The size is n_cells × n_muts = 78 × 25
+    Parameters
+    ----------
+    readcount : :obj:`str`
+        Return the readcount information of the data.
+    Returns
+    -------
+    :class:`anndata.AnnData`
+        An anndata in which `.X` is the input noisy.
+            - `.layers['solution_fig7a']` is the solution presented in Figure 7a of
+                PhISCS paper.
+            - `.layers['solution_fig7b']` is the solution presented in Figure 7b of
+                PhISCS paper.
+            - `.uns['params_fig7a']` is parameters used as input to get 'solution_7a'.
+            - `.uns['params_fig7b']` is parameters used as input to get 'solution_7b'.
+            - `.var` includes information of the bulk samples.
+    """
+
+    if readcount:
+        adata = tsc.io.read(
+            tsc.ul.get_file("trisicell.datasets/real/colorectal2.rc.h5ad")
+        )
+    else:
+        adata = tsc.io.read(tsc.ul.get_file("trisicell.datasets/real/colorectal2.h5ad"))
+    return adata

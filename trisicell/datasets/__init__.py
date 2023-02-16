@@ -1,6 +1,7 @@
 """Datasets Module."""
 
 from trisicell.datasets._datasets import (
+    colorectal2,
     example,
     sublines_bwes,
     sublines_bwts,
@@ -13,6 +14,7 @@ from trisicell.datasets._datasets import (
 from trisicell.datasets._simulate import add_doublets, add_noise, simulate
 
 __all__ = (
+    colorectal2,
     example,
     simulate,
     add_noise,

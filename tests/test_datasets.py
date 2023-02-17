@@ -38,3 +38,8 @@ class TestDatasets:
         # assert mdata.shape == (163, 56854)
         # mdata = tsc.datasets.treated_igg_sw()
         # assert mdata.shape == (163, 56854)
+
+        adata = tsc.datasets.colorectal2()
+        assert adata.shape == (78, 25)
+        adata = tsc.datasets.high_grade_serous_ovarian_cancer_3celllines()
+        assert adata.shape == (891, 14068)

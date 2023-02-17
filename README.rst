@@ -57,7 +57,7 @@ Trisicell was developed in collaboration between the `Cancer Data Science Labora
     :alt: Stars
 
 .. |Contributions Welcome| image:: https://img.shields.io/static/v1.svg?label=contributions&message=welcome&color=blue&logo=handshake&logoColor=FFFFFF&style=flat-square
-    :target: https://github.com/faridrashidi/trisicell/blob/master/CONTRIBUTING.rst
+    :target: https://github.com/faridrashidi/trisicell/blob/master/CODE_OF_CONDUCT.rst
     :alt: Contributions Welcome
 
 .. |Compatible| image:: https://img.shields.io/pypi/pyversions/trisicell.svg?logo=python&logoColor=FFFFFF&style=flat-square&color=blue

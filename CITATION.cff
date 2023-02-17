@@ -1,0 +1,12 @@
+cff-version: 1.2.0
+title: "Profiles of expressed mutations in single cells reveal subclonal expansion patterns and therapeutic impact of intratumor heterogeneity"
+message: "To cite Trisicell in publications, please cite it as below:"
+type: "article"
+authors:
+  - family-names: "Rashidi Mehrabadi"
+    given-names: "Farid"
+    orcid: "https://orcid.org/0000-0003-4103-4904"
+doi: "10.1101/2021.03.26.437185"
+url: "https://doi.org/10.1101/2021.03.26.437185"
+journal: "bioRxiv"
+year: "2021"

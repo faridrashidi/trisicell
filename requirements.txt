@@ -18,6 +18,7 @@ pybnb
 pydot
 python_sat
 pyyaml
+scanpy
 scikit_learn
 scipy
 seaborn

@@ -44,4 +44,4 @@ If you run into issues, do not hesitate to approach us or raise a
 .. _PyPI: https://pypi.org/project/trisicell
 .. _Github: https://github.com/faridrashidi/trisicell
 .. _`Github issue`: https://github.com/faridrashidi/trisicell/issues/new/choose
-.. _contributing guide: https://github.com/faridrashidi/trisicell/blob/master/CONTRIBUTING.rst
+.. _contributing guide: https://github.com/faridrashidi/trisicell/blob/master/CODE_OF_CONDUCT.rst

@@ -3,6 +3,8 @@ import scanpy as sc
 
 import trisicell as tsc
 
+url = "https://github.com/faridrashidi/trisicell/releases/download/d0.0.1"
+
 
 def treated_igg_sw():
     """Trisicell treated mice (igg, seq-well) scRNAseq data.
@@ -36,11 +38,11 @@ def treated_igg_sw():
     :func:`trisicell.datasets.treated_igg_ss2`.
     """
 
-    url = "https://ndownloader.figshare.com/files/39276362"
+    name = "treated_igg_sw.h5md.gz"
     sc.readwrite._check_datafile_present_and_download(
-        "data/treated_igg_sw.h5md.gz", backup_url=url
+        f"data/{name}", backup_url=f"{url}/{name}"
     )
-    mdata = md.read_h5mu("data/treated_igg_sw.h5md.gz")
+    mdata = md.read_h5mu(f"data/{name}")
     return mdata
 
 
@@ -76,11 +78,11 @@ def treated_igg_ss2():
     :func:`trisicell.datasets.treated_igg_sw`.
     """
 
-    url = "https://ndownloader.figshare.com/files/22105673"
+    name = "treated_igg_ss2.h5md.gz"
     sc.readwrite._check_datafile_present_and_download(
-        "data/treated_igg_ss2.h5md.gz", backup_url=url
+        f"data/{name}", backup_url=f"{url}/{name}"
     )
-    mdata = md.read_h5mu("data/treated_igg_ss2.h5md.gz")
+    mdata = md.read_h5mu(f"data/{name}")
     return mdata
 
 
@@ -116,11 +118,11 @@ def treated_actla4():
     :func:`trisicell.datasets.treated_igg_sw`.
     """
 
-    url = "https://ndownloader.figshare.com/files/22105670"
+    name = "treated_actla4.h5md.gz"
     sc.readwrite._check_datafile_present_and_download(
-        "data/treated_actla4.h5md.gz", backup_url=url
+        f"data/{name}", backup_url=f"{url}/{name}"
     )
-    mdata = md.read_h5mu("data/treated_actla4.h5md.gz")
+    mdata = md.read_h5mu(f"data/{name}")
     return mdata
 
 
@@ -155,11 +157,11 @@ def sublines_scrnaseq():
     :func:`trisicell.datasets.sublines_bwts`.
     """
 
-    url = "https://ndownloader.figshare.com/files/22105682"
+    name = "sublines_scrnaseq.h5md.gz"
     sc.readwrite._check_datafile_present_and_download(
-        "data/sublines_scrnaseq.h5md.gz", backup_url=url
+        f"data/{name}", backup_url=f"{url}/{name}"
     )
-    mdata = md.read_h5mu("data/sublines_scrnaseq.h5md.gz")
+    mdata = md.read_h5mu(f"data/{name}")
     return mdata
 
 
@@ -196,11 +198,11 @@ def sublines_bwes():
     :func:`trisicell.datasets.sublines_bwts`.
     """
 
-    url = "https://ndownloader.figshare.com/files/22105691"
+    name = "sublines_bwes.h5ad.gz"
     sc.readwrite._check_datafile_present_and_download(
-        "data/sublines_bwes.h5ad.gz", backup_url=url
+        f"data/{name}", backup_url=f"{url}/{name}"
     )
-    adata = sc.read_h5ad("data/sublines_bwes.h5ad.gz")
+    adata = sc.read_h5ad(f"data/{name}")
     return adata
 
 
@@ -235,11 +237,11 @@ def sublines_bwts():
     :func:`trisicell.datasets.sublines_scrnaseq`.
     """
 
-    url = "https://ndownloader.figshare.com/files/22105685"
+    name = "sublines_bwts.h5md.gz"
     sc.readwrite._check_datafile_present_and_download(
-        "data/sublines_bwts.h5md.gz", backup_url=url
+        f"data/{name}", backup_url=f"{url}/{name}"
     )
-    mdata = md.read_h5mu("data/sublines_bwts.h5md.gz")
+    mdata = md.read_h5mu(f"data/{name}")
     return mdata
 
 

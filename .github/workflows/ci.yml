@@ -87,14 +87,15 @@ jobs:
         -   name: Unit tests
             run: |
                 python -m pytest --cov=trisicell ./tests
-        -   name: Upload coverage
-            if: success()
-            env:
-                CODECOV_NAME: ${{ matrix.python }}-${{ matrix.os }}
-            run: |
-                codecov --no-color --required --flags unittests
+        # -   name: Upload coverage
+        #     if: success()
+        #     env:
+        #         CODECOV_NAME: ${{ matrix.python }}-${{ matrix.os }}
+        #     run: |
+        #         codecov --no-color --required --flags unittests
 
     codeql:
+        needs: lint
         name: code quality
         runs-on: ubuntu-latest
         permissions:

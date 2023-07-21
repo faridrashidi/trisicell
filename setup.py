@@ -12,7 +12,7 @@ except ImportError:
     __author__ = ", ".join(["Farid Rashidi"])
     __maintainer__ = ", ".join(["Farid Rashidi"])
     __email__ = ", ".join(["farid.rsh@gmail.com"])
-    __version__ = "0.2.1"
+    __version__ = "0.2.2"
 
 if platform == "linux" or platform == "linux2":
     os.environ["CC"] = "g++"

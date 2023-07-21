@@ -32,7 +32,7 @@ elif [[ "$OS" == "ubuntu-latest" ]]; then
   sudo apt-get update -y
   sudo apt-get install libopenblas-base r-base r-base-dev -y
   sudo apt-get install libcurl4-openssl-dev libssl-dev -y
-  pip install rpy2>=3.3.0
+  pip install "rpy2<=3.5.10"
   sudo Rscript -e 'install.packages("devtools")'
   sudo Rscript -e 'install.packages("BiocManager")'
   sudo Rscript -e 'install.packages("tidyverse")'

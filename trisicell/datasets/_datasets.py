@@ -3,7 +3,7 @@ import scanpy as sc
 
 import trisicell as tsc
 
-url = "https://github.com/faridrashidi/trisicell/releases/download/d0.0.1"
+url = "https://github.com/faridrashidi/trisicell/releases/download/v0.0.0"
 
 
 def treated_igg_sw():

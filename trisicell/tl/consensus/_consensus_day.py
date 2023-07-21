@@ -85,7 +85,7 @@ def consensus_day(sc1, sc2):
     soin1 = _find_set_of_internal_nodes(cnt_tree1)
     soin2 = _find_set_of_internal_nodes(cnt_tree2)
 
-    intersection = list(np.intersect1d(soin1, soin2))
+    intersection = [x for x in soin1 if x in soin2]
     intersection_len = list(map(len, intersection))
     valmax = max(intersection_len)
     argmax = intersection_len.index(valmax)

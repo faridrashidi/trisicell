@@ -188,7 +188,7 @@ def get_CF_matrix_from_parent_vector(parent, D, alpha, beta):
         best_score = score[ROOT]
         best_mut = ROOT
 
-        muts_to_visit = children[ROOT]
+        muts_to_visit = list(child_id for child_id in children[ROOT])
         while len(muts_to_visit) > 0:
             mut_id = muts_to_visit.pop(0)
             parent_id = parent[mut_id]

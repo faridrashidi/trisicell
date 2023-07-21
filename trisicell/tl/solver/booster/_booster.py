@@ -13,7 +13,7 @@ def booster(
     solver="SCITE",
     sample_on="muts",
     sample_size=10,
-    n_samples=None,
+    n_samples=10,
     begin_index=0,
     n_jobs=10,
     dep_weight=50,

@@ -109,7 +109,7 @@ def all_None(*args):
 
 
 def calculate_column_intersections(matrix, for_loop=False, row_by_row=False):
-    ret = np.empty((matrix.shape[1], matrix.shape[1]), dtype=np.bool)
+    ret = np.empty((matrix.shape[1], matrix.shape[1]), dtype=bool)
     mask_1 = matrix == 1
 
     if for_loop:
@@ -463,7 +463,7 @@ def make_constraints_np_matrix(
                     if not compact_formulation:
                         # len(r01) * len(r10) * (len(r01) * len(r10)) many constraints
                         # will be added
-                        x = np.empty((r01.shape[0] + r10.shape[0], 2), dtype=np.int)
+                        x = np.empty((r01.shape[0] + r10.shape[0], 2), dtype=int)
                         x[: len(r01), 0] = r01
                         x[: len(r01), 1] = p
                         x[-len(r10) :, 0] = r10
@@ -519,7 +519,7 @@ def make_constraints_np_matrix(
         "F map_f2ij zero_vars na_vars hard_constraints col_pair complete_version",
     )
     for ind in range(n_levels):
-        hard_constraints[ind] = np.array(hard_constraints[ind], dtype=np.int)
+        hard_constraints[ind] = np.array(hard_constraints[ind], dtype=int)
     return return_type(
         F, map_f2ij, zero_vars, na_vars, hard_constraints, col_pair, complete_version
     )

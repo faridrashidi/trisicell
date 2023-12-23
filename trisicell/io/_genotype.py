@@ -18,7 +18,7 @@ def read(filepath):
     ----------
     filepath : :obj:`str`
         The path to the file. The extension must be one of
-        [`.SC`, `.CFMatrix`, `.h5ad`, `.h5ad.gz`, `.nwk`]
+        [`.tsv`, `.SC`, `.CFMatrix`, `.h5ad`, `.h5ad.gz`, `.nwk`]
 
     Returns
     -------

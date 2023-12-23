@@ -19,7 +19,6 @@ def subsampling(
     tmpdir,
     disable_tqdm,
 ):
-
     if solver.lower() == "scite":
         time_limit = n_iterations
 
@@ -29,6 +28,8 @@ def subsampling(
             dfn = df_input.sample(n=sample_size, replace=False, axis=1)
         elif sample_on == "cells":
             dfn = df_input.sample(n=sample_size, replace=False, axis=0)
+        else:
+            tsc.logg.error("`sample_on` must be either 'muts' or 'cells'!")
 
         if solver.lower() == "phiscs":
             dfo = tsc.tl.phiscsb(dfn, alpha, beta, experiment=True)
@@ -45,6 +46,8 @@ def subsampling(
                 return None
             dfo, _ = tsc.tl.scistree(dfn, alpha, beta, experiment=True)
             dfo.to_csv(f"{tmpdir}/{i}.CFMatrix", sep="\t")
+        else:
+            tsc.logg.error("`solver` must be either 'phiscs' or 'scite'!")
 
     with tsc.ul.tqdm_joblib(
         tqdm(

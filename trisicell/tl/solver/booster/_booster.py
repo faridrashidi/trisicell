@@ -91,6 +91,7 @@ def booster(
         sample_size = int(dep_weight * (n_muts**2) / (sample_size**2))
 
     detail = {}
+    df_input.index.name = "cellIDxmutID"
 
     s_time = time.time()
     # subsampling matrices and solving them

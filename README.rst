@@ -20,11 +20,6 @@ Trisicell utilizes expressed SNVs and Indels to infer evolutionary
 relationships between genomic alterations and the cells that harbor them.
 
 
-Manuscript
-----------
-Please see our `preprint`_ on **bioRxiv** to learn more.
-
-
 Support
 -------
 Feel free to submit an `issue <https://github.com/faridrashidi/trisicell/issues/new/choose>`_.
